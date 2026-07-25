@@ -1,6 +1,6 @@
 using RevitLookup.Common.Extensions;
 
-namespace RevitLookup.Tests.Unit.Common;
+namespace RevitLookup.Tests.Unit;
 
 public sealed class EnumerableExtensionsTests
 {
@@ -62,6 +62,6 @@ public sealed class EnumerableExtensionsTests
 
         // Assert
         await Assert.That(result.Count).IsEqualTo(5);
-        await Assert.That(result.OrderBy(value => value).SequenceEqual(new[] {1, 2, 3, 4, 5})).IsTrue();
+        await Assert.That(result.OrderBy(value => value).SequenceEqual([1, 2, 3, 4, 5])).IsTrue();
     }
 }

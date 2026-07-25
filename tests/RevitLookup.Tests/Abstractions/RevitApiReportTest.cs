@@ -1,227 +1,83 @@
-﻿using System.Reflection;
-using System.Text;
+// Copyright (c) Lookup Foundation and Contributors
+// 
+// Permission to use, copy, modify, and distribute this software in
+// object code form for any purpose and without fee is hereby granted,
+// provided that the above copyright notice appears in all copies and
+// that both that copyright notice and the limited warranty and
+// restricted rights notice below appear in all supporting
+// documentation.
+// 
+// THIS PROGRAM IS PROVIDED "AS IS" AND WITH ALL FAULTS.
+// NO IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE IS PROVIDED.
+// THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
+// UNINTERRUPTED OR ERROR FREE.
+
+using System.Collections.Concurrent;
+using System.Reflection;
 using Nice3point.TUnit.Revit;
+using RevitLookup.Tests.Unit.Coverage.Discovery;
+using RevitLookup.Tests.Unit.Coverage.Models;
 
 namespace RevitLookup.Tests.Unit.Abstractions;
 
+/// <summary>
+///     Supplies report tests with the reflected surface of an assembly, annotated with the descriptor source files naming each member.
+/// </summary>
 public abstract class RevitApiReportTest : RevitApiTest
 {
-    private static SourceIndex _sourceIndex = null!;
-    private static readonly Dictionary<string, List<ApiMethodEntry>> EntriesCache = [];
+    private const string DescriptorDirectory = @"source\RevitLookup\Core\Decomposition\Descriptors";
 
+    private static readonly ConcurrentDictionary<Assembly, IReadOnlyList<ApiMethodRow>> UtilityMethodRowsByAssembly = new();
+    private static readonly ConcurrentDictionary<Assembly, IReadOnlyList<ApiEnumerableRow>> EnumerableRowsByAssembly = new();
+
+    private static SourceFileIndex _descriptorSourceIndex = null!;
+
+    /// <summary>
+    ///     Reads the descriptor sources once per test session.
+    /// </summary>
     [Before(HookType.Assembly)]
-    public static void SetupSourceIndex()
+    public static void BuildDescriptorSourceIndex()
     {
-        _sourceIndex = SourceIndex.Build(FindSourceDirectory());
+        _descriptorSourceIndex = SourceFileIndex.Build(FindDescriptorSourceDirectory());
     }
 
-    protected List<ApiMethodEntry> BuildEntries(string assemblyName)
+    /// <summary>
+    ///     Scans the assembly once per test session and returns one row per public static utility method in discovery order.
+    /// </summary>
+    /// <param name="assembly">The assembly to report on.</param>
+    protected static IReadOnlyList<ApiMethodRow> GetUtilityMethodRows(Assembly assembly)
     {
-        if (EntriesCache.TryGetValue(assemblyName, out var cached))
-        {
-            return cached;
-        }
-
-        var assembly = AppDomain.CurrentDomain.GetAssemblies().First(loadedAssembly => loadedAssembly.GetName().Name == assemblyName);
-
-        var entries = ApiReportBuilder.GetUtilityTypes(assembly)
-            .SelectMany(type => ApiReportBuilder.GetPublicStaticMethods(type)
-                .Select(method => ApiReportBuilder.CreateEntry(type, method, _sourceIndex)))
-            .ToList();
-
-        EntriesCache[assemblyName] = entries;
-        return entries;
+        return UtilityMethodRowsByAssembly.GetOrAdd(assembly, static target => ApiUtilityScanner.ScanUtilityMethods(target, _descriptorSourceIndex));
     }
 
-    protected static async Task AttachReportAsync(string content, string fileName)
+    /// <summary>
+    ///     Scans the assembly once per test session and returns one row per enumerable in discovery order.
+    /// </summary>
+    /// <param name="assembly">The assembly to report on.</param>
+    protected static IReadOnlyList<ApiEnumerableRow> GetEnumerableRows(Assembly assembly)
     {
-        await File.WriteAllTextAsync(fileName, content);
-
-        TestContext.Current!.Output.AttachArtifact(
-            fileName,
-            displayName: fileName,
-            description: "RevitAPI static methods with extension mapping");
+        return EnumerableRowsByAssembly.GetOrAdd(assembly, static target => ApiEnumerableScanner.ScanEnumerables(target, _descriptorSourceIndex));
     }
 
-    private static string FindSourceDirectory()
+    /// <summary>
+    ///     Walks up from the test output directory to the descriptor sources in the repository.
+    /// </summary>
+    /// <exception cref="DirectoryNotFoundException">No repository checkout encloses the test output directory.</exception>
+    private static string FindDescriptorSourceDirectory()
     {
-        var directory = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
+        var directory = new DirectoryInfo(AppContext.BaseDirectory);
 
         while (directory is not null)
         {
-            if (Directory.Exists(Path.Combine(directory.FullName, ".git")))
+            var descriptorDirectory = Path.Combine(directory.FullName, DescriptorDirectory);
+            if (Directory.Exists(descriptorDirectory))
             {
-                return Path.Combine(directory.FullName, "source", "RevitLookup", "Core", "Decomposition", "Descriptors");
+                return descriptorDirectory;
             }
 
             directory = directory.Parent;
         }
 
-        return string.Empty;
-    }
-}
-
-public sealed record ApiMethodEntry
-{
-    public required string ReturnType { get; init; }
-    public required string Method { get; init; }
-    public required string Parameters { get; init; }
-    public required IReadOnlyList<string> Descriptors { get; init; }
-}
-
-public sealed class SourceIndex
-{
-    private readonly List<(string FileName, string Content)> _entries;
-
-    private SourceIndex(List<(string FileName, string Content)> entries)
-    {
-        _entries = entries;
-    }
-
-    public static SourceIndex Build(string directory)
-    {
-        if (!Directory.Exists(directory))
-        {
-            return new SourceIndex([]);
-        }
-
-        var entries = Directory
-            .EnumerateFiles(directory, "*.cs", SearchOption.AllDirectories)
-            .Select(filePath => (FileName: Path.GetFileName(filePath), Content: File.ReadAllText(filePath)))
-            .ToList();
-
-        return new SourceIndex(entries);
-    }
-
-    public IReadOnlyList<string> FindDescriptors(string qualifiedName)
-    {
-        return _entries
-            .Where(entry => entry.Content.Contains(qualifiedName, StringComparison.Ordinal))
-            .Select(entry => entry.FileName)
-            .ToList();
-    }
-}
-
-public static class ApiReportBuilder
-{
-    public static IEnumerable<Type> GetUtilityTypes(Assembly assembly)
-    {
-        return assembly.GetTypes()
-            .Where(IsUtilityType)
-            .OrderBy(type => type.Name);
-    }
-
-    public static IEnumerable<MethodInfo> GetPublicStaticMethods(Type type)
-    {
-        return type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
-            .Where(method => !method.IsSpecialName)
-            .OrderBy(method => method.Name);
-    }
-
-    public static ApiMethodEntry CreateEntry(Type type, MethodInfo method, SourceIndex sourceIndex)
-    {
-        var qualifiedName = $"{type.Name}.{method.Name}";
-        var parameters = string.Join(", ", method.GetParameters().Select(parameter => $"{parameter.ParameterType.Name} {parameter.Name}"));
-
-        return new ApiMethodEntry
-        {
-            ReturnType = method.ReturnType.Name,
-            Method = qualifiedName,
-            Parameters = parameters,
-            Descriptors = sourceIndex.FindDescriptors(qualifiedName),
-        };
-    }
-
-    public static string GenerateMarkdown(IEnumerable<ApiMethodEntry> entries)
-    {
-        var builder = new StringBuilder();
-        builder.AppendLine("| Return type | Method | Parameters | Implementation |");
-        builder.AppendLine("| ----------- | ------ | ---------- | -------------- |");
-
-        foreach (var entry in entries)
-        {
-            builder
-                .Append("| ").Append(entry.ReturnType)
-                .Append(" | ").Append(entry.Method)
-                .Append(" | ").Append(entry.Parameters)
-                .Append(" | ").Append(string.Join(", ", entry.Descriptors))
-                .AppendLine(" |");
-        }
-
-        return builder.ToString();
-    }
-
-    private static bool IsUtilityType(Type type)
-    {
-        if (!type.IsPublic || !type.IsClass)
-        {
-            return false;
-        }
-
-        var staticMethods = type
-            .GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
-            .Where(method => !method.IsSpecialName)
-            .ToList();
-
-        if (staticMethods.Count == 0)
-        {
-            return false;
-        }
-
-        return IsStaticClass(type) || IsGeneratedUtilityWrapper(type);
-    }
-
-    private static bool IsStaticClass(Type type)
-    {
-        return type is { IsAbstract: true, IsSealed: true };
-    }
-
-    private static bool IsGeneratedUtilityWrapper(Type type)
-    {
-        if (IsStaticClass(type))
-        {
-            return false;
-        }
-
-        var hasPublicConstructors = type
-            .GetConstructors(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
-            .Length > 0;
-
-        if (hasPublicConstructors)
-        {
-            return false;
-        }
-
-        var hasUnexpectedInstanceMethods = type
-            .GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
-            .Where(method => !method.IsSpecialName)
-            .Any(method => method.Name != nameof(IDisposable.Dispose));
-
-        if (hasUnexpectedInstanceMethods)
-        {
-            return false;
-        }
-
-        var hasCreateMethod = type
-            .GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
-            .Where(method => !method.IsSpecialName)
-            .Any(method => method.Name == "Create");
-
-        if (hasCreateMethod)
-        {
-            return false;
-        }
-
-        var hasUnexpectedProperties = type
-            .GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
-            .Where(property => property.GetIndexParameters().Length == 0)
-            .Any(property => property.Name != "IsValidObject");
-
-        if (hasUnexpectedProperties)
-        {
-            return false;
-        }
-
-        return true;
+        throw new DirectoryNotFoundException($"No '{DescriptorDirectory}' directory was found above '{AppContext.BaseDirectory}'.");
     }
 }

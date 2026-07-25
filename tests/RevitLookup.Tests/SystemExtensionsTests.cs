@@ -1,7 +1,6 @@
-using System.IO;
 using RevitLookup.Common.Extensions;
 
-namespace RevitLookup.Tests.Unit.Common;
+namespace RevitLookup.Tests.Unit;
 
 public sealed class SystemExtensionsTests
 {

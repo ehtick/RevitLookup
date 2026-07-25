@@ -1,7 +1,7 @@
 using RevitLookup.Common.Utils;
 using Color = System.Drawing.Color;
 
-namespace RevitLookup.Tests.Unit.Common;
+namespace RevitLookup.Tests.Unit;
 
 public sealed class ColorRepresentationUtilsTests
 {
