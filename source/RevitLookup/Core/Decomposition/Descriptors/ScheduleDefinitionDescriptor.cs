@@ -69,11 +69,11 @@ public sealed class ScheduleDefinitionDescriptor(ScheduleDefinition scheduleDefi
         {
             var categories = context.Settings.Categories;
             var variants = Variants.Values<bool>(categories.Size);
-            foreach (Category category in categories)
+            foreach (var (name, category) in categories.EnumerateEntries())
             {
                 if (scheduleDefinition.IsValidCategoryForEmbeddedSchedule(category.Id))
                 {
-                    variants.Add(true, category.Name);
+                    variants.Add(true, name);
                 }
             }
 

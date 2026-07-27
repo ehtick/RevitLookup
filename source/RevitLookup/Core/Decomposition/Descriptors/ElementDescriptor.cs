@@ -412,10 +412,10 @@ public partial class ElementDescriptor : ResolvingDescriptor, IDescriptorConfigu
     {
         var variants = Variants.Values<TResult>(categories.Size);
         var simple = typeof(TResult).IsPrimitiveType();
-        foreach (Category category in categories)
+        foreach (var (name, category) in categories.EnumerateEntries())
         {
             var result = selector(category.Id);
-            variants.Add(result, simple ? $"{category.Name}: {result}" : category.Name);
+            variants.Add(result, simple ? $"{name}: {result}" : name);
         }
 
         return variants.Consume();
@@ -424,7 +424,7 @@ public partial class ElementDescriptor : ResolvingDescriptor, IDescriptorConfigu
     private static IVariant ResolvePhases<TResult>(PhaseArray phases, Func<ElementId, TResult> selector)
     {
         var variants = Variants.Values<TResult>(phases.Size);
-        foreach (Phase phase in phases)
+        foreach (var phase in phases.EnumerateValues())
         {
             var result = selector(phase.Id);
             variants.Add(result, $"{phase.Name}: {result}");

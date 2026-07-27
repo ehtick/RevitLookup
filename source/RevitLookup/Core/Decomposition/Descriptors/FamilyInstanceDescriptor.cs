@@ -38,7 +38,7 @@ public sealed class FamilyInstanceDescriptor(FamilyInstance familyInstance) : El
         IVariant ResolveGetRoom()
         {
             var variants = Variants.Values<Room>(familyInstance.Document.Phases.Size);
-            foreach (Phase phase in familyInstance.Document.Phases)
+            foreach (var phase in familyInstance.Document.Phases.EnumerateValues())
             {
                 try
                 {
@@ -56,7 +56,7 @@ public sealed class FamilyInstanceDescriptor(FamilyInstance familyInstance) : El
         IVariant ResolveFromRoom()
         {
             var variants = Variants.Values<Room>(familyInstance.Document.Phases.Size);
-            foreach (Phase phase in familyInstance.Document.Phases)
+            foreach (var phase in familyInstance.Document.Phases.EnumerateValues())
             {
                 try
                 {
@@ -74,7 +74,7 @@ public sealed class FamilyInstanceDescriptor(FamilyInstance familyInstance) : El
         IVariant ResolveToRoom()
         {
             var variants = Variants.Values<Room>(familyInstance.Document.Phases.Size);
-            foreach (Phase phase in familyInstance.Document.Phases)
+            foreach (var phase in familyInstance.Document.Phases.EnumerateValues())
             {
                 try
                 {

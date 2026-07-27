@@ -34,9 +34,9 @@ public sealed class TableViewDescriptor(TableView tableView) : ElementDescriptor
         {
             var categories = tableView.Document.Settings.Categories;
             var variants = Variants.Values<IList<ElementId>>(categories.Size);
-            foreach (Category category in categories)
+            foreach (var (name, category) in categories.EnumerateEntries())
             {
-                variants.Add(TableView.GetAvailableParameters(tableView.Document, category.Id), category.Name);
+                variants.Add(TableView.GetAvailableParameters(tableView.Document, category.Id), name);
             }
 
             return variants.Consume();

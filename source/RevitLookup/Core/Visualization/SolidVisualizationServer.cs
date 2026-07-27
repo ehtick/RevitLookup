@@ -95,7 +95,7 @@ public sealed class SolidVisualizationServer : DirectContext3DServer
         var scaledSolid = RenderGeometryHelper.ScaleSolid(_solid, _scale);
 
         var faceIndex = 0;
-        foreach (Face face in scaledSolid.Faces)
+        foreach (var face in scaledSolid.Faces.EnumerateValues())
         {
             var buffer = GetOrCreateBuffer(_faceBuffers, faceIndex++);
             var triangulation = face.Triangulate();
@@ -105,7 +105,7 @@ public sealed class SolidVisualizationServer : DirectContext3DServer
         }
 
         var edgeIndex = 0;
-        foreach (Edge edge in scaledSolid.Edges)
+        foreach (var edge in scaledSolid.Edges.EnumerateValues())
         {
             var buffer = GetOrCreateBuffer(_edgeBuffers, edgeIndex++);
             var tessellation = edge.Tessellate();

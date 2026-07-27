@@ -40,7 +40,7 @@ public sealed class FamilyManagerDescriptor(FamilyManager familyManager) : Descr
             var variants = Variants.Values<KeyValuePair<Parameter, FamilyParameter>>(elements.Count);
             foreach (var element in elements)
             {
-                foreach (Parameter parameter in element.Parameters)
+                foreach (var parameter in element.Parameters.EnumerateValues())
                 {
                     var familyParameter = familyManager.GetAssociatedFamilyParameter(parameter);
                     if (familyParameter is not null)
@@ -57,7 +57,7 @@ public sealed class FamilyManagerDescriptor(FamilyManager familyManager) : Descr
     private static IVariant ResolveFamilyParameters<TResult>(FamilyParameterSet parameters, Func<FamilyParameter, TResult> selector)
     {
         var variants = Variants.Values<TResult>(parameters.Size);
-        foreach (FamilyParameter parameter in parameters)
+        foreach (var parameter in parameters.EnumerateValues())
         {
             var result = selector(parameter);
             variants.Add(result, $"{parameter.Definition.Name}: {result}");
