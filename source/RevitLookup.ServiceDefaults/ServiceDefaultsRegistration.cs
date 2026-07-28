@@ -7,6 +7,7 @@ public static class ServiceDefaultsRegistration
 {
     public static TBuilder AddServiceDefaults<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
+        builder.ConfigureLoggingDefaults();
         builder.ConfigureHosting();
         builder.ConfigureAssembly();
         builder.ConfigureJsonSerializer();

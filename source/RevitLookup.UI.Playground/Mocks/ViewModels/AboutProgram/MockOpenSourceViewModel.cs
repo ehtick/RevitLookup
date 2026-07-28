@@ -74,41 +74,6 @@ public sealed class MockOpenSourceViewModel : ObservableObject, IOpenSourceViewM
         },
         new()
         {
-            SoftwareName = "Serilog",
-            SoftwareUri = "https://github.com/serilog/serilog",
-            LicenseName = "Apache License 2.0",
-            LicenseUri = "https://github.com/serilog/serilog/blob/dev/LICENSE"
-        },
-        new()
-        {
-            SoftwareName = "Serilog.Extensions.Hosting",
-            SoftwareUri = "https://github.com/serilog/serilog-extensions-hosting",
-            LicenseName = "Apache License 2.0",
-            LicenseUri = "https://github.com/serilog/serilog-extensions-hosting/blob/dev/LICENSE"
-        },
-        new()
-        {
-            SoftwareName = "Serilog.Sinks.Autodesk.Revit",
-            SoftwareUri = "https://github.com/dosymep/Serilog.Sinks.Autodesk.Revit",
-            LicenseName = "MIT License",
-            LicenseUri = "https://github.com/dosymep/Serilog.Sinks.Autodesk.Revit/blob/master/LICENSE.md"
-        },
-        new()
-        {
-            SoftwareName = "Serilog.Sinks.Console",
-            SoftwareUri = "https://github.com/serilog/serilog-sinks-console",
-            LicenseName = "Apache License 2.0",
-            LicenseUri = "https://github.com/serilog/serilog-sinks-console/blob/dev/LICENSE"
-        },
-        new()
-        {
-            SoftwareName = "Serilog.Sinks.Debug",
-            SoftwareUri = "https://github.com/serilog/serilog-sinks-debug",
-            LicenseName = "Apache License 2.0",
-            LicenseUri = "https://github.com/serilog/serilog-sinks-debug/blob/dev/LICENSE"
-        },
-        new()
-        {
             SoftwareName = "Riok.Mapperly",
             SoftwareUri = "https://github.com/riok/mapperly",
             LicenseName = "Apache License 2.0",

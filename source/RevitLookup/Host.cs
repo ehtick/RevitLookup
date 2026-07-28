@@ -2,7 +2,6 @@ using System.IO;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using RevitLookup.Abstractions.Services.Appearance;
 using RevitLookup.Abstractions.Services.Application;
 using RevitLookup.Abstractions.Services.Decomposition;
@@ -45,12 +44,10 @@ public static class Host
 #endif
         });
 
-        //Logging
-        builder.Logging.ClearProviders();
-        builder.AddSerilogLoggingProvider();
-
         //Configuration
+        builder.ConfigureAppSettings();
         builder.AddServiceDefaults();
+        builder.ConfigureRevitLogging();
         builder.ConfigureHttpClients();
 
         //Frontend services

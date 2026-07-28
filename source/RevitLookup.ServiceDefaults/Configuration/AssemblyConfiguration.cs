@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.Versioning;
-using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RevitLookup.Abstractions.Options;

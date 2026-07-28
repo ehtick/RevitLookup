@@ -2,7 +2,6 @@ using System.Windows.Threading;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using RevitLookup.Abstractions.Services.Appearance;
 using RevitLookup.Abstractions.Services.Application;
 using RevitLookup.Abstractions.Services.Decomposition;
@@ -11,7 +10,6 @@ using RevitLookup.Abstractions.Services.Settings;
 using RevitLookup.ServiceDefaults;
 using RevitLookup.UI.Framework.Services;
 using RevitLookup.UI.Framework.Services.Presentation;
-using RevitLookup.UI.Playground.Configuration;
 using RevitLookup.UI.Playground.Mocks.Services.Appearance;
 using RevitLookup.UI.Playground.Mocks.Services.Application;
 using RevitLookup.UI.Playground.Mocks.Services.Decomposition;
@@ -35,11 +33,10 @@ public static class Host
     /// </summary>
     public static void Start()
     {
-        var builder = new HostApplicationBuilder();
-
-        //Logging
-        builder.Logging.ClearProviders();
-        builder.AddSerilogLoggingProvider();
+        var builder = new HostApplicationBuilder(new HostApplicationBuilderSettings
+        {
+            ContentRootPath = AppContext.BaseDirectory
+        });
 
         //Configuration
         builder.AddServiceDefaults();
