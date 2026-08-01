@@ -1,7 +1,7 @@
-﻿using RevitLookup.Abstractions.Services.Decomposition;
-using RevitLookup.Abstractions.Services.Presentation;
+﻿using RevitLookup.Abstractions.Decomposition;
+using RevitLookup.Abstractions.Presentation;
 using RevitLookup.Abstractions.ViewModels.Tools;
-using RevitLookup.Core.Search;
+using RevitLookup.Tools.SearchElements;
 
 namespace RevitLookup.ViewModels.Tools;
 

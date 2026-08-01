@@ -15,7 +15,7 @@
 
 using System.Runtime.Loader;
 using CommunityToolkit.Mvvm.ComponentModel;
-using RevitLookup.Abstractions.Models.Tools;
+using RevitLookup.Abstractions.Tools;
 using RevitLookup.Abstractions.ViewModels.Tools;
 #if NETFRAMEWORK
 using RevitLookup.UI.Framework.Extensions;

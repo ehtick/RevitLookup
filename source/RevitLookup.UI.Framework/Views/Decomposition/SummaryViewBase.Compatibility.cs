@@ -14,7 +14,7 @@
 
 using System.Reflection;
 using System.Windows;
-using RevitLookup.UI.Framework.Utils;
+using RevitLookup.UI.Framework.Presentation;
 using Wpf.Ui.Controls;
 using DataGrid = Wpf.Ui.Controls.DataGrid;
 
@@ -61,7 +61,7 @@ public partial class SummaryViewBase
 
         var gridColumns = InternalGridColumnsProperty.GetValue(dataGrid);
 #if NET8_0_OR_GREATER
-        UnsafeAccessors.DataGridInternalScrollHost(dataGrid) = passiveScrollViewer;
+        UnsafePresentationAccessors.DataGridInternalScrollHost(dataGrid) = passiveScrollViewer;
 #else
         InternalGridScrollHostField.SetValue(dataGrid, passiveScrollViewer);
 #endif
@@ -82,7 +82,7 @@ public partial class SummaryViewBase
         var scrollViewer = (PassiveScrollViewer) sender;
         var dataGrid = scrollViewer.FindVisualParent<System.Windows.Controls.DataGrid>(); //find parent to avoid closure allocations
 #if NET8_0_OR_GREATER
-        UnsafeAccessors.DataGridOnViewportSizeChanged(dataGrid!, args.PreviousSize, args.NewSize);
+        UnsafePresentationAccessors.DataGridOnViewportSizeChanged(dataGrid!, args.PreviousSize, args.NewSize);
 #else
         InternalGridOnViewportSizeChangedMethod.Invoke(dataGrid, [args.PreviousSize, args.NewSize]);
 #endif

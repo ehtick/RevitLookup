@@ -17,7 +17,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\RevitLookup.Abstractions\RevitLookup.Abstractions.csproj"/>
-        <ProjectReference Include="..\RevitLookup.Common\RevitLookup.Common.csproj"/>
     </ItemGroup>
 
     <ItemGroup>

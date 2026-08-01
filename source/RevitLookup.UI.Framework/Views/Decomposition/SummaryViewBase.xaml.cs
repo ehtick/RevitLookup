@@ -16,20 +16,20 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using TreeViewItem = System.Windows.Controls.TreeViewItem;
 using System.Windows.Data;
 using System.Windows.Input;
+using Visibility = System.Windows.Visibility;
 using Microsoft.Extensions.Logging;
-using RevitLookup.Abstractions.ObservableModels.Decomposition;
-using RevitLookup.Abstractions.Services.Presentation;
-using RevitLookup.Abstractions.Services.Settings;
+using RevitLookup.Abstractions.Decomposition;
+using RevitLookup.Abstractions.Presentation;
+using RevitLookup.Abstractions.Settings;
 using RevitLookup.Abstractions.ViewModels.Decomposition;
-using RevitLookup.UI.Framework.Utils;
+using RevitLookup.UI.Framework.Presentation;
 using Wpf.Ui.Abstractions.Controls;
 using Wpf.Ui.Controls;
 using DataGrid = Wpf.Ui.Controls.DataGrid;
 using TreeView = Wpf.Ui.Controls.TreeView;
-using TreeViewItem = System.Windows.Controls.TreeViewItem;
-using Visibility = System.Windows.Visibility;
 
 namespace RevitLookup.UI.Framework.Views.Decomposition;
 

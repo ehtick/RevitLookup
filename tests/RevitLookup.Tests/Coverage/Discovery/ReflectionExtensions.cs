@@ -13,6 +13,7 @@
 // UNINTERRUPTED OR ERROR FREE.
 
 using System.Reflection;
+using RevitLookup.UI.Framework.Extensions;
 
 namespace RevitLookup.Tests.Unit.Coverage.Discovery;
 

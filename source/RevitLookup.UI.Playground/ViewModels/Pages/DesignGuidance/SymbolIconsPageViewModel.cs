@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using RevitLookup.UI.Playground.Models;
+using RevitLookup.UI.Playground.SampleData;
 using Wpf.Ui.Controls;
 #if NETFRAMEWORK
 using RevitLookup.UI.Framework.Extensions;

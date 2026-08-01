@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
-using RevitLookup.Abstractions.ObservableModels.Entries;
+using RevitLookup.Abstractions.Tools;
 using RevitLookup.UI.Framework.Views.AboutProgram;
 using RevitLookup.UI.Framework.Views.EditDialogs;
 using RevitLookup.UI.Framework.Views.Tools;

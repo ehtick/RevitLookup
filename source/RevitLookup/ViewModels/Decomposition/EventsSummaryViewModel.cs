@@ -1,13 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using Microsoft.Extensions.Logging;
-using RevitLookup.Abstractions.ObservableModels.Decomposition;
-using RevitLookup.Abstractions.Services.Application;
-using RevitLookup.Abstractions.Services.Decomposition;
-using RevitLookup.Abstractions.Services.Presentation;
+using RevitLookup.Abstractions.Decomposition;
+using RevitLookup.Abstractions.Presentation;
 using RevitLookup.Abstractions.ViewModels.Decomposition;
-using RevitLookup.Services.Decomposition;
 using RevitLookup.UI.Framework.Extensions;
 using RevitLookup.UI.Framework.Views.Decomposition;
+using EventsMonitoringService = RevitLookup.Decomposition.EventsMonitor.EventsMonitoringService;
 
 namespace RevitLookup.ViewModels.Decomposition;
 

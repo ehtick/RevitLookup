@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.Input;
-using RevitLookup.Abstractions.ObservableModels.Entries;
+using RevitLookup.Abstractions.Tools;
 
 namespace RevitLookup.Abstractions.ViewModels.Tools;
 

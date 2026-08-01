@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using RevitLookup.Abstractions.Services.Decomposition;
-using RevitLookup.Abstractions.Services.Presentation;
+using RevitLookup.Abstractions.Decomposition;
+using RevitLookup.Abstractions.Presentation;
 using RevitLookup.Abstractions.ViewModels.Tools;
 
 namespace RevitLookup.UI.Playground.Mocks.ViewModels.Tools;

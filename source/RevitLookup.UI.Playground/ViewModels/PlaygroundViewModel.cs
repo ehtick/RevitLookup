@@ -1,9 +1,13 @@
 ﻿using System.Windows.Controls;
+using DataGrid = System.Windows.Controls.DataGrid;
+using ListView = System.Windows.Controls.ListView;
+using ToggleButton = System.Windows.Controls.Primitives.ToggleButton;
+using Separator = System.Windows.Controls.Separator;
+using TreeView = System.Windows.Controls.TreeView;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using RevitLookup.Abstractions.Services.Appearance;
-using RevitLookup.Abstractions.Services.Presentation;
-using RevitLookup.Abstractions.Services.Settings;
+using RevitLookup.Abstractions.Presentation;
+using RevitLookup.Abstractions.Settings;
 using RevitLookup.UI.Playground.Views.Pages;
 using RevitLookup.UI.Playground.Views.Pages.BasicInput;
 using RevitLookup.UI.Playground.Views.Pages.Collections;
@@ -16,15 +20,10 @@ using RevitLookup.UI.Playground.Views.Pages.Text;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 using Button = Wpf.Ui.Controls.Button;
-using DataGrid = System.Windows.Controls.DataGrid;
-using ListView = System.Windows.Controls.ListView;
+using NumberBox = Wpf.Ui.Controls.NumberBox;
 using PasswordBox = Wpf.Ui.Controls.PasswordBox;
-using Separator = System.Windows.Controls.Separator;
 using TextBlock = Wpf.Ui.Controls.TextBlock;
 using TextBox = Wpf.Ui.Controls.TextBox;
-using NumberBox = Wpf.Ui.Controls.NumberBox;
-using ToggleButton = System.Windows.Controls.Primitives.ToggleButton;
-using TreeView = System.Windows.Controls.TreeView;
 
 namespace RevitLookup.UI.Playground.ViewModels;
 

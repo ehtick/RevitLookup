@@ -14,7 +14,7 @@
 
 using Bogus;
 using CommunityToolkit.Mvvm.ComponentModel;
-using RevitLookup.Abstractions.Models.Tools;
+using RevitLookup.Abstractions.Tools;
 using RevitLookup.Abstractions.ViewModels.Tools;
 
 namespace RevitLookup.UI.Playground.Mocks.ViewModels.Tools;

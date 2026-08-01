@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using Microsoft.Extensions.Logging;
-using RevitLookup.Common.Extensions;
+using RevitLookup.UI.Playground.Presentation;
 using RevitLookup.UI.Playground.Views;
 
 namespace RevitLookup.UI.Playground;

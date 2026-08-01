@@ -15,7 +15,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Windows.Data;
-using RevitLookup.Abstractions.ObservableModels.Decomposition;
+using RevitLookup.Abstractions.Decomposition;
 
 namespace RevitLookup.UI.Framework.Converters;
 

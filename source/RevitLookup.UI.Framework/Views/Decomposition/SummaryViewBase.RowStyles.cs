@@ -14,8 +14,8 @@
 
 using System.ComponentModel;
 using System.Windows.Controls;
-using RevitLookup.Abstractions.ObservableModels.Decomposition;
-using RevitLookup.UI.Framework.Utils;
+using RevitLookup.Abstractions.Decomposition;
+using RevitLookup.UI.Framework.Presentation;
 
 namespace RevitLookup.UI.Framework.Views.Decomposition;
 

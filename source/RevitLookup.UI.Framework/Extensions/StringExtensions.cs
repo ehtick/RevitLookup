@@ -1,24 +1,56 @@
-﻿#if !NETCOREAPP
-using JetBrains.Annotations;
+﻿namespace RevitLookup.UI.Framework.Extensions;
 
-namespace RevitLookup.UI.Framework.Extensions;
-
-internal static class StringExtensions
+/// <summary>
+/// Provides extension methods for string collections and arrays.
+/// </summary>
+[PublicAPI]
+public static class StringExtensions
 {
-    /// <summary>
-    ///     Returns a value indicating whether a specified substring occurs within this string.
-    /// </summary>
-    /// <param name="source">Source string</param>
-    /// <param name="value">The string to seek</param>
-    /// <param name="comparison">One of the enumeration values that specifies the rules for the search</param>
-    /// <returns>True if the value parameter occurs within this string, or if value is the empty string (""); otherwise, false</returns>
-    [Pure]
-    [ContractAnnotation("source:null => false; value:null => false")]
-    public static bool Contains(this string? source, string? value, StringComparison comparison)
+    /// <param name="source">The collection or array of strings to join. Null strings are treated as empty strings.</param>
+    extension(IEnumerable<string?> source)
     {
-        if (source is null) return false;
-        if (value is null) return false;
-        return source.IndexOf(value, comparison) >= 0;
+        /// <summary>
+        /// Joins the elements of the provided string collection or array into a single string, separated by the specified separator.
+        /// </summary>
+        /// <param name="separator">The string or character to use as a separator between the joined elements.</param>
+        /// <returns>A single concatenated string consisting of the elements in the source collection or array, separated by the specified separator.</returns>
+        public string Join(string separator)
+        {
+            return string.Join(separator, source);
+        }
+
+        /// <summary>
+        /// Joins the elements of the provided string collection or array into a single string, separated by the specified separator character.
+        /// </summary>
+        /// <param name="separator">The character to use as a separator between the joined elements.</param>
+        /// <returns>A single concatenated string consisting of the elements in the source collection or array, separated by the specified separator character.</returns>
+        public string Join(char separator)
+        {
+            return string.Join(separator, source);
+        }
+    }
+
+    /// <param name="source">The array of strings to join. Null strings are treated as empty strings.</param>
+    extension(string[] source)
+    {
+        /// <summary>
+        /// Joins the elements of the provided string array into a single string, separated by the specified separator.
+        /// </summary>
+        /// <param name="separator">The string to use as a separator between the joined elements.</param>
+        /// <returns>A single concatenated string consisting of the elements in the array, separated by the specified separator.</returns>
+        public string Join(string separator)
+        {
+            return string.Join(separator, source);
+        }
+
+        /// <summary>
+        /// Joins the elements of the provided string collection or array into a single string, separated by the specified character separator.
+        /// </summary>
+        /// <param name="separator">The character to use as a separator between the joined elements.</param>
+        /// <returns>A single concatenated string consisting of the elements in the source collection or array, separated by the specified character separator.</returns>
+        public string Join(char separator)
+        {
+            return string.Join(separator, source);
+        }
     }
 }
-#endif

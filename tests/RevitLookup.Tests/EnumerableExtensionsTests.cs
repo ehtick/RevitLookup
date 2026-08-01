@@ -1,4 +1,4 @@
-using RevitLookup.Common.Extensions;
+using RevitLookup.UI.Framework.Extensions;
 
 namespace RevitLookup.Tests.Unit;
 

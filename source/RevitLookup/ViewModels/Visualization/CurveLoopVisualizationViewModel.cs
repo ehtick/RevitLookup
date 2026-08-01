@@ -12,13 +12,12 @@
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 
-using Microsoft.Extensions.Logging;
-using RevitLookup.Abstractions.Services.Presentation;
-using RevitLookup.Abstractions.Services.Settings;
-using RevitLookup.Abstractions.ViewModels.Visualization;
-using RevitLookup.Core.Visualization;
-using RevitLookup.Core.Visualization.Events;
 using Color = System.Windows.Media.Color;
+using Microsoft.Extensions.Logging;
+using RevitLookup.Abstractions.Presentation;
+using RevitLookup.Abstractions.Settings;
+using RevitLookup.Abstractions.ViewModels.Visualization;
+using RevitLookup.Visualization;
 
 namespace RevitLookup.ViewModels.Visualization;
 

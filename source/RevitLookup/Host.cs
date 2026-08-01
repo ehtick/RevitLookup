@@ -2,22 +2,23 @@ using System.IO;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using RevitLookup.Abstractions.Services.Appearance;
-using RevitLookup.Abstractions.Services.Application;
-using RevitLookup.Abstractions.Services.Decomposition;
-using RevitLookup.Abstractions.Services.Presentation;
-using RevitLookup.Abstractions.Services.Settings;
-using RevitLookup.Configuration;
+using RevitLookup.Abstractions.Decomposition;
+using RevitLookup.Abstractions.Presentation;
+using RevitLookup.Abstractions.Settings;
+using RevitLookup.Abstractions.Updater;
+using RevitLookup.Commands;
+using RevitLookup.Decomposition;
+using RevitLookup.Logging;
+using RevitLookup.Presentation;
 using RevitLookup.ServiceDefaults;
-using RevitLookup.Services.Appearance;
-using RevitLookup.Services.Application;
-using RevitLookup.Services.Decomposition;
-using RevitLookup.Services.Settings;
-using RevitLookup.UI.Framework.Services;
-using RevitLookup.UI.Framework.Services.Presentation;
+using RevitLookup.Settings;
+using RevitLookup.UI.Framework.Presentation;
+using RevitLookup.Updater;
+using RevitLookup.ViewModels;
+using RevitLookup.Views;
 using Wpf.Ui;
 using Wpf.Ui.Abstractions;
-using SoftwareUpdateService = RevitLookup.Services.Settings.SoftwareUpdateService;
+using EventsMonitoringService = RevitLookup.Decomposition.EventsMonitor.EventsMonitoringService;
 
 namespace RevitLookup;
 
@@ -44,39 +45,38 @@ public static class Host
 #endif
         });
 
-        //Configuration
-        builder.ConfigureAppSettings();
+        //Host
+        builder.AddRevitLogging();
         builder.AddServiceDefaults();
-        builder.ConfigureRevitLogging();
-        builder.ConfigureHttpClients();
+        builder.Services.AddHostedService<HostBackgroundService>();
 
-        //Frontend services
+        //Presentation
         builder.Services.AddScoped<INavigationViewPageProvider, DependencyInjectionNavigationViewPageProvider>();
         builder.Services.AddScoped<INavigationService, NavigationService>();
         builder.Services.AddScoped<IContentDialogService, ContentDialogService>();
         builder.Services.AddScoped<ISnackbarService, SnackbarService>();
         builder.Services.AddScoped<INotificationService, NotificationService>();
         builder.Services.AddScoped<IWindowIntercomService, WindowIntercomService>();
-
-        //MVVM services
+        builder.Services.AddTransient<IUiOrchestratorService, UiOrchestratorService>();
+        builder.Services.AddSingleton<IThemeWatcherService, ThemeWatcherService>();
         builder.Services.AddViews();
         builder.Services.AddViewModels();
 
-        //Application services
-        builder.Services.AddSingleton<ISettingsService, SettingsService>();
-        builder.Services.AddSingleton<ISoftwareUpdateService, SoftwareUpdateService>();
-        builder.Services.AddSingleton<IThemeWatcherService, ThemeWatcherService>();
-        builder.Services.AddSingleton<RevitRibbonService>();
-        builder.Services.AddHostedService<HostBackgroundService>();
-
-        //Composer services
+        //Decomposition
         builder.Services.AddScoped<IDecompositionService, DecompositionService>();
         builder.Services.AddScoped<IVisualDecompositionService, VisualDecompositionService>();
         builder.Services.AddScoped<IDecompositionSearchService, DecompositionSearchService>();
-        builder.Services.AddTransient<IUiOrchestratorService, UiOrchestratorService>();
-
-        //Revit tools services
         builder.Services.AddTransient<EventsMonitoringService>();
+
+        //Settings
+        builder.Services.AddSingleton<ISettingsService, SettingsService>();
+
+        //Revit
+        builder.Services.AddSingleton<RevitRibbonService>();
+
+        //Updater
+        builder.AddGitHubClient();
+        builder.Services.AddSingleton<ISoftwareUpdateService, SoftwareUpdateService>();
 
         _host = builder.Build();
         await _host.StartAsync();

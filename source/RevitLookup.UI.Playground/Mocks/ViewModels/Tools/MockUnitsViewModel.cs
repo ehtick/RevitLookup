@@ -14,8 +14,8 @@
 
 using Bogus;
 using CommunityToolkit.Mvvm.ComponentModel;
-using RevitLookup.Abstractions.Models.Tools;
-using RevitLookup.Abstractions.Services.Decomposition;
+using RevitLookup.Abstractions.Tools;
+using RevitLookup.Abstractions.Decomposition;
 using RevitLookup.Abstractions.ViewModels.Tools;
 #if NETFRAMEWORK
 using RevitLookup.UI.Framework.Extensions;

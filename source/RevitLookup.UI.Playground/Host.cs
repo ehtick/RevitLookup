@@ -2,20 +2,18 @@ using System.Windows.Threading;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using RevitLookup.Abstractions.Services.Appearance;
-using RevitLookup.Abstractions.Services.Application;
-using RevitLookup.Abstractions.Services.Decomposition;
-using RevitLookup.Abstractions.Services.Presentation;
-using RevitLookup.Abstractions.Services.Settings;
+using RevitLookup.Abstractions.Decomposition;
+using RevitLookup.Abstractions.Presentation;
+using RevitLookup.Abstractions.Settings;
+using RevitLookup.Abstractions.Updater;
 using RevitLookup.ServiceDefaults;
-using RevitLookup.UI.Framework.Services;
-using RevitLookup.UI.Framework.Services.Presentation;
-using RevitLookup.UI.Playground.Mocks.Services.Appearance;
-using RevitLookup.UI.Playground.Mocks.Services.Application;
-using RevitLookup.UI.Playground.Mocks.Services.Decomposition;
-using RevitLookup.UI.Playground.Mocks.Services.Settings;
-using RevitLookup.UI.Playground.Services.Host;
-using RevitLookup.UI.Playground.Services.Mvvm;
+using RevitLookup.UI.Framework.Presentation;
+using RevitLookup.UI.Playground.Mocks.Decomposition;
+using RevitLookup.UI.Playground.Mocks.Presentation;
+using RevitLookup.UI.Playground.Mocks.Settings;
+using RevitLookup.UI.Playground.Mocks.Updater;
+using RevitLookup.UI.Playground.ViewModels;
+using RevitLookup.UI.Playground.Views;
 using Wpf.Ui;
 using Wpf.Ui.Abstractions;
 
@@ -38,22 +36,11 @@ public static class Host
             ContentRootPath = AppContext.BaseDirectory
         });
 
-        //Configuration
+        //Host
         builder.AddServiceDefaults();
+        builder.Services.AddHostedService<HostBackgroundService>();
 
-        //Host services
-        builder.Services.AddHostedService<RevitApplicationService>();
-
-        //Application Services
-        builder.Services.AddSingleton<ISoftwareUpdateService, MockSoftwareUpdateService>();
-        builder.Services.AddSingleton<ISettingsService, MockSettingsService>();
-        builder.Services.AddSingleton<IThemeWatcherService, MockThemeWatcherService>();
-
-        //MVVM services
-        builder.Services.RegisterViews();
-        builder.Services.RegisterViewModels();
-
-        //Frontend services
+        //Presentation
         builder.Services.AddScoped<INavigationViewPageProvider, DependencyInjectionNavigationViewPageProvider>();
         builder.Services.AddScoped<INavigationService, NavigationService>();
         builder.Services.AddScoped<IContentDialogService, ContentDialogService>();
@@ -61,12 +48,21 @@ public static class Host
         builder.Services.AddScoped<INotificationService, NotificationService>();
         builder.Services.AddScoped<IWindowIntercomService, WindowIntercomService>();
         builder.Services.AddScoped<IMessenger, WeakReferenceMessenger>();
+        builder.Services.AddTransient<IUiOrchestratorService, MockUiOrchestratorService>();
+        builder.Services.AddSingleton<IThemeWatcherService, MockThemeWatcherService>();
+        builder.Services.AddViews();
+        builder.Services.AddViewModels();
 
-        //Composer services
+        //Decomposition
         builder.Services.AddScoped<IDecompositionService, MockDecompositionService>();
         builder.Services.AddScoped<IVisualDecompositionService, MockVisualDecompositionService>();
         builder.Services.AddScoped<IDecompositionSearchService, MockDecompositionSearchService>();
-        builder.Services.AddTransient<IUiOrchestratorService, MockUiOrchestratorService>();
+
+        //Settings
+        builder.Services.AddSingleton<ISettingsService, MockSettingsService>();
+
+        //Software update
+        builder.Services.AddSingleton<ISoftwareUpdateService, MockSoftwareUpdateService>();
 
         _host = builder.Build();
 

@@ -12,8 +12,8 @@
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 
-using RevitLookup.Abstractions.ObservableModels.Entries;
-using RevitLookup.Abstractions.Services.Appearance;
+using RevitLookup.Abstractions.Presentation;
+using RevitLookup.Abstractions.Tools;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
 

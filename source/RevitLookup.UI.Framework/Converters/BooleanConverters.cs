@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 using System.Windows.Data;
-using RevitLookup.Abstractions.Services.Settings;
+using RevitLookup.Abstractions.Updater;
 
 namespace RevitLookup.UI.Framework.Converters;
 

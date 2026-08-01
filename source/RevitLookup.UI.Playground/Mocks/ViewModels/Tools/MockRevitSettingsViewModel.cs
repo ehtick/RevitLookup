@@ -4,10 +4,10 @@ using Bogus;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
-using RevitLookup.Abstractions.ObservableModels.Entries;
-using RevitLookup.Abstractions.Services.Presentation;
+using RevitLookup.Abstractions.Presentation;
+using RevitLookup.Abstractions.Tools;
 using RevitLookup.Abstractions.ViewModels.Tools;
-using RevitLookup.Common.Utils;
+using RevitLookup.UI.Framework.Processes;
 using RevitLookup.UI.Framework.Views.EditDialogs;
 using Wpf.Ui.Controls;
 

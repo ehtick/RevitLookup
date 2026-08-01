@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Text.Json;
 using CommunityToolkit.Mvvm.ComponentModel;
-using RevitLookup.UI.Playground.Models;
+using RevitLookup.UI.Playground.SampleData;
 #if NETFRAMEWORK
 using RevitLookup.UI.Framework.Extensions;
 #endif
@@ -36,7 +36,7 @@ public partial class FontIconsPageViewModel : ObservableObject
 
     private static string ReadIconData()
     {
-        const string resourceName = "RevitLookup.UI.Playground.Models.FontIcons.json";
+        const string resourceName = "RevitLookup.UI.Playground.SampleData.FontIcons.json";
 
         var assembly = Assembly.GetExecutingAssembly();
         using var stream = assembly.GetManifestResourceStream(resourceName)!;

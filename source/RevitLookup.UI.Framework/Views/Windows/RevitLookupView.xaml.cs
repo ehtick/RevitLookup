@@ -14,9 +14,9 @@
 
 using System.Windows;
 using System.Windows.Automation.Peers;
-using RevitLookup.Abstractions.Services.Appearance;
-using RevitLookup.Abstractions.Services.Presentation;
-using RevitLookup.Abstractions.Services.Settings;
+using RevitLookup.Abstractions.Presentation;
+using RevitLookup.Abstractions.Settings;
+using RevitLookup.Abstractions.Updater;
 using RevitLookup.UI.Framework.Controls.Automation;
 using Wpf.Ui;
 using Wpf.Ui.Appearance;

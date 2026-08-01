@@ -15,7 +15,7 @@
 using System.Windows.Interop;
 using System.Windows.Media;
 using Nice3point.Revit.Toolkit.External;
-using RevitLookup.Abstractions.Services.Settings;
+using RevitLookup.Abstractions.Settings;
 
 namespace RevitLookup;
 

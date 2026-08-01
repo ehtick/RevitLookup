@@ -3,11 +3,11 @@ using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Nice3point.Revit.Extensions.Runtime;
-using RevitLookup.Abstractions.ObservableModels.Entries;
-using RevitLookup.Abstractions.Services.Presentation;
+using RevitLookup.Abstractions.Presentation;
+using RevitLookup.Abstractions.Tools;
 using RevitLookup.Abstractions.ViewModels.Tools;
-using RevitLookup.Common.Utils;
-using RevitLookup.Core.RevitSettings;
+using RevitLookup.UI.Framework.Processes;
+using RevitLookup.Tools.RevitSettings;
 using RevitLookup.UI.Framework.Views.EditDialogs;
 using Wpf.Ui.Controls;
 

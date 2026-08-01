@@ -13,9 +13,8 @@
 // UNINTERRUPTED OR ERROR FREE.
 
 using Microsoft.Extensions.Logging;
-using RevitLookup.Abstractions.Services.Appearance;
-using RevitLookup.Abstractions.Services.Presentation;
-using RevitLookup.Abstractions.Services.Settings;
+using RevitLookup.Abstractions.Presentation;
+using RevitLookup.Abstractions.Settings;
 using RevitLookup.Abstractions.ViewModels.Decomposition;
 
 namespace RevitLookup.UI.Framework.Views.Decomposition;

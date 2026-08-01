@@ -2,22 +2,24 @@
 // The Microsoft Corporation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+
+// ReSharper disable once CheckNamespace
+
+using ColorConverter = System.Drawing.ColorConverter;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using Button = System.Windows.Controls.Button;
+using TextBox = System.Windows.Controls.TextBox;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using RevitLookup.Common.Utils;
+using Color = System.Windows.Media.Color;
+using Point = System.Windows.Point;
+using RevitLookup.UI.Framework.Colors;
 using RevitLookup.UI.Framework.Controls.ColorPicker;
 using Wpf.Ui.Controls;
-using Button = System.Windows.Controls.Button;
-using Color = System.Windows.Media.Color;
-using ColorConverter = System.Drawing.ColorConverter;
-using Point = System.Windows.Point;
-using TextBox = System.Windows.Controls.TextBox;
 
-// ReSharper disable once CheckNamespace
 namespace RevitLookup.UI.Framework.Controls;
 
 public sealed partial class ColorPickerControl

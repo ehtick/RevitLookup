@@ -15,7 +15,7 @@
 using System.Text;
 using System.Windows;
 using LookupEngine.Abstractions.Enums;
-using RevitLookup.Abstractions.ObservableModels.Decomposition;
+using RevitLookup.Abstractions.Decomposition;
 
 namespace RevitLookup.UI.Framework.Views.Decomposition;
 

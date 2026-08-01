@@ -13,7 +13,7 @@
 // UNINTERRUPTED OR ERROR FREE.
 
 using CommunityToolkit.Mvvm.Input;
-using RevitLookup.Abstractions.Models.UserInterface;
+using RevitLookup.Abstractions.Dashboard;
 
 namespace RevitLookup.Abstractions.ViewModels.Dashboard;
 

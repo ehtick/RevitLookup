@@ -13,7 +13,7 @@
 // UNINTERRUPTED OR ERROR FREE.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using RevitLookup.Abstractions.Models.AboutProgram;
+using RevitLookup.Abstractions.AboutProgram;
 using RevitLookup.Abstractions.ViewModels.AboutProgram;
 
 namespace RevitLookup.UI.Playground.Mocks.ViewModels.AboutProgram;

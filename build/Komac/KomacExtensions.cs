@@ -14,11 +14,17 @@ public static class KomacExtensions
         ModularPipelinesContextRegistry.RegisterContext(collection => collection.RegisterKomacContext());
     }
 
-    private static IServiceCollection RegisterKomacContext(this IServiceCollection services)
+    extension(IServiceCollection services)
     {
-        services.TryAddScoped<Komac>();
-        return services;
+        private IServiceCollection RegisterKomacContext()
+        {
+            services.TryAddScoped<Komac>();
+            return services;
+        }
     }
 
-    public static Komac Komac(this IPipelineContext context) => context.Services.Get<Komac>();
+    extension(IPipelineContext context)
+    {
+        public Komac Komac() => context.Services.Get<Komac>();
+    }
 }

@@ -1,7 +1,7 @@
 using System.Windows.Controls;
 using Bogus;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Person = RevitLookup.UI.Playground.Models.Person;
+using Person = RevitLookup.UI.Playground.SampleData.Person;
 
 namespace RevitLookup.UI.Playground.ViewModels.Pages.Collections;
 

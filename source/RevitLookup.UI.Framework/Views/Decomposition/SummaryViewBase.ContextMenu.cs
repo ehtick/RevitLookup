@@ -18,9 +18,8 @@ using System.Windows.Input;
 using LookupEngine.Abstractions.Enums;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Abstractions.Decomposition;
-using RevitLookup.Abstractions.ObservableModels.Decomposition;
 using RevitLookup.UI.Framework.Extensions;
-using RevitLookup.UI.Framework.Utils;
+using RevitLookup.UI.Framework.Menus;
 using Wpf.Ui;
 
 namespace RevitLookup.UI.Framework.Views.Decomposition;
@@ -45,7 +44,7 @@ public partial class SummaryViewBase
             .SetCommand(decomposedObject, parameter => Clipboard.SetDataObject(parameter.Name))
             .SetShortcut(ModifierKeys.Control, Key.C);
         contextMenu.AddMenuItem("HelpMenuItem")
-            .SetCommand(decomposedObject, parameter => HelpUtils.ShowHelp(parameter.TypeFullName))
+            .SetCommand(decomposedObject, parameter => ContextHelpUtils.ShowHelp(parameter.TypeFullName))
             .SetShortcut(Key.F1);
 
         if (decomposedObject.Descriptor is not IContextMenuConnector connector) return;
@@ -101,7 +100,7 @@ public partial class SummaryViewBase
             .SetAvailability(member.Value.Name != string.Empty);
 
         contextMenu.AddMenuItem("HelpMenuItem")
-            .SetCommand(member, parameter => HelpUtils.ShowHelp(parameter.DeclaringTypeFullName, parameter.Name))
+            .SetCommand(member, parameter => ContextHelpUtils.ShowHelp(parameter.DeclaringTypeFullName, parameter.Name))
             .SetShortcut(Key.F1);
 
         if (member.Value.Descriptor is not IContextMenuConnector connector) return;

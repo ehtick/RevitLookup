@@ -1,9 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
+using RevitLookup.Abstractions.Dashboard;
 using RevitLookup.Abstractions.Decomposition;
-using RevitLookup.Abstractions.Models.UserInterface;
-using RevitLookup.Abstractions.Services.Decomposition;
-using RevitLookup.Abstractions.Services.Presentation;
+using RevitLookup.Abstractions.Presentation;
 using RevitLookup.Abstractions.ViewModels.Dashboard;
 using RevitLookup.UI.Framework.Views.Decomposition;
 using RevitLookup.UI.Framework.Views.Tools;

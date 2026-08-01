@@ -17,7 +17,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\source\RevitLookup.Common\RevitLookup.Common.csproj"/>
+        <ProjectReference Include="..\..\source\RevitLookup.ServiceDefaults\RevitLookup.ServiceDefaults.csproj"/>
+        <ProjectReference Include="..\..\source\RevitLookup.UI.Framework\RevitLookup.UI.Framework.csproj"/>
     </ItemGroup>
 
 </Project>

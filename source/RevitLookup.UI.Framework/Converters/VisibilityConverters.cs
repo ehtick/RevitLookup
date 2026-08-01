@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Globalization;
 using System.Windows.Data;
-using RevitLookup.Abstractions.Services.Settings;
+using RevitLookup.Abstractions.Updater;
 using Visibility = System.Windows.Visibility;
 
 namespace RevitLookup.UI.Framework.Converters;

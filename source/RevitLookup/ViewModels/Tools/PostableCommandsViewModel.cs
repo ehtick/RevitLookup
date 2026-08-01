@@ -14,8 +14,8 @@
 
 using Autodesk.Revit.UI;
 using Microsoft.Extensions.Logging;
-using RevitLookup.Abstractions.Models.Tools;
-using RevitLookup.Abstractions.Services.Presentation;
+using RevitLookup.Abstractions.Presentation;
+using RevitLookup.Abstractions.Tools;
 using RevitLookup.Abstractions.ViewModels.Tools;
 
 namespace RevitLookup.ViewModels.Tools;

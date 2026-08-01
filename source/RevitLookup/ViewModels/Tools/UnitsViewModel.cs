@@ -13,11 +13,11 @@
 // UNINTERRUPTED OR ERROR FREE.
 
 using System.Diagnostics.CodeAnalysis;
-using RevitLookup.Abstractions.Models.Tools;
-using RevitLookup.Abstractions.Services.Decomposition;
-using RevitLookup.Abstractions.Services.Presentation;
+using RevitLookup.Abstractions.Decomposition;
+using RevitLookup.Abstractions.Presentation;
+using RevitLookup.Abstractions.Tools;
 using RevitLookup.Abstractions.ViewModels.Tools;
-using RevitLookup.Core.Units;
+using RevitLookup.Tools.Units;
 
 namespace RevitLookup.ViewModels.Tools;
 

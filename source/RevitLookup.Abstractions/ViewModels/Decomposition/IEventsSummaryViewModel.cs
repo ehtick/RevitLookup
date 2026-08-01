@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using RevitLookup.Abstractions.ObservableModels.Decomposition;
+using RevitLookup.Abstractions.Decomposition;
 using Wpf.Ui.Abstractions.Controls;
 
 namespace RevitLookup.Abstractions.ViewModels.Decomposition;

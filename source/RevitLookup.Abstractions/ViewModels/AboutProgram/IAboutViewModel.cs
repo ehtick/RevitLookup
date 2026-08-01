@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using RevitLookup.Abstractions.Services.Settings;
+using RevitLookup.Abstractions.Updater;
 
 namespace RevitLookup.Abstractions.ViewModels.AboutProgram;
 

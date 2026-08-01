@@ -5,12 +5,11 @@ using System.Windows.Media;
 using Bogus;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using RevitLookup.Abstractions.Models.Settings;
-using RevitLookup.Abstractions.Services.Application;
-using RevitLookup.Abstractions.Services.Settings;
-using RevitLookup.UI.Framework.Views.Dashboard;
+using RevitLookup.Abstractions.Presentation;
+using RevitLookup.Abstractions.Settings;
 using RevitLookup.UI.Framework.Views.Decomposition;
-using RevitLookup.UI.Playground.Mocks.Models;
+using RevitLookup.UI.Playground.Mocks.Decomposition.Samples;
+using RevitLookup.UI.Playground.Views.Pages;
 
 namespace RevitLookup.UI.Playground.ViewModels.Pages;
 

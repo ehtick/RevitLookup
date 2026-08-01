@@ -14,17 +14,16 @@
 
 using System.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
-using RevitLookup.Abstractions.Services.Appearance;
-using RevitLookup.Abstractions.Services.Presentation;
-using RevitLookup.Abstractions.Services.Settings;
+using RevitLookup.Abstractions.Presentation;
+using RevitLookup.Abstractions.Settings;
 using RevitLookup.Abstractions.ViewModels.Settings;
-using RevitLookup.Services.Application;
+using RevitLookup.Commands;
 using RevitLookup.UI.Framework.Views.Settings;
 using RevitLookup.UI.Framework.Views.Windows;
 using Wpf.Ui;
 using Wpf.Ui.Animations;
-using Wpf.Ui.Controls;
 using ApplicationTheme = Wpf.Ui.Appearance.ApplicationTheme;
+using Wpf.Ui.Controls;
 
 namespace RevitLookup.ViewModels.Settings;
 

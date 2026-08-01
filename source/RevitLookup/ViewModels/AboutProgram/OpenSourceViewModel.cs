@@ -12,7 +12,7 @@
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 
-using RevitLookup.Abstractions.Models.AboutProgram;
+using RevitLookup.Abstractions.AboutProgram;
 using RevitLookup.Abstractions.ViewModels.AboutProgram;
 
 namespace RevitLookup.ViewModels.AboutProgram;

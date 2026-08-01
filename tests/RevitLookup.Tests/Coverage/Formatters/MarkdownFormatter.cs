@@ -13,6 +13,7 @@
 // UNINTERRUPTED OR ERROR FREE.
 
 using System.Text;
+using RevitLookup.UI.Framework.Extensions;
 using RevitLookup.Tests.Unit.Coverage.Models;
 
 namespace RevitLookup.Tests.Unit.Coverage.Formatters;

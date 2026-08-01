@@ -1,5 +1,5 @@
 using System.Windows.Data;
-using RevitLookup.UI.Playground.Models;
+using RevitLookup.UI.Playground.SampleData;
 using RevitLookup.UI.Playground.ViewModels.Pages.Collections;
 using Wpf.Ui.Abstractions.Controls;
 

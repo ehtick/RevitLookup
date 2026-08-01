@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:RevitLookup.UI.Playground.Views.Pages.Collections"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="clr-namespace:RevitLookup.UI.Playground.Models"
+    xmlns:models="clr-namespace:RevitLookup.UI.Playground.SampleData"
     xmlns:ui="http://lookupengine.com/xaml"
     d:DataContext="{d:DesignInstance local:ListBoxPage}"
     d:DesignHeight="750"

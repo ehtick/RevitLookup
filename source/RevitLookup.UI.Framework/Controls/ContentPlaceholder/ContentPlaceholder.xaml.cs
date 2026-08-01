@@ -12,9 +12,11 @@
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 
-using System.Windows.Controls;
 
 // ReSharper disable once CheckNamespace
+
+using System.Windows.Controls;
+
 namespace RevitLookup.UI.Framework.Controls;
 
 public sealed class ContentPlaceholder : ContentControl;
