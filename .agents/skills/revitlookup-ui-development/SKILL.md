@@ -56,13 +56,16 @@ The class name must end in `ViewModel`; the scan matches that suffix.
 
 ### Step 4: Register nothing — Scrutor scans by convention
 
-`AddViews()` (`source/RevitLookup/Configuration/ViewConfiguration.cs`) scans the assembly and registers every `FluentWindow`, `ContentDialog`, and `Page` (a navigable `Page` scoped, others transient); `AddViewModels()` registers every `*ViewModel` `AsImplementedInterfaces`.
+`AddViews()` (`source/RevitLookup/Views/ViewsRegistration.cs`) scans the assembly and registers every `FluentWindow`, `ContentDialog`, and `Page` (a navigable `Page` scoped, others transient); `AddViewModels()` (`source/RevitLookup/ViewModels/ViewModelsRegistration.cs`) registers every `*ViewModel` `AsImplementedInterfaces`.
+The Playground has its own pair under `source/RevitLookup.UI.Playground/Views/` and `.../ViewModels/`, which also scans the mocks.
 A new view and its view models need no manual DI registration; follow the naming and base-type conventions and they are picked up.
 
 ### Step 5: Navigate and customize display
 
 Move between pages through the injected `INavigationService`.
-To render a decomposed value differently by type, add a named `DataTemplate` and extend `TreeViewItemTemplateSelector` (in `source/RevitLookup.UI.Framework`), not a branch in code-behind; value formatting lives in the framework's `Converters/`.
+To render a decomposed value differently by type, add a named `DataTemplate` and extend the template selector, not a branch in code-behind; value formatting lives in `source/RevitLookup.UI.Framework/Converters/`.
+The selectors and their resource dictionaries live twice, once per host, because the add-in copy resolves Revit types and the Playground copy must stay BCL-only: `source/RevitLookup/Views/Styles/{ObjectsTree,MembersGrid}/` and `source/RevitLookup.UI.Playground/Mocks/Styles/{ObjectsTree,MembersGrid}/`.
+Change both in the same commit, and keep the two trees at mirrored paths.
 
 ### Step 6: Verify
 
@@ -83,10 +86,10 @@ dotnet run --project source/RevitLookup.UI.Playground -c Debug
 
 ## Common Pitfalls
 
-| Pitfall                                                  | Correct approach                                                                         |
-|----------------------------------------------------------|------------------------------------------------------------------------------------------|
-| Referencing a Revit type from the view-model interface   | Keep the contract in `Abstractions` Revit-free for the Playground to mock it.            |
-| Implementing the view model only for the add-in          | Provide a Playground mock too; every contract has one.                                   |
-| Manually registering the view or view model in `Host.cs` | Follow the naming/base-type conventions; Scrutor's `AddViews`/`AddViewModels` scan them. |
-| A view-model class name not ending in `ViewModel`        | End the name in `ViewModel` for the scan to register it by its interface.                |
-| Branching on value type in code-behind to format display | Add a `DataTemplate` and extend `TreeViewItemTemplateSelector`.                          |
+| Pitfall                                                                  | Correct approach                                                                         |
+|--------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
+| Referencing a Revit type from the view-model interface                   | Keep the contract in `Abstractions` Revit-free for the Playground to mock it.            |
+| Implementing the view model only for the add-in                          | Provide a Playground mock too; every contract has one.                                   |
+| Manually registering the view or view model in the host composition root | Follow the naming/base-type conventions; Scrutor's `AddViews`/`AddViewModels` scan them. |
+| A view-model class name not ending in `ViewModel`                        | End the name in `ViewModel` for the scan to register it by its interface.                |
+| Branching on value type in code-behind to format display                 | Add a `DataTemplate` and extend `TreeViewItemTemplateSelector`.                          |

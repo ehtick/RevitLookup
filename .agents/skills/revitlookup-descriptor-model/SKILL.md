@@ -11,7 +11,7 @@ license: MIT
 
 RevitLookup decomposes any object through LookupEngine, and a descriptor is how it teaches the engine about one Revit type.
 Add support for a type by writing a descriptor and adding one `case` to the type map — never by special-casing the type anywhere else.
-Descriptors live in `source/RevitLookup/Core/Decomposition/Descriptors/`; the worked reference is `ElementDescriptor.cs`.
+Descriptors live in `source/RevitLookup/Decomposition/Descriptors/`; the worked reference is `ElementDescriptor.cs`.
 
 ## When to use
 
@@ -101,7 +101,7 @@ private static void SelectElement(UIApplication application, Element element)
 
 ### Step 5: Register the descriptor in DescriptorsMap
 
-Add a `case` to the `FindDescriptor` switch in `source/RevitLookup/Core/Decomposition/DescriptorsMap.cs`, guarding on the exact type; it matches both the approximate (display) and exact (member-resolution) lookups.
+Add a `case` to the `FindDescriptor` switch in `source/RevitLookup/Decomposition/DescriptorsMap.cs`, guarding on the exact type; it matches both the approximate (display) and exact (member-resolution) lookups.
 
 ```csharp
 Wall value when type is null || type == typeof(Wall) => new WallDescriptor(value),
@@ -119,7 +119,7 @@ dotnet test -c Debug.R##
 
 ## Validation
 
-- [ ] The descriptor lives in `Core/Decomposition/Descriptors/`, captures its object, and sets `Name`.
+- [ ] The descriptor lives in `Decomposition/Descriptors/`, captures its object, and sets `Name`.
 - [ ] It implements only the configuration interfaces it needs; the resolution context is `Document`.
 - [ ] `Configure` resolves members that need arguments or the active view, disables noise, and registers synthetic extensions; version-specific members are `#if`-gated.
 - [ ] A menu command that touches Revit raises an `[ExternalEvent]` method, not a direct API call on the UI thread; failures log through a source-generated `[LoggerMessage]`.
