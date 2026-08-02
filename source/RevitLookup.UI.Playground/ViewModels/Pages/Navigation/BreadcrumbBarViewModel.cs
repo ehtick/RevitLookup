@@ -5,6 +5,9 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace RevitLookup.UI.Playground.ViewModels.Pages.Navigation;
 
+/// <summary>
+///     Represents the sample data for the breadcrumb bar gallery page.
+/// </summary>
 [UsedImplicitly]
 public partial class BreadcrumbBarViewModel : ObservableObject
 {
@@ -16,11 +19,17 @@ public partial class BreadcrumbBarViewModel : ObservableObject
         new("Folder3")
     ];
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="BreadcrumbBarViewModel"/> class.
+    /// </summary>
     public BreadcrumbBarViewModel()
     {
         ResetFoldersCollection();
     }
-    
+
+    /// <summary>
+    ///     Gets the sample path segments shown as string breadcrumbs.
+    /// </summary>
     public ObservableCollection<string> Strings { get; } =
     [
         "Home",
@@ -31,6 +40,9 @@ public partial class BreadcrumbBarViewModel : ObservableObject
         "Folder3"
     ];
 
+    /// <summary>
+    ///     Gets the directories currently shown as breadcrumb items.
+    /// </summary>
     public ObservableCollection<DirectoryInfo> Directories { get; } = [];
 
     [RelayCommand]

@@ -14,6 +14,10 @@ using Wpf.Ui;
 
 namespace RevitLookup.Presentation;
 
+/// <summary>
+///     Runs RevitLookup's UI on a dedicated, always-available UI thread and orchestrates decomposition, navigation, and parent-child communication between instances.
+/// </summary>
+/// <param name="scopeFactory">The factory used to create the dependency injection scope backing each RevitLookup instance.</param>
 public sealed partial class UiOrchestratorService(IServiceScopeFactory scopeFactory) : IUiOrchestratorService, IHistoryOrchestrator
 {
     private static readonly Dispatcher Dispatcher;
@@ -41,6 +45,7 @@ public sealed partial class UiOrchestratorService(IServiceScopeFactory scopeFact
         Dispatcher = Dispatcher.FromThread(uiThread)!;
     }
 
+    /// <inheritdoc/>
     public INavigationOrchestrator Decompose(KnownDecompositionObject decompositionObject)
     {
         var session = EnsureSession();
@@ -48,6 +53,7 @@ public sealed partial class UiOrchestratorService(IServiceScopeFactory scopeFact
         return this;
     }
 
+    /// <inheritdoc/>
     public INavigationOrchestrator Decompose(object? obj)
     {
         var session = EnsureSession();
@@ -55,6 +61,7 @@ public sealed partial class UiOrchestratorService(IServiceScopeFactory scopeFact
         return this;
     }
 
+    /// <inheritdoc/>
     public INavigationOrchestrator Decompose(IEnumerable objects)
     {
         var session = EnsureSession();
@@ -62,6 +69,7 @@ public sealed partial class UiOrchestratorService(IServiceScopeFactory scopeFact
         return this;
     }
 
+    /// <inheritdoc/>
     public INavigationOrchestrator Decompose(ObservableDecomposedObject decomposedObject)
     {
         var session = EnsureSession();
@@ -69,6 +77,7 @@ public sealed partial class UiOrchestratorService(IServiceScopeFactory scopeFact
         return this;
     }
 
+    /// <inheritdoc/>
     public INavigationOrchestrator Decompose(List<ObservableDecomposedObject> decomposedObjects)
     {
         var session = EnsureSession();
@@ -76,6 +85,7 @@ public sealed partial class UiOrchestratorService(IServiceScopeFactory scopeFact
         return this;
     }
 
+    /// <inheritdoc/>
     public IHistoryOrchestrator AddParent(IServiceProvider parentProvider)
     {
         var session = EnsureSession();
@@ -83,6 +93,7 @@ public sealed partial class UiOrchestratorService(IServiceScopeFactory scopeFact
         return this;
     }
 
+    /// <inheritdoc/>
     public IDecompositionOrchestrator AddStackHistory(ObservableDecomposedObject item)
     {
         var session = EnsureSession();
@@ -90,6 +101,7 @@ public sealed partial class UiOrchestratorService(IServiceScopeFactory scopeFact
         return this;
     }
 
+    /// <inheritdoc/>
     public IInteractionOrchestrator Show<T>() where T : Page
     {
         var session = EnsureSession();
@@ -97,6 +109,7 @@ public sealed partial class UiOrchestratorService(IServiceScopeFactory scopeFact
         return this;
     }
 
+    /// <inheritdoc/>
     public void RunService<T>(Action<T> handler) where T : class
     {
         if (_session is {IsAlive: true})

@@ -17,67 +17,68 @@ using System.Windows.Media;
 namespace RevitLookup.Abstractions.ViewModels.Visualization;
 
 /// <summary>
-///     Represents the data for XYZ coordinate visualization.
+///     Defines a contract that represents the data for XYZ coordinate visualization.
 /// </summary>
 public interface IXyzVisualizationViewModel
 {
     /// <summary>
-    ///     The minimum length of coordinate axes.
+    ///     Gets the minimum length of the coordinate axes.
     /// </summary>
     double MinAxisLength { get; }
 
     /// <summary>
-    ///     The length of coordinate axes.
+    ///     Gets or sets the length of the coordinate axes.
     /// </summary>
     double AxisLength { get; set; }
 
     /// <summary>
-    ///     The transparency level of visualization.
+    ///     Gets or sets the transparency level of visualization.
     /// </summary>
     double Transparency { get; set; }
 
     /// <summary>
-    ///     The color of X axis.
+    ///     Gets or sets the color of the X axis.
     /// </summary>
     Color XColor { get; set; }
 
     /// <summary>
-    ///     The color of Y axis.
+    ///     Gets or sets the color of the Y axis.
     /// </summary>
     Color YColor { get; set; }
 
     /// <summary>
-    ///     The color of Z axis.
+    ///     Gets or sets the color of the Z axis.
     /// </summary>
     Color ZColor { get; set; }
 
     /// <summary>
-    ///     Whether to show the coordinate plane.
+    ///     Gets or sets a value indicating whether to show the coordinate plane.
     /// </summary>
     bool ShowPlane { get; set; }
 
     /// <summary>
-    ///     Whether to show the X axis.
+    ///     Gets or sets a value indicating whether to show the X axis.
     /// </summary>
     bool ShowXAxis { get; set; }
 
     /// <summary>
-    ///     Whether to show the Y axis.
+    ///     Gets or sets a value indicating whether to show the Y axis.
     /// </summary>
     bool ShowYAxis { get; set; }
 
     /// <summary>
-    ///     Whether to show the Z axis.
+    ///     Gets or sets a value indicating whether to show the Z axis.
     /// </summary>
     bool ShowZAxis { get; set; }
 
     /// <summary>
-    ///     Register XYZ server.
+    ///     Registers the visualization server for the specified point.
     /// </summary>
+    /// <param name="xyz">The Revit <c>XYZ</c> point to visualize.</param>
     void RegisterServer(object xyz);
 
     /// <summary>
-    ///     Unregister XYZ server.
+    ///     Unregisters the XYZ visualization server.
     /// </summary>
     void UnregisterServer();
 }

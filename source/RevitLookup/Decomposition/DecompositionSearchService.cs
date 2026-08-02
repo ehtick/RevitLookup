@@ -3,12 +3,20 @@ using RevitLookup.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition;
 
+/// <summary>
+///     Provides the default implementation of <see cref="IDecompositionSearchService"/>.
+/// </summary>
+/// <remarks>
+///     A query matches an object by name, type name, or description, and matches a member by name, all case-insensitively.
+///     The service remembers the object selected on the previous call and keeps searching within it while the query only narrows that object's members.
+/// </remarks>
 [SuppressMessage("ReSharper", "LoopCanBeConvertedToQuery")]
 [SuppressMessage("ReSharper", "ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator")]
 public sealed class DecompositionSearchService : IDecompositionSearchService
 {
     private ObservableDecomposedObject? _previousSelection;
 
+    /// <inheritdoc/>
     public (List<ObservableDecomposedObject>, List<ObservableDecomposedMember>) Search(
         string query,
         ObservableDecomposedObject? selectedObject,
@@ -46,6 +54,7 @@ public sealed class DecompositionSearchService : IDecompositionSearchService
         }
     }
 
+    /// <inheritdoc/>
     public List<ObservableDecomposedMember> SearchMembers(string query, ObservableDecomposedObject value)
     {
         var filteredMembers = FilterMembers(query, value.Members);

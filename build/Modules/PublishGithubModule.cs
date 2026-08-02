@@ -15,8 +15,9 @@ using Shouldly;
 namespace Build.Modules;
 
 /// <summary>
-///     Publish the add-in to GitHub.
+///     Represents the pipeline module that publishes the release to GitHub.
 /// </summary>
+/// <param name="buildOptions">The build settings that supply the output directory containing the release artifacts.</param>
 [SkipIfNoGitHubToken]
 [DependsOn<ResolveVersioningModule>]
 [DependsOn<GenerateGitHubChangelogModule>]

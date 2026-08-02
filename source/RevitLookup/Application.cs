@@ -19,20 +19,29 @@ using RevitLookup.Abstractions.Settings;
 
 namespace RevitLookup;
 
+/// <summary>
+///     Represents the RevitLookup Revit add-in application.
+/// </summary>
 [UsedImplicitly]
 public partial class Application : AsyncExternalApplication
 {
+    /// <inheritdoc/>
     public override async Task OnStartupAsync()
     {
         await Host.StartAsync();
         EnableHardwareRendering();
     }
 
+    /// <inheritdoc/>
     public override async Task OnShutdownAsync()
     {
         await Host.StopAsync();
     }
 
+    /// <summary>
+    ///     Enables GPU-accelerated rendering for the process when the application settings request it.
+    /// </summary>
+    /// <remarks>Revit overrides the render mode during its own initialization. This method runs through an <see cref="ExternalEvent"/> after initialization completes.</remarks>
     public static void EnableHardwareRendering()
     {
         var settingsService = Host.GetService<ISettingsService>();
@@ -43,6 +52,9 @@ public partial class Application : AsyncExternalApplication
         EnableHardwareRenderingAfterInitializationEvent.Raise();
     }
 
+    /// <summary>
+    ///     Disables GPU-accelerated rendering for the process when the application settings do not request it.
+    /// </summary>
     public static void DisableHardwareRendering()
     {
         var settingsService = Host.GetService<ISettingsService>();

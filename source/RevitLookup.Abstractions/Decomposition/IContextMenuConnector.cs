@@ -17,12 +17,14 @@ using System.Windows.Controls;
 namespace RevitLookup.Abstractions.Decomposition;
 
 /// <summary>
-///     Defines a method to expand the context menu of a UI component.
+///     Defines a contract that expands the context menu of a UI component.
 /// </summary>
 public interface IContextMenuConnector
 {
     /// <summary>
-    ///     Register the context menu extension for UI components.
+    ///     Registers the context menu extension on the specified <paramref name="contextMenu"/>.
     /// </summary>
+    /// <param name="contextMenu">The context menu to extend.</param>
+    /// <param name="serviceProvider">The service provider used to resolve the dependencies of the added menu items.</param>
     void RegisterMenu(ContextMenu contextMenu, IServiceProvider serviceProvider);
 }

@@ -17,8 +17,12 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents an <see cref="IDisposable"/> Revit API object exposed to LookupEngine.
+/// </summary>
 public sealed class DisposableDescriptor : Descriptor, IDescriptorConfigurator
 {
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(IDisposable.Dispose)).Disable();

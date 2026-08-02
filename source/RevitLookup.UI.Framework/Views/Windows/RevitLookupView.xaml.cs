@@ -23,6 +23,9 @@ using Wpf.Ui.Appearance;
 
 namespace RevitLookup.UI.Framework.Views.Windows;
 
+/// <summary>
+///     Represents a window that hosts the RevitLookup navigation, dialogs, and snackbar presenter.
+/// </summary>
 public sealed partial class RevitLookupView
 {
     private readonly IWindowIntercomService _intercomService;
@@ -30,6 +33,16 @@ public sealed partial class RevitLookupView
     private readonly ISettingsService _settingsService;
     private readonly IThemeWatcherService _themeWatcherService;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="RevitLookupView"/> class.
+    /// </summary>
+    /// <param name="navigationService">The service bound to this window's navigation control.</param>
+    /// <param name="dialogService">The service bound to this window's dialog host.</param>
+    /// <param name="snackbarService">The service bound to this window's snackbar presenter.</param>
+    /// <param name="intercomService">The service that registers this window as the shared RevitLookup host.</param>
+    /// <param name="updateService">The service that reports whether a new application version is available.</param>
+    /// <param name="settingsService">The service that provides the application display and size settings.</param>
+    /// <param name="themeWatcherService">The service that applies and tracks the current theme for this window.</param>
     public RevitLookupView(
         INavigationService navigationService,
         IContentDialogService dialogService,
@@ -84,11 +97,17 @@ public sealed partial class RevitLookupView
         EnableSizeTracking();
     }
 
+    /// <summary>
+    ///     Starts persisting this window's size to the application settings as it changes.
+    /// </summary>
     public void EnableSizeTracking()
     {
         SizeChanged += OnSizeChanged;
     }
 
+    /// <summary>
+    ///     Stops persisting this window's size to the application settings.
+    /// </summary>
     public void DisableSizeTracking()
     {
         SizeChanged -= OnSizeChanged;
@@ -101,6 +120,7 @@ public sealed partial class RevitLookupView
         self._settingsService.ApplicationSettings.WindowHeight = args.NewSize.Height;
     }
 
+    /// <inheritdoc/>
     protected override AutomationPeer OnCreateAutomationPeer()
     {
         return new NoAutomationWindowPeer(this);

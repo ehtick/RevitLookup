@@ -14,11 +14,17 @@
 
 namespace Installer;
 
+/// <summary>
+///     Provides methods to resolve installer version information from a version string.
+/// </summary>
 public static class Versioning
 {
     /// <summary>
-    ///     Resolve versions using the specified version string.
+    ///     Resolves the version, pre-release label, and MSI-compatible version from the specified version string.
     /// </summary>
+    /// <param name="version">The release version string, in the <c>version-environment.n.date</c> format.</param>
+    /// <returns>The resolved <see cref="ResolveVersioningResult"/>.</returns>
+    /// <exception cref="FormatException"><paramref name="version"/> does not contain a parsable version number.</exception>
     public static ResolveVersioningResult CreateFromVersionStringAsync(string version)
     {
         var versionParts = version.Split('-');

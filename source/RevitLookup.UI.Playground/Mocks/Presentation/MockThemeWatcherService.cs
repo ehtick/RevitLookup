@@ -19,14 +19,20 @@ using Wpf.Ui.Appearance;
 
 namespace RevitLookup.UI.Playground.Mocks.Presentation;
 
+/// <summary>
+///     Represents a Playground mock of <see cref="IThemeWatcherService"/> that applies the Playground settings theme directly through Wpf.Ui.
+/// </summary>
+/// <param name="settingsService">The service supplying the theme and backdrop applied to watched elements.</param>
 public sealed class MockThemeWatcherService(ISettingsService settingsService) : IThemeWatcherService
 {
     private readonly List<FrameworkElement> _observedElements = [];
 
+    /// <inheritdoc/>
     public void Initialize()
     {
     }
 
+    /// <inheritdoc/>
     public void ApplyTheme()
     {
         var theme = settingsService.ApplicationSettings.Theme;
@@ -34,6 +40,7 @@ public sealed class MockThemeWatcherService(ISettingsService settingsService) : 
         UpdateBackground(theme);
     }
 
+    /// <inheritdoc/>
     public void Watch(FrameworkElement frameworkElement)
     {
         frameworkElement.Loaded -= OnWatchedElementLoaded;
@@ -42,6 +49,7 @@ public sealed class MockThemeWatcherService(ISettingsService settingsService) : 
         frameworkElement.Unloaded += OnWatchedElementUnloaded;
     }
 
+    /// <inheritdoc/>
     public void Unwatch()
     {
     }

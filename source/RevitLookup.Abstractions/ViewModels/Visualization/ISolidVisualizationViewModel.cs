@@ -17,47 +17,48 @@ using System.Windows.Media;
 namespace RevitLookup.Abstractions.ViewModels.Visualization;
 
 /// <summary>
-///     Represents the data for solid geometry visualization.
+///     Defines a contract that represents the data for solid geometry visualization.
 /// </summary>
 public interface ISolidVisualizationViewModel
 {
     /// <summary>
-    ///     The scale factor of visualization.
+    ///     Gets or sets the scale factor of visualization.
     /// </summary>
     double Scale { get; set; }
 
     /// <summary>
-    ///     The transparency level of visualization.
+    ///     Gets or sets the transparency level of visualization.
     /// </summary>
     double Transparency { get; set; }
 
     /// <summary>
-    ///     The color of solid faces.
+    ///     Gets or sets the color of the solid faces.
     /// </summary>
     Color FaceColor { get; set; }
 
     /// <summary>
-    ///     The color of solid edges.
+    ///     Gets or sets the color of the solid edges.
     /// </summary>
     Color EdgeColor { get; set; }
 
     /// <summary>
-    ///     Whether to show solid faces.
+    ///     Gets or sets a value indicating whether to show the solid faces.
     /// </summary>
     bool ShowFace { get; set; }
 
     /// <summary>
-    ///     Whether to show solid edges.
+    ///     Gets or sets a value indicating whether to show the solid edges.
     /// </summary>
     bool ShowEdge { get; set; }
 
     /// <summary>
-    ///     Register Solid visualization server.
+    ///     Registers the visualization server for the specified solid.
     /// </summary>
+    /// <param name="solid">The Revit <c>Solid</c> to visualize.</param>
     void RegisterServer(object solid);
 
     /// <summary>
-    ///     Unregister Solid visualization server.
+    ///     Unregisters the solid visualization server.
     /// </summary>
     void UnregisterServer();
 }

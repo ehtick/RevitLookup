@@ -37,14 +37,22 @@ using ObjectDescriptor = RevitLookup.Decomposition.Descriptors.ObjectDescriptor;
 
 namespace RevitLookup.Decomposition;
 
+/// <summary>
+///     Resolves the <see cref="Descriptor"/> that describes a Revit or CLR object encountered during decomposition.
+/// </summary>
 public static class DescriptorsMap
 {
     /// <summary>
-    ///     Search for a descriptor by approximate or exact match
+    ///     Resolves the <see cref="Descriptor"/> for the specified object.
     /// </summary>
+    /// <param name="obj">The object to describe, or <see langword="null"/> to resolve by <paramref name="type"/> alone.</param>
+    /// <param name="type">
+    ///     The exact type to match, or <see langword="null"/> to match the runtime type of <paramref name="obj"/> or one of its base types.
+    /// </param>
+    /// <returns>The <see cref="Descriptor"/> that describes <paramref name="obj"/>, or a generic <see cref="ObjectDescriptor"/> when no specific match exists.</returns>
     /// <remarks>
-    ///     Exact search is necessary for the reflection engine, to add extensions and resolve conflicts when calling methods and properties. Type is not null <p />
-    ///     An approximate search is needed to describe the object, which is displayed to the user. Type is null
+    ///     Pass a non-null <paramref name="type"/> for an exact match. The reflection engine relies on this to add extensions and resolve conflicts when calling methods and properties.
+    ///     Pass a <see langword="null"/> <paramref name="type"/> for an approximate match. This is used to describe an object for display to the user.
     /// </remarks>
     public static Descriptor FindDescriptor(object? obj, Type? type)
     {

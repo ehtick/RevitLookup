@@ -20,18 +20,27 @@ using RevitLookup.Abstractions.ViewModels.Tools;
 
 namespace RevitLookup.ViewModels.Tools;
 
+/// <summary>
+///     Represents the view model for the Postable Commands view, executing Revit postable commands through the active UI application.
+/// </summary>
+/// <param name="logger">The logger used to record command execution failures.</param>
+/// <param name="notificationService">The service used to report command execution failures.</param>
 [UsedImplicitly]
 public sealed partial class PostableCommandsViewModel(ILogger<PostableCommandsViewModel> logger, INotificationService notificationService) : ObservableObject, IPostableCommandsViewModel
 {
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial List<PostableCommandInfo> Commands { get; private set; } = [];
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial List<PostableCommandInfo> FilteredCommands { get; private set; } = [];
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
 
+    /// <inheritdoc/>
     public void Initialize()
     {
         var postableCommands = Enum.GetValues<PostableCommand>();
@@ -46,6 +55,7 @@ public sealed partial class PostableCommandsViewModel(ILogger<PostableCommandsVi
             .ToList();
     }
 
+    /// <inheritdoc/>
     public void Execute(PostableCommandInfo commandInfo)
     {
         try
@@ -63,6 +73,7 @@ public sealed partial class PostableCommandsViewModel(ILogger<PostableCommandsVi
         }
     }
 
+    /// <inheritdoc/>
     public bool CanExecute(PostableCommandInfo commandInfo)
     {
         var postableCommand = (PostableCommand) commandInfo.Value;

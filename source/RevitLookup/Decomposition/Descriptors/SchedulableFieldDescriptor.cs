@@ -17,21 +17,30 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.SchedulableField"/> exposed to LookupEngine.
+/// </summary>
 public sealed class SchedulableFieldDescriptor : Descriptor, IDescriptorConfigurator, IDescriptorConfigurator<Document>
 {
     private readonly SchedulableField _field;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="SchedulableFieldDescriptor"/> class.
+    /// </summary>
+    /// <param name="field">The schedulable field to expose.</param>
     public SchedulableFieldDescriptor(SchedulableField field)
     {
         _field = field;
         Name = field.GetName(RevitContext.ActiveDocument);
     }
 
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(SchedulableField.Dispose)).Disable();
     }
 
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator<Document> configuration)
     {
         configuration.Member(nameof(SchedulableField.GetName)).Resolve(context => _field.GetName(context));

@@ -6,10 +6,11 @@ using RevitLookup.Abstractions.Decomposition;
 namespace RevitLookup.UI.Playground.Mocks.Styles.MembersGrid;
 
 /// <summary>
-///     Data grid row style selector
+///     Selects the members grid row style for a decomposed member, based on whether its descriptor has already been handled.
 /// </summary>
 public sealed class DataGridRowStyleSelector : StyleSelector
 {
+    /// <inheritdoc/>
     public override Style? SelectStyle(object item, DependencyObject container)
     {
         var member = (ObservableDecomposedMember) item;

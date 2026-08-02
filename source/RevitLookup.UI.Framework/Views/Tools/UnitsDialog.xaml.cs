@@ -25,11 +25,21 @@ using Wpf.Ui;
 
 namespace RevitLookup.UI.Framework.Views.Tools;
 
+/// <summary>
+///     Represents a dialog that lists the Revit built-in parameters, built-in categories, or forge schema units.
+/// </summary>
 public sealed partial class UnitsDialog
 {
     private readonly IUnitsViewModel _viewModel;
     private readonly INavigationService _navigationService;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="UnitsDialog"/> class.
+    /// </summary>
+    /// <param name="dialogService">The service that supplies the dialog host this dialog is shown on.</param>
+    /// <param name="viewModel">The view model that provides the data for the Units view.</param>
+    /// <param name="navigationService">The service used to navigate to the decomposition summary when an entry is explored.</param>
+    /// <param name="themeWatcherService">The service that applies and tracks the current theme for this dialog.</param>
     public UnitsDialog(
         IContentDialogService dialogService,
         IUnitsViewModel viewModel,
@@ -46,6 +56,10 @@ public sealed partial class UnitsDialog
         themeWatcherService.Watch(this);
     }
 
+    /// <summary>
+    ///     Shows the dialog listing the Revit built-in parameters.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous show operation.</returns>
     public async Task ShowParametersDialogAsync()
     {
         _viewModel.InitializeParameters();
@@ -56,6 +70,10 @@ public sealed partial class UnitsDialog
         await ShowAsync();
     }
 
+    /// <summary>
+    ///     Shows the dialog listing the Revit built-in categories.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous show operation.</returns>
     public async Task ShowCategoriesDialogAsync()
     {
         _viewModel.InitializeCategories();
@@ -66,6 +84,10 @@ public sealed partial class UnitsDialog
         await ShowAsync();
     }
 
+    /// <summary>
+    ///     Shows the dialog listing the forge schema units.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous show operation.</returns>
     public async Task ShowForgeSchemaDialogAsync()
     {
         _viewModel.InitializeForgeSchema();

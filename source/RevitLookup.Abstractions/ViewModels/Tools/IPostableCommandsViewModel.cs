@@ -17,37 +17,40 @@ using RevitLookup.Abstractions.Tools;
 namespace RevitLookup.Abstractions.ViewModels.Tools;
 
 /// <summary>
-///     Represents the data for the Postable Commands view.
+///     Defines a contract that represents the data for the Postable Commands view.
 /// </summary>
 public interface IPostableCommandsViewModel
 {
     /// <summary>
-    ///     The list of all commands.
+    ///     Gets the list of all commands.
     /// </summary>
     List<PostableCommandInfo> Commands { get; }
 
     /// <summary>
-    ///     The list of filtered commands.
+    ///     Gets the list of filtered commands.
     /// </summary>
     List<PostableCommandInfo> FilteredCommands { get; }
 
     /// <summary>
-    ///     The search query for filtering commands.
+    ///     Gets or sets the search query used to filter commands.
     /// </summary>
     string SearchText { get; set; }
 
     /// <summary>
-    ///     Initialize commands for representation.
+    ///     Initializes the commands for representation.
     /// </summary>
     void Initialize();
 
     /// <summary>
-    ///     Execute command.
+    ///     Executes the specified command.
     /// </summary>
+    /// <param name="commandInfo">The command to execute.</param>
     void Execute(PostableCommandInfo commandInfo);
 
     /// <summary>
-    ///     Check if command can be executed.
+    ///     Determines whether the specified command can be executed.
     /// </summary>
+    /// <param name="commandInfo">The command to check.</param>
+    /// <returns><see langword="true"/> if the command can be executed; otherwise, <see langword="false"/>.</returns>
     bool CanExecute(PostableCommandInfo commandInfo);
 }

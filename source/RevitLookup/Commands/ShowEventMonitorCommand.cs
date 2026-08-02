@@ -19,10 +19,14 @@ using RevitLookup.UI.Framework.Views.Decomposition;
 
 namespace RevitLookup.Commands;
 
+/// <summary>
+///     Represents the Revit command that opens the RevitLookup event monitor.
+/// </summary>
 [UsedImplicitly]
 [Transaction(TransactionMode.Manual)]
 public class ShowEventMonitorCommand : ExternalCommand
 {
+    /// <inheritdoc/>
     public override void Execute()
     {
         Host.GetService<IUiOrchestratorService>()

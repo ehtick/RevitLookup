@@ -2,6 +2,9 @@ using Autodesk.Revit.DB.ExtensibleStorage;
 
 namespace RevitLookup.Decomposition.Schemas;
 
+/// <summary>
+///     Provides extension methods for <see cref="Schema"/> to temporarily elevate access permissions.
+/// </summary>
 [PublicAPI]
 public static class SchemaExtensions
 {
@@ -10,9 +13,11 @@ public static class SchemaExtensions
     {
         /// <summary>
         ///     Begins a scope that grants unrestricted read access to the schema.
-        ///     Access is automatically revoked when the returned scope is disposed.
         /// </summary>
-        /// <returns>A disposable scope. Call Dispose or use a 'using' statement to revoke access.</returns>
+        /// <returns>A scope that represents the granted access.</returns>
+        /// <remarks>
+        ///     Access is automatically revoked when the returned scope is disposed.
+        /// </remarks>
         /// <example>
         ///     <code>
         ///         using (schema.GrantAccess())

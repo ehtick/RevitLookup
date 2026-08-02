@@ -7,6 +7,12 @@ using RevitLookup.Visualization;
 
 namespace RevitLookup.ViewModels.Visualization;
 
+/// <summary>
+///     Represents the view model for XYZ coordinate visualization, rendering an <see cref="XYZ"/> point through a dedicated Revit visualization server.
+/// </summary>
+/// <param name="settingsService">The service that persists and supplies the XYZ visualization settings.</param>
+/// <param name="notificationService">The service used to report rendering failures.</param>
+/// <param name="logger">The logger used to record rendering failures.</param>
 [UsedImplicitly]
 public sealed partial class XyzVisualizationViewModel(
     ISettingsService settingsService,
@@ -16,35 +22,47 @@ public sealed partial class XyzVisualizationViewModel(
 {
     private readonly XyzVisualizationServer _server = new();
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial double AxisLength { get; set; } = settingsService.VisualizationSettings.XyzSettings.AxisLength;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial double Transparency { get; set; } = settingsService.VisualizationSettings.XyzSettings.Transparency;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial Color XColor { get; set; } = settingsService.VisualizationSettings.XyzSettings.XColor;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial Color YColor { get; set; } = settingsService.VisualizationSettings.XyzSettings.YColor;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial Color ZColor { get; set; } = settingsService.VisualizationSettings.XyzSettings.ZColor;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial bool ShowPlane { get; set; } = settingsService.VisualizationSettings.XyzSettings.ShowPlane;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial bool ShowXAxis { get; set; } = settingsService.VisualizationSettings.XyzSettings.ShowXAxis;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial bool ShowYAxis { get; set; } = settingsService.VisualizationSettings.XyzSettings.ShowYAxis;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial bool ShowZAxis { get; set; } = settingsService.VisualizationSettings.XyzSettings.ShowZAxis;
 
+    /// <inheritdoc/>
     public double MinAxisLength => settingsService.VisualizationSettings.XyzSettings.MinAxisLength;
 
+    /// <inheritdoc/>
+    /// <exception cref="ArgumentException"><paramref name="xyzObject"/> is not an <see cref="XYZ"/>.</exception>
     public void RegisterServer(object xyzObject)
     {
         if (xyzObject is not XYZ point)
@@ -68,6 +86,7 @@ public sealed partial class XyzVisualizationViewModel(
         _server.Register(point);
     }
 
+    /// <inheritdoc/>
     public void UnregisterServer()
     {
         _server.RenderFailed -= HandleRenderFailure;

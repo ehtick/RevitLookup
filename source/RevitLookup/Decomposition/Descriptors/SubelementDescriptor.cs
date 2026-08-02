@@ -17,8 +17,13 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.Subelement"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="subElement">The subelement to expose.</param>
 public sealed class SubelementDescriptor(Subelement subElement) : Descriptor, IDescriptorConfigurator
 {
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Subelement.Dispose)).Disable();

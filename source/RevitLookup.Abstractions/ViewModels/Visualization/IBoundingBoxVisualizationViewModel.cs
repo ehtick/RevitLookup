@@ -17,52 +17,53 @@ using System.Windows.Media;
 namespace RevitLookup.Abstractions.ViewModels.Visualization;
 
 /// <summary>
-///     Represents the data for bounding box visualization.
+///     Defines a contract that represents the data for bounding box visualization.
 /// </summary>
 public interface IBoundingBoxVisualizationViewModel
 {
     /// <summary>
-    ///     The transparency level of visualization.
+    ///     Gets or sets the transparency level of visualization.
     /// </summary>
     double Transparency { get; set; }
 
     /// <summary>
-    ///     The color of bounding box surface.
+    ///     Gets or sets the color of the bounding box surface.
     /// </summary>
     Color SurfaceColor { get; set; }
 
     /// <summary>
-    ///     The color of bounding box edges.
+    ///     Gets or sets the color of the bounding box edges.
     /// </summary>
     Color EdgeColor { get; set; }
 
     /// <summary>
-    ///     The color of bounding box axes.
+    ///     Gets or sets the color of the bounding box axes.
     /// </summary>
     Color AxisColor { get; set; }
 
     /// <summary>
-    ///     Whether to show bounding box surface.
+    ///     Gets or sets a value indicating whether to show the bounding box surface.
     /// </summary>
     bool ShowSurface { get; set; }
 
     /// <summary>
-    ///     Whether to show bounding box edges.
+    ///     Gets or sets a value indicating whether to show the bounding box edges.
     /// </summary>
     bool ShowEdge { get; set; }
 
     /// <summary>
-    ///     Whether to show bounding box axes.
+    ///     Gets or sets a value indicating whether to show the bounding box axes.
     /// </summary>
     bool ShowAxis { get; set; }
 
     /// <summary>
-    ///     Register BoundingBox visualization server.
+    ///     Registers the visualization server for the specified bounding box.
     /// </summary>
+    /// <param name="boundingBoxXyz">The Revit <c>BoundingBoxXYZ</c> to visualize.</param>
     void RegisterServer(object boundingBoxXyz);
 
     /// <summary>
-    ///     Unregister BoundingBox visualization server.
+    ///     Unregisters the bounding box visualization server.
     /// </summary>
     void UnregisterServer();
 }

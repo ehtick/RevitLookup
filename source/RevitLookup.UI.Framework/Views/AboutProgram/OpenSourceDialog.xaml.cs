@@ -21,8 +21,17 @@ using Wpf.Ui;
 
 namespace RevitLookup.UI.Framework.Views.AboutProgram;
 
+/// <summary>
+///     Represents a dialog that lists the third-party software used by the application and its licenses.
+/// </summary>
 public sealed partial class OpenSourceDialog
 {
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="OpenSourceDialog"/> class.
+    /// </summary>
+    /// <param name="dialogService">The service that supplies the dialog host this dialog is shown on.</param>
+    /// <param name="viewModel">The view model that provides the data for the OpenSource view.</param>
+    /// <param name="themeWatcherService">The service that applies and tracks the current theme for this dialog.</param>
     public OpenSourceDialog(
         IContentDialogService dialogService,
         IOpenSourceViewModel viewModel,

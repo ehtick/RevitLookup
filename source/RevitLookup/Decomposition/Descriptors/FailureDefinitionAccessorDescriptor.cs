@@ -16,10 +16,17 @@ using LookupEngine.Abstractions.Configuration;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="FailureDefinitionAccessor"/> exposed to LookupEngine.
+/// </summary>
 public sealed class FailureDefinitionAccessorDescriptor : ResolvingDescriptor, IDescriptorConfigurator
 {
     private readonly FailureDefinitionAccessor _definitionAccessor;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="FailureDefinitionAccessorDescriptor"/> class.
+    /// </summary>
+    /// <param name="definitionAccessor">The failure definition accessor to expose.</param>
     public FailureDefinitionAccessorDescriptor(FailureDefinitionAccessor definitionAccessor)
     {
         _definitionAccessor = definitionAccessor;
@@ -35,6 +42,7 @@ public sealed class FailureDefinitionAccessorDescriptor : ResolvingDescriptor, I
         }
     }
 
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(FailureDefinitionAccessor.Dispose)).Disable();

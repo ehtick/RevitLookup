@@ -21,12 +21,22 @@ using Binding = System.Windows.Data.Binding;
 
 namespace RevitLookup.UI.Framework.Converters;
 
+/// <summary>
+///     Provides <see cref="IValueConverter"/> instances that display a member icon for a given <see cref="MemberAttributes"/> combination.
+/// </summary>
 public static class IconConverters
 {
+    /// <summary>
+    ///     Gets a converter that maps a <see cref="MemberAttributes"/> combination to the <see cref="SymbolRegular"/> icon representing it.
+    /// </summary>
     public static IValueConverter MemberAttribute { get; } = new MemberAttributeConverter();
 
     private sealed class MemberAttributeConverter : IValueConverter
     {
+        /// <inheritdoc/>
+        /// <remarks>
+        ///     Returns <see cref="Binding.DoNothing"/> for a <see cref="MemberAttributes"/> combination this converter does not recognize.
+        /// </remarks>
         public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             var attributes = (MemberAttributes)value!;
@@ -55,6 +65,7 @@ public static class IconConverters
             return Binding.DoNothing;
         }
 
+        /// <inheritdoc/>
         public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotSupportedException();

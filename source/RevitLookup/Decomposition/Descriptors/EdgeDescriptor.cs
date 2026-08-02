@@ -30,21 +30,30 @@ using Nice3point.Revit.Toolkit.External;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Edge"/> exposed to LookupEngine.
+/// </summary>
 public sealed partial class EdgeDescriptor : Descriptor, IContextMenuConnector, IDescriptorConfigurator
 {
     private readonly Edge _edge;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="EdgeDescriptor"/> class.
+    /// </summary>
+    /// <param name="edge">The edge to expose.</param>
     public EdgeDescriptor(Edge edge)
     {
         _edge = edge;
         Name = $"{edge.ApproximateLength.ToString(CultureInfo.InvariantCulture)} ft";
     }
 
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Edge.Dispose)).Disable();
     }
 
+    /// <inheritdoc/>
     public void RegisterMenu(ContextMenu contextMenu, IServiceProvider serviceProvider)
     {
 #if REVIT2023_OR_GREATER

@@ -3,12 +3,16 @@ using RevitLookup.Abstractions.Decomposition;
 
 namespace RevitLookup.UI.Playground.Mocks.Decomposition;
 
+/// <summary>
+///     Represents a Playground mock of <see cref="IDecompositionSearchService"/> that filters an in-memory sample set instead of a decomposed Revit document.
+/// </summary>
 [SuppressMessage("ReSharper", "LoopCanBeConvertedToQuery")]
 [SuppressMessage("ReSharper", "ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator")]
 public sealed class MockDecompositionSearchService : IDecompositionSearchService
 {
     private ObservableDecomposedObject? _previousSelection;
 
+    /// <inheritdoc/>
     public (List<ObservableDecomposedObject>, List<ObservableDecomposedMember>) Search(string query, ObservableDecomposedObject? selectedObject, List<ObservableDecomposedObject> objects)
     {
         try
@@ -43,6 +47,7 @@ public sealed class MockDecompositionSearchService : IDecompositionSearchService
         }
     }
 
+    /// <inheritdoc/>
     public List<ObservableDecomposedMember> SearchMembers(string query, ObservableDecomposedObject value)
     {
         var filteredMembers = FilterMembers(query, value.Members);

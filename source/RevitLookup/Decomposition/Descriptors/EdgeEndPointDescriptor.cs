@@ -17,8 +17,13 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="EdgeEndPoint"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="edgeEndPoint">The edge end point to expose.</param>
 public sealed class EdgeEndPointDescriptor(EdgeEndPoint edgeEndPoint) : Descriptor, IDescriptorConfigurator
 {
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(EdgeEndPoint.Dispose)).Disable();

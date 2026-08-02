@@ -17,8 +17,13 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.IndependentTag"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="tag">The independent tag to expose.</param>
 public sealed class IndependentTagDescriptor(IndependentTag tag) : ElementDescriptor(tag)
 {
+    /// <inheritdoc/>
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(IndependentTag.Dispose)).Disable();

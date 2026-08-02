@@ -17,13 +17,21 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="FamilyParameter"/> exposed to LookupEngine.
+/// </summary>
 public sealed class FamilyParameterDescriptor : Descriptor, IDescriptorConfigurator
 {
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="FamilyParameterDescriptor"/> class.
+    /// </summary>
+    /// <param name="familyParameter">The family parameter to expose.</param>
     public FamilyParameterDescriptor(FamilyParameter familyParameter)
     {
         Name = familyParameter.Definition.Name;
     }
 
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(FamilyParameter.Dispose)).Disable();

@@ -15,7 +15,7 @@
 namespace RevitLookup.Abstractions.Updater;
 
 /// <summary>
-///     The state of the application update.
+///     Determines the state of the application update process.
 /// </summary>
 public enum SoftwareUpdateState
 {

@@ -67,6 +67,7 @@ internal static class ApiEnumerableScanner
     /// </summary>
     /// <param name="assembly">The assembly to scan.</param>
     /// <param name="sourceFileIndex">The index reading the switch arms of the descriptor sources.</param>
+    /// <returns>One <see cref="ApiEnumerableRow"/> per enumerable <paramref name="assembly"/> exposes.</returns>
     [Pure]
     public static IReadOnlyList<ApiEnumerableRow> ScanEnumerables(Assembly assembly, SourceFileIndex sourceFileIndex)
     {
@@ -96,7 +97,7 @@ internal static class ApiEnumerableScanner
     }
 
     /// <summary>
-    ///     Reflects the shape of the type, or returns <c>null</c> for a type that enumerates nothing.
+    ///     Reflects the shape of the type, or returns <see langword="null"/> for a type that enumerates nothing.
     /// </summary>
     private static ApiEnumerableShape? DescribeEnumerable(Type type)
     {
@@ -272,7 +273,7 @@ internal static class ApiEnumerableScanner
     }
 
     /// <summary>
-    ///     Finds the type named by the descriptor switch arm matching the type, or <c>null</c> when no arm matches it.
+    ///     Finds the type named by the descriptor switch arm matching the type, or <see langword="null"/> when no arm matches it.
     /// </summary>
     /// <remarks>
     ///     A switch arm holds a declaration pattern, which matches every type deriving from the type it names.

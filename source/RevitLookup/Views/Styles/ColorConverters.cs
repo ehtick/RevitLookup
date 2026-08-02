@@ -5,8 +5,14 @@ using Color = Autodesk.Revit.DB.Color;
 
 namespace RevitLookup.Views.Styles;
 
+/// <summary>
+///     Provides value converters for Revit and WPF color representations.
+/// </summary>
 public static class ColorConverters
 {
+    /// <summary>
+    ///     Gets the converter that converts a Revit or WPF color to a <see cref="System.Windows.Media.Color"/>.
+    /// </summary>
     public static IValueConverter MediaColor { get; } = new ObjectColorConverter();
     
     private sealed class ObjectColorConverter : IValueConverter

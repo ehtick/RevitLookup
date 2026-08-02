@@ -27,8 +27,11 @@ public static class Host
     private static IHost? _host;
 
     /// <summary>
-    ///     Starts the host and configures the application's services
+    ///     Starts the host and configures the application's services.
     /// </summary>
+    /// <remarks>
+    ///     Blocks the calling thread by pumping the dispatcher until host startup completes.
+    /// </remarks>
     public static void Start()
     {
         var builder = new HostApplicationBuilder(new HostApplicationBuilderSettings
@@ -73,8 +76,12 @@ public static class Host
     }
 
     /// <summary>
-    ///     Stops the host and handle <see cref="IHostedService"/> services
+    ///     Stops the host and shuts down its <see cref="IHostedService"/> services.
     /// </summary>
+    /// <remarks>
+    ///     Blocks the calling thread by pumping the dispatcher until host shutdown completes.
+    /// </remarks>
+    /// <exception cref="InvalidOperationException">The host is not running.</exception>
     public static void Stop()
     {
         if (_host is null) throw new InvalidOperationException("Host is not running");
@@ -86,10 +93,11 @@ public static class Host
     }
 
     /// <summary>
-    ///     Get service of type <typeparamref name="T"/>
+    ///     Gets the registered service of type <typeparamref name="T"/>.
     /// </summary>
-    /// <typeparam name="T">The type of service object to get</typeparam>
-    /// <exception cref="System.InvalidOperationException">There is no service of type <typeparamref name="T"/></exception>
+    /// <typeparam name="T">The type of service object to get.</typeparam>
+    /// <returns>The resolved <typeparamref name="T"/> instance.</returns>
+    /// <exception cref="InvalidOperationException">There is no service of type <typeparamref name="T"/>.</exception>
     public static T GetService<T>() where T : class
     {
         return _host!.Services.GetRequiredService<T>();

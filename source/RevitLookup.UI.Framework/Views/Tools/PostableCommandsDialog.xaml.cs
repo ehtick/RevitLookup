@@ -23,10 +23,19 @@ using Wpf.Ui;
 
 namespace RevitLookup.UI.Framework.Views.Tools;
 
+/// <summary>
+///     Represents a dialog that lists the Revit postable commands available for execution.
+/// </summary>
 public sealed partial class PostableCommandsDialog
 {
     private readonly IPostableCommandsViewModel _viewModel;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="PostableCommandsDialog"/> class.
+    /// </summary>
+    /// <param name="dialogService">The service that supplies the dialog host this dialog is shown on.</param>
+    /// <param name="viewModel">The view model that provides the data for the Postable Commands view.</param>
+    /// <param name="themeWatcherService">The service that applies and tracks the current theme for this dialog.</param>
     public PostableCommandsDialog(
         IContentDialogService dialogService,
         IPostableCommandsViewModel viewModel,
@@ -41,6 +50,10 @@ public sealed partial class PostableCommandsDialog
         themeWatcherService.Watch(this);
     }
 
+    /// <summary>
+    ///     Initializes the postable commands and shows the dialog.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous show operation.</returns>
     public async Task ShowAsync()
     {
         _viewModel.Initialize();

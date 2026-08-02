@@ -2,6 +2,9 @@
 
 namespace RevitLookup.UI.Playground.Controls;
 
+/// <summary>
+///     Represents a horizontally scrollable gallery of tiles with scroll buttons.
+/// </summary>
 public sealed partial class TileGallery
 {
     public TileGallery()

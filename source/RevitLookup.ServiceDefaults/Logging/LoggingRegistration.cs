@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging.EventLog;
 namespace RevitLookup.ServiceDefaults.Logging;
 
 /// <summary>
-///     Application logging configuration shared by both hosts.
+///     Provides extension methods for <see cref="IHostApplicationBuilder"/> to add the logging configuration shared by both hosts.
 /// </summary>
 /// <example>
 /// <code lang="csharp">
@@ -29,8 +29,9 @@ public static class LoggingRegistration
     extension<TBuilder>(TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
         /// <summary>
-        ///     Configures the default logging builders.
+        ///     Adds the default logging providers to the specified <see cref="IHostApplicationBuilder"/>.
         /// </summary>
+        /// <returns>The <see cref="TBuilder"/> for chaining.</returns>
         public TBuilder AddLoggingDefaults()
         {
             builder.Logging.AddConfiguration(builder.Configuration.GetSection("Logging"));

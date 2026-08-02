@@ -33,6 +33,13 @@ using TreeView = Wpf.Ui.Controls.TreeView;
 
 namespace RevitLookup.UI.Framework.Views.Decomposition;
 
+/// <summary>
+///     Represents a page that shows decomposed members in a searchable tree and grid.
+/// </summary>
+/// <remarks>
+///     A derived class supplies its own <see cref="ISummaryViewModel"/>.
+///     It wires <see cref="SearchBoxControl"/>, <see cref="TreeViewControl"/>, and <see cref="DataGridControl"/> before calling <see cref="InitializeControls"/>.
+/// </remarks>
 public partial class SummaryViewBase : Page, INavigableView<ISummaryViewModel>
 {
     private readonly IServiceProvider _serviceProvider;
@@ -44,6 +51,14 @@ public partial class SummaryViewBase : Page, INavigableView<ISummaryViewModel>
     private TreeViewItem? _capturedTreeItem;
     private object? _capturedTreeItemContext;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="SummaryViewBase"/> class.
+    /// </summary>
+    /// <param name="serviceProvider">The container used to resolve dependencies for descriptor context-menu commands.</param>
+    /// <param name="settingsService">The service that provides the decomposition display settings.</param>
+    /// <param name="intercomService">The service that gives access to the hosting window.</param>
+    /// <param name="notificationService">The service used to notify the user of errors encountered while refreshing members.</param>
+    /// <param name="loggerFactory">The factory used to create the logger for this page.</param>
     protected SummaryViewBase(
         IServiceProvider serviceProvider,
         ISettingsService settingsService,
@@ -58,11 +73,27 @@ public partial class SummaryViewBase : Page, INavigableView<ISummaryViewModel>
         _logger = loggerFactory.CreateLogger<SummaryViewBase>();
     }
 
+    /// <summary>
+    ///     Gets or sets the control that hosts the search box for this page.
+    /// </summary>
     public required UIElement SearchBoxControl { get; init; }
+
+    /// <summary>
+    ///     Gets or sets the tree view that presents the decomposed objects for this page.
+    /// </summary>
     public required TreeView TreeViewControl { get; init; }
+
+    /// <summary>
+    ///     Gets or sets the data grid that presents the members of the selected object for this page.
+    /// </summary>
     public required DataGrid DataGridControl { get; init; }
+
+    /// <inheritdoc/>
     public required ISummaryViewModel ViewModel { get; init; }
 
+    /// <summary>
+    ///     Wires the tree view and data grid interactions for <see cref="TreeViewControl"/> and <see cref="DataGridControl"/>.
+    /// </summary>
     protected void InitializeControls()
     {
         InitializeTreeView(TreeViewControl);

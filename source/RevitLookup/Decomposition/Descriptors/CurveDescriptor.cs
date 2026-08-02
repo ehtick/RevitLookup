@@ -31,16 +31,24 @@ using Nice3point.Revit.Toolkit.External;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Curve"/> exposed to LookupEngine.
+/// </summary>
 public sealed partial class CurveDescriptor : Descriptor, IDescriptorConfigurator, IContextMenuConnector
 {
     private readonly Curve _curve;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="CurveDescriptor"/> class.
+    /// </summary>
+    /// <param name="curve">The curve to expose.</param>
     public CurveDescriptor(Curve curve)
     {
         _curve = curve;
         if (curve.IsBound || curve.IsCyclic) Name = $"{curve.Length.ToString(CultureInfo.InvariantCulture)} ft";
     }
 
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Curve.Dispose)).Disable();
@@ -89,6 +97,7 @@ public sealed partial class CurveDescriptor : Descriptor, IDescriptorConfigurato
         }
     }
 
+    /// <inheritdoc/>
     public void RegisterMenu(ContextMenu contextMenu, IServiceProvider serviceProvider)
     {
 #if REVIT2023_OR_GREATER

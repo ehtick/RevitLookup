@@ -25,13 +25,19 @@ using RevitLookup.UI.Framework.Views.Visualization;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.Mesh"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="mesh">The mesh to expose.</param>
 public sealed partial class MeshDescriptor(Mesh mesh) : Descriptor, IContextMenuConnector, IDescriptorConfigurator
 {
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Mesh.Dispose)).Disable();
     }
 
+    /// <inheritdoc/>
     public void RegisterMenu(ContextMenu contextMenu, IServiceProvider serviceProvider)
     {
         contextMenu.AddMenuItem("VisualizeMenuItem")

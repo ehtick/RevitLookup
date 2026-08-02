@@ -21,6 +21,12 @@ using RevitLookup.Visualization;
 
 namespace RevitLookup.ViewModels.Visualization;
 
+/// <summary>
+///     Represents the view model for curve loop visualization, rendering a <see cref="CurveLoop"/> through a dedicated Revit visualization server.
+/// </summary>
+/// <param name="settingsService">The service that persists and supplies the curve loop visualization settings.</param>
+/// <param name="notificationService">The service used to report rendering failures.</param>
+/// <param name="logger">The logger used to record rendering failures.</param>
 [UsedImplicitly]
 public sealed partial class CurveLoopVisualizationViewModel(
     ISettingsService settingsService,
@@ -30,36 +36,47 @@ public sealed partial class CurveLoopVisualizationViewModel(
 {
     private readonly CurveLoopVisualizationServer _server = new();
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial double Diameter { get; set; } = settingsService.VisualizationSettings.CurveLoopSettings.Diameter;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial double Transparency { get; set; } = settingsService.VisualizationSettings.CurveLoopSettings.Transparency;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial Color SurfaceColor { get; set; } = settingsService.VisualizationSettings.CurveLoopSettings.SurfaceColor;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial Color CurveColor { get; set; } = settingsService.VisualizationSettings.CurveLoopSettings.CurveColor;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial Color DirectionColor { get; set; } = settingsService.VisualizationSettings.CurveLoopSettings.DirectionColor;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial bool ShowSurface { get; set; } = settingsService.VisualizationSettings.CurveLoopSettings.ShowSurface;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial bool ShowCurve { get; set; } = settingsService.VisualizationSettings.CurveLoopSettings.ShowCurve;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial bool ShowDirection { get; set; } = settingsService.VisualizationSettings.CurveLoopSettings.ShowDirection;
 
+    /// <inheritdoc/>
     public double MinThickness => settingsService.VisualizationSettings.CurveLoopSettings.MinThickness;
 
+    /// <inheritdoc/>
+    /// <exception cref="ArgumentException"><paramref name="curveLoop"/> is not a <see cref="CurveLoop"/>.</exception>
     public void RegisterServer(object curveLoop)
     {
         if (curveLoop is not CurveLoop loop) throw new ArgumentException("Unexpected CurveLoop type", nameof(curveLoop));
-        
+
         Initialize();
         _server.RenderFailed += HandleRenderFailure;
         
@@ -109,6 +126,7 @@ public sealed partial class CurveLoopVisualizationViewModel(
         UpdateDiameter(Diameter);
     }
 
+    /// <inheritdoc/>
     public void UnregisterServer()
     {
         _server.RenderFailed -= HandleRenderFailure;

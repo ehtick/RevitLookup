@@ -21,8 +21,13 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="FamilyInstance"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="familyInstance">The family instance to expose.</param>
 public sealed class FamilyInstanceDescriptor(FamilyInstance familyInstance) : ElementDescriptor(familyInstance)
 {
+    /// <inheritdoc/>
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(FamilyInstance.Dispose)).Disable();

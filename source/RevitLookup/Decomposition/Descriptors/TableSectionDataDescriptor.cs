@@ -19,8 +19,13 @@ using RevitLookup.UI.Framework.Extensions;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.TableSectionData"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="tableSectionData">The table section data to expose.</param>
 public sealed class TableSectionDataDescriptor(TableSectionData tableSectionData) : ResolvingDescriptor, IDescriptorConfigurator, IDescriptorConfigurator<Document>
 {
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(TableSectionData.Dispose)).Disable();

@@ -10,8 +10,9 @@ using ModularPipelines.Options;
 namespace Build.Modules;
 
 /// <summary>
-///     Resolve semantic versions for compiling and publishing the add-in.
+///     Represents the pipeline module that resolves the semantic version used to compile and publish the add-in.
 /// </summary>
+/// <param name="publishOptions">The publish settings that supply an explicit version override.</param>
 public sealed class ResolveVersioningModule(IOptions<PublishOptions> publishOptions) : Module<ResolveVersioningResult>
 {
     protected override async Task<ResolveVersioningResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -28,7 +29,7 @@ public sealed class ResolveVersioningModule(IOptions<PublishOptions> publishOpti
     }
 
     /// <summary>
-    ///     Resolve versions using the specified version string.
+    ///     Resolves versions using the specified version string.
     /// </summary>
     private static async Task<ResolveVersioningResult> CreateFromVersionStringAsync(IModuleContext context, string version)
     {
@@ -45,7 +46,7 @@ public sealed class ResolveVersioningModule(IOptions<PublishOptions> publishOpti
     }
 
     /// <summary>
-    ///     Resolve versions using the GitVersion Tool.
+    ///     Resolves versions using the GitVersion tool.
     /// </summary>
     private static async Task<ResolveVersioningResult> CreateFromGitVersioningAsync(IModuleContext context)
     {
@@ -104,7 +105,7 @@ public sealed class ResolveVersioningModule(IOptions<PublishOptions> publishOpti
 public sealed record ResolveVersioningResult
 {
     /// <summary>
-    ///     Release version, includes version number and release stage.
+    ///     Gets the release version, including the version number and release stage.
     /// </summary>
     /// <remarks>Version format: <c>version-environment.n.date</c>.</remarks>
     /// <example>
@@ -115,7 +116,7 @@ public sealed record ResolveVersioningResult
     public required string Version { get; init; }
 
     /// <summary>
-    ///     The normal part of the release version number.
+    ///     Gets the normal part of the release version number.
     /// </summary>
     /// <example>
     ///     1.0.0 <br/>
@@ -125,7 +126,7 @@ public sealed record ResolveVersioningResult
     public required string VersionPrefix { get; init; }
 
     /// <summary>
-    ///     The pre-release label of the release version number.
+    ///     Gets the pre-release label of the release version number.
     /// </summary>
     /// <example>
     ///     alpha <br/>
@@ -135,16 +136,16 @@ public sealed record ResolveVersioningResult
     public required string? VersionSuffix { get; init; }
 
     /// <summary>
-    ///     Indicates whether the current version represents a prerelease.
+    ///     Gets a value indicating whether the current version is a prerelease.
     /// </summary>
     /// <remarks>
-    /// A version is considered a prerelease if it includes a version suffix,
-    /// such as "alpha", "beta", or similar identifiers.
+    ///     A version is a prerelease when it includes a version suffix,
+    ///     such as <c>alpha</c>, <c>beta</c>, or a similar identifier.
     /// </remarks>
     public required bool IsPrerelease { get; init; }
 
     /// <summary>
-    ///     The previous release version.
+    ///     Gets the previous release version.
     /// </summary>
     public required string PreviousVersion { get; init; }
 }

@@ -19,20 +19,38 @@ using RevitLookup.Abstractions.Decomposition;
 
 namespace RevitLookup.UI.Framework.Converters;
 
+/// <summary>
+///     Provides <see cref="IValueConverter"/> instances that format a decomposed object or member into its display text.
+/// </summary>
 public static class DescriptorFormattingConverters
 {
+    /// <summary>
+    ///     Gets a converter that formats an <see cref="ObservableDecomposedObject"/> into its display text.
+    /// </summary>
     public static IValueConverter ObjectDisplayText { get; } = new ObjectConverter();
+
+    /// <summary>
+    ///     Gets a converter that formats an <see cref="ObservableDecomposedMember"/> into its display text.
+    /// </summary>
     public static IValueConverter MemberDisplayText { get; } = new MemberConverter();
 
     private abstract class DescriptorLabelConverterBase : IValueConverter
     {
+        /// <inheritdoc/>
         public abstract object Convert(object? value, Type targetType, object? parameter, CultureInfo culture);
 
+        /// <inheritdoc/>
         public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotSupportedException();
         }
 
+        /// <summary>
+        ///     Determines whether the raw value stands for a <see langword="null"/> or empty name and, if so, produces its placeholder display text.
+        /// </summary>
+        /// <param name="value">The raw value to inspect.</param>
+        /// <param name="result">When this method returns, contains the placeholder display text, or <see langword="null"/> if the value is neither <see langword="null"/> nor empty.</param>
+        /// <returns><see langword="true"/> if a placeholder was produced; otherwise, <see langword="false"/>.</returns>
         protected static bool TryConvertInvalidNames(object? value, [MaybeNullWhen(false)] out string result)
         {
             result = value switch
@@ -48,6 +66,7 @@ public static class DescriptorFormattingConverters
 
     private sealed class ObjectConverter : DescriptorLabelConverterBase
     {
+        /// <inheritdoc/>
         public override object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             var member = (ObservableDecomposedObject) value!;
@@ -68,6 +87,7 @@ public static class DescriptorFormattingConverters
 
     private sealed class MemberConverter : DescriptorLabelConverterBase
     {
+        /// <inheritdoc/>
         public override object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             var member = (ObservableDecomposedMember) value!;

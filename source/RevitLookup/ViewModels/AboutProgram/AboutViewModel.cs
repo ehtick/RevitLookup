@@ -25,6 +25,9 @@ using RevitLookup.UI.Framework.Views.AboutProgram;
 
 namespace RevitLookup.ViewModels.AboutProgram;
 
+/// <summary>
+///     Represents the view model for the About view, checking for and applying application updates through <see cref="ISoftwareUpdateService"/>.
+/// </summary>
 [UsedImplicitly]
 public sealed partial class AboutViewModel : ObservableObject, IAboutViewModel
 {
@@ -32,6 +35,13 @@ public sealed partial class AboutViewModel : ObservableObject, IAboutViewModel
     private readonly ISoftwareUpdateService _updateService;
     private readonly ILogger<AboutViewModel> _logger;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="AboutViewModel"/> class.
+    /// </summary>
+    /// <param name="serviceProvider">The service provider used to resolve the open-source software dialog.</param>
+    /// <param name="updateService">The service that checks for, downloads, and reports application updates.</param>
+    /// <param name="assemblyOptions">The assembly metadata used to populate the current version and runtime information.</param>
+    /// <param name="logger">The logger used to record update check and download failures.</param>
     public AboutViewModel(
         IServiceProvider serviceProvider,
         ISoftwareUpdateService updateService,
@@ -56,27 +66,35 @@ public sealed partial class AboutViewModel : ObservableObject, IAboutViewModel
         UpdateSoftwareState();
     }
     
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial SoftwareUpdateState State { get; set; } = (SoftwareUpdateState) (-1);
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial Version CurrentVersion { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial string? NewVersion { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial string? ReleaseNotesUrl { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial string? LatestCheckDate { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial string? ErrorMessage { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial string Runtime { get; set; }
 
+    /// <inheritdoc/>
     [RelayCommand]
     private async Task CheckUpdatesAsync()
     {
@@ -109,6 +127,7 @@ public sealed partial class AboutViewModel : ObservableObject, IAboutViewModel
         }
     }
 
+    /// <inheritdoc/>
     [RelayCommand]
     private async Task DownloadUpdateAsync()
     {
@@ -125,6 +144,7 @@ public sealed partial class AboutViewModel : ObservableObject, IAboutViewModel
         }
     }
 
+    /// <inheritdoc/>
     [RelayCommand]
     private async Task ShowSoftwareDialogAsync()
     {

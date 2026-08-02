@@ -7,6 +7,12 @@ using RevitLookup.Visualization;
 
 namespace RevitLookup.ViewModels.Visualization;
 
+/// <summary>
+///     Represents the view model for solid geometry visualization, rendering a <see cref="Solid"/> through a dedicated Revit visualization server.
+/// </summary>
+/// <param name="settingsService">The service that persists and supplies the solid visualization settings.</param>
+/// <param name="notificationService">The service used to report rendering failures.</param>
+/// <param name="logger">The logger used to record rendering failures.</param>
 [UsedImplicitly]
 public sealed partial class SolidVisualizationViewModel(
     ISettingsService settingsService,
@@ -16,24 +22,32 @@ public sealed partial class SolidVisualizationViewModel(
 {
     private readonly SolidVisualizationServer _server = new();
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial double Scale { get; set; } = settingsService.VisualizationSettings.SolidSettings.Scale;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial double Transparency { get; set; } = settingsService.VisualizationSettings.SolidSettings.Transparency;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial Color FaceColor { get; set; } = settingsService.VisualizationSettings.SolidSettings.FaceColor;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial Color EdgeColor { get; set; } = settingsService.VisualizationSettings.SolidSettings.EdgeColor;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial bool ShowFace { get; set; } = settingsService.VisualizationSettings.SolidSettings.ShowFace;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial bool ShowEdge { get; set; } = settingsService.VisualizationSettings.SolidSettings.ShowEdge;
 
+    /// <inheritdoc/>
+    /// <exception cref="ArgumentException"><paramref name="solidObject"/> is not a <see cref="Solid"/>.</exception>
     public void RegisterServer(object solidObject)
     {
         if (solidObject is not Solid solid)
@@ -54,6 +68,7 @@ public sealed partial class SolidVisualizationViewModel(
         _server.Register(solid);
     }
 
+    /// <inheritdoc/>
     public void UnregisterServer()
     {
         _server.RenderFailed -= HandleRenderFailure;

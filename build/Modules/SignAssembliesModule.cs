@@ -15,8 +15,9 @@ using File = ModularPipelines.FileSystem.File;
 namespace Build.Modules;
 
 /// <summary>
-///     Sing compiled assemblies.
+///     Represents the pipeline module that signs the compiled assemblies.
 /// </summary>
+/// <param name="signingOptions">The Azure Key Vault credentials used to sign the compiled assemblies.</param>
 [DependsOn<CompileProjectModule>]
 public sealed partial class SignAssembliesModule(IOptions<SigningOptions> signingOptions) : Module<CommandResult>
 {

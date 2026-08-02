@@ -3,37 +3,47 @@
 namespace RevitLookup.Abstractions.Decomposition;
 
 /// <summary>
-///     Service for proving observable models of the LookupEngine results.
+///     Defines a contract that provides observable models for LookupEngine decomposition results.
 /// </summary>
 public interface IDecompositionService
 {
     /// <summary>
-    ///     Get the navigation history of the decomposition stack.
+    ///     Gets the navigation history of the decomposition stack.
     /// </summary>
     List<ObservableDecomposedObject> DecompositionStackHistory { get; }
 
     /// <summary>
-    ///     Decompose the object into an observable model.
+    ///     Decomposes <paramref name="obj"/> into an observable model.
     /// </summary>
+    /// <param name="obj">The object to decompose.</param>
+    /// <returns>A task that represents the asynchronous decompose operation. The task result contains the observable model of <paramref name="obj"/>.</returns>
     Task<ObservableDecomposedObject> DecomposeAsync(object? obj);
 
     /// <summary>
-    ///     Decompose the objects into observable models.
+    ///     Decomposes <paramref name="objects"/> into observable models.
     /// </summary>
+    /// <param name="objects">The objects to decompose.</param>
+    /// <returns>A task that represents the asynchronous decompose operation. The task result contains the observable models of <paramref name="objects"/>.</returns>
     Task<List<ObservableDecomposedObject>> DecomposeAsync(IEnumerable objects);
 
     /// <summary>
-    ///     Decompose the object members into observable models.
+    ///     Decomposes the members of <paramref name="decomposedObject"/> into observable models.
     /// </summary>
+    /// <param name="decomposedObject">The object whose members are decomposed.</param>
+    /// <returns>A task that represents the asynchronous decompose operation. The task result contains the observable models of the members.</returns>
     Task<List<ObservableDecomposedMember>> DecomposeMembersAsync(ObservableDecomposedObject decomposedObject);
 
     /// <summary>
-    ///     Force the evaluation of a deferred member, updating its observable model in place.
+    ///     Evaluates a deferred member and updates <paramref name="decomposedMember"/> in place with the result.
     /// </summary>
+    /// <param name="decomposedMember">The member to evaluate.</param>
+    /// <returns>A task that represents the asynchronous evaluate operation.</returns>
     Task EvaluateMemberAsync(ObservableDecomposedMember decomposedMember);
 
     /// <summary>
-    ///     Force the evaluation of a deferred member inside a Revit transaction, updating its observable model in place.
+    ///     Evaluates a deferred member inside a Revit transaction and updates <paramref name="decomposedMember"/> in place with the result.
     /// </summary>
+    /// <param name="decomposedMember">The member to evaluate.</param>
+    /// <returns>A task that represents the asynchronous evaluate operation.</returns>
     Task EvaluateMemberWithTransactionAsync(ObservableDecomposedMember decomposedMember);
 }

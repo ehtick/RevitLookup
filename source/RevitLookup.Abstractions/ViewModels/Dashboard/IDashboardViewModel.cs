@@ -18,22 +18,22 @@ using RevitLookup.Abstractions.Dashboard;
 namespace RevitLookup.Abstractions.ViewModels.Dashboard;
 
 /// <summary>
-///     Represents the data for the Dashboard view.
+///     Defines a contract that represents the data for the Dashboard view.
 /// </summary>
 public interface IDashboardViewModel
 {
     /// <summary>
-    ///     The list of navigation actions.
+    ///     Gets the list of navigation actions.
     /// </summary>
     List<NavigationCardGroup> NavigationGroups { get; }
     
     /// <summary>
-    ///     Navigate to a specific page.
+    ///     Gets the command that navigates to a specific page.
     /// </summary>
     IAsyncRelayCommand<string?> NavigatePageCommand { get; }
     
     /// <summary>
-    ///     Open a dialog for an action.
+    ///     Gets the command that opens a dialog for an action.
     /// </summary>
     IAsyncRelayCommand<string?> OpenDialogCommand { get; }
 }

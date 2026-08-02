@@ -17,13 +17,21 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="FamilySizeTableColumn"/> exposed to LookupEngine.
+/// </summary>
 public sealed class FamilySizeTableColumnDescriptor : Descriptor, IDescriptorConfigurator
 {
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="FamilySizeTableColumnDescriptor"/> class.
+    /// </summary>
+    /// <param name="column">The family size table column to expose.</param>
     public FamilySizeTableColumnDescriptor(FamilySizeTableColumn column)
     {
         Name = column.Name;
     }
 
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(FamilySizeTableColumn.Dispose)).Disable();

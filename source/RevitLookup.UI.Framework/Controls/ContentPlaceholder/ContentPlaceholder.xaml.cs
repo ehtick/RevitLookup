@@ -19,4 +19,7 @@ using System.Windows.Controls;
 
 namespace RevitLookup.UI.Framework.Controls;
 
+/// <summary>
+///     Represents a placeholder control that shows a decorative icon above its centered content, styled for an empty or unavailable state.
+/// </summary>
 public sealed class ContentPlaceholder : ContentControl;

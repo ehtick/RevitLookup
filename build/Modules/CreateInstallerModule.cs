@@ -17,8 +17,9 @@ using File = ModularPipelines.FileSystem.File;
 namespace Build.Modules;
 
 /// <summary>
-///     Create the .msi installer.
+///     Represents the pipeline module that creates the MSI installer.
 /// </summary>
+/// <param name="buildOptions">The build settings that supply the version mapped to each Revit configuration and the installer output directory.</param>
 [DependsOn<ResolveVersioningModule>]
 [DependsOn<CompileProjectModule>]
 [DependsOn<SignAssembliesModule>(Optional = true)]

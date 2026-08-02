@@ -17,8 +17,13 @@ using LookupEngine.Abstractions.Configuration;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="FamilySymbol"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="familySymbol">The family symbol to expose.</param>
 public sealed class FamilySymbolDescriptor(FamilySymbol familySymbol) : ElementDescriptor(familySymbol)
 {
+    /// <inheritdoc/>
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(FamilySymbol.Dispose)).Disable();

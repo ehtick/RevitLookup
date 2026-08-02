@@ -27,6 +27,9 @@ using Wpf.Ui.Controls;
 
 namespace RevitLookup.ViewModels.Settings;
 
+/// <summary>
+///     Represents the view model for the Settings view, applying appearance and behavior changes to the running application.
+/// </summary>
 [UsedImplicitly]
 public sealed partial class SettingsViewModel : ObservableObject, ISettingsViewModel
 {
@@ -39,24 +42,40 @@ public sealed partial class SettingsViewModel : ObservableObject, ISettingsViewM
     private readonly RevitRibbonService _ribbonService;
     private readonly bool _initialized;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial ApplicationTheme Theme { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial WindowBackdropType Background { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial bool UseTransition { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial bool UseHardwareRendering { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial bool UseSizeRestoring { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial bool UseModifyTab { get; set; }
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="SettingsViewModel"/> class.
+    /// </summary>
+    /// <param name="serviceProvider">The service provider used to resolve the reset settings dialog.</param>
+    /// <param name="navigationService">The service used to access the navigation control's transition setting.</param>
+    /// <param name="notificationService">The service used to report settings reset failures.</param>
+    /// <param name="settingsService">The service that persists application settings.</param>
+    /// <param name="intercomService">The service used to reach the hosting window when size tracking changes.</param>
+    /// <param name="themeWatcherService">The service that applies and watches the current theme.</param>
+    /// <param name="ribbonService">The service that rebuilds the Revit ribbon when the Modify tab setting changes.</param>
     public SettingsViewModel(
         IServiceProvider serviceProvider,
         INavigationService navigationService,
@@ -78,6 +97,7 @@ public sealed partial class SettingsViewModel : ObservableObject, ISettingsViewM
         _initialized = true;
     }
 
+    /// <inheritdoc/>
     public List<ApplicationTheme> Themes { get; } =
     [
 #if REVIT2024_OR_GREATER
@@ -88,6 +108,7 @@ public sealed partial class SettingsViewModel : ObservableObject, ISettingsViewM
         ApplicationTheme.HighContrast
     ];
 
+    /// <inheritdoc/>
     public List<WindowBackdropType> BackgroundEffects { get; } =
     [
         WindowBackdropType.None,
@@ -96,6 +117,7 @@ public sealed partial class SettingsViewModel : ObservableObject, ISettingsViewM
         WindowBackdropType.Mica
     ];
 
+    /// <inheritdoc/>
     [RelayCommand]
     private async Task ResetSettingsAsync()
     {

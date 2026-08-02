@@ -14,11 +14,19 @@
 
 namespace RevitLookup.Decomposition.Extensions;
 
+/// <summary>
+///     Provides extension methods for <see cref="Parameter"/> to read and write its value as a string.
+/// </summary>
 [PublicAPI]
 public static class ParameterExtensions
 {
+    /// <param name="parameter">The parameter to read or write.</param>
     extension(Parameter parameter)
     {
+        /// <summary>
+        ///     Gets the value of the parameter formatted as a string according to its <see cref="StorageType"/>.
+        /// </summary>
+        /// <returns>The parameter value formatted as a string.</returns>
         public string GetStringValue()
         {
             return parameter.StorageType switch
@@ -31,6 +39,11 @@ public static class ParameterExtensions
             };
         }
 
+        /// <summary>
+        ///     Attempts to set the value of the parameter by parsing <paramref name="value"/> according to its <see cref="StorageType"/>.
+        /// </summary>
+        /// <param name="value">The string representation of the value to set.</param>
+        /// <returns><see langword="true"/> if the value was parsed and set successfully; otherwise, <see langword="false"/>.</returns>
         public bool TrySetStringValue(string value)
         {
             bool result;

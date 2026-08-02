@@ -21,36 +21,48 @@ using RevitLookup.Tools.Units;
 
 namespace RevitLookup.ViewModels.Tools;
 
+/// <summary>
+///     Represents the view model for the Units view, listing Revit unit, parameter, and category information for inspection.
+/// </summary>
+/// <param name="decompositionService">The service that visualizes the decomposition of the selected unit value.</param>
+/// <param name="notificationService">The service used to report context validation failures.</param>
 [UsedImplicitly]
 public sealed partial class UnitsViewModel(
     IVisualDecompositionService decompositionService,
     INotificationService notificationService)
     : ObservableObject, IUnitsViewModel
 {
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial List<UnitInfo> Units { get; set; } = [];
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial List<UnitInfo> FilteredUnits { get; set; } = [];
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
 
+    /// <inheritdoc/>
     public void InitializeParameters()
     {
         Units = UnitsCollector.GetBuiltinParametersInfo().OrderBy(static info => info.Unit).ToList();
     }
 
+    /// <inheritdoc/>
     public void InitializeCategories()
     {
         Units = UnitsCollector.GetBuiltinCategoriesInfo().OrderBy(static info => info.Unit).ToList();
     }
 
+    /// <inheritdoc/>
     public void InitializeForgeSchema()
     {
         Units = UnitsCollector.GetForgeInfo().OrderBy(static info => info.Unit).ToList();
     }
 
+    /// <inheritdoc/>
     public async Task DecomposeAsync(UnitInfo unitInfo)
     {
         object? obj;

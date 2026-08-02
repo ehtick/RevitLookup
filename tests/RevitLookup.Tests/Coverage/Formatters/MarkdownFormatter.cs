@@ -19,7 +19,7 @@ using RevitLookup.Tests.Unit.Coverage.Models;
 namespace RevitLookup.Tests.Unit.Coverage.Formatters;
 
 /// <summary>
-///     Renders report rows as Markdown.
+///     Provides extension methods for sequences of <see cref="ApiMethodRow"/> and <see cref="ApiEnumerableRow"/> to render them as Markdown.
 /// </summary>
 internal static class MarkdownFormatter
 {
@@ -49,6 +49,7 @@ internal static class MarkdownFormatter
         /// <summary>
         ///     Renders the rows as a Markdown table.
         /// </summary>
+        /// <returns>The rows rendered as a Markdown table.</returns>
         [Pure]
         public string ToMarkdownTable()
         {
@@ -76,6 +77,7 @@ internal static class MarkdownFormatter
         /// <summary>
         ///     Renders the rows as a Markdown table, led by a legend of the column marks.
         /// </summary>
+        /// <returns>The rows rendered as a Markdown table, preceded by a legend of the column marks.</returns>
         [Pure]
         public string ToMarkdownTable()
         {

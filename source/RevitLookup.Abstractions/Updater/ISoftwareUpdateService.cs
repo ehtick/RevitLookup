@@ -15,37 +15,39 @@
 namespace RevitLookup.Abstractions.Updater;
 
 /// <summary>
-///     Software update provider.
+///     Defines a contract that checks for and downloads software updates.
 /// </summary>
 public interface ISoftwareUpdateService
 {
     /// <summary>
-    ///     A new available version to download.
+    ///     Gets the newer version available to download, or <see langword="null"/> when none was found.
     /// </summary>
     string? NewVersion { get; }
-    
+
     /// <summary>
-    ///     The URL to the release notes of the new version.
+    ///     Gets the URL to the release notes of <see cref="NewVersion"/>, or <see langword="null"/> when none was found.
     /// </summary>
     string? ReleaseNotesUrl { get; }
-    
+
     /// <summary>
-    ///     The local file path to the downloaded update.
+    ///     Gets the local file path of the downloaded update, or <see langword="null"/> when it has not been downloaded.
     /// </summary>
     string? LocalFilePath { get; }
-    
+
     /// <summary>
-    ///     The date of the latest check for updates.
+    ///     Gets the date of the latest check for updates, or <see langword="null"/> when no check has run yet.
     /// </summary>
     DateTime? LatestCheckDate { get; }
 
     /// <summary>
-    ///     Check for updates on the server.
+    ///     Checks the server for a newer version.
     /// </summary>
+    /// <returns>A task that represents the asynchronous check operation. The task result is <see langword="true"/> when a newer version is available.</returns>
     Task<bool> CheckUpdatesAsync();
-    
+
     /// <summary>
-    ///     Download the update from the server.
+    ///     Downloads the update from the server.
     /// </summary>
+    /// <returns>A task that represents the asynchronous download operation.</returns>
     Task DownloadUpdateAsync();
 }

@@ -17,8 +17,13 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.Panel"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="panel">The panel to expose.</param>
 public sealed class PanelDescriptor(Panel panel) : ElementDescriptor(panel)
 {
+    /// <inheritdoc/>
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Panel.Dispose)).Disable();

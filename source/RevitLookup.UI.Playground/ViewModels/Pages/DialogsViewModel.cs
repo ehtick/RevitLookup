@@ -10,6 +10,10 @@ using RevitLookup.UI.Framework.Views.Visualization;
 
 namespace RevitLookup.UI.Playground.ViewModels.Pages;
 
+/// <summary>
+///     Represents the sample data for the dialogs gallery page.
+/// </summary>
+/// <param name="serviceProvider">The provider used to resolve the sample dialogs.</param>
 [UsedImplicitly]
 public sealed partial class DialogsViewModel(IServiceProvider serviceProvider) : ObservableObject
 {

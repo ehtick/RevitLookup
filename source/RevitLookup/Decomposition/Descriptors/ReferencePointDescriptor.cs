@@ -16,8 +16,13 @@ using LookupEngine.Abstractions.Configuration;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.ReferencePoint"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="referencePoint">The reference point to expose.</param>
 public sealed class ReferencePointDescriptor(ReferencePoint referencePoint) : ElementDescriptor(referencePoint)
 {
+    /// <inheritdoc/>
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(ReferencePoint.Dispose)).Disable();

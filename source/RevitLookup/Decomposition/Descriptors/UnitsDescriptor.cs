@@ -18,8 +18,13 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.Units"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="units">The units settings to expose.</param>
 public sealed class UnitsDescriptor(Autodesk.Revit.DB.Units units) : Descriptor, IDescriptorConfigurator
 {
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Autodesk.Revit.DB.Units.Dispose)).Disable();

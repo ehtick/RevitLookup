@@ -17,19 +17,21 @@ using Color = System.Drawing.Color;
 namespace RevitLookup.Decomposition.Extensions;
 
 /// <summary>
-///     Helper class to easier work with color formats
+///     Provides extension methods for <see cref="Autodesk.Revit.DB.Color"/> to convert to other color representations.
 /// </summary>
 [PublicAPI]
 public static class RevitColorExtensions
 {
+    /// <param name="color">The Revit color to convert.</param>
     extension(Autodesk.Revit.DB.Color color)
     {
         /// <summary>
-        ///     Return a drawing color of a given <see cref="Autodesk.Revit.DB.Color"/>
+        ///     Converts the color to an equivalent <see cref="System.Drawing.Color"/>.
         /// </summary>
+        /// <returns>A <see cref="System.Drawing.Color"/> with the same red, green, and blue channels and an alpha channel value of 255.</returns>
         public Color GetDrawingColor()
         {
-            return Color.FromArgb(1, color.Red, color.Green, color.Blue);
+            return Color.FromArgb(255, color.Red, color.Green, color.Blue);
         }
     }
 }

@@ -20,10 +20,14 @@ using RevitLookup.UI.Framework.Views.Decomposition;
 
 namespace RevitLookup.Commands;
 
+/// <summary>
+///     Represents the Revit command that decomposes a face the user picks in the active view and shows its members in the decomposition summary.
+/// </summary>
 [UsedImplicitly]
 [Transaction(TransactionMode.Manual)]
 public class DecomposeFaceCommand : ExternalCommand
 {
+    /// <inheritdoc/>
     public override void Execute()
     {
         Host.GetService<IUiOrchestratorService>()

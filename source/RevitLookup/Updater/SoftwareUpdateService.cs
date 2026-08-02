@@ -8,6 +8,12 @@ using RevitLookup.Abstractions.Updater;
 
 namespace RevitLookup.Updater;
 
+/// <summary>
+///     Checks the GitHub repository for a newer RevitLookup release and downloads it.
+/// </summary>
+/// <param name="httpFactory">The factory that creates the named client the GitHub repository is queried through.</param>
+/// <param name="assemblyOptions">The options that describe the currently running assembly version and access level.</param>
+/// <param name="foldersOptions">The options that resolve the downloads folder.</param>
 public sealed class SoftwareUpdateService(
     IHttpClientFactory httpFactory,
     IOptions<AssemblyOptions> assemblyOptions,
@@ -19,11 +25,19 @@ public sealed class SoftwareUpdateService(
     private readonly ResourceLocationsOptions _folderOptions = foldersOptions.Value;
     private readonly Regex _versionRegex = new(@"(\d+\.)+\d+", RegexOptions.Compiled);
 
+    /// <inheritdoc/>
     public string? NewVersion { get; private set; }
+
+    /// <inheritdoc/>
     public string? ReleaseNotesUrl { get; private set; }
+
+    /// <inheritdoc/>
     public string? LocalFilePath { get; private set; }
+
+    /// <inheritdoc/>
     public DateTime? LatestCheckDate { get; private set; }
 
+    /// <inheritdoc/>
     public async Task<bool> CheckUpdatesAsync()
     {
         LatestCheckDate = DateTime.Now;
@@ -57,6 +71,7 @@ public sealed class SoftwareUpdateService(
         return true;
     }
 
+    /// <inheritdoc/>
     public async Task DownloadUpdateAsync()
     {
         Directory.CreateDirectory(_folderOptions.DownloadsFolder);

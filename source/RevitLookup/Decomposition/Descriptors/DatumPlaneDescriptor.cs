@@ -17,8 +17,13 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="DatumPlane"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="datumPlane">The datum plane to expose.</param>
 public sealed class DatumPlaneDescriptor(DatumPlane datumPlane) : ElementDescriptor(datumPlane)
 {
+    /// <inheritdoc/>
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(DatumPlane.Dispose)).Disable();

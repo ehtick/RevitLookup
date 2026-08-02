@@ -10,7 +10,7 @@
 public sealed partial class ResourceLocationsOptions
 {
     /// <summary>
-    ///     Temporary folder for download cache.
+    ///     Gets or sets the temporary folder used as the download cache.
     /// </summary>
     public required string DownloadsFolder { get; set; }
 }

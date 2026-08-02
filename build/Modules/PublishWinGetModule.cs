@@ -16,8 +16,10 @@ using Shouldly;
 namespace Build.Modules;
 
 /// <summary>
-///     Publish the add-in updates to the WinGet community repository.
+///     Represents the pipeline module that publishes package updates to the WinGet community repository.
 /// </summary>
+/// <param name="buildOptions">The build settings that supply the Revit-year-to-package-version mapping and the installer output directory.</param>
+/// <param name="publishOptions">The publish settings that supply the WinGet authentication token.</param>
 /// <remarks>
 ///     Only existing packages are updated.
 ///     First-time registration of a new <c>LookupFoundation.RevitLookup.{year}</c> package is a one-time manual step.

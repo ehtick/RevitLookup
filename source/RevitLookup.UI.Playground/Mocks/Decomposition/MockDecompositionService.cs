@@ -6,12 +6,18 @@ using RevitLookup.Abstractions.Settings;
 
 namespace RevitLookup.UI.Playground.Mocks.Decomposition;
 
+/// <summary>
+///     Represents a Playground mock of <see cref="IDecompositionService"/> that runs <c>LookupComposer</c> against Playground sample data instead of a live Revit document.
+/// </summary>
+/// <param name="settingsService">The service supplying the decomposition options applied to each request.</param>
 [SuppressMessage("ReSharper", "LoopCanBeConvertedToQuery")]
 [SuppressMessage("ReSharper", "ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator")]
 public sealed class MockDecompositionService(ISettingsService settingsService) : IDecompositionService
 {
+    /// <inheritdoc/>
     public List<ObservableDecomposedObject> DecompositionStackHistory { get; } = [];
 
+    /// <inheritdoc/>
     public async Task<ObservableDecomposedObject> DecomposeAsync(object? obj)
     {
         var options = CreateDecomposeMembersOptions();
@@ -22,6 +28,7 @@ public sealed class MockDecompositionService(ISettingsService settingsService) :
         });
     }
 
+    /// <inheritdoc/>
     public async Task<List<ObservableDecomposedObject>> DecomposeAsync(IEnumerable objects)
     {
         var options = CreateDecomposeOptions();
@@ -39,6 +46,7 @@ public sealed class MockDecompositionService(ISettingsService settingsService) :
         });
     }
 
+    /// <inheritdoc/>
     public async Task<List<ObservableDecomposedMember>> DecomposeMembersAsync(ObservableDecomposedObject decomposedObject)
     {
         var options = CreateDecomposeMembersOptions();
@@ -56,6 +64,7 @@ public sealed class MockDecompositionService(ISettingsService settingsService) :
         });
     }
 
+    /// <inheritdoc/>
     public async Task EvaluateMemberAsync(ObservableDecomposedMember decomposedMember)
     {
         if (decomposedMember.Member?.Evaluator is null) return;
@@ -65,6 +74,7 @@ public sealed class MockDecompositionService(ISettingsService settingsService) :
         DecompositionResultMapper.Update(decomposedMember.Member, decomposedMember);
     }
 
+    /// <inheritdoc/>
     public async Task EvaluateMemberWithTransactionAsync(ObservableDecomposedMember decomposedMember)
     {
         if (decomposedMember.Member?.Evaluator is null) return;

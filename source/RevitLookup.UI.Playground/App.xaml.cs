@@ -5,6 +5,9 @@ using RevitLookup.UI.Playground.Views;
 
 namespace RevitLookup.UI.Playground;
 
+/// <summary>
+///     Represents the Playground application.
+/// </summary>
 public sealed partial class App
 {
     private void OnStartup(object sender, StartupEventArgs e)
@@ -24,6 +27,7 @@ public sealed partial class App
         }
     }
 
+    /// <inheritdoc/>
     protected override void OnExit(ExitEventArgs e)
     {
         Host.Stop();

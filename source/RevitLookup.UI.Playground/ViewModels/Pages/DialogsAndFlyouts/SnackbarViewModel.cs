@@ -5,15 +5,25 @@ using Wpf.Ui.Controls;
 
 namespace RevitLookup.UI.Playground.ViewModels.Pages.DialogsAndFlyouts;
 
+/// <summary>
+///     Represents the sample data for the snackbar gallery page.
+/// </summary>
+/// <param name="snackbarService">The service used to display the sample snackbar notifications.</param>
 [UsedImplicitly]
 public partial class SnackbarViewModel(ISnackbarService snackbarService) : ObservableObject
 {
     private ControlAppearance _snackbarAppearance = ControlAppearance.Secondary;
     private IconElement _icon = new SymbolIcon { Symbol = SymbolRegular.Info24, FontSize = 24 };
 
+    /// <summary>
+    ///     Gets or sets the duration, in seconds, the sample snackbar remains visible.
+    /// </summary>
     [ObservableProperty]
     public partial int SnackbarTimeout { get; set; } = 2;
 
+    /// <summary>
+    ///     Gets or sets the index of the selected snackbar appearance option.
+    /// </summary>
     [ObservableProperty]
     public partial int SnackbarAppearanceComboBoxSelectedIndex { get; set; } = 1;
 

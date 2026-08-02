@@ -19,15 +19,35 @@ using Wpf.Ui.Controls;
 
 namespace RevitLookup.UI.Framework.Converters;
 
+/// <summary>
+///     Provides <see cref="IValueConverter"/> instances that format a value into its display text.
+/// </summary>
 public static class FormattingConverters
 {
+    /// <summary>
+    ///     Gets a converter that formats an <see cref="ApplicationTheme"/> into its display text.
+    /// </summary>
     public static IValueConverter ApplicationThemeDisplayText { get; } = new ApplicationThemeDisplayTextConverter();
+
+    /// <summary>
+    ///     Gets a converter that formats a <see cref="WindowBackdropType"/> into its display text.
+    /// </summary>
     public static IValueConverter BackgroundTypeDisplayText { get; } = new BackgroundTypeDisplayTextConverter();
+
+    /// <summary>
+    ///     Gets a converter that formats a byte count into a human-readable size string.
+    /// </summary>
     public static IValueConverter BytesDisplayText { get; } = new BytesDisplayTextConverter();
+
+    /// <summary>
+    ///     Gets a converter that formats a duration in milliseconds into a human-readable time string.
+    /// </summary>
     public static IValueConverter TimeDisplayText { get; } = new TimeDisplayTextConverter();
 
     private sealed class ApplicationThemeDisplayTextConverter : IValueConverter
     {
+        /// <inheritdoc/>
+        /// <exception cref="NotSupportedException"><paramref name="value"/> is <see cref="ApplicationTheme.Unknown"/>.</exception>
         public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             var applicationTheme = (ApplicationTheme)value!;
@@ -42,6 +62,7 @@ public static class FormattingConverters
             };
         }
 
+        /// <inheritdoc/>
         public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotSupportedException();
@@ -50,6 +71,7 @@ public static class FormattingConverters
 
     private sealed class BackgroundTypeDisplayTextConverter : IValueConverter
     {
+        /// <inheritdoc/>
         public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             var backgroundType = (WindowBackdropType)value!;
@@ -64,6 +86,7 @@ public static class FormattingConverters
             };
         }
 
+        /// <inheritdoc/>
         public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotSupportedException();
@@ -72,6 +95,7 @@ public static class FormattingConverters
 
     private sealed class BytesDisplayTextConverter : IValueConverter
     {
+        /// <inheritdoc/>
         public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             var bytes = (long)value!;
@@ -84,6 +108,7 @@ public static class FormattingConverters
             };
         }
 
+        /// <inheritdoc/>
         public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotSupportedException();
@@ -92,6 +117,7 @@ public static class FormattingConverters
 
     private sealed class TimeDisplayTextConverter : IValueConverter
     {
+        /// <inheritdoc/>
         public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             var milliseconds = (double)value!;
@@ -106,6 +132,7 @@ public static class FormattingConverters
             };
         }
 
+        /// <inheritdoc/>
         public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotSupportedException();

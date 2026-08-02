@@ -24,8 +24,13 @@ using RevitLookup.UI.Framework.Processes;
 namespace RevitLookup;
 
 /// <summary>
-///     Provides life cycle processes for the application
+///     Provides life cycle processes for the application.
 /// </summary>
+/// <param name="settingsService">The service that loads and saves the application settings.</param>
+/// <param name="updateService">The service that checks for and downloads software updates.</param>
+/// <param name="orchestratorService">The service that runs other services on the UI thread.</param>
+/// <param name="ribbonService">The service that creates the Revit ribbon.</param>
+/// <param name="logger">The logger this service writes diagnostic records to.</param>
 public sealed partial class HostBackgroundService(
     ISettingsService settingsService,
     ISoftwareUpdateService updateService,
@@ -34,6 +39,7 @@ public sealed partial class HostBackgroundService(
     ILogger<HostBackgroundService> logger)
     : IHostedService
 {
+    /// <inheritdoc/>
     public Task StartAsync(CancellationToken cancellationToken)
     {
         LoadSettings();
@@ -44,6 +50,7 @@ public sealed partial class HostBackgroundService(
         return Task.CompletedTask;
     }
 
+    /// <inheritdoc/>
     public Task StopAsync(CancellationToken cancellationToken)
     {
         SaveSettings();

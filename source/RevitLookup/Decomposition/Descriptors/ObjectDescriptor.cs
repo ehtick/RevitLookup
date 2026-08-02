@@ -18,19 +18,20 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Default fallback descriptor for any object type. Derives the display name from <see cref="object.ToString()"/>.
+///     Represents the fallback descriptor for any object type not covered by a dedicated descriptor.
 /// </summary>
 public sealed class ObjectDescriptor : Descriptor, IDescriptorConfigurator
 {
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="ObjectDescriptor"/> class.
+    /// </summary>
+    /// <param name="value">The object to expose. Its display name is derived from <see cref="object.ToString()"/>.</param>
     public ObjectDescriptor(object? value)
     {
         Name = value?.ToString();
     }
-    
-    /// <summary>
-    ///     Revit object overrides the <see cref="IDisposable.Dispose"/> method. It overrides this for not supported Revit API objects.
-    /// </summary>
-    /// <param name="configuration"></param>
+
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(IDisposable.Dispose)).Disable();

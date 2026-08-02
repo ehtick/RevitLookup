@@ -3,22 +3,22 @@
 namespace RevitLookup.Abstractions.ViewModels.Tools;
 
 /// <summary>
-///     Represents the data for the Modules view.
+///     Defines a contract that represents the data for the Modules view.
 /// </summary>
 public interface IModulesViewModel
 {
     /// <summary>
-    ///     The search query for filtering modules.
+    ///     Gets or sets the search query used to filter modules.
     /// </summary>
     string SearchText { get; set; }
 
     /// <summary>
-    ///     The list of filtered modules.
+    ///     Gets or sets the list of filtered modules.
     /// </summary>
     List<ModuleInfo> FilteredModules { get; set; }
 
     /// <summary>
-    ///     The list of all assembly modules.
+    ///     Gets or sets the list of all assembly modules.
     /// </summary>
     List<ModuleInfo> Modules { get; set; }
 }

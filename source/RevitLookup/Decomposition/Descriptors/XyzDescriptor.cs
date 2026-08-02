@@ -24,16 +24,24 @@ using RevitLookup.UI.Framework.Views.Visualization;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.XYZ"/> exposed to LookupEngine.
+/// </summary>
 public sealed partial class XyzDescriptor : Descriptor, IContextMenuConnector
 {
     private readonly XYZ _point;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="XyzDescriptor"/> class.
+    /// </summary>
+    /// <param name="point">The point to expose.</param>
     public XyzDescriptor(XYZ point)
     {
         _point = point;
         Name = point.ToString();
     }
 
+    /// <inheritdoc/>
     public void RegisterMenu(ContextMenu contextMenu, IServiceProvider serviceProvider)
     {
         contextMenu.AddMenuItem("VisualizeMenuItem")

@@ -10,6 +10,14 @@ using RevitLookup.UI.Framework.Views.Decomposition;
 
 namespace RevitLookup.ViewModels.Decomposition;
 
+/// <summary>
+///     Represents the view model for the Decomposition Summary view, decomposing and filtering Revit objects for inspection.
+/// </summary>
+/// <param name="serviceProvider">The service provider used to resolve navigation targets when drilling into a decomposed object.</param>
+/// <param name="decompositionService">The service that evaluates individual members on demand.</param>
+/// <param name="searchService">The service that filters decomposed objects and members by search text.</param>
+/// <param name="notificationService">The service used to report decomposition and search failures.</param>
+/// <param name="logger">The logger used to record decomposition, evaluation, and search failures.</param>
 [UsedImplicitly]
 public sealed partial class DecompositionSummaryViewModel(
     IServiceProvider serviceProvider,
@@ -19,18 +27,23 @@ public sealed partial class DecompositionSummaryViewModel(
     ILogger<DecompositionSummaryViewModel> logger)
     : ObservableObject, IDecompositionSummaryViewModel
 {
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial ObservableDecomposedObject? SelectedDecomposedObject { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial List<ObservableDecomposedObject> DecomposedObjects { get; set; } = [];
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial ObservableCollection<ObservableDecomposedObjectsGroup> FilteredDecomposedObjects { get; private set; } = [];
 
+    /// <inheritdoc/>
     public void Navigate(object? value)
     {
         Host.GetService<IUiOrchestratorService>()
@@ -40,6 +53,7 @@ public sealed partial class DecompositionSummaryViewModel(
             .Show<DecompositionSummaryPage>();
     }
 
+    /// <inheritdoc/>
     public void Navigate(ObservableDecomposedObject value)
     {
         Host.GetService<IUiOrchestratorService>()
@@ -48,6 +62,7 @@ public sealed partial class DecompositionSummaryViewModel(
             .Show<DecompositionSummaryPage>();
     }
 
+    /// <inheritdoc/>
     public void Navigate(List<ObservableDecomposedObject> values)
     {
         Host.GetService<IUiOrchestratorService>()
@@ -56,6 +71,7 @@ public sealed partial class DecompositionSummaryViewModel(
             .Show<DecompositionSummaryPage>();
     }
 
+    /// <inheritdoc/>
     public async Task RefreshMembersAsync()
     {
         foreach (var decomposedObject in DecomposedObjects)
@@ -77,6 +93,7 @@ public sealed partial class DecompositionSummaryViewModel(
         }
     }
 
+    /// <inheritdoc/>
     [RelayCommand]
     private async Task ForceEvaluateMemberAsync(ObservableDecomposedMember member)
     {
@@ -91,6 +108,7 @@ public sealed partial class DecompositionSummaryViewModel(
         }
     }
 
+    /// <inheritdoc/>
     [RelayCommand]
     private async Task EvaluateMemberWithTransactionAsync(ObservableDecomposedMember member)
     {
@@ -105,6 +123,7 @@ public sealed partial class DecompositionSummaryViewModel(
         }
     }
 
+    /// <inheritdoc/>
     public void RemoveItem(object target)
     {
         switch (target)

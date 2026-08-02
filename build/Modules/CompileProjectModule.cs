@@ -13,8 +13,10 @@ using Sourcy.DotNet;
 namespace Build.Modules;
 
 /// <summary>
-///     Compile the add-in for each supported Revit configuration.
+///     Represents the pipeline module that compiles the add-in for each supported Revit configuration.
 /// </summary>
+/// <param name="buildOptions">The build settings that supply the version mapped to each Revit configuration.</param>
+/// <param name="environment">The hosting environment whose name is stamped onto the compiled build.</param>
 [DependsOn<ResolveVersioningModule>]
 [DependsOn<ResolveConfigurationsModule>]
 [DependsOn<CleanProjectModule>(Optional = true)]
@@ -32,7 +34,7 @@ public sealed class CompileProjectModule(IOptions<BuildOptions> buildOptions, IH
     }
 
     /// <summary>
-    ///     Compile the add-in project for the specified configuration.
+    ///     Compiles the add-in project for the specified configuration.
     /// </summary>
     private async Task<CommandResult> CompileAsync(IModuleContext context, string configuration, CancellationToken cancellationToken)
     {

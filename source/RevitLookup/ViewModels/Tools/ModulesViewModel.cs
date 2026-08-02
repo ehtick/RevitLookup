@@ -22,9 +22,15 @@ using System.Runtime.Loader;
 
 namespace RevitLookup.ViewModels.Tools;
 
+/// <summary>
+///     Represents the view model for the Modules view, listing the assemblies loaded in the current process.
+/// </summary>
 [UsedImplicitly]
 public sealed partial class ModulesViewModel : ObservableObject, IModulesViewModel
 {
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="ModulesViewModel"/> class.
+    /// </summary>
     public ModulesViewModel()
     {
         var assemblies = AppDomain.CurrentDomain.GetAssemblies();
@@ -51,12 +57,15 @@ public sealed partial class ModulesViewModel : ObservableObject, IModulesViewMod
         }
     }
     
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial List<ModuleInfo> Modules { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial List<ModuleInfo> FilteredModules { get; set; } = [];
 

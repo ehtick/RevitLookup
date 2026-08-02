@@ -9,30 +9,42 @@ using RevitLookup.Abstractions.Settings;
 
 namespace RevitLookup.Decomposition;
 
+/// <summary>
+///     Provides the default implementation of <see cref="IDecompositionService"/>.
+/// </summary>
+/// <param name="settingsService">The settings service that supplies the active decomposition options.</param>
+/// <remarks>
+///     Decomposition runs through the LookupEngine on the Revit external event thread, marshaled via <see cref="ExternalEventAttribute"/>.
+/// </remarks>
 [SuppressMessage("ReSharper", "LoopCanBeConvertedToQuery")]
 [SuppressMessage("ReSharper", "ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator")]
 public sealed partial class DecompositionService(ISettingsService settingsService) : IDecompositionService
 {
+    /// <inheritdoc/>
     public List<ObservableDecomposedObject> DecompositionStackHistory { get; } = [];
 
+    /// <inheritdoc/>
     public async Task<ObservableDecomposedObject> DecomposeAsync(object? target)
     {
         var options = CreateDecomposeMembersOptions();
         return await DecomposeAsyncEvent.RaiseAsync(target, options);
     }
 
+    /// <inheritdoc/>
     public async Task<List<ObservableDecomposedObject>> DecomposeAsync(IEnumerable objects)
     {
         var options = CreateDecomposeOptions();
         return await DecomposeIEnumerableAsyncEvent.RaiseAsync(objects, options);
     }
 
+    /// <inheritdoc/>
     public async Task<List<ObservableDecomposedMember>> DecomposeMembersAsync(ObservableDecomposedObject decomposedObject)
     {
         var options = CreateDecomposeMembersOptions();
         return await DecomposeMembersAsyncEvent.RaiseAsync(decomposedObject, options);
     }
 
+    /// <inheritdoc/>
     public async Task EvaluateMemberAsync(ObservableDecomposedMember decomposedMember)
     {
         if (decomposedMember.Member?.Evaluator is null) return;
@@ -41,6 +53,7 @@ public sealed partial class DecompositionService(ISettingsService settingsServic
         DecompositionResultMapper.Update(evaluatedMember!, decomposedMember);
     }
 
+    /// <inheritdoc/>
     public async Task EvaluateMemberWithTransactionAsync(ObservableDecomposedMember decomposedMember)
     {
         if (decomposedMember.Member?.Evaluator is null) return;

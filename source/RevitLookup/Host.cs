@@ -23,15 +23,16 @@ using EventsMonitoringService = RevitLookup.Decomposition.EventsMonitor.EventsMo
 namespace RevitLookup;
 
 /// <summary>
-///     Provides a host for the application's services and manages their lifetimes
+///     Provides a host for the application's services and manages their lifetimes.
 /// </summary>
 public static class Host
 {
     private static IHost? _host;
 
     /// <summary>
-    ///     Starts the host and configures the application's services
+    ///     Starts the host and configures the application's services.
     /// </summary>
+    /// <returns>A task that represents the asynchronous host startup operation.</returns>
     public static async Task StartAsync()
     {
         var builder = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder(new HostApplicationBuilderSettings
@@ -83,8 +84,9 @@ public static class Host
     }
 
     /// <summary>
-    ///     Stops the host and handle <see cref="IHostedService"/> services
+    ///     Stops the host and handles <see cref="IHostedService"/> services.
     /// </summary>
+    /// <returns>A task that represents the asynchronous host shutdown operation.</returns>
     public static async Task StopAsync()
     {
         if (_host is null) return;
@@ -93,10 +95,11 @@ public static class Host
     }
 
     /// <summary>
-    ///     Get service of type <typeparamref name="T"/>
+    ///     Gets a service of type <typeparamref name="T"/>.
     /// </summary>
-    /// <typeparam name="T">The type of service object to get</typeparam>
-    /// <exception cref="System.InvalidOperationException">There is no service of type <typeparamref name="T"/></exception>
+    /// <typeparam name="T">The type of service object to get.</typeparam>
+    /// <returns>The requested service instance.</returns>
+    /// <exception cref="System.InvalidOperationException">There is no service of type <typeparamref name="T"/>.</exception>
     public static T GetService<T>() where T : class
     {
         return _host!.Services.GetRequiredService<T>();

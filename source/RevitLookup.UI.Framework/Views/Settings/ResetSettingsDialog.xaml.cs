@@ -17,15 +17,34 @@ using Wpf.Ui;
 
 namespace RevitLookup.UI.Framework.Views.Settings;
 
+/// <summary>
+///     Represents a dialog that lets the user choose which settings categories to reset to their defaults.
+/// </summary>
 public sealed partial class ResetSettingsDialog
 {
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="ResetSettingsDialog"/> class.
+    /// </summary>
+    /// <param name="dialogService">The service that supplies the dialog host this dialog is shown on.</param>
+    /// <param name="themeWatcherService">The service that applies and tracks the current theme for this dialog.</param>
     public ResetSettingsDialog(IContentDialogService dialogService, IThemeWatcherService themeWatcherService) : base(dialogService.GetDialogHostEx())
     {
         InitializeComponent();
         themeWatcherService.Watch(this);
     }
 
+    /// <summary>
+    ///     Gets a value indicating whether the user selected the application settings for reset.
+    /// </summary>
     public bool CanResetApplicationSettings => ApplicationBox.IsChecked == true;
+
+    /// <summary>
+    ///     Gets a value indicating whether the user selected the decomposition settings for reset.
+    /// </summary>
     public bool CanResetDecompositionSettings => DecompositionBox.IsChecked == true;
+
+    /// <summary>
+    ///     Gets a value indicating whether the user selected the visualization settings for reset.
+    /// </summary>
     public bool CanResetVisualizationSettings => VisualizationBox.IsChecked == true;
 }

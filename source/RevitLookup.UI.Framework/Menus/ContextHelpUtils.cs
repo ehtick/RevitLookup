@@ -16,8 +16,17 @@ using RevitLookup.UI.Framework.Processes;
 
 namespace RevitLookup.UI.Framework.Menus;
 
+/// <summary>
+///     Provides methods that open help for a search query in the default browser.
+/// </summary>
 public static class ContextHelpUtils
 {
+    /// <summary>
+    ///     Opens help for the specified query in the default browser.
+    /// </summary>
+    /// <param name="query">
+    ///     The search query. A query starting with "System" is resolved against the .NET API documentation; otherwise, it is searched on DuckDuckGo.
+    /// </param>
     public static void ShowHelp(string query)
     {
         string uri;
@@ -39,6 +48,11 @@ public static class ContextHelpUtils
         ProcessTasks.StartShell(uri);
     }
 
+    /// <summary>
+    ///     Opens help for a query qualified by a member or parameter name in the default browser.
+    /// </summary>
+    /// <param name="query">The base search query, such as a type name.</param>
+    /// <param name="parameter">The member or parameter name to append to <paramref name="query"/>.</param>
     public static void ShowHelp(string query, string parameter)
     {
         if (query.StartsWith("System"))

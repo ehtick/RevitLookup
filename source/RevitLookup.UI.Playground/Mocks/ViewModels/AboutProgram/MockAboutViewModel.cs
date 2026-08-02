@@ -26,12 +26,21 @@ using RevitLookup.UI.Framework.Views.AboutProgram;
 
 namespace RevitLookup.UI.Playground.Mocks.ViewModels.AboutProgram;
 
+/// <summary>
+///     Represents a Playground mock of <see cref="IAboutViewModel"/> that fabricates update check and download outcomes through <see cref="ISoftwareUpdateService"/>.
+/// </summary>
 [UsedImplicitly]
 public sealed partial class MockAboutViewModel : ObservableObject, IAboutViewModel
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly ISoftwareUpdateService _updateService;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="MockAboutViewModel"/> class.
+    /// </summary>
+    /// <param name="serviceProvider">The service provider used to resolve the open-source software dialog.</param>
+    /// <param name="updateService">The service that checks for, downloads, and reports application updates.</param>
+    /// <param name="assemblyOptions">The assembly metadata used to populate the current version and runtime information.</param>
     public MockAboutViewModel(IServiceProvider serviceProvider, ISoftwareUpdateService updateService, IOptions<AssemblyOptions> assemblyOptions)
     {
         _serviceProvider = serviceProvider;
@@ -51,27 +60,35 @@ public sealed partial class MockAboutViewModel : ObservableObject, IAboutViewMod
         UpdateSoftwareState();
     }
     
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial SoftwareUpdateState State { get; set; } = (SoftwareUpdateState) (-1);
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial Version CurrentVersion { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial string? NewVersion { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial string? ReleaseNotesUrl { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial string? LatestCheckDate { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial string? ErrorMessage { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial string Runtime { get; set; }
 
+    /// <inheritdoc/>
     [RelayCommand]
     private async Task CheckUpdatesAsync()
     {
@@ -98,6 +115,7 @@ public sealed partial class MockAboutViewModel : ObservableObject, IAboutViewMod
         }
     }
 
+    /// <inheritdoc/>
     [RelayCommand]
     private async Task DownloadUpdateAsync()
     {
@@ -113,6 +131,7 @@ public sealed partial class MockAboutViewModel : ObservableObject, IAboutViewMod
         }
     }
 
+    /// <inheritdoc/>
     [RelayCommand]
     private async Task ShowSoftwareDialogAsync()
     {

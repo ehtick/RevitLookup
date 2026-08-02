@@ -17,16 +17,24 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.ModelPath"/> exposed to LookupEngine.
+/// </summary>
 public sealed class ModelPathDescriptor : Descriptor, IDescriptorConfigurator
 {
     private readonly ModelPath _modelPath;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="ModelPathDescriptor"/> class.
+    /// </summary>
+    /// <param name="modelPath">The model path to expose.</param>
     public ModelPathDescriptor(ModelPath modelPath)
     {
         _modelPath = modelPath;
         Name = ModelPathUtils.ConvertModelPathToUserVisiblePath(modelPath);
     }
 
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(ModelPath.Dispose)).Disable();

@@ -13,6 +13,11 @@ using Wpf.Ui.Controls;
 
 namespace RevitLookup.UI.Playground.Mocks.ViewModels.Tools;
 
+/// <summary>
+///     Represents a Playground mock of <see cref="IRevitSettingsViewModel"/> that fabricates a large set of settings entries with <c>Bogus</c> instead of reading Revit.ini.
+/// </summary>
+/// <param name="serviceProvider">The service provider used to resolve the entry edit dialog.</param>
+/// <param name="notificationService">The service used to report opening the settings file.</param>
 [UsedImplicitly]
 public sealed partial class MockRevitSettingsViewModel(
     IServiceProvider serviceProvider,
@@ -21,37 +26,47 @@ public sealed partial class MockRevitSettingsViewModel(
 {
     private TaskNotifier<List<ObservableIniEntry>>? _initializationTask;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ClearFiltersCommand))]
     public partial bool Filtered { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial string CategoryFilter { get; set; } = string.Empty;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial string PropertyFilter { get; set; } = string.Empty;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial string ValueFilter { get; set; } = string.Empty;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial bool ShowUserSettingsFilter { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial ObservableIniEntry? SelectedEntry { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial List<ObservableIniEntry> Entries { get; set; } = [];
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial ObservableCollection<ObservableIniEntry> FilteredEntries { get; set; } = [];
 
+    /// <inheritdoc/>
     public Task<List<ObservableIniEntry>>? InitializationTask
     {
         get => _initializationTask!;
         private set => SetPropertyAndNotifyOnCompletion(ref _initializationTask, value);
     }
 
+    /// <inheritdoc/>
     public async Task InitializeAsync()
     {
         InitializationTask = Task.Run(async () =>
@@ -69,6 +84,7 @@ public sealed partial class MockRevitSettingsViewModel(
         Entries = await InitializationTask;
     }
 
+    /// <inheritdoc/>
     [RelayCommand]
     private async Task CreateEntryAsync()
     {
@@ -84,12 +100,14 @@ public sealed partial class MockRevitSettingsViewModel(
         }
     }
 
+    /// <inheritdoc/>
     [RelayCommand]
     private void ActivateEntry(ObservableIniEntry entry)
     {
         //Saving
     }
 
+    /// <inheritdoc/>
     [RelayCommand]
     private void DeleteEntry(ObservableIniEntry entry)
     {
@@ -97,24 +115,28 @@ public sealed partial class MockRevitSettingsViewModel(
         FilteredEntries.Remove(entry);
     }
 
+    /// <inheritdoc/>
     [RelayCommand]
     private void RestoreDefault(ObservableIniEntry entry)
     {
         entry.Value = entry.DefaultValue ?? string.Empty;
     }
 
+    /// <inheritdoc/>
     [RelayCommand]
     private void ShowHelp()
     {
         ProcessTasks.StartShell($"https://help.autodesk.com/view/RVT/{DateTime.Today.Year}/ENU/?guid=GUID-9ECD669E-81D3-43E5-9970-9FA1C38E8507");
     }
 
+    /// <inheritdoc/>
     [RelayCommand]
     private void OpenSettings()
     {
         notificationService.ShowSuccess("Settings", "Successfully opened");
     }
 
+    /// <inheritdoc/>
     [RelayCommand(CanExecute = nameof(CanClearFiltersExecute))]
     private void ClearFilters()
     {
@@ -151,6 +173,7 @@ public sealed partial class MockRevitSettingsViewModel(
         ApplyFilters();
     }
 
+    /// <inheritdoc/>
     public async Task UpdateEntryAsync()
     {
         if (SelectedEntry is null) return;

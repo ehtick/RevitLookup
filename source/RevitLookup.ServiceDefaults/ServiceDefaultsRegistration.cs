@@ -14,8 +14,9 @@ public static class ServiceDefaultsRegistration
     extension<TBuilder>(TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
         /// <summary>
-        ///     Adds defaults services and its configuration.
+        ///     Adds the default logging, assembly, serialization, and resource-location services to the specified <see cref="IHostApplicationBuilder"/>.
         /// </summary>
+        /// <returns>The <see cref="TBuilder"/> for chaining.</returns>
         public TBuilder AddServiceDefaults()
         {
             builder.AddLoggingDefaults();

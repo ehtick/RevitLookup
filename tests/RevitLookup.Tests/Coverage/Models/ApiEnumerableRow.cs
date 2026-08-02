@@ -15,53 +15,55 @@
 namespace RevitLookup.Tests.Unit.Coverage.Models;
 
 /// <summary>
-///     A single row of the enumerable report.
+///     Represents a single row of the enumerable report.
 /// </summary>
 public sealed record ApiEnumerableRow
 {
     /// <summary>
-    ///     The shape the enumerable exposes.
+    ///     Gets the shape the enumerable exposes.
     /// </summary>
     public required ApiEnumerableKind Kind { get; init; }
 
     /// <summary>
-    ///     The short name of the enumerable type.
+    ///     Gets the short name of the enumerable type.
     /// </summary>
     public required string TypeName { get; init; }
 
     /// <summary>
-    ///     The namespace declaring the enumerable type.
+    ///     Gets the namespace declaring the enumerable type.
     /// </summary>
     public required string Namespace { get; init; }
 
     /// <summary>
-    ///     The short name of the element type the enumerable holds.
+    ///     Gets the short name of the element type the enumerable holds.
     /// </summary>
     public required string ElementType { get; init; }
 
     /// <summary>
-    ///     Whether the type derives from <see cref="Autodesk.Revit.DB.APIObject"/>, the interop base holding a native handle.
+    ///     Gets a value indicating whether the type derives from <see cref="Autodesk.Revit.DB.APIObject"/>, the interop base holding a native handle.
     /// </summary>
     public required bool IsApiObject { get; init; }
 
     /// <summary>
-    ///     Whether the type exposes a <c>bool IsEmpty</c> property.
+    ///     Gets a value indicating whether the type exposes a <c>bool IsEmpty</c> property.
     /// </summary>
     public required bool HasIsEmpty { get; init; }
 
     /// <summary>
-    ///     Whether the type exposes an <c>int Count</c> property.
+    ///     Gets a value indicating whether the type exposes an <c>int Count</c> property.
     /// </summary>
     public required bool HasCount { get; init; }
 
     /// <summary>
-    ///     The type named by the <c>EnumerableDescriptor</c> switch arm reading <c>IsEmpty</c> or <c>Count</c> of this type.
-    ///     <c>null</c> marks a type no arm matches. A base type or an interface here marks a type an arm reaches through the hierarchy.
+    ///     Gets the type named by the <c>EnumerableDescriptor</c> switch arm reading <c>IsEmpty</c> or <c>Count</c> of this type.
     /// </summary>
+    /// <remarks>
+    ///     <see langword="null"/> marks a type no arm matches. A base type or an interface here marks a type an arm reaches through the hierarchy.
+    /// </remarks>
     public required string? DescriptorArm { get; init; }
 
     /// <summary>
-    ///     How the descriptor finds out whether an instance of this type contains any elements.
+    ///     Gets how the descriptor finds out whether an instance of this type contains any elements.
     /// </summary>
     public ApiEnumerableCoverage Coverage
     {

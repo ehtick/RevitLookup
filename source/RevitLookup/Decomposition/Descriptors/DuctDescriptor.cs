@@ -17,8 +17,13 @@ using LookupEngine.Abstractions.Configuration;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Duct"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="duct">The duct to expose.</param>
 public sealed class DuctDescriptor(Duct duct) : ElementDescriptor(duct)
 {
+    /// <inheritdoc/>
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Duct.Dispose)).Disable();

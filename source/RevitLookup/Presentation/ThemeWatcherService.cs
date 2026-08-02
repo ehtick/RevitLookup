@@ -26,6 +26,10 @@ using Nice3point.Revit.Toolkit.External;
 
 namespace RevitLookup.Presentation;
 
+/// <summary>
+///     Applies themes to the application's components and watches for theme changes.
+/// </summary>
+/// <param name="settingsService">The service that provides the current theme and background settings.</param>
 public sealed partial class ThemeWatcherService(ISettingsService settingsService) : IThemeWatcherService
 {
 #if REVIT2024_OR_GREATER
@@ -34,6 +38,7 @@ public sealed partial class ThemeWatcherService(ISettingsService settingsService
 
     private readonly List<FrameworkElement> _observedElements = [];
 
+    /// <inheritdoc/>
     public void Initialize()
     {
         UiApplication.Current.Resources = new ResourceDictionary
@@ -44,6 +49,7 @@ public sealed partial class ThemeWatcherService(ISettingsService settingsService
         ApplicationThemeManager.Changed += OnApplicationThemeManagerChanged;
     }
 
+    /// <inheritdoc/>
     public void ApplyTheme()
     {
         var theme = settingsService.ApplicationSettings.Theme;
@@ -63,6 +69,7 @@ public sealed partial class ThemeWatcherService(ISettingsService settingsService
         UpdateBackground(theme);
     }
 
+    /// <inheritdoc/>
     public void Watch(FrameworkElement frameworkElement)
     {
         ApplicationThemeManager.Apply(frameworkElement);
@@ -72,6 +79,7 @@ public sealed partial class ThemeWatcherService(ISettingsService settingsService
         frameworkElement.Unloaded += OnWatchedElementUnloaded;
     }
 
+    /// <inheritdoc/>
     public void Unwatch()
     {
 #if REVIT2024_OR_GREATER

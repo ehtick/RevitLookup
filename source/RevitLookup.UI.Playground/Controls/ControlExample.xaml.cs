@@ -11,7 +11,7 @@ using System.Windows.Markup;
 namespace RevitLookup.UI.Playground.Controls;
 
 /// <summary>
-/// A control that displays an example of a control
+///     Represents a control that displays a live example alongside its XAML and C# source.
 /// </summary>
 [ContentProperty(nameof(ExampleContent))]
 public sealed class ControlExample : Control
@@ -21,6 +21,9 @@ public sealed class ControlExample : Control
         CommandManager.RegisterClassCommandBinding(typeof(ControlExample), new CommandBinding(ApplicationCommands.Copy, Copy_SourceCode));
     }
 
+    /// <summary>
+    ///     Identifies the <see cref="HeaderText"/> dependency property.
+    /// </summary>
     public static readonly DependencyProperty HeaderTextProperty = DependencyProperty.Register(
         nameof(HeaderText),
         typeof(string),
@@ -28,6 +31,9 @@ public sealed class ControlExample : Control
         new PropertyMetadata(null)
     );
 
+    /// <summary>
+    ///     Identifies the <see cref="ExampleContent"/> dependency property.
+    /// </summary>
     public static readonly DependencyProperty ExampleContentProperty = DependencyProperty.Register(
         nameof(ExampleContent),
         typeof(object),
@@ -35,6 +41,9 @@ public sealed class ControlExample : Control
         new PropertyMetadata(null)
     );
 
+    /// <summary>
+    ///     Identifies the <see cref="XamlCode"/> dependency property.
+    /// </summary>
     public static readonly DependencyProperty XamlCodeProperty = DependencyProperty.Register(
         nameof(XamlCode),
         typeof(string),
@@ -42,6 +51,9 @@ public sealed class ControlExample : Control
         new PropertyMetadata(null)
     );
 
+    /// <summary>
+    ///     Identifies the <see cref="XamlCodeSource"/> dependency property.
+    /// </summary>
     public static readonly DependencyProperty XamlCodeSourceProperty = DependencyProperty.Register(
         nameof(XamlCodeSource),
         typeof(Uri),
@@ -52,6 +64,9 @@ public sealed class ControlExample : Control
         )
     );
 
+    /// <summary>
+    ///     Identifies the <see cref="CsharpCode"/> dependency property.
+    /// </summary>
     public static readonly DependencyProperty CsharpCodeProperty = DependencyProperty.Register(
         nameof(CsharpCode),
         typeof(string),
@@ -59,6 +74,9 @@ public sealed class ControlExample : Control
         new PropertyMetadata(null)
     );
 
+    /// <summary>
+    ///     Identifies the <see cref="CsharpCodeSource"/> dependency property.
+    /// </summary>
     public static readonly DependencyProperty CsharpCodeSourceProperty = DependencyProperty.Register(
         nameof(CsharpCodeSource),
         typeof(Uri),
@@ -69,36 +87,54 @@ public sealed class ControlExample : Control
         )
     );
 
+    /// <summary>
+    ///     Gets or sets the header text displayed above the example.
+    /// </summary>
     public string? HeaderText
     {
         get => (string)GetValue(HeaderTextProperty);
         set => SetValue(HeaderTextProperty, value);
     }
 
+    /// <summary>
+    ///     Gets or sets the content rendered as the live example.
+    /// </summary>
     public object? ExampleContent
     {
         get => GetValue(ExampleContentProperty);
         set => SetValue(ExampleContentProperty, value);
     }
 
+    /// <summary>
+    ///     Gets or sets the XAML source displayed for the example.
+    /// </summary>
     public string? XamlCode
     {
         get => (string)GetValue(XamlCodeProperty);
         set => SetValue(XamlCodeProperty, value);
     }
 
+    /// <summary>
+    ///     Gets or sets the resource <see cref="Uri"/> that <see cref="XamlCode"/> is loaded from.
+    /// </summary>
     public Uri? XamlCodeSource
     {
         get => (Uri)GetValue(XamlCodeSourceProperty);
         set => SetValue(XamlCodeSourceProperty, value);
     }
 
+    /// <summary>
+    ///     Gets or sets the C# source displayed for the example.
+    /// </summary>
     public string? CsharpCode
     {
         get => (string)GetValue(CsharpCodeProperty);
         set => SetValue(CsharpCodeProperty, value);
     }
 
+    /// <summary>
+    ///     Gets or sets the resource <see cref="Uri"/> that <see cref="CsharpCode"/> is loaded from.
+    /// </summary>
     public Uri? CsharpCodeSource
     {
         get => (Uri)GetValue(CsharpCodeSourceProperty);

@@ -9,8 +9,12 @@ namespace RevitLookup.UI.Framework.Processes;
 public static class ProcessTasks
 {
     /// <summary>
-    ///     Start a process and redirect its output to the logger
+    ///     Starts a process and redirects its standard output and error to the specified logger.
     /// </summary>
+    /// <param name="toolPath">The path of the executable to start.</param>
+    /// <param name="arguments">The command-line arguments to pass to the process.</param>
+    /// <param name="logger">The callback invoked for each output line. When <see langword="null"/>, output is written to the console.</param>
+    /// <returns>The started <see cref="Process"/>, or <see langword="null"/> if the process could not be started.</returns>
     public static Process? StartProcess(string toolPath, string arguments = "", Action<OutputType, string>? logger = null)
     {
         var startInfo = new ProcessStartInfo
@@ -33,8 +37,11 @@ public static class ProcessTasks
     }
 
     /// <summary>
-    ///     Start a shell process
+    ///     Starts a process through the shell, using the shell's file associations to open <paramref name="toolPath"/>.
     /// </summary>
+    /// <param name="toolPath">The path or URI to open.</param>
+    /// <param name="arguments">The command-line arguments to pass to the process.</param>
+    /// <returns>The started <see cref="Process"/>, or <see langword="null"/> if the process could not be started.</returns>
     public static Process? StartShell(string toolPath, string arguments = "")
     {
         var startInfo = new ProcessStartInfo
@@ -79,10 +86,17 @@ public static class ProcessTasks
 }
 
 /// <summary>
-///     Process output type
+///     Determines the stream a process output line came from.
 /// </summary>
 public enum OutputType
 {
+    /// <summary>
+    ///     The line came from the process's standard output stream.
+    /// </summary>
     Standard,
+
+    /// <summary>
+    ///     The line came from the process's standard error stream.
+    /// </summary>
     Error
 }

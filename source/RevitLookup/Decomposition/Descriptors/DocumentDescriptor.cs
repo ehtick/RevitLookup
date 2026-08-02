@@ -26,16 +26,24 @@ using Autodesk.Revit.DB.ExternalData;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Document"/> exposed to LookupEngine.
+/// </summary>
 public sealed class DocumentDescriptor : Descriptor, IDescriptorConfigurator
 {
     private readonly Document _document;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="DocumentDescriptor"/> class.
+    /// </summary>
+    /// <param name="document">The document to expose.</param>
     public DocumentDescriptor(Document document)
     {
         _document = document;
         Name = document.Title;
     }
 
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Document.Dispose)).Disable();

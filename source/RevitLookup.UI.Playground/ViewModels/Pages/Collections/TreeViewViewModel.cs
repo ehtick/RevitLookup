@@ -4,9 +4,15 @@ using Person = RevitLookup.UI.Playground.SampleData.Person;
 
 namespace RevitLookup.UI.Playground.ViewModels.Pages.Collections;
 
+/// <summary>
+///     Represents the sample data for the tree view gallery page.
+/// </summary>
 [UsedImplicitly]
 public sealed class TreeViewViewModel : ObservableObject
 {
+    /// <summary>
+    ///     Gets the sample hierarchical people shown in the tree view.
+    /// </summary>
     public List<Person> Persons { get; } = GenerateHierarchicalPersons();
 
     private static List<Person> GenerateHierarchicalPersons()

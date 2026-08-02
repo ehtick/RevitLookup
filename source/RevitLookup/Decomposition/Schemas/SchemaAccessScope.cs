@@ -2,6 +2,9 @@ using System.Runtime.InteropServices;
 
 namespace RevitLookup.Decomposition.Schemas;
 
+/// <summary>
+///     Represents a scope that grants unrestricted extensible storage access for a schema until disposed.
+/// </summary>
 internal sealed
 #if NET
     partial
@@ -48,6 +51,7 @@ internal sealed
         return new SchemaAccessScope(target, original);
     }
 
+    /// <inheritdoc/>
     public void Dispose()
     {
         if (Interlocked.Exchange(ref _disposed, 1) != 0) return;

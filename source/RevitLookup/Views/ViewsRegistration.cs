@@ -6,10 +6,17 @@ using Wpf.Ui.Controls;
 
 namespace RevitLookup.Views;
 
+/// <summary>
+///     Provides registration of RevitLookup's windows, dialogs, and pages.
+/// </summary>
 public static class ViewsRegistration
 {
+    /// <param name="services">The service collection to add the views to.</param>
     extension(IServiceCollection services)
     {
+        /// <summary>
+        ///     Adds RevitLookup's windows, dialogs, and pages to the specified <see cref="IServiceCollection"/>.
+        /// </summary>
         public void AddViews()
         {
             services.Scan(selector => selector.FromAssemblyOf<App>()

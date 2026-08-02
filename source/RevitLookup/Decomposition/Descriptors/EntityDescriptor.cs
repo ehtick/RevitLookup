@@ -20,11 +20,16 @@ using RevitLookup.Decomposition.Schemas;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Entity"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="entity">The extensible storage entity to expose.</param>
 public sealed class EntityDescriptor(Entity entity) : Descriptor, IDescriptorConfigurator
 {
     private static readonly MethodInfo GetByFieldMethod = typeof(Entity).GetMethod(nameof(Entity.Get), [typeof(Field)])!;
     private static readonly MethodInfo GetByFieldForgeMethod = typeof(Entity).GetMethod(nameof(Entity.Get), [typeof(Field), typeof(ForgeTypeId)])!;
 
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Entity.Dispose)).Disable();

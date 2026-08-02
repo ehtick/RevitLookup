@@ -25,8 +25,13 @@ using RevitLookup.UI.Framework.Views.Visualization;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="BoundingBoxXYZ"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="box">The bounding box to expose.</param>
 public sealed partial class BoundingBoxXyzDescriptor(BoundingBoxXYZ box) : Descriptor, IDescriptorConfigurator, IContextMenuConnector
 {
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(BoundingBoxXYZ.Dispose)).Disable();
@@ -131,6 +136,7 @@ public sealed partial class BoundingBoxXyzDescriptor(BoundingBoxXYZ box) : Descr
         }
     }
 
+    /// <inheritdoc/>
     public void RegisterMenu(ContextMenu contextMenu, IServiceProvider serviceProvider)
     {
         contextMenu.AddMenuItem("VisualizeMenuItem")

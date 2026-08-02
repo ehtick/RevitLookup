@@ -18,6 +18,9 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.ForgeTypeId"/> exposed to LookupEngine.
+/// </summary>
 public sealed class ForgeTypeIdDescriptor : Descriptor, IDescriptorConfigurator
 #if REVIT2024_OR_GREATER
     , IDescriptorConfigurator<Document>
@@ -25,12 +28,17 @@ public sealed class ForgeTypeIdDescriptor : Descriptor, IDescriptorConfigurator
 {
     private readonly ForgeTypeId _typeId;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="ForgeTypeIdDescriptor"/> class.
+    /// </summary>
+    /// <param name="typeId">The Forge type identifier to expose.</param>
     public ForgeTypeIdDescriptor(ForgeTypeId typeId)
     {
         _typeId = typeId;
         Name = typeId.TypeId;
     }
 
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(ForgeTypeId.Dispose)).Disable();

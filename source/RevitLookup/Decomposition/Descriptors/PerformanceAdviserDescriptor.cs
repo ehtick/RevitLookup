@@ -17,8 +17,13 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.PerformanceAdviser"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="adviser">The performance adviser to expose.</param>
 public sealed class PerformanceAdviserDescriptor(PerformanceAdviser adviser) : Descriptor, IDescriptorConfigurator, IDescriptorConfigurator<Document>
 {
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(PerformanceAdviser.Dispose)).Disable();

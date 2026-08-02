@@ -4,8 +4,15 @@ using RevitLookup.Abstractions.Tools;
 
 namespace RevitLookup.Tools.Units;
 
+/// <summary>
+///     Provides methods that collect Revit's built-in parameters, categories, and forge unit type identifiers for display.
+/// </summary>
 public static class UnitsCollector
 {
+    /// <summary>
+    ///     Collects the built-in parameters defined by <see cref="BuiltInParameter"/>.
+    /// </summary>
+    /// <returns>The collected parameters. A parameter without a label has an empty <see cref="UnitInfo.Label"/>.</returns>
     public static List<UnitInfo> GetBuiltinParametersInfo()
     {
         var parameters = Enum.GetValues<BuiltInParameter>();
@@ -37,6 +44,10 @@ public static class UnitsCollector
         return result;
     }
 
+    /// <summary>
+    ///     Collects the built-in categories defined by <see cref="BuiltInCategory"/>.
+    /// </summary>
+    /// <returns>The collected categories. A category without a label has an empty <see cref="UnitInfo.Label"/>.</returns>
     public static List<UnitInfo> GetBuiltinCategoriesInfo()
     {
         var categories = Enum.GetValues<BuiltInCategory>();
@@ -68,6 +79,10 @@ public static class UnitsCollector
         return result;
     }
 
+    /// <summary>
+    ///     Collects the forge type identifiers defined by the Revit unit, spec, parameter, group, discipline, and symbol type id classes.
+    /// </summary>
+    /// <returns>The collected identifiers, with their label and declaring class name.</returns>
     public static List<UnitInfo> GetForgeInfo()
     {
         const BindingFlags searchFlags = BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly;

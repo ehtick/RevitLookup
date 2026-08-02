@@ -18,8 +18,16 @@ using Wpf.Ui.Abstractions.Controls;
 
 namespace RevitLookup.UI.Framework.Views.AboutProgram;
 
+/// <summary>
+///     Represents a page that shows information about the application, including its version and license.
+/// </summary>
 public sealed partial class AboutPage : INavigableView<IAboutViewModel>
 {
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="AboutPage"/> class.
+    /// </summary>
+    /// <param name="viewModel">The view model that provides the data for the About view.</param>
+    /// <param name="themeWatcherService">The service that applies and tracks the current theme for this page.</param>
     public AboutPage(IAboutViewModel viewModel, IThemeWatcherService themeWatcherService)
     {
         themeWatcherService.Watch(this);
@@ -29,5 +37,6 @@ public sealed partial class AboutPage : INavigableView<IAboutViewModel>
         InitializeComponent();
     }
 
+    /// <inheritdoc/>
     public IAboutViewModel ViewModel { get; }
 }

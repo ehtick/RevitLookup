@@ -8,7 +8,7 @@ using Shouldly;
 namespace Build.Modules;
 
 /// <summary>
-///     Resolve solution configurations required to compile the add-in for all supported Revit versions.
+///     Represents the pipeline module that resolves the solution configurations required to compile the add-in for every supported Revit version.
 /// </summary>
 public sealed class ResolveConfigurationsModule : Module<string[]>
 {

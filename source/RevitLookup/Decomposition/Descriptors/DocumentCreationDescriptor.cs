@@ -18,10 +18,15 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.Creation.Document"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="document">The document creation factory to expose.</param>
 #pragma warning disable CS9113 // Parameter is unread.
 public sealed class DocumentCreationDescriptor(Document document) : Descriptor, IDescriptorConfigurator
 #pragma warning restore CS9113 // Parameter is unread.
 {
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Document.Dispose)).Disable();

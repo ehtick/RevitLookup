@@ -19,13 +19,15 @@ using System.Security.Principal;
 namespace RevitLookup.ServiceDefaults.FileSystem;
 
 /// <summary>
-///     Helper class to check access rights in the system
+///     Provides methods to check file system access rights.
 /// </summary>
 public static class AccessUtils
 {
     /// <summary>
-    ///     Check if the current user has write access to the specified path
+    ///     Determines whether the current user has write access to the specified path.
     /// </summary>
+    /// <param name="path">The path to check.</param>
+    /// <returns><see langword="true"/> if the current user has write access; otherwise, <see langword="false"/>.</returns>
     public static bool CheckWriteAccess(string path)
     {
         var identity = WindowsIdentity.GetCurrent();

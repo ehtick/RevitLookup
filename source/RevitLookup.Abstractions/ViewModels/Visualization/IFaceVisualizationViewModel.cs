@@ -17,62 +17,63 @@ using System.Windows.Media;
 namespace RevitLookup.Abstractions.ViewModels.Visualization;
 
 /// <summary>
-///     Represents the data for face visualization.
+///     Defines a contract that represents the data for face visualization.
 /// </summary>
 public interface IFaceVisualizationViewModel
 {
     /// <summary>
-    ///     The minimum extrusion value for face.
+    ///     Gets the minimum extrusion value for the face.
     /// </summary>
     double MinExtrusion { get; }
 
     /// <summary>
-    ///     The extrusion value for face.
+    ///     Gets or sets the extrusion value for the face.
     /// </summary>
     double Extrusion { get; set; }
 
     /// <summary>
-    ///     The transparency level of visualization.
+    ///     Gets or sets the transparency level of visualization.
     /// </summary>
     double Transparency { get; set; }
 
     /// <summary>
-    ///     The color of face surface.
+    ///     Gets or sets the color of the face surface.
     /// </summary>
     Color SurfaceColor { get; set; }
 
     /// <summary>
-    ///     The color of face mesh.
+    ///     Gets or sets the color of the face mesh.
     /// </summary>
     Color MeshColor { get; set; }
 
     /// <summary>
-    ///     The color of face normal vectors.
+    ///     Gets or sets the color of the face normal vectors.
     /// </summary>
     Color NormalVectorColor { get; set; }
 
     /// <summary>
-    ///     Whether to show face surface.
+    ///     Gets or sets a value indicating whether to show the face surface.
     /// </summary>
     bool ShowSurface { get; set; }
 
     /// <summary>
-    ///     Whether to show face mesh grid.
+    ///     Gets or sets a value indicating whether to show the face mesh grid.
     /// </summary>
     bool ShowMeshGrid { get; set; }
 
     /// <summary>
-    ///     Whether to show face normal vectors.
+    ///     Gets or sets a value indicating whether to show the face normal vectors.
     /// </summary>
     bool ShowNormalVector { get; set; }
 
     /// <summary>
-    ///     Register Face visualization server.
+    ///     Registers the visualization server for the specified face.
     /// </summary>
+    /// <param name="face">The Revit <c>Face</c> to visualize.</param>
     void RegisterServer(object face);
 
     /// <summary>
-    ///     Unregister Face visualization server.
+    ///     Unregisters the face visualization server.
     /// </summary>
     void UnregisterServer();
 }

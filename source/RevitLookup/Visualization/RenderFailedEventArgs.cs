@@ -14,7 +14,13 @@
 
 namespace RevitLookup.Visualization;
 
+/// <summary>
+///     Provides data for the <see cref="DirectContext3DServer.RenderFailed"/> event.
+/// </summary>
 public sealed record RenderFailedEventArgs
 {
+    /// <summary>
+    ///     Gets the exception that was thrown while rendering the scene.
+    /// </summary>
     public required Exception ExceptionObject { get; init; }
 }

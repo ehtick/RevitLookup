@@ -15,28 +15,30 @@
 namespace RevitLookup.Tests.Unit.Coverage.Models;
 
 /// <summary>
-///     A single row of the utility method report.
+///     Represents a single row of the utility method report.
 /// </summary>
 public sealed record ApiMethodRow
 {
     /// <summary>
-    ///     The short name of the method return type.
+    ///     Gets the short name of the method return type.
     /// </summary>
     public required string ReturnType { get; init; }
 
     /// <summary>
-    ///     The <c>Type.Method</c> name of the reported method.
+    ///     Gets the <c>Type.Method</c> name of the reported method.
     /// </summary>
     public required string QualifiedName { get; init; }
 
     /// <summary>
-    ///     The method parameters rendered as a comma separated <c>Type name</c> list.
+    ///     Gets the method parameters rendered as a comma separated <c>Type name</c> list.
     /// </summary>
     public required string Parameters { get; init; }
 
     /// <summary>
-    ///     Names of the descriptor source files mentioning <see cref="QualifiedName"/>.
-    ///     An empty list marks a method no descriptor resolves yet.
+    ///     Gets the names of the descriptor source files mentioning <see cref="QualifiedName"/>.
     /// </summary>
+    /// <remarks>
+    ///     An empty list marks a method no descriptor resolves yet.
+    /// </remarks>
     public required IReadOnlyList<string> DescriptorFiles { get; init; }
 }

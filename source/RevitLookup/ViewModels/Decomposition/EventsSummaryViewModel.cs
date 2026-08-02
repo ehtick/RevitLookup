@@ -9,6 +9,15 @@ using EventsMonitoringService = RevitLookup.Decomposition.EventsMonitor.EventsMo
 
 namespace RevitLookup.ViewModels.Decomposition;
 
+/// <summary>
+///     Represents the view model for the Events Summary view, monitoring and decomposing Revit events as they occur.
+/// </summary>
+/// <param name="serviceProvider">The service provider used to resolve navigation targets when drilling into a decomposed event.</param>
+/// <param name="notificationService">The service used to report decomposition, search, and event parsing failures.</param>
+/// <param name="decompositionService">The service that evaluates individual members on demand and decomposes incoming Revit events.</param>
+/// <param name="searchService">The service that filters decomposed objects and members by search text.</param>
+/// <param name="monitoringService">The service that raises an event each time a monitored Revit event fires.</param>
+/// <param name="logger">The logger used to record decomposition, search, and event parsing failures.</param>
 [UsedImplicitly]
 public sealed partial class EventsSummaryViewModel(
     IServiceProvider serviceProvider,
@@ -21,18 +30,23 @@ public sealed partial class EventsSummaryViewModel(
 {
     private readonly SynchronizationContext _synchronizationContext = SynchronizationContext.Current!;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial ObservableDecomposedObject? SelectedDecomposedObject { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial List<ObservableDecomposedObject> DecomposedObjects { get; set; } = [];
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial ObservableCollection<ObservableDecomposedObject> FilteredDecomposedObjects { get; private set; } = [];
 
+    /// <inheritdoc/>
     public void Navigate(object? value)
     {
         Host.GetService<IUiOrchestratorService>()
@@ -42,6 +56,7 @@ public sealed partial class EventsSummaryViewModel(
             .Show<DecompositionSummaryPage>();
     }
 
+    /// <inheritdoc/>
     public void Navigate(ObservableDecomposedObject value)
     {
         Host.GetService<IUiOrchestratorService>()
@@ -50,6 +65,7 @@ public sealed partial class EventsSummaryViewModel(
             .Show<DecompositionSummaryPage>();
     }
 
+    /// <inheritdoc/>
     public void Navigate(List<ObservableDecomposedObject> values)
     {
         Host.GetService<IUiOrchestratorService>()
@@ -58,6 +74,7 @@ public sealed partial class EventsSummaryViewModel(
             .Show<DecompositionSummaryPage>();
     }
 
+    /// <inheritdoc/>
     [RelayCommand]
     private async Task ForceEvaluateMemberAsync(ObservableDecomposedMember member)
     {
@@ -72,6 +89,7 @@ public sealed partial class EventsSummaryViewModel(
         }
     }
 
+    /// <inheritdoc/>
     [RelayCommand]
     private async Task EvaluateMemberWithTransactionAsync(ObservableDecomposedMember member)
     {
@@ -86,6 +104,7 @@ public sealed partial class EventsSummaryViewModel(
         }
     }
 
+    /// <inheritdoc/>
     public async Task RefreshMembersAsync()
     {
         foreach (var decomposedObject in DecomposedObjects)
@@ -107,12 +126,14 @@ public sealed partial class EventsSummaryViewModel(
         }
     }
 
+    /// <inheritdoc/>
     public Task OnNavigatedToAsync()
     {
         monitoringService.EventInvoked += OnEventInvoked;
         return Task.CompletedTask;
     }
 
+    /// <inheritdoc/>
     public Task OnNavigatedFromAsync()
     {
         monitoringService.EventInvoked -= OnEventInvoked;

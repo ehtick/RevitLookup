@@ -17,8 +17,13 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.TriangulationInterface"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="triangulation">The triangulation interface to expose.</param>
 public sealed class TriangulationInterfaceDescriptor(TriangulationInterface triangulation) : Descriptor, IDescriptorConfigurator
 {
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(TriangulationInterface.Dispose)).Disable();

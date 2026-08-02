@@ -14,8 +14,9 @@ using File = ModularPipelines.FileSystem.File;
 namespace Build.Modules;
 
 /// <summary>
-///     Generate the changelog for publishing the add-in.
+///     Represents the pipeline module that generates the changelog for the release.
 /// </summary>
+/// <param name="publishOptions">The publish settings that supply the changelog file path.</param>
 [DependsOn<ResolveVersioningModule>]
 public sealed partial class GenerateChangelogModule(IOptions<PublishOptions> publishOptions) : Module<string>
 {
@@ -50,7 +51,7 @@ public sealed partial class GenerateChangelogModule(IOptions<PublishOptions> pub
     }
 
     /// <summary>
-    ///     Parse the changelog file to extract the entries for a specific version.
+    ///     Parses the changelog file to extract the entries for a specific version.
     /// </summary>
     private static async Task<StringBuilder> ParseChangelog(File changelogFile, string version)
     {
@@ -80,7 +81,7 @@ public sealed partial class GenerateChangelogModule(IOptions<PublishOptions> pub
     }
 
     /// <summary>
-    ///     Remove empty lines from the beginning and end of the changelog builder.
+    ///     Removes empty lines from the beginning and end of the changelog builder.
     /// </summary>
     private static void TrimEmptyLines(StringBuilder changelog)
     {
@@ -104,7 +105,7 @@ public sealed partial class GenerateChangelogModule(IOptions<PublishOptions> pub
     }
 
     /// <summary>
-    ///     Call the GitHub API to generate release notes for a specific version.
+    ///     Calls the GitHub API to generate release notes for a specific version.
     /// </summary>
     private static async Task<string?> GenerateReleaseNotesAsync(IModuleContext context, ResolveVersioningResult versioning)
     {

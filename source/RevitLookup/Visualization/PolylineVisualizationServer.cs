@@ -17,6 +17,9 @@ using RevitLookup.Visualization.Rendering;
 
 namespace RevitLookup.Visualization;
 
+/// <summary>
+///     Represents a Revit direct-context 3D server that renders polyline visualization geometry into the active view.
+/// </summary>
 public sealed class PolylineVisualizationServer : DirectContext3DServer
 {
     private IList<XYZ> _vertices = null!;
@@ -36,10 +39,16 @@ public sealed class PolylineVisualizationServer : DirectContext3DServer
     private readonly RenderingBufferStorage _curveBuffer = new();
     private readonly List<RenderingBufferStorage> _normalsBuffers = new(1);
 
+    /// <inheritdoc/>
     public override string GetName() => "Polyline visualization server";
+
+    /// <inheritdoc/>
     public override string GetDescription() => "Polyline geometry visualization";
+
+    /// <inheritdoc/>
     public override bool UseInTransparentPass(View view) => _drawSurface && _transparency > 0;
 
+    /// <inheritdoc/>
     public override Outline? GetBoundingBox(View view)
     {
         if (_vertices.Count == 0) return null;
@@ -57,53 +66,91 @@ public sealed class PolylineVisualizationServer : DirectContext3DServer
         return new Outline(min, max);
     }
 
+    /// <summary>
+    ///     Registers the server for the specified polyline and enables rendering.
+    /// </summary>
+    /// <param name="vertices">The polyline vertices to visualize.</param>
     public void Register(IList<XYZ> vertices)
     {
         _vertices = vertices;
         Register();
     }
 
+    /// <summary>
+    ///     Updates the color of the polyline surface and refreshes the open views.
+    /// </summary>
+    /// <param name="value">The new surface color.</param>
     public void UpdateSurfaceColor(Color value) => UpdateViews(() =>
     {
         _surfaceColor = value;
         HasEffectsUpdates = true;
     });
 
+    /// <summary>
+    ///     Updates the color of the polyline curve and refreshes the open views.
+    /// </summary>
+    /// <param name="value">The new curve color.</param>
     public void UpdateCurveColor(Color value) => UpdateViews(() =>
     {
         _curveColor = value;
         HasEffectsUpdates = true;
     });
 
+    /// <summary>
+    ///     Updates the color of the direction indicators and refreshes the open views.
+    /// </summary>
+    /// <param name="value">The new direction indicator color.</param>
     public void UpdateDirectionColor(Color value) => UpdateViews(() =>
     {
         _directionColor = value;
         HasEffectsUpdates = true;
     });
 
+    /// <summary>
+    ///     Updates the diameter of the polyline tube and refreshes the open views.
+    /// </summary>
+    /// <param name="value">The new diameter.</param>
     public void UpdateDiameter(double value) => UpdateViews(() =>
     {
         _diameter = value;
         HasGeometryUpdates = true;
     });
 
+    /// <summary>
+    ///     Updates the transparency level of the visualization and refreshes the open views.
+    /// </summary>
+    /// <param name="value">The new transparency level.</param>
     public void UpdateTransparency(double value) => UpdateViews(() =>
     {
         _transparency = value;
         HasEffectsUpdates = true;
     });
 
+    /// <summary>
+    ///     Updates whether the polyline surface is drawn and refreshes the open views.
+    /// </summary>
+    /// <param name="visible">A value indicating whether the surface is drawn.</param>
     public void UpdateSurfaceVisibility(bool visible) => UpdateViews(() => { _drawSurface = visible; });
 
+    /// <summary>
+    ///     Updates whether the polyline curve is drawn and refreshes the open views.
+    /// </summary>
+    /// <param name="visible">A value indicating whether the curve is drawn.</param>
     public void UpdateCurveVisibility(bool visible) => UpdateViews(() => { _drawCurve = visible; });
 
+    /// <summary>
+    ///     Updates whether the direction indicators are drawn and refreshes the open views.
+    /// </summary>
+    /// <param name="visible">A value indicating whether the direction indicators are drawn.</param>
     public void UpdateDirectionVisibility(bool visible) => UpdateViews(() => { _drawDirection = visible; });
 
+    /// <inheritdoc/>
     protected override bool AreBuffersValid()
     {
         return _surfaceBuffer.IsValid() && _curveBuffer.IsValid();
     }
 
+    /// <inheritdoc/>
     protected override void MapGeometryBuffer()
     {
         RenderHelper.MapCurveSurfaceBuffer(_surfaceBuffer, _vertices, _diameter);
@@ -111,6 +158,7 @@ public sealed class PolylineVisualizationServer : DirectContext3DServer
         MapDirectionsBuffer();
     }
 
+    /// <inheritdoc/>
     protected override void UpdateEffects()
     {
         _surfaceBuffer.EffectInstance ??= new EffectInstance(_surfaceBuffer.FormatBits);
@@ -127,6 +175,7 @@ public sealed class PolylineVisualizationServer : DirectContext3DServer
         }
     }
 
+    /// <inheritdoc/>
     protected override void RenderBuffers()
     {
         if (_drawSurface) FlushTriangleBuffer(_surfaceBuffer, _transparency);
@@ -178,6 +227,7 @@ public sealed class PolylineVisualizationServer : DirectContext3DServer
         }
     }
 
+    /// <inheritdoc/>
     protected override void DisposeBuffers()
     {
         _surfaceBuffer.Dispose();

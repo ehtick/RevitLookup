@@ -1,7 +1,7 @@
-﻿namespace RevitLookup.UI.Framework.Extensions;
+namespace RevitLookup.UI.Framework.Extensions;
 
 /// <summary>
-/// Provides extension methods for string collections and arrays.
+///     Provides extension methods for string collections and arrays.
 /// </summary>
 [PublicAPI]
 public static class StringExtensions
@@ -10,20 +10,20 @@ public static class StringExtensions
     extension(IEnumerable<string?> source)
     {
         /// <summary>
-        /// Joins the elements of the provided string collection or array into a single string, separated by the specified separator.
+        ///     Joins the elements of the source into a single string, separated by the specified separator.
         /// </summary>
-        /// <param name="separator">The string or character to use as a separator between the joined elements.</param>
-        /// <returns>A single concatenated string consisting of the elements in the source collection or array, separated by the specified separator.</returns>
+        /// <param name="separator">The string to use as a separator between the joined elements.</param>
+        /// <returns>A single concatenated string consisting of the elements in the source, separated by <paramref name="separator"/>.</returns>
         public string Join(string separator)
         {
             return string.Join(separator, source);
         }
 
         /// <summary>
-        /// Joins the elements of the provided string collection or array into a single string, separated by the specified separator character.
+        ///     Joins the elements of the source into a single string, separated by the specified separator character.
         /// </summary>
         /// <param name="separator">The character to use as a separator between the joined elements.</param>
-        /// <returns>A single concatenated string consisting of the elements in the source collection or array, separated by the specified separator character.</returns>
+        /// <returns>A single concatenated string consisting of the elements in the source, separated by <paramref name="separator"/>.</returns>
         public string Join(char separator)
         {
             return string.Join(separator, source);
@@ -34,20 +34,20 @@ public static class StringExtensions
     extension(string[] source)
     {
         /// <summary>
-        /// Joins the elements of the provided string array into a single string, separated by the specified separator.
+        ///     Joins the elements of the source into a single string, separated by the specified separator.
         /// </summary>
         /// <param name="separator">The string to use as a separator between the joined elements.</param>
-        /// <returns>A single concatenated string consisting of the elements in the array, separated by the specified separator.</returns>
+        /// <returns>A single concatenated string consisting of the elements in the source, separated by <paramref name="separator"/>.</returns>
         public string Join(string separator)
         {
             return string.Join(separator, source);
         }
 
         /// <summary>
-        /// Joins the elements of the provided string collection or array into a single string, separated by the specified character separator.
+        ///     Joins the elements of the source into a single string, separated by the specified separator character.
         /// </summary>
         /// <param name="separator">The character to use as a separator between the joined elements.</param>
-        /// <returns>A single concatenated string consisting of the elements in the source collection or array, separated by the specified character separator.</returns>
+        /// <returns>A single concatenated string consisting of the elements in the source, separated by <paramref name="separator"/>.</returns>
         public string Join(char separator)
         {
             return string.Join(separator, source);

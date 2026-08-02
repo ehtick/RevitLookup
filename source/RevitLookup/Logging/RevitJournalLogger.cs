@@ -6,23 +6,26 @@ namespace RevitLookup.Logging;
 
 /// <summary>
 ///     Writes the log records of a single category to the Revit journal, one comment per record.
-/// </summary>r
+/// </summary>
 /// <remarks>
 ///     A record takes the <c>TOKEN { payload }</c> shape Revit writes its own <c>API_ERROR</c> and <c>API_SUCCESS</c> comments in.
 ///     Revit prepends the comment marker and the timestamp.
 /// </remarks>
 public sealed partial class RevitJournalLogger(string addinName, string categoryName) : ILogger
 {
+    /// <inheritdoc/>
     public IDisposable BeginScope<TState>(TState state) where TState : notnull
     {
         return NullLogger.Instance.BeginScope(state);
     }
 
+    /// <inheritdoc/>
     public bool IsEnabled(LogLevel logLevel)
     {
         return logLevel != LogLevel.None;
     }
 
+    /// <inheritdoc/>
     public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
     {
         if (!IsEnabled(logLevel)) return;

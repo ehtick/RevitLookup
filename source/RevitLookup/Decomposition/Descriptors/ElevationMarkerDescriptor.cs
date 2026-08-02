@@ -17,8 +17,13 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="ElevationMarker"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="elevationMarker">The elevation marker to expose.</param>
 public sealed class ElevationMarkerDescriptor(ElevationMarker elevationMarker) : ElementDescriptor(elevationMarker)
 {
+    /// <inheritdoc/>
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(ElevationMarker.Dispose)).Disable();

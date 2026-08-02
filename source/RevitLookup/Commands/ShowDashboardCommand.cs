@@ -19,10 +19,14 @@ using RevitLookup.UI.Framework.Views.Dashboard;
 
 namespace RevitLookup.Commands;
 
+/// <summary>
+///     Represents the Revit command that opens the RevitLookup dashboard.
+/// </summary>
 [UsedImplicitly]
 [Transaction(TransactionMode.Manual)]
 public class ShowDashboardCommand : ExternalCommand
 {
+    /// <inheritdoc/>
     public override void Execute()
     {
         Host.GetService<IUiOrchestratorService>()

@@ -18,13 +18,17 @@ using RevitLookup.UI.Framework.Extensions;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Base descriptor providing shared helpers that resolve a member into a set of variants.
+///     Provides shared helpers that resolve a member into a set of variants.
 /// </summary>
 public abstract class ResolvingDescriptor : Descriptor
 {
     /// <summary>
     ///     Resolves a member across all values of an enumeration.
     /// </summary>
+    /// <typeparam name="TEnum">The enumeration type to iterate.</typeparam>
+    /// <typeparam name="TResult">The type of the resolved value.</typeparam>
+    /// <param name="selector">A function that evaluates the member for a given enumeration value.</param>
+    /// <returns>A variant collection with one entry per enumeration value.</returns>
     protected static IVariant ResolveEnum<TEnum, TResult>(Func<TEnum, TResult> selector)
         where TEnum : struct, Enum
     {
@@ -44,6 +48,10 @@ public abstract class ResolvingDescriptor : Descriptor
     /// <summary>
     ///     Resolves a member across a zero-based index range.
     /// </summary>
+    /// <typeparam name="TResult">The type of the resolved value.</typeparam>
+    /// <param name="capacity">The exclusive upper bound of the index range, starting at zero.</param>
+    /// <param name="selector">A function that evaluates the member for a given index.</param>
+    /// <returns>A variant collection with one entry per index in the range.</returns>
     protected static IVariant ResolveRange<TResult>(int capacity, Func<int, TResult> selector)
     {
         var variants = Variants.Values<TResult>(capacity);
@@ -59,8 +67,10 @@ public abstract class ResolvingDescriptor : Descriptor
     }
 
     /// <summary>
-    ///     Safely evaluates a predicate and returns its result. If an exception occurs during invocation, false is returned.
+    ///     Safely evaluates a predicate and returns its result.
     /// </summary>
+    /// <param name="predicate">The predicate to evaluate.</param>
+    /// <returns><see langword="true"/> if the predicate evaluates to <see langword="true"/>; otherwise, <see langword="false"/>, including when evaluation throws.</returns>
     protected static bool SafeEvaluate(Func<bool> predicate)
     {
         try

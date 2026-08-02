@@ -11,11 +11,13 @@ namespace RevitLookup.Logging;
 /// </summary>
 public static class RevitLoggingRegistration
 {
+    /// <param name="builder">The host application builder to configure.</param>
     extension<TBuilder>(TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
         /// <summary>
         ///     Seeds the log levels the add-in runs on, adds the Revit journal logging provider, and silences the WPF resource dictionary traces.
         /// </summary>
+        /// <returns>The <see cref="TBuilder"/> for chaining.</returns>
         public TBuilder AddRevitLogging()
         {
             builder.Configuration.AddInMemoryCollection(new Dictionary<string, string?>

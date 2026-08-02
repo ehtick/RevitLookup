@@ -1,10 +1,13 @@
 ﻿namespace Build.Options;
 
+/// <summary>
+///     Represents the build settings used to compile and package the add-in.
+/// </summary>
 [Serializable]
 public sealed record BuildOptions
 {
     /// <summary>
-    ///     Application versions mapping to compile configuration
+    ///     Gets the application versions keyed by compile configuration.
     /// </summary>
     /// <example>
     ///     1.0.0-alpha.1.250101 <br/>
@@ -14,7 +17,7 @@ public sealed record BuildOptions
     public Dictionary<string, string> Versions { get; init; } = [];
 
     /// <summary>
-    ///     Path to build output
+    ///     Gets the path to the build output directory.
     /// </summary>
     public string OutputDirectory { get; init; } = "output";
 }

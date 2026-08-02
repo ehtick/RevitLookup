@@ -4,17 +4,18 @@ using RevitLookup.Abstractions.Decomposition;
 namespace RevitLookup.Abstractions.ViewModels.Decomposition;
 
 /// <summary>
-///     Represents the data for the Decomposition Summary view.
+///     Defines a contract that represents the data for the Decomposition Summary view.
 /// </summary>
 public interface IDecompositionSummaryViewModel : ISummaryViewModel
 {
     /// <summary>
-    ///     The list of filtered decomposed objects.
+    ///     Gets the list of filtered decomposed objects, grouped for display.
     /// </summary>
     ObservableCollection<ObservableDecomposedObjectsGroup> FilteredDecomposedObjects { get; }
     
     /// <summary>
-    ///     Remove an item from the decomposed objects.
+    ///     Removes the specified item from the decomposed objects.
     /// </summary>
+    /// <param name="target">The item to remove.</param>
     void RemoveItem(object target);
 }

@@ -18,10 +18,10 @@ using System.Globalization;
 namespace RevitLookup.UI.Framework.Colors;
 
 /// <summary>
-///     Helper class to easier work with color representation
+///     Provides methods that render a color as a string in a given color format, and that approximates its name.
 /// </summary>
 /// <remarks>
-///     Implementation: https://github.com/microsoft/PowerToys/blob/main/src/modules/colorPicker/ColorPickerUI/Helpers/ColorRepresentationHelper.cs
+///     Ports the implementation from <see href="https://github.com/microsoft/PowerToys/blob/main/src/modules/colorPicker/ColorPickerUI/Helpers/ColorRepresentationHelper.cs">the PowerToys ColorRepresentationHelper</see>.
 /// </remarks>
 public static class ColorRepresentationUtils
 {
@@ -499,10 +499,10 @@ public static class ColorRepresentationUtils
     };
 
     /// <summary>
-    /// Return a <see cref="string"/> representation of a CMYK color
+    ///     Returns a <see cref="string"/> representation of a color in the CMYK format.
     /// </summary>
-    /// <param name="color">The <see cref="System.Windows.Media.Color"/> for the CMYK color presentation</param>
-    /// <returns>A <see cref="string"/> representation of a CMYK color</returns>
+    /// <param name="color">The color to render.</param>
+    /// <returns>A <see cref="string"/> representation of the color in the CMYK format.</returns>
     public static string ColorToCmyk(Color color)
     {
         var (cyan, magenta, yellow, blackKey) = ColorFormatUtils.ConvertToCmykColor(color);
@@ -519,10 +519,10 @@ public static class ColorRepresentationUtils
     }
 
     /// <summary>
-    /// Return a hexadecimal <see cref="string"/> representation of a RGB color
+    ///     Returns a hexadecimal <see cref="string"/> representation of a color in the RGB format.
     /// </summary>
-    /// <param name="color">The <see cref="Color"/> for the hexadecimal presentation</param>
-    /// <returns>A hexadecimal <see cref="string"/> representation of a RGB color</returns>
+    /// <param name="color">The color to render.</param>
+    /// <returns>A hexadecimal <see cref="string"/> representation of the color in the RGB format.</returns>
     public static string ColorToHex(Color color)
     {
         const string hexFormat = "x2";
@@ -533,10 +533,10 @@ public static class ColorRepresentationUtils
     }
 
     /// <summary>
-    /// Return a <see cref="string"/> representation of a HSB color
+    ///     Returns a <see cref="string"/> representation of a color in the HSB format.
     /// </summary>
-    /// <param name="color">The <see cref="Color"/> for the HSB color presentation</param>
-    /// <returns>A <see cref="string"/> representation of a HSB color</returns>
+    /// <param name="color">The color to render.</param>
+    /// <returns>A <see cref="string"/> representation of the color in the HSB format.</returns>
     public static string ColorToHsb(Color color)
     {
         var (hue, saturation, brightness) = ColorFormatUtils.ConvertToHsbColor(color);
@@ -551,10 +551,10 @@ public static class ColorRepresentationUtils
     }
 
     /// <summary>
-    /// Return a <see cref="string"/> representation float color styling(0.1f, 0.1f, 0.1f)
+    ///     Returns a <see cref="string"/> representation of a color as normalized floats, formatted as "0.1f, 0.1f, 0.1f, 1f".
     /// </summary>
-    /// <param name="color">The <see cref="Color"/> to convert</param>
-    /// <returns>a string value (0.1f, 0.1f, 0.1f)</returns>
+    /// <param name="color">The color to render.</param>
+    /// <returns>A <see cref="string"/> representation of the color as normalized floats.</returns>
     public static string ColorToFloat(Color color)
     {
         var (red, green, blue) = (color.R / 255d, color.G / 255d, color.B / 255d);
@@ -567,20 +567,20 @@ public static class ColorRepresentationUtils
     }
 
     /// <summary>
-    /// Return a <see cref="string"/> representation decimal color value
+    ///     Returns a <see cref="string"/> representation of a color as a decimal integer value.
     /// </summary>
-    /// <param name="color">The <see cref="Color"/> to convert</param>
-    /// <returns>a string value number</returns>
+    /// <param name="color">The color to render.</param>
+    /// <returns>A <see cref="string"/> representation of the color as a decimal integer value.</returns>
     public static string ColorToDecimal(Color color)
     {
         return $"{(color.R * 65536) + (color.G * 256) + color.B}";
     }
 
     /// <summary>
-    /// Return a <see cref="string"/> representation of a HSI color
+    ///     Returns a <see cref="string"/> representation of a color in the HSI format.
     /// </summary>
-    /// <param name="color">The <see cref="Color"/> for the HSI color presentation</param>
-    /// <returns>A <see cref="string"/> representation of a HSI color</returns>
+    /// <param name="color">The color to render.</param>
+    /// <returns>A <see cref="string"/> representation of the color in the HSI format.</returns>
     public static string ColorToHsi(Color color)
     {
         var (hue, saturation, intensity) = ColorFormatUtils.ConvertToHsiColor(color);
@@ -595,10 +595,10 @@ public static class ColorRepresentationUtils
     }
 
     /// <summary>
-    /// Return a <see cref="string"/> representation of a HSL color
+    ///     Returns a <see cref="string"/> representation of a color in the HSL format.
     /// </summary>
-    /// <param name="color">The <see cref="Color"/> for the HSL color presentation</param>
-    /// <returns>A <see cref="string"/> representation of a HSL color</returns>
+    /// <param name="color">The color to render.</param>
+    /// <returns>A <see cref="string"/> representation of the color in the HSL format.</returns>
     public static string ColorToHsl(Color color)
     {
         var (hue, saturation, lightness) = ColorFormatUtils.ConvertToHslColor(color);
@@ -614,10 +614,10 @@ public static class ColorRepresentationUtils
     }
 
     /// <summary>
-    /// Return a <see cref="string"/> representation of a HSV color
+    ///     Returns a <see cref="string"/> representation of a color in the HSV format.
     /// </summary>
-    /// <param name="color">The <see cref="Color"/> for the HSV color presentation</param>
-    /// <returns>A <see cref="string"/> representation of a HSV color</returns>
+    /// <param name="color">The color to render.</param>
+    /// <returns>A <see cref="string"/> representation of the color in the HSV format.</returns>
     public static string ColorToHsv(Color color)
     {
         var (hue, saturation, value) = ColorFormatUtils.ConvertToHsvColor(color);
@@ -633,10 +633,10 @@ public static class ColorRepresentationUtils
     }
 
     /// <summary>
-    /// Return a <see cref="string"/> representation of a HWB color
+    ///     Returns a <see cref="string"/> representation of a color in the HWB format.
     /// </summary>
-    /// <param name="color">The <see cref="Color"/> for the HWB color presentation</param>
-    /// <returns>A <see cref="string"/> representation of a HWB color</returns>
+    /// <param name="color">The color to render.</param>
+    /// <returns>A <see cref="string"/> representation of the color in the HWB format.</returns>
     public static string ColorToHwb(Color color)
     {
         var (hue, whiteness, blackness) = ColorFormatUtils.ConvertToHwbColor(color);
@@ -651,10 +651,10 @@ public static class ColorRepresentationUtils
     }
 
     /// <summary>
-    /// Return a <see cref="string"/> representation of a natural color
+    ///     Returns a <see cref="string"/> representation of a color in the natural color (NCol) format.
     /// </summary>
-    /// <param name="color">The <see cref="Color"/> for the natural color presentation</param>
-    /// <returns>A <see cref="string"/> representation of a natural color</returns>
+    /// <param name="color">The color to render.</param>
+    /// <returns>A <see cref="string"/> representation of the color in the natural color (NCol) format.</returns>
     public static string ColorToNCol(Color color)
     {
         var (hue, whiteness, blackness) = ColorFormatUtils.ConvertToNaturalColor(color);
@@ -668,20 +668,20 @@ public static class ColorRepresentationUtils
     }
 
     /// <summary>
-    /// Return a <see cref="string"/> representation of a RGB color
+    ///     Returns a <see cref="string"/> representation of a color in the RGB format.
     /// </summary>
-    /// <param name="color">The <see cref="Color"/> for the RGB color presentation</param>
-    /// <returns>A <see cref="string"/> representation of a RGB color</returns>
+    /// <param name="color">The color to render.</param>
+    /// <returns>A <see cref="string"/> representation of the color in the RGB format.</returns>
     public static string ColorToRgb(Color color)
         => $"{color.R.ToString(CultureInfo.InvariantCulture)}"
            + $", {color.G.ToString(CultureInfo.InvariantCulture)}"
            + $", {color.B.ToString(CultureInfo.InvariantCulture)}";
 
     /// <summary>
-    /// Returns a <see cref="string"/> representation of a CIE LAB color
+    ///     Returns a <see cref="string"/> representation of a color in the CIE LAB format.
     /// </summary>
-    /// <param name="color">The <see cref="Color"/> for the CIE LAB color presentation</param>
-    /// <returns>A <see cref="string"/> representation of a CIE LAB color</returns>
+    /// <param name="color">The color to render.</param>
+    /// <returns>A <see cref="string"/> representation of the color in the CIE LAB format.</returns>
     public static string ColorToCielab(Color color)
     {
         var (lightness, chromaticityA, chromaticityB) = ColorFormatUtils.ConvertToCielabColor(color);
@@ -695,10 +695,10 @@ public static class ColorRepresentationUtils
     }
 
     /// <summary>
-    /// Returns a <see cref="string"/> representation of a CIE XYZ color
+    ///     Returns a <see cref="string"/> representation of a color in the CIE XYZ format.
     /// </summary>
-    /// <param name="color">The <see cref="Color"/> for the CIE XYZ color presentation</param>
-    /// <returns>A <see cref="string"/> representation of a CIE XYZ color</returns>
+    /// <param name="color">The color to render.</param>
+    /// <returns>A <see cref="string"/> representation of the color in the CIE XYZ format.</returns>
     public static string ColorToCieXyz(Color color)
     {
         var (x, y, z) = ColorFormatUtils.ConvertToCiexyzColor(color);
@@ -713,10 +713,10 @@ public static class ColorRepresentationUtils
     }
 
     /// <summary>
-    /// Return a hexadecimal integer <see cref="string"/> representation of a RGB color
+    ///     Returns a hexadecimal integer <see cref="string"/> representation of a color in the RGB format, prefixed with "0xFF".
     /// </summary>
-    /// <param name="color">The <see cref="Color"/> for the hexadecimal integer presentation</param>
-    /// <returns>A hexadecimal integer <see cref="string"/> representation of a RGB color</returns>
+    /// <param name="color">The color to render.</param>
+    /// <returns>A hexadecimal integer <see cref="string"/> representation of the color in the RGB format.</returns>
     public static string ColorToHexInteger(Color color)
     {
         const string hexFormat = "X2";
@@ -728,10 +728,10 @@ public static class ColorRepresentationUtils
     }
 
     /// <summary>
-    /// Return a name of a RGB color
+    ///     Returns the name of the closest known color to the specified color.
     /// </summary>
-    /// <param name="color">The <see cref="Color"/> for presentation</param>
-    /// <returns>Approximate name of a color based on RGB representation</returns>
+    /// <param name="color">The color to name.</param>
+    /// <returns>The name of the closest known color, approximated by Euclidean distance in RGB space.</returns>
     public static string GetColorName(Color color)
     {
         var colorName = string.Empty;

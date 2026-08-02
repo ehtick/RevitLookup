@@ -16,8 +16,13 @@ using LookupEngine.Abstractions.Configuration;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="AreaVolumeSettings"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="settings">The area and volume settings to expose.</param>
 public sealed class AreaVolumeSettingsDescriptor(AreaVolumeSettings settings) : ElementDescriptor(settings)
 {
+    /// <inheritdoc/>
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(AreaVolumeSettings.Dispose)).Disable();

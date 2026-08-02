@@ -9,10 +9,21 @@ using Wpf.Ui.Controls;
 
 namespace RevitLookup.UI.Playground.Views;
 
+/// <summary>
+/// Represents the main window that hosts navigation between the Playground's demo pages.
+/// </summary>
 public sealed partial class PlaygroundView
 {
     private readonly INavigationService _navigationService;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PlaygroundView"/> class.
+    /// </summary>
+    /// <param name="viewModel">The view model that supplies data for the window.</param>
+    /// <param name="navigationService">The service that navigates between pages hosted in the window.</param>
+    /// <param name="dialogService">The service that hosts content dialogs in the window.</param>
+    /// <param name="snackbarService">The service that hosts snackbars in the window.</param>
+    /// <param name="intercomService">The service that exposes the window to other components.</param>
     public PlaygroundView(
         PlaygroundViewModel viewModel,
         INavigationService navigationService,
@@ -46,6 +57,7 @@ public sealed partial class PlaygroundView
         NavigationView.SetCurrentValue(NavigationView.HeaderVisibilityProperty, showHeader);
     }
 
+    /// <inheritdoc/>
     protected override AutomationPeer OnCreateAutomationPeer()
     {
         return new NoAutomationWindowPeer(this);

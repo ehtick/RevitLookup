@@ -17,6 +17,9 @@ using System.Windows.Markup;
 
 namespace RevitLookup.UI.Framework.Markup.Menu;
 
+/// <summary>
+///     Represents the merged resource dictionary that supplies the shared context menu resources.
+/// </summary>
 [Localizability(LocalizationCategory.Ignore)]
 [Ambient]
 [UsableDuringInitialization(true)]
@@ -24,6 +27,9 @@ public sealed class MenusDictionary : ResourceDictionary
 {
     private const string DictionaryUri = "pack://application:,,,/RevitLookup.UI.Framework;component/Markup/Menu/Menus.xaml";
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="MenusDictionary"/> class and loads the Menus.xaml resources.
+    /// </summary>
     public MenusDictionary()
     {
         Source = new Uri(DictionaryUri, UriKind.Absolute);

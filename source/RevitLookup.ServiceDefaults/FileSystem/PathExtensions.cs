@@ -2,23 +2,23 @@ using System.IO;
 
 namespace RevitLookup.ServiceDefaults.FileSystem;
 
+/// <summary>
+///     Provides extension methods for <see cref="string"/> to combine file system paths.
+/// </summary>
 [PublicAPI]
 public static class PathExtensions
 {
+    /// <param name="source">The path the other segments are combined onto.</param>
     extension(string source)
     {
         /// <summary>
-        ///     Combines strings into a path
+        ///     Combines <paramref name="source"/> with <paramref name="path"/> into a single path.
         /// </summary>
-        /// <returns>
-        ///     The combined paths.
-        ///     If one of the specified paths is a zero-length string, this method returns the other path.
-        ///     If path2 contains an absolute path, this method returns path2.
-        /// </returns>
-        /// <exception cref="System.ArgumentException">
-        ///     NET Framework and .NET Core versions older than 2.1: path1 or path2 contains one or more of the invalid characters defined in <see cref="Path.GetInvalidPathChars" />
-        /// </exception>
-        /// <exception cref="System.ArgumentNullException">source or path is null</exception>
+        /// <param name="path">The path segment to append.</param>
+        /// <returns>The combined path.</returns>
+        /// <exception cref="ArgumentException"><paramref name="source"/> or <paramref name="path"/> contains one or more of the invalid characters defined in <see cref="Path.GetInvalidPathChars"/>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="path"/> is <see langword="null"/>.</exception>
+        /// <remarks>If <paramref name="path"/> is a zero-length string, this method returns <paramref name="source"/>. If <paramref name="path"/> is rooted, this method returns <paramref name="path"/>.</remarks>
         [Pure]
         public string AppendPath(string path)
         {
@@ -26,13 +26,13 @@ public static class PathExtensions
         }
 
         /// <summary>
-        ///     Combines strings into a path
+        ///     Combines <paramref name="source"/> with the specified path segments into a single path.
         /// </summary>
-        /// <returns>The combined paths</returns>
-        /// <exception cref="System.ArgumentException">
-        ///     NET Framework and .NET Core versions older than 2.1: path1 or path2 contains one or more of the invalid characters defined in <see cref="Path.GetInvalidPathChars" />
-        /// </exception>
-        /// <exception cref="System.ArgumentNullException">source or path is null</exception>
+        /// <param name="paths">The path segments to append.</param>
+        /// <returns>The combined path.</returns>
+        /// <exception cref="ArgumentException"><paramref name="source"/> or one of <paramref name="paths"/> contains one or more of the invalid characters defined in <see cref="Path.GetInvalidPathChars"/>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or one of <paramref name="paths"/> is <see langword="null"/>.</exception>
+        /// <remarks>If a segment is a zero-length string, this method skips it. If a segment is rooted, this method discards every preceding segment.</remarks>
         [Pure]
         public string AppendPath(params string[] paths)
         {

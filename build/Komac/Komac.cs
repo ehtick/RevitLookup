@@ -9,6 +9,15 @@ using File = ModularPipelines.FileSystem.File;
 
 namespace Build.Komac;
 
+/// <summary>
+///     Represents the Komac tool used to manage WinGet package manifests.
+/// </summary>
+/// <param name="gitHub">The GitHub service used to locate and download the latest Komac release.</param>
+/// <param name="command">The command-line service used to execute the downloaded Komac executable.</param>
+/// <param name="logger">The logger used to record Komac download activity.</param>
+/// <remarks>
+///     Komac is downloaded at most once per process; subsequent calls to <see cref="Update"/> and <see cref="ListVersions"/> reuse the cached executable.
+/// </remarks>
 public sealed partial class Komac(IGitHub gitHub, ICommand command, ILogger<Komac> logger)
 {
     private const string KomacOwner = "russellbanks";
@@ -21,12 +30,24 @@ public sealed partial class Komac(IGitHub gitHub, ICommand command, ILogger<Koma
     private readonly Folder _temporaryFolder = Folder.CreateTemporaryFolder();
     private File? _komacFile;
 
+    /// <summary>
+    ///     Downloads the Komac executable when needed and updates a WinGet package manifest through its <c>update</c> command.
+    /// </summary>
+    /// <param name="options">The <c>update</c> command options, including the package identifier and version to submit.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>The result of the Komac <c>update</c> command execution.</returns>
     public async Task<CommandResult> Update(KomacUpdateOptions options, CancellationToken cancellationToken = default)
     {
         var executable = await EnsureKomacAsync(cancellationToken);
         return await command.ExecuteCommandLineTool(options with {Tool = executable}, cancellationToken: cancellationToken);
     }
 
+    /// <summary>
+    ///     Downloads the Komac executable when needed and lists the published versions of a WinGet package through its <c>list-versions</c> command.
+    /// </summary>
+    /// <param name="options">The <c>list-versions</c> command options, including the package identifier to query.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>The result of the Komac <c>list-versions</c> command execution. A non-zero <see cref="CommandResult.ExitCode"/> indicates the package is not yet registered in WinGet.</returns>
     public async Task<CommandResult> ListVersions(KomacListVersionsOptions options, CancellationToken cancellationToken = default)
     {
         var executable = await EnsureKomacAsync(cancellationToken);

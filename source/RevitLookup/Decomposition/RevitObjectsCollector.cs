@@ -21,8 +21,17 @@ using RevitLookup.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition;
 
+/// <summary>
+///     Provides access to well-known Revit objects available for decomposition, such as the active document, selection, or a user-picked geometry object.
+/// </summary>
 public static class RevitObjectsCollector
 {
+    /// <summary>
+    ///     Gets the Revit objects associated with <paramref name="decompositionObject"/>.
+    /// </summary>
+    /// <param name="decompositionObject">The well-known object category to retrieve.</param>
+    /// <returns>The objects for <paramref name="decompositionObject"/>; empty when none are currently available.</returns>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="decompositionObject"/> is not a defined <see cref="KnownDecompositionObject"/> value.</exception>
     public static IEnumerable GetObjects(KnownDecompositionObject decompositionObject)
     {
         return decompositionObject switch

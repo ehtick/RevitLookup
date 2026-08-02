@@ -18,8 +18,13 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.Electrical.Wire"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="wire">The wire to expose.</param>
 public sealed class WireDescriptor(Wire wire) : ElementDescriptor(wire)
 {
+    /// <inheritdoc/>
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Wire.Dispose)).Disable();

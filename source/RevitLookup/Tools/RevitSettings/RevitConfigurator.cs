@@ -21,6 +21,9 @@ using RevitLookup.Abstractions.Tools;
 
 namespace RevitLookup.Tools.RevitSettings;
 
+/// <summary>
+///     Provides read and write access to the Revit session configuration recorded in <c>Revit.ini</c> and the recording journal.
+/// </summary>
 [SuppressMessage("ReSharper", "ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator")]
 [SuppressMessage("ReSharper", "LoopCanBeConvertedToQuery")]
 public sealed class RevitConfigurator
@@ -45,6 +48,9 @@ public sealed class RevitConfigurator
 
     private bool _backupDone;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="RevitConfigurator"/> class.
+    /// </summary>
     public RevitConfigurator()
     {
 #if NET
@@ -53,6 +59,10 @@ public sealed class RevitConfigurator
         _encoding = Encoding.GetEncoding(1251);
     }
 
+    /// <summary>
+    ///     Reads the merged Revit configuration from the session journal, the user INI file, and the default INI file.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous read operation. The task result contains the merged configuration entries.</returns>
     public async Task<List<ObservableIniEntry>> ReadAsync()
     {
         return await Task.Run(() =>
@@ -210,6 +220,11 @@ public sealed class RevitConfigurator
     }
 
 
+    /// <summary>
+    ///     Writes the user-defined entries to the user INI file, backing up the existing file on the first write.
+    /// </summary>
+    /// <param name="entries">The configuration entries to write. Only entries marked <see cref="ObservableIniEntry.UserDefined"/> are written.</param>
+    /// <returns>A task that represents the asynchronous write operation.</returns>
     public async Task WriteAsync(List<ObservableIniEntry> entries)
     {
         var lines = new List<string>();

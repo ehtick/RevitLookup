@@ -19,6 +19,10 @@ using Nice3point.Revit.Toolkit.External;
 
 namespace RevitLookup.Decomposition.EventsMonitor;
 
+/// <summary>
+///     Monitors every event exposed by the RevitAPI and RevitAPIUI assemblies and republishes them through <see cref="EventInvoked"/>.
+/// </summary>
+/// <param name="logger">The logger used to report events without a supported target.</param>
 public sealed partial class EventsMonitoringService(ILogger<EventsMonitoringService> logger)
 {
     private Action<object, string>? _eventInvoked;
@@ -41,6 +45,13 @@ public sealed partial class EventsMonitoringService(ILogger<EventsMonitoringServ
         nameof(Autodesk.Revit.ApplicationServices.Application.ProgressChanged)
     ];
 
+    /// <summary>
+    ///     An event that is raised when a monitored Revit API event fires, carrying the original event args and the name of the event.
+    /// </summary>
+    /// <remarks>
+    ///     Subscribing a first handler discovers and subscribes to every non-denied event on <see cref="Autodesk.Revit.ApplicationServices.Application"/>, <see cref="Document"/>, and <see cref="UIApplication"/>.
+    ///     Removing the last handler unsubscribes from all of them.
+    /// </remarks>
     public event Action<object, string> EventInvoked
     {
         add

@@ -11,6 +11,12 @@ using Wpf.Ui.Controls;
 
 namespace RevitLookup.UI.Playground.Mocks.Settings;
 
+/// <summary>
+///     Represents a Playground mock of <see cref="ISettingsService"/> that persists settings as JSON files under the Playground's resource locations.
+/// </summary>
+/// <param name="foldersOptions">The options resolving the settings file paths.</param>
+/// <param name="jsonOptions">The options controlling JSON serialization of the settings.</param>
+/// <param name="logger">The logger used to report a settings loading failure.</param>
 public sealed partial class MockSettingsService(
     IOptions<ResourceLocationsOptions> foldersOptions,
     IOptions<JsonSerializerOptions> jsonOptions,
@@ -21,10 +27,16 @@ public sealed partial class MockSettingsService(
     private DecompositionSettings? _decompositionSettings;
     private VisualizationSettings? _visualizationSettings;
 
+    /// <inheritdoc/>
     public ApplicationSettings ApplicationSettings => _applicationSettings ?? throw new InvalidOperationException("Application settings is not loaded.");
+
+    /// <inheritdoc/>
     public DecompositionSettings DecompositionSettings => _decompositionSettings ?? throw new InvalidOperationException("Decomposition settings is not loaded.");
+
+    /// <inheritdoc/>
     public VisualizationSettings VisualizationSettings => _visualizationSettings ?? throw new InvalidOperationException("Visualization settings is not loaded.");
 
+    /// <inheritdoc/>
     public void SaveSettings()
     {
         SaveApplicationSettings();
@@ -32,6 +44,7 @@ public sealed partial class MockSettingsService(
         SaveVisualizationSettings();
     }
 
+    /// <inheritdoc/>
     public void LoadSettings()
     {
         LoadApplicationSettings();
@@ -141,6 +154,7 @@ public sealed partial class MockSettingsService(
         }
     }
 
+    /// <inheritdoc/>
     public void ResetApplicationSettings()
     {
         _applicationSettings = new ApplicationSettings
@@ -152,6 +166,7 @@ public sealed partial class MockSettingsService(
         };
     }
 
+    /// <inheritdoc/>
     public void ResetDecompositionSettings()
     {
         _decompositionSettings = new DecompositionSettings
@@ -162,6 +177,7 @@ public sealed partial class MockSettingsService(
         };
     }
 
+    /// <inheritdoc/>
     public void ResetVisualizationSettings()
     {
         _visualizationSettings = new VisualizationSettings

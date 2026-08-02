@@ -18,15 +18,21 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.Structure.RebarShape"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="rebarShape">The rebar shape to expose.</param>
 #pragma warning disable CS9113 // Parameter is unread.
 public sealed class RebarShapeDescriptor(RebarShape rebarShape) : Descriptor, IDescriptorConfigurator, IDescriptorConfigurator<Document>
 #pragma warning restore CS9113 // Parameter is unread.
 {
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(RebarShape.Dispose)).Disable();
     }
 
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator<Document> configuration)
     {
         configuration.Extension("GetAllParameters").Register(RebarShapeParameters.GetAllRebarShapeParameters);

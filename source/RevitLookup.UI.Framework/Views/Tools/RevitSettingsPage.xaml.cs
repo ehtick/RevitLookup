@@ -25,10 +25,21 @@ using Wpf.Ui.Extensions;
 
 namespace RevitLookup.UI.Framework.Views.Tools;
 
+/// <summary>
+///     Represents a page that lists and edits the Revit application INI settings entries.
+/// </summary>
 public sealed partial class RevitSettingsPage
 {
     private readonly INotificationService _notificationService;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="RevitSettingsPage"/> class.
+    /// </summary>
+    /// <param name="viewModel">The view model that provides the data for the Revit Settings view.</param>
+    /// <param name="dialogService">The service that supplies the dialog host used by this page.</param>
+    /// <param name="navigationService">The service used to navigate away from this page when the user declines the warning.</param>
+    /// <param name="themeWatcherService">The service that applies and tracks the current theme for this page.</param>
+    /// <param name="notificationService">The service used to notify the user of errors encountered while loading or updating entries.</param>
     public RevitSettingsPage(
         IRevitSettingsViewModel viewModel,
         IContentDialogService dialogService,
@@ -57,6 +68,9 @@ public sealed partial class RevitSettingsPage
         EntriesList.Items.GroupDescriptions.Add(new PropertyGroupDescription(nameof(ObservableIniEntry.Category)));
     }
 
+    /// <summary>
+    ///     Gets the view model that provides the data for this page.
+    /// </summary>
     public IRevitSettingsViewModel ViewModel { get; }
 
     private async void ShowWarningDialog(IContentDialogService dialogService, INavigationService navigationService)

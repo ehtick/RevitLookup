@@ -15,7 +15,7 @@
 namespace RevitLookup.Tests.Unit.Artifacts;
 
 /// <summary>
-///     Attaches files to test output.
+///     Provides extension methods for <see cref="string"/> to attach it to test output as a file artifact.
 /// </summary>
 public static class TestArtifactExtensions
 {
@@ -26,6 +26,7 @@ public static class TestArtifactExtensions
         ///     Writes the content to a temporary file and attaches it to the running test.
         /// </summary>
         /// <param name="name">The artifact name.</param>
+        /// <returns>A task that represents the asynchronous write operation.</returns>
         public async Task CreateArtifactAsync(string name)
         {
             await CreateArtifactEntryAsync(name, content, extension: null);
@@ -35,12 +36,20 @@ public static class TestArtifactExtensions
         ///     Writes the content to a temporary Markdown file and attaches it to the running test.
         /// </summary>
         /// <param name="name">The artifact name.</param>
+        /// <returns>A task that represents the asynchronous write operation.</returns>
         public async Task CreateMarkdownArtifactAsync(string name)
         {
             await CreateArtifactEntryAsync(name, content, ".md");
         }
     }
 
+    /// <summary>
+    ///     Writes the content to a file in the temporary directory and attaches it to the running test.
+    /// </summary>
+    /// <param name="name">The artifact name.</param>
+    /// <param name="content">The artifact content.</param>
+    /// <param name="extension">The file extension to give the temporary file, or <see langword="null"/> to keep the generated one.</param>
+    /// <returns>A task that represents the asynchronous write operation.</returns>
     /// <exception cref="InvalidOperationException">The call happens outside a running test.</exception>
     private static async Task CreateArtifactEntryAsync(string name, string content, string? extension)
     {

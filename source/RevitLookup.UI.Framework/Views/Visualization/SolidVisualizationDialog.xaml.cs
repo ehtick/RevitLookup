@@ -18,10 +18,19 @@ using Wpf.Ui;
 
 namespace RevitLookup.UI.Framework.Views.Visualization;
 
+/// <summary>
+///     Represents a dialog that visualizes a solid in the active Revit view.
+/// </summary>
 public sealed partial class SolidVisualizationDialog
 {
     private readonly ISolidVisualizationViewModel _viewModel;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="SolidVisualizationDialog"/> class.
+    /// </summary>
+    /// <param name="dialogService">The service that supplies the dialog host this dialog is shown on.</param>
+    /// <param name="viewModel">The view model that renders the solid in the active Revit view.</param>
+    /// <param name="themeWatcherService">The service that applies and tracks the current theme for this dialog.</param>
     public SolidVisualizationDialog(
         IContentDialogService dialogService,
         ISolidVisualizationViewModel viewModel,
@@ -36,6 +45,11 @@ public sealed partial class SolidVisualizationDialog
         themeWatcherService.Watch(this);
     }
 
+    /// <summary>
+    ///     Registers the solid for visualization and shows the dialog.
+    /// </summary>
+    /// <param name="solid">The Revit <c>Solid</c> to visualize.</param>
+    /// <returns>A task that represents the asynchronous show operation.</returns>
     public async Task ShowDialogAsync(object solid)
     {
         _viewModel.RegisterServer(solid);

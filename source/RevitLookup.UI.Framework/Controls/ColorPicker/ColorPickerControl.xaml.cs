@@ -22,6 +22,9 @@ using Wpf.Ui.Controls;
 
 namespace RevitLookup.UI.Framework.Controls;
 
+/// <summary>
+///     Represents a control that lets the user pick a color through hue, saturation, and value gradients, RGB number boxes, or a hex code.
+/// </summary>
 public sealed partial class ColorPickerControl
 {
     private double _currH = 360;
@@ -38,17 +41,27 @@ public sealed partial class ColorPickerControl
     private static readonly Regex ShortHexColorRegex = new("^#?([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])$", RegexOptions.Compiled);
     private static readonly ColorConverter DrawingColorConverter = new();
 
+    /// <summary>
+    ///     Identifies the <see cref="SelectedColor"/> dependency property.
+    /// </summary>
     public static readonly DependencyProperty SelectedColorProperty = DependencyProperty.Register(nameof(SelectedColor),
         typeof(Color),
         typeof(ColorPickerControl),
         new FrameworkPropertyMetadata(Color.FromArgb(0, 0, 0, 0), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, SelectedColorPropertyChanged));
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="ColorPickerControl"/> class.
+    /// </summary>
     public ColorPickerControl()
     {
         InitializeComponent();
         UpdateHueGradient(1, 1);
     }
 
+    /// <summary>
+    ///     Gets or sets the currently selected color.
+    /// </summary>
+    /// <value>The default value is transparent black.</value>
     public Color SelectedColor
     {
         get => (Color) GetValue(SelectedColorProperty);
@@ -390,6 +403,11 @@ public sealed partial class ColorPickerControl
         return (byte) numberBox.Value;
     }
 
+    /// <summary>
+    ///     Parses a floating-point number using the current culture.
+    /// </summary>
+    /// <param name="text">The text to parse.</param>
+    /// <returns>The parsed value, or <see langword="null"/> if <paramref name="text"/> is not a valid number.</returns>
     public static double? ParseDouble(string text)
     {
         if (double.TryParse(text, out var result))

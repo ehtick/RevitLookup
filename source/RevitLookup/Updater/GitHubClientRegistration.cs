@@ -10,11 +10,13 @@ namespace RevitLookup.Updater;
 /// </summary>
 public static class GitHubClientRegistration
 {
+    /// <param name="builder">The host application builder to configure.</param>
     extension<TBuilder>(TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
         /// <summary>
         ///     Adds the named client that reads the repository releases, with the request logging the add-in has no journal room for stripped out.
         /// </summary>
+        /// <returns>The <see cref="TBuilder"/> for chaining.</returns>
         public TBuilder AddGitHubClient()
         {
             builder.Services.AddHttpClient("GitHubSource", client => client.BaseAddress = new Uri("https://api.github.com/repos/lookup-foundation/RevitLookup/"));

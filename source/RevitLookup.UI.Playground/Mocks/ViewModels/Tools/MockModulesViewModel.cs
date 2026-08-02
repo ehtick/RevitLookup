@@ -23,8 +23,14 @@ using RevitLookup.UI.Framework.Extensions;
 
 namespace RevitLookup.UI.Playground.Mocks.ViewModels.Tools;
 
+/// <summary>
+///     Represents a Playground mock of <see cref="IModulesViewModel"/> that lists the assemblies loaded in the current Playground process.
+/// </summary>
 public sealed partial class MockModulesViewModel : ObservableObject, IModulesViewModel
 {
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="MockModulesViewModel"/> class.
+    /// </summary>
     public MockModulesViewModel()
     {
         var assemblies = AppDomain.CurrentDomain.GetAssemblies();
@@ -51,12 +57,15 @@ public sealed partial class MockModulesViewModel : ObservableObject, IModulesVie
         }
     }
     
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial List<ModuleInfo> Modules { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial List<ModuleInfo> FilteredModules { get; set; } = [];
 

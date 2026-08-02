@@ -15,7 +15,7 @@
 namespace RevitLookup.Tests.Unit.Coverage.Models;
 
 /// <summary>
-///     How <c>EnumerableDescriptor</c> finds out whether a Revit API collection contains any elements.
+///     Determines how <c>EnumerableDescriptor</c> finds out whether a Revit API collection contains any elements.
 /// </summary>
 /// <remarks>
 ///     The descriptor asks that question of every collection it decomposes.
@@ -27,8 +27,10 @@ public enum ApiEnumerableCoverage
 {
     /// <summary>
     ///     The type carries <c>IsEmpty</c> or <c>Count</c>, and no switch arm of the descriptor reads it.
-    ///     The descriptor creates an enumerator a new arm would spare it.
     /// </summary>
+    /// <remarks>
+    ///     The descriptor creates an enumerator a new arm would spare it.
+    /// </remarks>
     Missing,
 
     /// <summary>

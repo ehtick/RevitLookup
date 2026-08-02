@@ -16,8 +16,13 @@ using LookupEngine.Abstractions.Configuration;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.RevitLinkType"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="element">The Revit link type to expose.</param>
 public sealed class RevitLinkTypeDescriptor(RevitLinkType element) : ElementDescriptor(element)
 {
+    /// <inheritdoc/>
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(RevitLinkType.Dispose)).Disable();

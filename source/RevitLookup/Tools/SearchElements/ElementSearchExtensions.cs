@@ -1,10 +1,19 @@
 ﻿namespace RevitLookup.Tools.SearchElements;
 
+/// <summary>
+///     Provides extension methods for <see cref="Document"/> to search elements by identifier, IFC GUID, or name.
+/// </summary>
 [PublicAPI]
 public static class ElementSearchExtensions
 {
+    /// <param name="document">The document to search elements in.</param>
     extension(Document document)
     {
+        /// <summary>
+        ///     Searches the document for elements matching the ids, unique ids, IFC GUIDs, or names listed in <paramref name="searchText"/>.
+        /// </summary>
+        /// <param name="searchText">One or more element ids, unique ids, IFC GUIDs, or names, separated by whitespace, commas, semicolons, or line breaks.</param>
+        /// <returns>The elements matching an entry in <paramref name="searchText"/>.</returns>
         [Pure]
         public List<Element> SearchElements(string searchText)
         {

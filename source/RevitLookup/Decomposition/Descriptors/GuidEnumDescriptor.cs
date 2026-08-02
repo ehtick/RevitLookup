@@ -12,12 +12,20 @@
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 
+using LookupEngine.Abstractions.Configuration;
 using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
-public sealed class GuidEnumDescriptor : Descriptor
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.GuidEnum"/> exposed to LookupEngine.
+/// </summary>
+public sealed class GuidEnumDescriptor : Descriptor, IDescriptorCollector
 {
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="GuidEnumDescriptor"/> class.
+    /// </summary>
+    /// <param name="guidEnum">The GUID-backed enumeration value to expose.</param>
     public GuidEnumDescriptor(GuidEnum guidEnum)
     {
         Name = guidEnum.Guid.ToString();

@@ -17,8 +17,13 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.SpatialElement"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="spatialElement">The spatial element to expose.</param>
 public sealed class SpatialElementDescriptor(SpatialElement spatialElement) : ElementDescriptor(spatialElement)
 {
+    /// <inheritdoc/>
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(SpatialElement.Dispose)).Disable();

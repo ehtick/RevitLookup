@@ -7,6 +7,12 @@ using RevitLookup.Visualization;
 
 namespace RevitLookup.ViewModels.Visualization;
 
+/// <summary>
+///     Represents the view model for polyline visualization, rendering a tessellated <see cref="Curve"/> or <see cref="Edge"/> through a dedicated Revit visualization server.
+/// </summary>
+/// <param name="settingsService">The service that persists and supplies the polyline visualization settings.</param>
+/// <param name="notificationService">The service used to report rendering failures.</param>
+/// <param name="logger">The logger used to record rendering failures.</param>
 [UsedImplicitly]
 public sealed partial class PolylineVisualizationViewModel(
     ISettingsService settingsService,
@@ -16,32 +22,43 @@ public sealed partial class PolylineVisualizationViewModel(
 {
     private readonly PolylineVisualizationServer _server = new();
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial double Diameter { get; set; } = settingsService.VisualizationSettings.PolylineSettings.Diameter;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial double Transparency { get; set; } = settingsService.VisualizationSettings.PolylineSettings.Transparency;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial Color SurfaceColor { get; set; } = settingsService.VisualizationSettings.PolylineSettings.SurfaceColor;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial Color CurveColor { get; set; } = settingsService.VisualizationSettings.PolylineSettings.CurveColor;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial Color DirectionColor { get; set; } = settingsService.VisualizationSettings.PolylineSettings.DirectionColor;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial bool ShowSurface { get; set; } = settingsService.VisualizationSettings.PolylineSettings.ShowSurface;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial bool ShowCurve { get; set; } = settingsService.VisualizationSettings.PolylineSettings.ShowCurve;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial bool ShowDirection { get; set; } = settingsService.VisualizationSettings.PolylineSettings.ShowDirection;
 
+    /// <inheritdoc/>
     public double MinThickness => settingsService.VisualizationSettings.PolylineSettings.MinThickness;
 
+    /// <inheritdoc/>
+    /// <exception cref="ArgumentException"><paramref name="curveOrEdge"/> is not a <see cref="Curve"/> or <see cref="Edge"/>.</exception>
     public void RegisterServer(object curveOrEdge)
     {
         Initialize();
@@ -74,6 +91,7 @@ public sealed partial class PolylineVisualizationViewModel(
         UpdateDiameter(Diameter);
     }
 
+    /// <inheritdoc/>
     public void UnregisterServer()
     {
         _server.RenderFailed -= HandleRenderFailure;

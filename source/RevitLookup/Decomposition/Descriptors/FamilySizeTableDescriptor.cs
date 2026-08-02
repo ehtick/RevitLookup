@@ -17,8 +17,13 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="FamilySizeTable"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="table">The family size table to expose.</param>
 public sealed class FamilySizeTableDescriptor(FamilySizeTable table) : Descriptor, IDescriptorConfigurator
 {
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(FamilySizeTable.Dispose)).Disable();

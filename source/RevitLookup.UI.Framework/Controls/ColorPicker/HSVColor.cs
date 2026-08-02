@@ -6,8 +6,15 @@ using Color = System.Windows.Media.Color;
 
 namespace RevitLookup.UI.Framework.Controls.ColorPicker;
 
+/// <summary>
+///     Provides methods that convert HSV coordinates to <see cref="Color"/> and that sample HSV color gradients.
+/// </summary>
 public static class HsvColor
 {
+    /// <summary>
+    ///     Returns the full hue spectrum at full saturation and value.
+    /// </summary>
+    /// <returns>An array of 360 colors, one for each integral hue degree.</returns>
     public static Color[] GetSpectrum()
     {
         var rgbs = new Color[360];
@@ -20,6 +27,12 @@ public static class HsvColor
         return rgbs;
     }
 
+    /// <summary>
+    ///     Returns the hue wheel sampled at 60-degree intervals for the specified saturation and value.
+    /// </summary>
+    /// <param name="saturation">The saturation, in the range [0..1].</param>
+    /// <param name="value">The value, in the range [0..1].</param>
+    /// <returns>An array of 7 colors sampled 60 degrees apart, starting and ending at hue 0.</returns>
     public static Color[] HueSpectrum(double saturation, double value)
     {
         var rgbs = new Color[7];
@@ -32,6 +45,13 @@ public static class HsvColor
         return rgbs;
     }
 
+    /// <summary>
+    ///     Converts HSV coordinates to a <see cref="Color"/>.
+    /// </summary>
+    /// <param name="h">The hue, in the range [0..360].</param>
+    /// <param name="s">The saturation, in the range [0..1].</param>
+    /// <param name="v">The value, in the range [0..1].</param>
+    /// <returns>The equivalent RGB <see cref="Color"/>, or black if any coordinate is out of range.</returns>
     public static Color RgbFromHsv(double h, double s, double v)
     {
         if (h > 360 || h < 0 || s > 1 || s < 0 || v > 1 || v < 0)

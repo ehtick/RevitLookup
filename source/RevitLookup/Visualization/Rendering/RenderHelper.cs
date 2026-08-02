@@ -17,8 +17,17 @@ using Nice3point.Revit.Extensions.Runtime;
 
 namespace RevitLookup.Visualization.Rendering;
 
+/// <summary>
+///     Provides methods that map visualization geometry into <see cref="RenderingBufferStorage"/> vertex and index buffers.
+/// </summary>
 public static class RenderHelper
 {
+    /// <summary>
+    ///     Maps the triangulated surface of the specified mesh, offset along its vertex normals, into the render buffer.
+    /// </summary>
+    /// <param name="buffer">The buffer the geometry is written to.</param>
+    /// <param name="mesh">The mesh to map.</param>
+    /// <param name="offset">The distance the surface is offset along its normals.</param>
     public static void MapSurfaceBuffer(RenderingBufferStorage buffer, Mesh mesh, double offset)
     {
         var vertexCount = mesh.Vertices.Count;
@@ -65,6 +74,11 @@ public static class RenderHelper
         buffer.VertexFormat = new VertexFormat(buffer.FormatBits);
     }
 
+    /// <summary>
+    ///     Maps a polyline through the specified vertices into the render buffer.
+    /// </summary>
+    /// <param name="buffer">The buffer the geometry is written to.</param>
+    /// <param name="vertices">The polyline vertices.</param>
     public static void MapCurveBuffer(RenderingBufferStorage buffer, IList<XYZ> vertices)
     {
         var vertexCount = vertices.Count;
@@ -102,6 +116,12 @@ public static class RenderHelper
         buffer.VertexFormat = new VertexFormat(buffer.FormatBits);
     }
 
+    /// <summary>
+    ///     Maps the wireframe of a tube swept along the specified polyline into the render buffer.
+    /// </summary>
+    /// <param name="buffer">The buffer the geometry is written to.</param>
+    /// <param name="vertices">The polyline vertices the tube is swept along.</param>
+    /// <param name="diameter">The diameter of the tube.</param>
     public static void MapCurveBuffer(RenderingBufferStorage buffer, IList<XYZ> vertices, double diameter)
     {
         var tubeSegments = RenderGeometryHelper.GetSegmentationTube(vertices, diameter);
@@ -159,6 +179,12 @@ public static class RenderHelper
         buffer.VertexFormat = new VertexFormat(buffer.FormatBits);
     }
 
+    /// <summary>
+    ///     Maps the triangulated surface of a tube swept along the specified polyline into the render buffer.
+    /// </summary>
+    /// <param name="buffer">The buffer the geometry is written to.</param>
+    /// <param name="vertices">The polyline vertices the tube is swept along.</param>
+    /// <param name="diameter">The diameter of the tube.</param>
     public static void MapCurveSurfaceBuffer(RenderingBufferStorage buffer, IList<XYZ> vertices, double diameter)
     {
         var tubeSegments = RenderGeometryHelper.GetSegmentationTube(vertices, diameter);
@@ -214,6 +240,12 @@ public static class RenderHelper
         buffer.VertexFormat = new VertexFormat(buffer.FormatBits);
     }
 
+    /// <summary>
+    ///     Maps the wireframe grid of the specified mesh, offset along its vertex normals, into the render buffer.
+    /// </summary>
+    /// <param name="buffer">The buffer the geometry is written to.</param>
+    /// <param name="mesh">The mesh to map.</param>
+    /// <param name="offset">The distance the grid is offset along its normals.</param>
     public static void MapMeshGridBuffer(RenderingBufferStorage buffer, Mesh mesh, double offset)
     {
         var vertexCount = mesh.Vertices.Count;
@@ -286,6 +318,12 @@ public static class RenderHelper
         buffer.VertexFormat = new VertexFormat(buffer.FormatBits);
     }
 
+    /// <summary>
+    ///     Maps a rectangular plane spanning the specified corners into the render buffer.
+    /// </summary>
+    /// <param name="buffer">The buffer the geometry is written to.</param>
+    /// <param name="min">One corner of the plane.</param>
+    /// <param name="max">The opposite corner of the plane.</param>
     public static void MapSideBuffer(RenderingBufferStorage buffer, XYZ min, XYZ max)
     {
         var vertexCount = 4;
@@ -346,6 +384,11 @@ public static class RenderHelper
         buffer.VertexFormat = new VertexFormat(buffer.FormatBits);
     }
 
+    /// <summary>
+    ///     Maps the triangulated surface of the specified bounding box into the render buffer.
+    /// </summary>
+    /// <param name="buffer">The buffer the geometry is written to.</param>
+    /// <param name="box">The bounding box to map.</param>
     public static void MapBoundingBoxSurfaceBuffer(RenderingBufferStorage buffer, BoundingBoxXYZ box)
     {
         var minPoint = box.Transform.OfPoint(box.Min);
@@ -407,6 +450,11 @@ public static class RenderHelper
         buffer.VertexFormat = new VertexFormat(buffer.FormatBits);
     }
 
+    /// <summary>
+    ///     Maps the wireframe edges of the specified bounding box into the render buffer.
+    /// </summary>
+    /// <param name="buffer">The buffer the geometry is written to.</param>
+    /// <param name="box">The bounding box to map.</param>
     public static void MapBoundingBoxEdgeBuffer(RenderingBufferStorage buffer, BoundingBoxXYZ box)
     {
         var minPoint = box.Transform.OfPoint(box.Min);
@@ -465,6 +513,13 @@ public static class RenderHelper
         buffer.VertexFormat = new VertexFormat(buffer.FormatBits);
     }
 
+    /// <summary>
+    ///     Maps an arrow representing the specified vector into the render buffer.
+    /// </summary>
+    /// <param name="buffer">The buffer the geometry is written to.</param>
+    /// <param name="origin">The point the vector originates from.</param>
+    /// <param name="vector">The direction of the vector.</param>
+    /// <param name="length">The length of the vector.</param>
     public static void MapNormalVectorBuffer(RenderingBufferStorage buffer, XYZ origin, XYZ vector, double length)
     {
         var headSize = length > 1 ? 0.2 : length * 0.2;

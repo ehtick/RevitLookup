@@ -27,6 +27,9 @@ using TextBox = Wpf.Ui.Controls.TextBox;
 
 namespace RevitLookup.UI.Playground.ViewModels;
 
+/// <summary>
+///     Represents the view model for the Playground shell window.
+/// </summary>
 [UsedImplicitly]
 public sealed class PlaygroundViewModel : ObservableObject
 {
@@ -34,6 +37,12 @@ public sealed class PlaygroundViewModel : ObservableObject
     private readonly INotificationService _notificationService;
     private readonly IThemeWatcherService _themeService;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="PlaygroundViewModel"/> class.
+    /// </summary>
+    /// <param name="settingsService">The service that stores the application and decomposition settings.</param>
+    /// <param name="notificationService">The service used to show notifications about theme and background changes.</param>
+    /// <param name="themeService">The service used to apply the application theme and background effect.</param>
     public PlaygroundViewModel(ISettingsService settingsService, INotificationService notificationService, IThemeWatcherService themeService)
     {
         _settingsService = settingsService;
@@ -157,7 +166,14 @@ public sealed class PlaygroundViewModel : ObservableObject
         ];
     }
 
+    /// <summary>
+    ///     Gets the navigation items shown in the shell's primary menu.
+    /// </summary>
     public List<object> MenuItems { get; }
+
+    /// <summary>
+    ///     Gets the navigation items shown in the shell's footer menu.
+    /// </summary>
     public List<object> FooterItems { get; }
 
     private void SwitchApplicationTheme()

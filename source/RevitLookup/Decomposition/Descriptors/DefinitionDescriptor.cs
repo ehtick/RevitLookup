@@ -12,12 +12,20 @@
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 
+using LookupEngine.Abstractions.Configuration;
 using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
-public sealed class DefinitionDescriptor : Descriptor
+/// <summary>
+///     Represents the <see cref="Definition"/> exposed to LookupEngine.
+/// </summary>
+public sealed class DefinitionDescriptor : Descriptor, IDescriptorCollector
 {
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="DefinitionDescriptor"/> class.
+    /// </summary>
+    /// <param name="definition">The parameter definition to expose.</param>
     public DefinitionDescriptor(Definition definition)
     {
         Name = CreateName(definition);

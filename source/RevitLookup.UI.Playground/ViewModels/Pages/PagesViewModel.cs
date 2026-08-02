@@ -15,6 +15,10 @@ using RevitLookup.UI.Playground.Views.Pages;
 
 namespace RevitLookup.UI.Playground.ViewModels.Pages;
 
+/// <summary>
+///     Represents the sample data for the pages gallery page.
+/// </summary>
+/// <param name="serviceProvider">The provider used to resolve the sample page viewers.</param>
 [UsedImplicitly]
 public sealed partial class PagesViewModel(IServiceProvider serviceProvider) : ObservableObject
 {

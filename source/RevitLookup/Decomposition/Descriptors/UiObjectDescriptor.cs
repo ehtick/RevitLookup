@@ -17,4 +17,7 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents a UI object that implements <see cref="System.ComponentModel.INotifyPropertyChanged"/> exposed to LookupEngine.
+/// </summary>
 public sealed class UiObjectDescriptor : Descriptor, IDescriptorCollector;

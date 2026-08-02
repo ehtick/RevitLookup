@@ -4,32 +4,41 @@ using System.Windows.Threading;
 namespace RevitLookup.Abstractions.Presentation;
 
 /// <summary>
-///     Manage the RevitLookup instances lifecycle.
+///     Defines a contract that manages the lifecycle of RevitLookup window instances.
 /// </summary>
 public interface IWindowIntercomService
 {
     /// <summary>
-    ///     Get the dispatcher for the UI thread.
+    ///     Gets the dispatcher for the UI thread.
     /// </summary>
     Dispatcher Dispatcher { get; }
-    
+
     /// <summary>
-    ///     Get all opened instances.
+    ///     Gets all opened shared window instances.
     /// </summary>
     List<Window> OpenedWindows { get; }
 
     /// <summary>
-    ///     Get the current Window host.
+    ///     Gets the current window host.
     /// </summary>
+    /// <returns>The current window host.</returns>
     Window GetHost();
-    
+
     /// <summary>
-    ///     Set the private Window host. It won't be available in the <see cref="OpenedWindows"/> property.
+    ///     Sets the private window host.
     /// </summary>
+    /// <param name="host">The window to set as the private host.</param>
+    /// <remarks>
+    ///     The window set through this method is not added to <see cref="OpenedWindows"/>.
+    /// </remarks>
     void SetHost(Window host);
-    
+
     /// <summary>
-    ///     Set the shared Window host. It will be available in the <see cref="OpenedWindows"/> property.
+    ///     Sets the shared window host.
     /// </summary>
+    /// <param name="host">The window to set as the shared host.</param>
+    /// <remarks>
+    ///     The window set through this method is added to <see cref="OpenedWindows"/>.
+    /// </remarks>
     void SetSharedHost(Window host);
 }

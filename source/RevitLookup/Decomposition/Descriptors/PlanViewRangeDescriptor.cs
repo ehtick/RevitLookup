@@ -17,8 +17,13 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.PlanViewRange"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="viewRange">The plan view range to expose.</param>
 public sealed class PlanViewRangeDescriptor(PlanViewRange viewRange) : Descriptor, IDescriptorConfigurator
 {
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(PlanViewRange.Dispose)).Disable();

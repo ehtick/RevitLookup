@@ -17,8 +17,13 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.ScheduleDefinition"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="scheduleDefinition">The schedule definition to expose.</param>
 public sealed class ScheduleDefinitionDescriptor(ScheduleDefinition scheduleDefinition) : Descriptor, IDescriptorConfigurator, IDescriptorConfigurator<Document>
 {
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(ScheduleDefinition.Dispose)).Disable();

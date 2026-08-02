@@ -20,16 +20,24 @@ using RevitLookup.Decomposition.Extensions;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.Color"/> exposed to LookupEngine.
+/// </summary>
 public sealed class ColorDescriptor : Descriptor, IDescriptorConfigurator
 {
     private readonly Color _color;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="ColorDescriptor"/> class.
+    /// </summary>
+    /// <param name="color">The color to expose.</param>
     public ColorDescriptor(Color color)
     {
         _color = color;
         Name = color.IsValid ? $"#{ColorRepresentationUtils.ColorToHex(color.GetDrawingColor()).ToUpperInvariant()}" : "The color represents uninitialized/invalid value";
     }
 
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Color.Dispose)).Disable();

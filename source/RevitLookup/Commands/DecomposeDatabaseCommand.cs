@@ -20,10 +20,14 @@ using RevitLookup.UI.Framework.Views.Decomposition;
 
 namespace RevitLookup.Commands;
 
+/// <summary>
+///     Represents the Revit command that decomposes every element type and instance in the active document and shows them in the decomposition summary.
+/// </summary>
 [UsedImplicitly]
 [Transaction(TransactionMode.Manual)]
 public class DecomposeDatabaseCommand : ExternalCommand
 {
+    /// <inheritdoc/>
     public override void Execute()
     {
         Host.GetService<IUiOrchestratorService>()

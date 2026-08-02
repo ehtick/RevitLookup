@@ -21,8 +21,13 @@ using RevitLookup.UI.Framework.Extensions;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.View"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="view">The view to expose.</param>
 public sealed class ViewDescriptor(View view) : ElementDescriptor(view)
 {
+    /// <inheritdoc/>
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(View.Dispose)).Disable();

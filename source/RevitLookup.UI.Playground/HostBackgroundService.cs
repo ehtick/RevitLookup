@@ -19,16 +19,20 @@ using RevitLookup.Abstractions.Settings;
 namespace RevitLookup.UI.Playground;
 
 /// <summary>
-///     Provides life cycle processes for the application
+///     Provides life cycle processes for the application.
 /// </summary>
+/// <param name="settingsService">The service used to load and save application settings.</param>
+/// <param name="logger">The logger used to record life cycle events.</param>
 public sealed partial class HostBackgroundService(ISettingsService settingsService, ILogger<HostBackgroundService> logger) : IHostedService
 {
+    /// <inheritdoc/>
     public Task StartAsync(CancellationToken cancellationToken)
     {
         LoadSettings();
         return Task.CompletedTask;
     }
 
+    /// <inheritdoc/>
     public Task StopAsync(CancellationToken cancellationToken)
     {
         SaveSettings();

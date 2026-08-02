@@ -15,7 +15,7 @@
 namespace RevitLookup.Tests.Unit.Coverage.Models;
 
 /// <summary>
-///     The shape a Revit API enumerable exposes.
+///     Determines the shape a Revit API enumerable exposes.
 /// </summary>
 public enum ApiEnumerableKind
 {

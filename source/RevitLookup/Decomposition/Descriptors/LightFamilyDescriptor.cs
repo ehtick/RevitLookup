@@ -17,8 +17,13 @@ using LookupEngine.Abstractions.Configuration;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.Lighting.LightFamily"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="lightFamily">The light family to expose.</param>
 public sealed class LightFamilyDescriptor(LightFamily lightFamily) : ResolvingDescriptor, IDescriptorConfigurator
 {
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(LightFamily.Dispose)).Disable();

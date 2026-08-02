@@ -7,6 +7,12 @@ using RevitLookup.Visualization;
 
 namespace RevitLookup.ViewModels.Visualization;
 
+/// <summary>
+///     Represents the view model for mesh visualization, rendering a <see cref="Mesh"/> through a dedicated Revit visualization server.
+/// </summary>
+/// <param name="settingsService">The service that persists and supplies the mesh visualization settings.</param>
+/// <param name="notificationService">The service used to report rendering failures.</param>
+/// <param name="logger">The logger used to record rendering failures.</param>
 [UsedImplicitly]
 public sealed partial class MeshVisualizationViewModel(
     ISettingsService settingsService,
@@ -16,32 +22,43 @@ public sealed partial class MeshVisualizationViewModel(
 {
     private readonly MeshVisualizationServer _server = new();
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial double Extrusion { get; set; } = settingsService.VisualizationSettings.MeshSettings.Extrusion;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial double Transparency { get; set; } = settingsService.VisualizationSettings.MeshSettings.Transparency;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial Color SurfaceColor { get; set; } = settingsService.VisualizationSettings.MeshSettings.SurfaceColor;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial Color MeshColor { get; set; } = settingsService.VisualizationSettings.MeshSettings.MeshColor;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial Color NormalVectorColor { get; set; } = settingsService.VisualizationSettings.MeshSettings.NormalVectorColor;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial bool ShowSurface { get; set; } = settingsService.VisualizationSettings.MeshSettings.ShowSurface;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial bool ShowMeshGrid { get; set; } = settingsService.VisualizationSettings.MeshSettings.ShowMeshGrid;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial bool ShowNormalVector { get; set; } = settingsService.VisualizationSettings.MeshSettings.ShowNormalVector;
 
+    /// <inheritdoc/>
     public double MinExtrusion => settingsService.VisualizationSettings.MeshSettings.MinExtrusion;
 
+    /// <inheritdoc/>
+    /// <exception cref="ArgumentException"><paramref name="meshObject"/> is not a <see cref="Mesh"/>.</exception>
     public void RegisterServer(object meshObject)
     {
         if (meshObject is not Mesh mesh)
@@ -64,6 +81,7 @@ public sealed partial class MeshVisualizationViewModel(
         _server.Register(mesh);
     }
 
+    /// <inheritdoc/>
     public void UnregisterServer()
     {
         _server.RenderFailed -= HandleRenderFailure;

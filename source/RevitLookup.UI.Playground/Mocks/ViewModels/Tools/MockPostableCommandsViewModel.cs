@@ -19,17 +19,24 @@ using RevitLookup.Abstractions.ViewModels.Tools;
 
 namespace RevitLookup.UI.Playground.Mocks.ViewModels.Tools;
 
+/// <summary>
+///     Represents a Playground mock of <see cref="IPostableCommandsViewModel"/> that fabricates a command list with <c>Bogus</c> and treats every command as executable.
+/// </summary>
 public sealed partial class MockPostableCommandsViewModel : ObservableObject, IPostableCommandsViewModel
 {
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial List<PostableCommandInfo> Commands { get; private set; } = [];
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial List<PostableCommandInfo> FilteredCommands { get; private set; } = [];
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
 
+    /// <inheritdoc/>
     public void Initialize()
     {
         Commands = new Faker<PostableCommandInfo>()
@@ -40,11 +47,13 @@ public sealed partial class MockPostableCommandsViewModel : ObservableObject, IP
             .ToList();
     }
 
+    /// <inheritdoc/>
     public void Execute(PostableCommandInfo commandInfo)
     {
         // No-op in playground
     }
 
+    /// <inheritdoc/>
     public bool CanExecute(PostableCommandInfo commandInfo)
     {
         return true;

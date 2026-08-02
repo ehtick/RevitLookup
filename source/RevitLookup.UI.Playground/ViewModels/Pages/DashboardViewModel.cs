@@ -5,6 +5,10 @@ using Wpf.Ui;
 
 namespace RevitLookup.UI.Playground.ViewModels.Pages;
 
+/// <summary>
+///     Represents the sample data for the dashboard landing page.
+/// </summary>
+/// <param name="navigationService">The service used to navigate to the other Playground pages.</param>
 [UsedImplicitly]
 public sealed partial class DashboardViewModel(INavigationService navigationService) : ObservableObject
 {

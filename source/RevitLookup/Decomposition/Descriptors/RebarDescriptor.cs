@@ -17,8 +17,13 @@ using LookupEngine.Abstractions.Configuration;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.Structure.Rebar"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="rebar">The rebar to expose.</param>
 public sealed class RebarDescriptor(Rebar rebar) : ElementDescriptor(rebar)
 {
+    /// <inheritdoc/>
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Rebar.Dispose)).Disable();

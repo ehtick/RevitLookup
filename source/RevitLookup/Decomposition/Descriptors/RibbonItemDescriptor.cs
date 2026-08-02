@@ -18,13 +18,24 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.UI.RibbonItem"/> or <see cref="Autodesk.Windows.RibbonItem"/> exposed to LookupEngine.
+/// </summary>
 public sealed class RibbonItemDescriptor : Descriptor, IDescriptorCollector
 {
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="RibbonItemDescriptor"/> class.
+    /// </summary>
+    /// <param name="item">The Revit API ribbon item to expose.</param>
     public RibbonItemDescriptor(RibbonItem item)
     {
         Name = item.ItemText;
     }
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="RibbonItemDescriptor"/> class.
+    /// </summary>
+    /// <param name="panel">The underlying ribbon item to expose.</param>
     public RibbonItemDescriptor(Autodesk.Windows.RibbonItem panel)
     {
         Name = panel.TextOverride;

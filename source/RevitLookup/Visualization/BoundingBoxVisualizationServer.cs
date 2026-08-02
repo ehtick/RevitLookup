@@ -17,6 +17,9 @@ using RevitLookup.Visualization.Rendering;
 
 namespace RevitLookup.Visualization;
 
+/// <summary>
+///     Represents a Revit direct-context 3D server that renders <see cref="BoundingBoxXYZ"/> visualization geometry into the active view.
+/// </summary>
 public sealed class BoundingBoxVisualizationServer : DirectContext3DServer
 {
     private BoundingBoxXYZ _box = null!;
@@ -45,56 +48,96 @@ public sealed class BoundingBoxVisualizationServer : DirectContext3DServer
         XYZ.BasisZ
     ];
 
+    /// <inheritdoc/>
     public override string GetName() => "BoundingBoxXYZ visualization server";
+
+    /// <inheritdoc/>
     public override string GetDescription() => "BoundingBoxXYZ geometry visualization";
+
+    /// <inheritdoc/>
     public override bool UseInTransparentPass(View view) => _drawSurface && _transparency > 0;
 
+    /// <inheritdoc/>
     public override Outline GetBoundingBox(View view)
     {
         return new Outline(_box.Min, _box.Max);
     }
 
+    /// <summary>
+    ///     Registers the server for the specified bounding box and enables rendering.
+    /// </summary>
+    /// <param name="box">The bounding box to visualize.</param>
     public void Register(BoundingBoxXYZ box)
     {
         _box = box;
         Register();
     }
 
+    /// <summary>
+    ///     Updates the color of the bounding box surface and refreshes the open views.
+    /// </summary>
+    /// <param name="color">The new surface color.</param>
     public void UpdateSurfaceColor(Color color) => UpdateViews(() =>
     {
         _surfaceColor = color;
         HasEffectsUpdates = true;
     });
 
+    /// <summary>
+    ///     Updates the color of the bounding box edges and refreshes the open views.
+    /// </summary>
+    /// <param name="color">The new edge color.</param>
     public void UpdateEdgeColor(Color color) => UpdateViews(() =>
     {
         _edgeColor = color;
         HasEffectsUpdates = true;
     });
 
+    /// <summary>
+    ///     Updates the color of the bounding box axes and refreshes the open views.
+    /// </summary>
+    /// <param name="color">The new axis color.</param>
     public void UpdateAxisColor(Color color) => UpdateViews(() =>
     {
         _axisColor = color;
         HasEffectsUpdates = true;
     });
 
+    /// <summary>
+    ///     Updates the transparency level of the visualization and refreshes the open views.
+    /// </summary>
+    /// <param name="value">The new transparency level.</param>
     public void UpdateTransparency(double value) => UpdateViews(() =>
     {
         _transparency = value;
         HasEffectsUpdates = true;
     });
 
+    /// <summary>
+    ///     Updates whether the bounding box surface is drawn and refreshes the open views.
+    /// </summary>
+    /// <param name="visible">A value indicating whether the surface is drawn.</param>
     public void UpdateSurfaceVisibility(bool visible) => UpdateViews(() => { _drawSurface = visible; });
 
+    /// <summary>
+    ///     Updates whether the bounding box edges are drawn and refreshes the open views.
+    /// </summary>
+    /// <param name="visible">A value indicating whether the edges are drawn.</param>
     public void UpdateEdgeVisibility(bool visible) => UpdateViews(() => { _drawEdge = visible; });
 
+    /// <summary>
+    ///     Updates whether the bounding box axes are drawn and refreshes the open views.
+    /// </summary>
+    /// <param name="visible">A value indicating whether the axes are drawn.</param>
     public void UpdateAxisVisibility(bool visible) => UpdateViews(() => { _drawAxis = visible; });
 
+    /// <inheritdoc/>
     protected override bool AreBuffersValid()
     {
         return _surfaceBuffer.IsValid() && _edgeBuffer.IsValid();
     }
 
+    /// <inheritdoc/>
     protected override void MapGeometryBuffer()
     {
         RenderHelper.MapBoundingBoxSurfaceBuffer(_surfaceBuffer, _box);
@@ -102,6 +145,7 @@ public sealed class BoundingBoxVisualizationServer : DirectContext3DServer
         MapAxisBuffers();
     }
 
+    /// <inheritdoc/>
     protected override void UpdateEffects()
     {
         _surfaceBuffer.EffectInstance ??= new EffectInstance(_surfaceBuffer.FormatBits);
@@ -118,6 +162,7 @@ public sealed class BoundingBoxVisualizationServer : DirectContext3DServer
         }
     }
 
+    /// <inheritdoc/>
     protected override void RenderBuffers()
     {
         if (_drawSurface) FlushTriangleBuffer(_surfaceBuffer, _transparency);
@@ -152,6 +197,7 @@ public sealed class BoundingBoxVisualizationServer : DirectContext3DServer
         }
     }
 
+    /// <inheritdoc/>
     protected override void DisposeBuffers()
     {
         _surfaceBuffer.Dispose();

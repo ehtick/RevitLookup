@@ -39,16 +39,24 @@ using Autodesk.Revit.DB.ExternalData;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Element"/> exposed to LookupEngine.
+/// </summary>
 public partial class ElementDescriptor : ResolvingDescriptor, IDescriptorConfigurator, IContextMenuConnector
 {
     private readonly Element _element;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="ElementDescriptor"/> class.
+    /// </summary>
+    /// <param name="element">The element to expose.</param>
     public ElementDescriptor(Element element)
     {
         _element = element;
         Name = element.Name == string.Empty ? $"ID{element.Id}" : $"{element.Name}, ID{element.Id}";
     }
 
+    /// <inheritdoc/>
     public virtual void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Element.Dispose)).Disable();
@@ -319,6 +327,7 @@ public partial class ElementDescriptor : ResolvingDescriptor, IDescriptorConfigu
     }
 #endif
 
+    /// <inheritdoc/>
     public virtual void RegisterMenu(ContextMenu contextMenu, IServiceProvider serviceProvider)
     {
         contextMenu.AddMenuItem("SelectMenuItem")
@@ -407,6 +416,13 @@ public partial class ElementDescriptor : ResolvingDescriptor, IDescriptorConfigu
         }
     }
 
+    /// <summary>
+    ///     Resolves a member across the categories in a <see cref="CategoryNameMap"/>.
+    /// </summary>
+    /// <typeparam name="TResult">The type of the resolved value for each category.</typeparam>
+    /// <param name="categories">The categories to resolve the member against.</param>
+    /// <param name="selector">A function that produces the resolved value for a category identifier.</param>
+    /// <returns>The resolved values as a set of variants, one per category.</returns>
     protected static IVariant ResolveCategories<TResult>(CategoryNameMap categories, Func<ElementId, TResult> selector)
     {
         var variants = Variants.Values<TResult>(categories.Size);

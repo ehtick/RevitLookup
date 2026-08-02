@@ -29,6 +29,9 @@ using Wpf.Ui.Controls;
 
 namespace RevitLookup.UI.Playground.Mocks.ViewModels.Settings;
 
+/// <summary>
+///     Represents a Playground mock of <see cref="ISettingsViewModel"/> that applies appearance and behavior changes to the running Playground host.
+/// </summary>
 [UsedImplicitly]
 public sealed partial class MockSettingsViewModel : ObservableObject, ISettingsViewModel
 {
@@ -40,6 +43,15 @@ public sealed partial class MockSettingsViewModel : ObservableObject, ISettingsV
     private readonly IWindowIntercomService _intercomService;
     private readonly bool _initialized;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="MockSettingsViewModel"/> class.
+    /// </summary>
+    /// <param name="serviceProvider">The service provider used to resolve the reset settings dialog.</param>
+    /// <param name="navigationService">The service used to access the navigation control's transition setting.</param>
+    /// <param name="notificationService">The service used to report settings reset failures.</param>
+    /// <param name="settingsService">The service that persists application settings.</param>
+    /// <param name="themeWatcherService">The service that applies and watches the current theme.</param>
+    /// <param name="intercomService">The service used to reach the hosting window when size tracking changes.</param>
     public MockSettingsViewModel(
         IServiceProvider serviceProvider,
         INavigationService navigationService,
@@ -59,6 +71,7 @@ public sealed partial class MockSettingsViewModel : ObservableObject, ISettingsV
         _initialized = true;
     }
 
+    /// <inheritdoc/>
     public List<ApplicationTheme> Themes { get; } =
     [
         ApplicationTheme.Auto,
@@ -67,6 +80,7 @@ public sealed partial class MockSettingsViewModel : ObservableObject, ISettingsV
         ApplicationTheme.HighContrast
     ];
 
+    /// <inheritdoc/>
     public List<WindowBackdropType> BackgroundEffects { get; } =
     [
         WindowBackdropType.None,
@@ -74,25 +88,32 @@ public sealed partial class MockSettingsViewModel : ObservableObject, ISettingsV
         WindowBackdropType.Tabbed,
         WindowBackdropType.Mica
     ];
-    
+
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial ApplicationTheme Theme { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial WindowBackdropType Background { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial bool UseTransition { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial bool UseHardwareRendering { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial bool UseSizeRestoring { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial bool UseModifyTab { get; set; }
 
+    /// <inheritdoc/>
     [RelayCommand]
     private async Task ResetSettingsAsync()
     {

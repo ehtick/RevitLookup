@@ -19,16 +19,24 @@ using RevitLookup.UI.Framework.Colors;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="System.Windows.Media.Color"/> exposed to LookupEngine.
+/// </summary>
 public sealed class ColorMediaDescriptor : Descriptor, IDescriptorConfigurator
 {
     private readonly Color _color;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="ColorMediaDescriptor"/> class.
+    /// </summary>
+    /// <param name="color">The color to expose.</param>
     public ColorMediaDescriptor(Color color)
     {
         _color = color;
         Name = $"#{ColorRepresentationUtils.ColorToHex(color.GetDrawingColor()).ToUpperInvariant()}";
     }
 
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Extension("HEX").Register(() => ColorRepresentationUtils.ColorToHex(_color.GetDrawingColor()));

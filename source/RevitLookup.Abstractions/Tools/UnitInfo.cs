@@ -20,22 +20,22 @@ namespace RevitLookup.Abstractions.Tools;
 public sealed class UnitInfo
 {
     /// <summary>
-    ///     The unit name.
+    ///     Gets or sets the unit name.
     /// </summary>
     public required string Unit { get; init; }
 
     /// <summary>
-    ///     The unit label.
+    ///     Gets or sets the unit's display label.
     /// </summary>
     public required string Label { get; init; }
 
     /// <summary>
-    ///     The unit value.
+    ///     Gets or sets the underlying Revit unit value.
     /// </summary>
     public required object Value { get; init; }
 
     /// <summary>
-    ///     The unit class.
+    ///     Gets or sets the unit class, or <see langword="null"/> when the unit has none.
     /// </summary>
     public string? Class { get; init; }
 }

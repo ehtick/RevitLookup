@@ -17,62 +17,63 @@ using System.Windows.Media;
 namespace RevitLookup.Abstractions.ViewModels.Visualization;
 
 /// <summary>
-///     Represents the data for mesh visualization.
+///     Defines a contract that represents the data for mesh visualization.
 /// </summary>
 public interface IMeshVisualizationViewModel
 {
     /// <summary>
-    ///     The minimum extrusion value for mesh.
+    ///     Gets the minimum extrusion value for the mesh.
     /// </summary>
     double MinExtrusion { get; }
 
     /// <summary>
-    ///     The extrusion value for mesh.
+    ///     Gets or sets the extrusion value for the mesh.
     /// </summary>
     double Extrusion { get; set; }
 
     /// <summary>
-    ///     The transparency level of visualization.
+    ///     Gets or sets the transparency level of visualization.
     /// </summary>
     double Transparency { get; set; }
 
     /// <summary>
-    ///     The color of mesh surface.
+    ///     Gets or sets the color of the mesh surface.
     /// </summary>
     Color SurfaceColor { get; set; }
 
     /// <summary>
-    ///     The color of mesh grid.
+    ///     Gets or sets the color of the mesh grid.
     /// </summary>
     Color MeshColor { get; set; }
 
     /// <summary>
-    ///     The color of mesh normal vectors.
+    ///     Gets or sets the color of the mesh normal vectors.
     /// </summary>
     Color NormalVectorColor { get; set; }
 
     /// <summary>
-    ///     Whether to show mesh surface.
+    ///     Gets or sets a value indicating whether to show the mesh surface.
     /// </summary>
     bool ShowSurface { get; set; }
 
     /// <summary>
-    ///     Whether to show mesh grid.
+    ///     Gets or sets a value indicating whether to show the mesh grid.
     /// </summary>
     bool ShowMeshGrid { get; set; }
 
     /// <summary>
-    ///     Whether to show mesh normal vectors.
+    ///     Gets or sets a value indicating whether to show the mesh normal vectors.
     /// </summary>
     bool ShowNormalVector { get; set; }
 
     /// <summary>
-    ///     Register Mesh visualization server.
+    ///     Registers the visualization server for the specified mesh.
     /// </summary>
+    /// <param name="mesh">The Revit <c>Mesh</c> to visualize.</param>
     void RegisterServer(object mesh);
 
     /// <summary>
-    ///     Unregister Mesh visualization server.
+    ///     Unregisters the mesh visualization server.
     /// </summary>
     void UnregisterServer();
 }

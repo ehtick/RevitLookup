@@ -4,22 +4,19 @@ using Microsoft.Extensions.Logging;
 namespace RevitLookup.ServiceDefaults.Diagnostics;
 
 /// <summary>
-///     Logs unhandled AppDomain exceptions while the host is running.
+///     Represents a hosted service that logs unhandled AppDomain exceptions while the host is running.
 /// </summary>
+/// <param name="logger">The logger the service writes unhandled exceptions to.</param>
 public sealed partial class AppDomainExceptionsHandler(ILogger<AppDomainExceptionsHandler> logger) : IHostedService
 {
-    /// <summary>
-    ///     Starts AppDomain exception logging.
-    /// </summary>
+    /// <inheritdoc/>
     public Task StartAsync(CancellationToken cancellationToken)
     {
         AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
         return Task.CompletedTask;
     }
 
-    /// <summary>
-    ///     Stops AppDomain exception logging.
-    /// </summary>
+    /// <inheritdoc/>
     public Task StopAsync(CancellationToken cancellationToken)
     {
         AppDomain.CurrentDomain.UnhandledException -= OnUnhandledException;

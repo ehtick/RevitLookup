@@ -17,32 +17,32 @@ using RevitLookup.Tests.Unit.Coverage.Models;
 namespace RevitLookup.Tests.Unit.Coverage.Discovery;
 
 /// <summary>
-///     The reflected shape of a Revit API enumerable.
+///     Represents the reflected shape of a Revit API enumerable.
 /// </summary>
 internal sealed record ApiEnumerableShape
 {
     /// <summary>
-    ///     The enumerable type.
+    ///     Gets the enumerable type.
     /// </summary>
     public required Type EnumerableType { get; init; }
 
     /// <summary>
-    ///     The shape the enumerable exposes.
+    ///     Gets the shape the enumerable exposes.
     /// </summary>
     public required ApiEnumerableKind Kind { get; init; }
 
     /// <summary>
-    ///     The element type the enumerable holds.
+    ///     Gets the element type the enumerable holds.
     /// </summary>
     public required Type ElementType { get; init; }
 
     /// <summary>
-    ///     Whether the enumerable exposes a <c>bool IsEmpty</c> property.
+    ///     Gets a value indicating whether the enumerable exposes a <c>bool IsEmpty</c> property.
     /// </summary>
     public required bool HasIsEmpty { get; init; }
 
     /// <summary>
-    ///     Whether the enumerable exposes an <c>int Count</c> property.
+    ///     Gets a value indicating whether the enumerable exposes an <c>int Count</c> property.
     /// </summary>
     public required bool HasCount { get; init; }
 }

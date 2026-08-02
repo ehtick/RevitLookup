@@ -17,8 +17,13 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.HostObject"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="hostObject">The host object to expose.</param>
 public sealed class HostObjectDescriptor(HostObject hostObject) : ElementDescriptor(hostObject)
 {
+    /// <inheritdoc/>
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(HostObject.Dispose)).Disable();

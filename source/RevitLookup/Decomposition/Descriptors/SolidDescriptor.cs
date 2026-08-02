@@ -30,16 +30,24 @@ using Nice3point.Revit.Toolkit.External;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.Solid"/> exposed to LookupEngine.
+/// </summary>
 public sealed partial class SolidDescriptor : Descriptor, IDescriptorConfigurator, IContextMenuConnector
 {
     private readonly Solid _solid;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="SolidDescriptor"/> class.
+    /// </summary>
+    /// <param name="solid">The solid to expose.</param>
     public SolidDescriptor(Solid solid)
     {
         _solid = solid;
         Name = $"{solid.Volume.ToString(CultureInfo.InvariantCulture)} ft?";
     }
 
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Solid.Dispose)).Disable();
@@ -74,6 +82,7 @@ public sealed partial class SolidDescriptor : Descriptor, IDescriptorConfigurato
         }
     }
 
+    /// <inheritdoc/>
     public void RegisterMenu(ContextMenu contextMenu, IServiceProvider serviceProvider)
     {
 #if REVIT2023_OR_GREATER

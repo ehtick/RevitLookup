@@ -16,8 +16,13 @@ using LookupEngine.Abstractions.Configuration;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.SunAndShadowSettings"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="settings">The sun and shadow settings to expose.</param>
 public sealed class SunAndShadowSettingsDescriptor(SunAndShadowSettings settings) : ElementDescriptor(settings)
 {
+    /// <inheritdoc/>
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(SunAndShadowSettings.Dispose)).Disable();

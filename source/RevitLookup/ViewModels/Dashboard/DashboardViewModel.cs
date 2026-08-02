@@ -11,6 +11,9 @@ using Wpf.Ui.Controls;
 
 namespace RevitLookup.ViewModels.Dashboard;
 
+/// <summary>
+///     Represents the view model for the Dashboard view, navigating to decomposition targets and tool dialogs backed by the active Revit session.
+/// </summary>
 [UsedImplicitly]
 public sealed partial class DashboardViewModel : IDashboardViewModel
 {
@@ -19,6 +22,13 @@ public sealed partial class DashboardViewModel : IDashboardViewModel
     private readonly INotificationService _notificationService;
     private readonly IVisualDecompositionService _visualDecompositionService;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="DashboardViewModel"/> class.
+    /// </summary>
+    /// <param name="serviceProvider">The service provider used to resolve dialog instances opened from the dashboard.</param>
+    /// <param name="navigationService">The service used to navigate to decomposition and tool pages.</param>
+    /// <param name="notificationService">The service used to report navigation and dialog failures.</param>
+    /// <param name="visualDecompositionService">The service that decomposes and visualizes the requested Revit object.</param>
     public DashboardViewModel(
         IServiceProvider serviceProvider,
         INavigationService navigationService,
@@ -285,8 +295,10 @@ public sealed partial class DashboardViewModel : IDashboardViewModel
         ];
     }
 
+    /// <inheritdoc/>
     public List<NavigationCardGroup> NavigationGroups { get; }
 
+    /// <inheritdoc/>
     [RelayCommand]
     private async Task NavigatePageAsync(string? parameter)
     {
@@ -404,6 +416,7 @@ public sealed partial class DashboardViewModel : IDashboardViewModel
         }
     }
 
+    /// <inheritdoc/>
     [RelayCommand]
     private async Task OpenDialogAsync(string parameter)
     {

@@ -18,8 +18,15 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Windows.RibbonTab"/> exposed to LookupEngine.
+/// </summary>
 public sealed class RibbonTabDescriptor : Descriptor, IDescriptorCollector
 {
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="RibbonTabDescriptor"/> class.
+    /// </summary>
+    /// <param name="ribbonTab">The ribbon tab to expose.</param>
     public RibbonTabDescriptor(RibbonTab ribbonTab)
     {
         Name = ribbonTab.Title;

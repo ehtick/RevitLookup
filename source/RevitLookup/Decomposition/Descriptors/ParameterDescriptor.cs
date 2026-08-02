@@ -30,16 +30,24 @@ using Wpf.Ui.Controls;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.Parameter"/> exposed to LookupEngine.
+/// </summary>
 public sealed partial class ParameterDescriptor : Descriptor, IDescriptorConfigurator, IContextMenuConnector
 {
     private readonly Parameter _parameter;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="ParameterDescriptor"/> class.
+    /// </summary>
+    /// <param name="parameter">The parameter to expose.</param>
     public ParameterDescriptor(Parameter parameter)
     {
         _parameter = parameter;
         Name = parameter.Definition.Name;
     }
 
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Parameter.Dispose)).Disable();
@@ -52,6 +60,7 @@ public sealed partial class ParameterDescriptor : Descriptor, IDescriptorConfigu
         configuration.Extension(nameof(FamilyManager.GetAssociatedFamilyParameter)).Register(() => _parameter.Element?.Document.FamilyManager.GetAssociatedFamilyParameter(_parameter));
     }
 
+    /// <inheritdoc/>
     public void RegisterMenu(ContextMenu contextMenu, IServiceProvider serviceProvider)
     {
         contextMenu.AddMenuItem("EditMenuItem")

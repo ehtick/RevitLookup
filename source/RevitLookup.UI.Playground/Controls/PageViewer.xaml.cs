@@ -8,11 +8,21 @@ using Wpf.Ui;
 
 namespace RevitLookup.UI.Playground.Controls;
 
+/// <summary>
+///     Represents a window that hosts and navigates a single resolved <see cref="Page"/>.
+/// </summary>
 [PublicAPI]
 public sealed partial class PageViewer
 {
     private readonly IServiceProvider _serviceProvider;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="PageViewer"/> class.
+    /// </summary>
+    /// <param name="serviceProvider">The service provider used to resolve the hosted page.</param>
+    /// <param name="snackbarService">The service configured to present snackbars over the hosted page.</param>
+    /// <param name="dialogService">The service configured to present content dialogs over the hosted page.</param>
+    /// <param name="intercomService">The service configured to expose this window as the active host.</param>
     public PageViewer(
         IServiceProvider serviceProvider,
         ISnackbarService snackbarService,
@@ -27,6 +37,10 @@ public sealed partial class PageViewer
         snackbarService.SetSnackbarPresenter(RootSnackbar);
     }
 
+    /// <summary>
+    ///     Resolves a <typeparamref name="T"/> page and navigates to it.
+    /// </summary>
+    /// <typeparam name="T">The type of page to resolve and display.</typeparam>
     public void ShowPage<T>() where T : Page
     {
         var page = _serviceProvider.GetRequiredService<T>();
@@ -36,6 +50,11 @@ public sealed partial class PageViewer
         Show();
     }
 
+    /// <summary>
+    ///     Resolves a <typeparamref name="T"/> page, applies the given configuration, and navigates to it.
+    /// </summary>
+    /// <typeparam name="T">The type of page to resolve and display.</typeparam>
+    /// <param name="configuration">The action invoked with the resolved page and the service provider before navigation.</param>
     public void ShowPage<T>(Action<T, IServiceProvider> configuration) where T : Page
     {
         var page = _serviceProvider.GetRequiredService<T>();
@@ -46,6 +65,11 @@ public sealed partial class PageViewer
         Show();
     }
 
+    /// <summary>
+    ///     Resolves a <typeparamref name="T"/> page, applies the given asynchronous configuration, and navigates to it.
+    /// </summary>
+    /// <typeparam name="T">The type of page to resolve and display.</typeparam>
+    /// <param name="configuration">The asynchronous function invoked with the resolved page and the service provider before navigation.</param>
     public void ShowPage<T>(Func<T, IServiceProvider, Task> configuration) where T : Page
     {
         var page = _serviceProvider.GetRequiredService<T>();
@@ -75,6 +99,7 @@ public sealed partial class PageViewer
         }
     }
 
+    /// <inheritdoc/>
     protected override AutomationPeer OnCreateAutomationPeer()
     {
         return new NoAutomationWindowPeer(this);

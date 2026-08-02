@@ -18,10 +18,19 @@ using Wpf.Ui;
 
 namespace RevitLookup.UI.Framework.Views.Visualization;
 
+/// <summary>
+///     Represents a dialog that visualizes a curve or an edge as a polyline in the active Revit view.
+/// </summary>
 public sealed partial class PolylineVisualizationDialog
 {
     private readonly IPolylineVisualizationViewModel _viewModel;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="PolylineVisualizationDialog"/> class.
+    /// </summary>
+    /// <param name="dialogService">The service that supplies the dialog host this dialog is shown on.</param>
+    /// <param name="viewModel">The view model that renders the polyline in the active Revit view.</param>
+    /// <param name="themeWatcherService">The service that applies and tracks the current theme for this dialog.</param>
     public PolylineVisualizationDialog(
         IContentDialogService dialogService,
         IPolylineVisualizationViewModel viewModel,
@@ -36,6 +45,11 @@ public sealed partial class PolylineVisualizationDialog
         themeWatcherService.Watch(this);
     }
 
+    /// <summary>
+    ///     Registers the curve or edge for visualization and shows the dialog.
+    /// </summary>
+    /// <param name="curveOrEdge">The Revit <c>Curve</c> or <c>Edge</c> to visualize.</param>
+    /// <returns>A task that represents the asynchronous show operation.</returns>
     public async Task ShowDialogAsync(object curveOrEdge)
     {
         _viewModel.RegisterServer(curveOrEdge);

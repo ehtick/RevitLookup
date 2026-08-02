@@ -18,16 +18,24 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Category"/> exposed to LookupEngine.
+/// </summary>
 public sealed class CategoryDescriptor : Descriptor, IDescriptorConfigurator, IDescriptorConfigurator<Document>
 {
     private readonly Category _category;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="CategoryDescriptor"/> class.
+    /// </summary>
+    /// <param name="category">The category to expose.</param>
     public CategoryDescriptor(Category category)
     {
         _category = category;
         Name = category.Name;
     }
 
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Category.Dispose)).Disable();

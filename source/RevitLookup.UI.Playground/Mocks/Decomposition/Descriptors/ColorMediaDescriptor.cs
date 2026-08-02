@@ -28,16 +28,24 @@ using RevitLookup.UI.Framework.Extensions;
 
 namespace RevitLookup.UI.Playground.Mocks.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents a descriptor for a WPF <see cref="Color"/> sample value that adds synthetic color-representation extensions and a delete command to the context menu.
+/// </summary>
 public sealed partial class ColorMediaDescriptor : Descriptor, IDescriptorConfigurator, IContextMenuConnector
 {
     private readonly Color _color;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="ColorMediaDescriptor"/> class.
+    /// </summary>
+    /// <param name="color">The color to describe.</param>
     public ColorMediaDescriptor(Color color)
     {
         _color = color;
         Name = $"#{ColorRepresentationUtils.ColorToHex(color.GetDrawingColor()).ToUpperInvariant()}";
     }
 
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Extension("HEX").Register(() => ColorRepresentationUtils.ColorToHex(_color.GetDrawingColor()));
@@ -57,6 +65,7 @@ public sealed partial class ColorMediaDescriptor : Descriptor, IDescriptorConfig
         configuration.Extension("Name").Register(() => ColorRepresentationUtils.GetColorName(_color.GetDrawingColor()));
     }
 
+    /// <inheritdoc/>
     public void RegisterMenu(ContextMenu contextMenu, IServiceProvider serviceProvider)
     {
         contextMenu.AddMenuItem("DeleteMenuItem")

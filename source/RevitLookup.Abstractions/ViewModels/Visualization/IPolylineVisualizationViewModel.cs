@@ -17,62 +17,63 @@ using System.Windows.Media;
 namespace RevitLookup.Abstractions.ViewModels.Visualization;
 
 /// <summary>
-///     Represents the data for polyline visualization.
+///     Defines a contract that represents the data for polyline visualization.
 /// </summary>
 public interface IPolylineVisualizationViewModel
 {
     /// <summary>
-    ///     The minimum thickness of polyline.
+    ///     Gets the minimum thickness of the polyline.
     /// </summary>
     double MinThickness { get; }
 
     /// <summary>
-    ///     The diameter of polyline.
+    ///     Gets or sets the diameter of the polyline.
     /// </summary>
     double Diameter { get; set; }
 
     /// <summary>
-    ///     The transparency level of visualization.
+    ///     Gets or sets the transparency level of visualization.
     /// </summary>
     double Transparency { get; set; }
 
     /// <summary>
-    ///     The color of polyline surface.
+    ///     Gets or sets the color of the polyline surface.
     /// </summary>
     Color SurfaceColor { get; set; }
 
     /// <summary>
-    ///     The color of polyline curve.
+    ///     Gets or sets the color of the polyline curve.
     /// </summary>
     Color CurveColor { get; set; }
 
     /// <summary>
-    ///     The color of polyline direction indicators.
+    ///     Gets or sets the color of the polyline direction indicators.
     /// </summary>
     Color DirectionColor { get; set; }
 
     /// <summary>
-    ///     Whether to show polyline surface.
+    ///     Gets or sets a value indicating whether to show the polyline surface.
     /// </summary>
     bool ShowSurface { get; set; }
 
     /// <summary>
-    ///     Whether to show polyline curve.
+    ///     Gets or sets a value indicating whether to show the polyline curve.
     /// </summary>
     bool ShowCurve { get; set; }
 
     /// <summary>
-    ///     Whether to show polyline direction indicators.
+    ///     Gets or sets a value indicating whether to show the polyline direction indicators.
     /// </summary>
     bool ShowDirection { get; set; }
 
     /// <summary>
-    ///     Register Polyline visualization server.
+    ///     Registers the visualization server for the specified curve or edge.
     /// </summary>
+    /// <param name="curveOrEdge">The Revit <c>Curve</c> or <c>Edge</c> to visualize.</param>
     void RegisterServer(object curveOrEdge);
 
     /// <summary>
-    ///     Unregister Polyline visualization server.
+    ///     Unregisters the polyline visualization server.
     /// </summary>
     void UnregisterServer();
 }

@@ -17,8 +17,13 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="ExternalResourceType"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="externalResourceType">The external resource type to expose.</param>
 public sealed class ExternalResourceTypeDescriptor(ExternalResourceType externalResourceType) : Descriptor, IDescriptorConfigurator
 {
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Extension("GetServers").Register(() => ExternalResourceServiceUtils.GetServersByType(externalResourceType));

@@ -3,32 +3,42 @@
 namespace RevitLookup.Abstractions.Decomposition;
 
 /// <summary>
-///     A visual shell for displaying decomposition result in the UI.
+///     Defines a contract that displays a decomposition result in the UI.
 /// </summary>
 public interface IVisualDecompositionService
 {
     /// <summary>
-    ///     Visualize the known Revit object in the UI.
+    ///     Decomposes <paramref name="decompositionObject"/> and displays the result in the UI.
     /// </summary>
+    /// <param name="decompositionObject">The known Revit object to decompose.</param>
+    /// <returns>A task that represents the asynchronous visualize operation.</returns>
     Task VisualizeDecompositionAsync(KnownDecompositionObject decompositionObject);
-    
+
     /// <summary>
-    ///     Visualize the CLR object in the UI.
+    ///     Decomposes <paramref name="obj"/> and displays the result in the UI.
     /// </summary>
+    /// <param name="obj">The object to decompose.</param>
+    /// <returns>A task that represents the asynchronous visualize operation.</returns>
     Task VisualizeDecompositionAsync(object? obj);
-    
+
     /// <summary>
-    ///     Visualize the collection of CLR objects in the UI.
+    ///     Decomposes <paramref name="objects"/> and displays the result in the UI.
     /// </summary>
+    /// <param name="objects">The objects to decompose.</param>
+    /// <returns>A task that represents the asynchronous visualize operation.</returns>
     Task VisualizeDecompositionAsync(IEnumerable objects);
-    
+
     /// <summary>
-    ///     Visualize the already decomposed object in the UI.
+    ///     Displays the already decomposed <paramref name="decomposedObject"/> in the UI.
     /// </summary>
+    /// <param name="decomposedObject">The decomposed object to display.</param>
+    /// <returns>A task that represents the asynchronous visualize operation.</returns>
     Task VisualizeDecompositionAsync(ObservableDecomposedObject decomposedObject);
-    
+
     /// <summary>
-    ///     Visualize the collection of already decomposed objects in the UI.
+    ///     Displays the already decomposed <paramref name="decomposedObjects"/> in the UI.
     /// </summary>
+    /// <param name="decomposedObjects">The decomposed objects to display.</param>
+    /// <returns>A task that represents the asynchronous visualize operation.</returns>
     Task VisualizeDecompositionAsync(List<ObservableDecomposedObject> decomposedObjects);
 }

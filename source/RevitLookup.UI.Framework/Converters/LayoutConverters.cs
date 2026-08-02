@@ -17,12 +17,22 @@ using System.Windows.Data;
 
 namespace RevitLookup.UI.Framework.Converters;
 
+/// <summary>
+///     Provides <see cref="IValueConverter"/> instances that compute a layout dimension from an available size.
+/// </summary>
 public static class LayoutConverters
 {
+    /// <summary>
+    ///     Gets a converter that computes a uniform grid column count from an available width.
+    /// </summary>
     public static IValueConverter UniformColumnsByWidth { get; } = new UniformColumnsByWidthConverter();
 
     private sealed class UniformColumnsByWidthConverter : IValueConverter
     {
+        /// <inheritdoc/>
+        /// <remarks>
+        ///     Divides the available width into columns of 400 device-independent units and always returns at least 1.
+        /// </remarks>
         public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             var width = (double)value!;
@@ -30,6 +40,7 @@ public static class LayoutConverters
             return columns > 0 ? columns : 1;
         }
 
+        /// <inheritdoc/>
         public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotSupportedException();

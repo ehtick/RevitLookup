@@ -18,8 +18,16 @@ using Wpf.Ui.Abstractions.Controls;
 
 namespace RevitLookup.UI.Framework.Views.Settings;
 
+/// <summary>
+///     Represents a page that lets the user view and change the application settings.
+/// </summary>
 public sealed partial class SettingsPage : INavigableView<ISettingsViewModel>
 {
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="SettingsPage"/> class.
+    /// </summary>
+    /// <param name="viewModel">The view model that provides the data for the Settings view.</param>
+    /// <param name="themeWatcherService">The service that applies and tracks the current theme for this page.</param>
     public SettingsPage(ISettingsViewModel viewModel, IThemeWatcherService themeWatcherService)
     {
         themeWatcherService.Watch(this);
@@ -29,5 +37,6 @@ public sealed partial class SettingsPage : INavigableView<ISettingsViewModel>
         InitializeComponent();
     }
 
+    /// <inheritdoc/>
     public ISettingsViewModel ViewModel { get; }
 }

@@ -4,57 +4,57 @@ using RevitLookup.Abstractions.Updater;
 namespace RevitLookup.Abstractions.ViewModels.AboutProgram;
 
 /// <summary>
-///     Represents the data for the About view.
+///     Defines a contract that represents the data for the About view.
 /// </summary>
 public interface IAboutViewModel
 {
     /// <summary>
-    ///     The application update state.
+    ///     Gets or sets the application update state.
     /// </summary>
     SoftwareUpdateState State { get; set; }
     
     /// <summary>
-    ///     The current version of the application.
+    ///     Gets or sets the current version of the application.
     /// </summary>
     Version CurrentVersion { get; set; }
     
     /// <summary>
-    ///     A new available version to download.
+    ///     Gets or sets the new version available to download, or <see langword="null"/> when no update is available.
     /// </summary>
     string? NewVersion { get; set; }
     
     /// <summary>
-    ///     The error message during updating.
+    ///     Gets or sets the error message produced while checking for or downloading an update, or <see langword="null"/> when no error occurred.
     /// </summary>
     string? ErrorMessage { get; set; }
     
     /// <summary>
-    ///     The URL to the release notes of the new version.
+    ///     Gets or sets the URL to the release notes of the new version, or <see langword="null"/> when no update is available.
     /// </summary>
     string? ReleaseNotesUrl { get; set; }
     
     /// <summary>
-    ///     The date of the latest check for updates.
+    ///     Gets or sets the date of the latest check for updates, or <see langword="null"/> when no check has been performed yet.
     /// </summary>
     string? LatestCheckDate { get; set; }
     
     /// <summary>
-    ///     The current .NET version.
+    ///     Gets or sets the current .NET runtime version.
     /// </summary>
     string Runtime { get; set; }
 
     /// <summary>
-    ///     Check for updates on the server.
+    ///     Gets the command that checks for updates on the server.
     /// </summary>
     IAsyncRelayCommand CheckUpdatesCommand { get; }
     
     /// <summary>
-    ///     Download the update from the server.
+    ///     Gets the command that downloads the update from the server.
     /// </summary>
     IAsyncRelayCommand DownloadUpdateCommand { get; }
     
     /// <summary>
-    ///     Show the third-party software dialog.
+    ///     Gets the command that shows the third-party software dialog.
     /// </summary>
     IAsyncRelayCommand ShowSoftwareDialogCommand { get; }
 }

@@ -13,6 +13,9 @@ using RevitLookup.UI.Playground.Views.Pages;
 
 namespace RevitLookup.UI.Playground.ViewModels.Pages;
 
+/// <summary>
+///     Represents the sample data for the windows gallery page.
+/// </summary>
 [UsedImplicitly]
 public sealed partial class WindowsViewModel : ObservableObject
 {

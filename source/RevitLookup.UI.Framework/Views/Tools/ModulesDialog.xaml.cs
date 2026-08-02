@@ -25,8 +25,17 @@ using Wpf.Ui;
 
 namespace RevitLookup.UI.Framework.Views.Tools;
 
+/// <summary>
+///     Represents a dialog that lists the assemblies loaded into the current process.
+/// </summary>
 public sealed partial class ModulesDialog
 {
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="ModulesDialog"/> class.
+    /// </summary>
+    /// <param name="dialogService">The service that supplies the dialog host this dialog is shown on.</param>
+    /// <param name="viewModel">The view model that provides the data for the Modules view.</param>
+    /// <param name="themeWatcherService">The service that applies and tracks the current theme for this dialog.</param>
     public ModulesDialog(
         IContentDialogService dialogService,
         IModulesViewModel viewModel, IThemeWatcherService themeWatcherService)

@@ -36,9 +36,10 @@ internal sealed partial class SourceFileIndex
     }
 
     /// <summary>
-    ///     Reads every C# file below the directory.
+    ///     Creates a <see cref="SourceFileIndex"/> reading every C# file below the directory.
     /// </summary>
     /// <param name="sourceDirectory">The source directory to index.</param>
+    /// <returns>The <see cref="SourceFileIndex"/> for the files below <paramref name="sourceDirectory"/>.</returns>
     /// <exception cref="DirectoryNotFoundException">The directory does not exist.</exception>
     public static SourceFileIndex Build(string sourceDirectory)
     {
@@ -57,9 +58,9 @@ internal sealed partial class SourceFileIndex
 
     /// <summary>
     ///     Reads the names of the files containing the qualified name anywhere in their text.
-    ///     An empty list marks a name no indexed file mentions.
     /// </summary>
     /// <param name="qualifiedName">The <c>Type.Member</c> name to look up.</param>
+    /// <returns>The names of the files mentioning <paramref name="qualifiedName"/>. An empty list marks a name no indexed file mentions.</returns>
     [Pure]
     public IReadOnlyList<string> FindReferencingFiles(string qualifiedName)
     {
@@ -76,6 +77,7 @@ internal sealed partial class SourceFileIndex
     /// </summary>
     /// <param name="fileName">The file name to read, without a directory.</param>
     /// <param name="typeName">The short name of the matched type, without generic arity.</param>
+    /// <returns><see langword="true"/> if the file carries a switch arm matching the type; otherwise, <see langword="false"/>.</returns>
     /// <remarks>
     ///     A declaration pattern names its type in code, so a comment grouping the arms contributes no name.
     ///     An expression-bodied member of the same file reads as an arm matching its return type.

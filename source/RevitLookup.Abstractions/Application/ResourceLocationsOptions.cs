@@ -1,12 +1,12 @@
 ﻿namespace RevitLookup.Abstractions.Application;
 
 /// <summary>
-///     Application resource locations
+///     Represents the application's resource locations.
 /// </summary>
 public sealed partial class ResourceLocationsOptions
 {
     /// <summary>
-    ///     The root directory for storing application data that should roam with the user across multiple devices.
+    ///     Gets or sets the root directory for storing application data that should roam with the user across multiple devices.
     /// </summary>
     /// <remarks>
     ///     This folder is typically used for user-specific settings, configurations, or data that needs to be synchronized between devices in a domain environment (e.g., Active Directory).
@@ -15,7 +15,7 @@ public sealed partial class ResourceLocationsOptions
     public required string ApplicationDataDirectory { get; set; }
 
     /// <summary>
-    ///     The root directory for storing application data that is specific to the local machine.
+    ///     Gets or sets the root directory for storing application data that is specific to the local machine.
     /// </summary>
     /// <remarks>
     ///     This folder is typically used for machine-specific data, cache, or temporary files that do not need to be synchronized across devices.

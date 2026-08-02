@@ -18,8 +18,13 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.TableView"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="tableView">The table view to expose.</param>
 public sealed class TableViewDescriptor(TableView tableView) : ElementDescriptor(tableView)
 {
+    /// <inheritdoc/>
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(TableView.Dispose)).Disable();

@@ -17,13 +17,21 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="FailureMessage"/> exposed to LookupEngine.
+/// </summary>
 public sealed class FailureMessageDescriptor : Descriptor, IDescriptorConfigurator
 {
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="FailureMessageDescriptor"/> class.
+    /// </summary>
+    /// <param name="message">The failure message to expose.</param>
     public FailureMessageDescriptor(FailureMessage message)
     {
         Name = message.GetDescriptionText();
     }
 
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(FailureMessage.Dispose)).Disable();

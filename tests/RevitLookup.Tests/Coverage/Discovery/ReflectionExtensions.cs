@@ -28,6 +28,7 @@ internal static class ReflectionExtensions
         /// <summary>
         ///     Reads every type the process resolves, dropping a type whose dependencies are absent.
         /// </summary>
+        /// <returns>The types of the assembly the process can load.</returns>
         /// <remarks>
         ///     The Revit API assemblies reference native and optional managed modules a test host does not always load.
         /// </remarks>
@@ -50,6 +51,7 @@ internal static class ReflectionExtensions
         /// <summary>
         ///     Renders the short name of the type with its generic arguments.
         /// </summary>
+        /// <returns>The short name of <paramref name="type"/>, followed by its generic arguments in angle brackets when it is generic.</returns>
         public string FormatName()
         {
             if (!type.IsGenericType)
@@ -65,6 +67,7 @@ internal static class ReflectionExtensions
         /// <summary>
         ///     Renders the short name of the type without generic arity, the identifier a source file spells.
         /// </summary>
+        /// <returns>The short name of <paramref name="type"/>, with any backtick arity suffix removed.</returns>
         public string FormatDeclarationName()
         {
             var arityIndex = type.Name.IndexOf('`');

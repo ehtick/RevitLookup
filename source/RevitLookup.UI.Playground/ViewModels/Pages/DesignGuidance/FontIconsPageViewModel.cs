@@ -9,21 +9,39 @@ using RevitLookup.UI.Framework.Extensions;
 
 namespace RevitLookup.UI.Playground.ViewModels.Pages.DesignGuidance;
 
+/// <summary>
+///     Represents the sample data for the Segoe icon gallery page.
+/// </summary>
 [UsedImplicitly]
 public partial class FontIconsPageViewModel : ObservableObject
 {
+    /// <summary>
+    ///     Gets or sets the full set of Segoe icons available to browse.
+    /// </summary>
     [ObservableProperty]
     public partial List<FontIconData> Icons { get; set; } = [];
 
+    /// <summary>
+    ///     Gets or sets the icons that match the current <see cref="SearchText"/> filter.
+    /// </summary>
     [ObservableProperty]
     public partial List<FontIconData> FilteredIcons { get; set; } = [];
 
+    /// <summary>
+    ///     Gets or sets the icon currently selected in the gallery.
+    /// </summary>
     [ObservableProperty]
     public partial FontIconData? SelectedIcon { get; set; }
 
+    /// <summary>
+    ///     Gets or sets the text used to filter the icon gallery.
+    /// </summary>
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="FontIconsPageViewModel"/> class.
+    /// </summary>
     public FontIconsPageViewModel()
     {
         var jsonText = ReadIconData();

@@ -4,11 +4,12 @@ using RevitLookup.Abstractions.Decomposition;
 
 namespace RevitLookup.Views.Styles.ObjectsTree;
 
+/// <summary>
+///     Represents a template selector that chooses the tree view item template for a decomposed object.
+/// </summary>
 public sealed class TreeViewItemTemplateSelector : DataTemplateSelector
 {
-    /// <summary>
-    ///     Tree view row style selector
-    /// </summary>
+    /// <inheritdoc/>
     public override DataTemplate? SelectTemplate(object? item, DependencyObject container)
     {
         if (item is null) return null;

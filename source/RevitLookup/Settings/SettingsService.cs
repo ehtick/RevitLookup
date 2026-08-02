@@ -12,6 +12,12 @@ using Wpf.Ui.Controls;
 
 namespace RevitLookup.Settings;
 
+/// <summary>
+///     Manages the application, LookupEngine, and visualization settings, persisting them to the user's settings folder.
+/// </summary>
+/// <param name="foldersOptions">The options that resolve the settings file paths.</param>
+/// <param name="jsonOptions">The options used to serialize and deserialize the settings files.</param>
+/// <param name="logger">The logger this service writes diagnostic records to.</param>
 public sealed partial class SettingsService(
     IOptions<ResourceLocationsOptions> foldersOptions,
     IOptions<JsonSerializerOptions> jsonOptions,
@@ -22,10 +28,19 @@ public sealed partial class SettingsService(
     private DecompositionSettings? _decompositionSettings;
     private VisualizationSettings? _visualizationSettings;
 
+    /// <inheritdoc/>
+    /// <exception cref="InvalidOperationException">The settings have not been loaded with <see cref="LoadSettings"/>.</exception>
     public ApplicationSettings ApplicationSettings => _applicationSettings ?? throw new InvalidOperationException("Application settings is not loaded.");
+
+    /// <inheritdoc/>
+    /// <exception cref="InvalidOperationException">The settings have not been loaded with <see cref="LoadSettings"/>.</exception>
     public DecompositionSettings DecompositionSettings => _decompositionSettings ?? throw new InvalidOperationException("Decomposition settings is not loaded.");
+
+    /// <inheritdoc/>
+    /// <exception cref="InvalidOperationException">The settings have not been loaded with <see cref="LoadSettings"/>.</exception>
     public VisualizationSettings VisualizationSettings => _visualizationSettings ?? throw new InvalidOperationException("Visualization settings is not loaded.");
 
+    /// <inheritdoc/>
     public void SaveSettings()
     {
         SaveApplicationSettings();
@@ -33,6 +48,7 @@ public sealed partial class SettingsService(
         SaveVisualizationSettings();
     }
 
+    /// <inheritdoc/>
     public void LoadSettings()
     {
         LoadApplicationSettings();
@@ -142,6 +158,7 @@ public sealed partial class SettingsService(
         }
     }
 
+    /// <inheritdoc/>
     public void ResetApplicationSettings()
     {
         _applicationSettings = new ApplicationSettings
@@ -157,6 +174,7 @@ public sealed partial class SettingsService(
         };
     }
 
+    /// <inheritdoc/>
     public void ResetDecompositionSettings()
     {
         _decompositionSettings = new DecompositionSettings
@@ -167,6 +185,7 @@ public sealed partial class SettingsService(
         };
     }
 
+    /// <inheritdoc/>
     public void ResetVisualizationSettings()
     {
         _visualizationSettings = new VisualizationSettings

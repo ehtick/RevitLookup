@@ -10,7 +10,7 @@ using Sourcy.DotNet;
 namespace Build.Modules;
 
 /// <summary>
-///     Test the add-in for each supported Revit configuration.
+///     Represents the pipeline module that tests the add-in for each supported Revit configuration.
 /// </summary>
 [SkipIf<IsCI>]
 [DependsOn<ResolveConfigurationsModule>]
@@ -29,7 +29,7 @@ public sealed class TestProjectModule : Module
     }
 
     /// <summary>
-    ///     Test the add-in project for the specified configuration.
+    ///     Tests the add-in project for the specified configuration.
     /// </summary>
     private static async Task<CommandResult> CompileAsync(IModuleContext context, string configuration, CancellationToken cancellationToken)
     {

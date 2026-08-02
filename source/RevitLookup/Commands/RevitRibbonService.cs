@@ -19,10 +19,17 @@ using RevitLookup.Commands.Controllers;
 
 namespace RevitLookup.Commands;
 
+/// <summary>
+///     Provides the RevitLookup ribbon panel and buttons in the Revit ribbon.
+/// </summary>
+/// <param name="settingsService">The settings service that determines which ribbon layout to create.</param>
 public sealed partial class RevitRibbonService(ISettingsService settingsService)
 {
     private readonly List<RibbonPanel> _createdPanels = new(2);
 
+    /// <summary>
+    ///     Creates the RevitLookup ribbon panel and its buttons, removing any panel created by a previous call first.
+    /// </summary>
     public void CreateRibbon()
     {
         RemovePanelsEvent.Raise();

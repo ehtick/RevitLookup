@@ -23,18 +23,26 @@ using RevitLookup.UI.Framework.Extensions;
 
 namespace RevitLookup.UI.Playground.Mocks.ViewModels.Tools;
 
+/// <summary>
+///     Represents a Playground mock of <see cref="IUnitsViewModel"/> that fabricates parameter, category, and Forge schema entries with <c>Bogus</c>.
+/// </summary>
+/// <param name="decompositionService">The service that visualizes the decomposition of the selected unit value.</param>
 [UsedImplicitly]
 public sealed partial class MockUnitsViewModel(IVisualDecompositionService decompositionService) : ObservableObject, IUnitsViewModel
 {
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial List<UnitInfo> Units { get; set; } = [];
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial List<UnitInfo> FilteredUnits { get; set; } = [];
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
 
+    /// <inheritdoc/>
     public void InitializeParameters()
     {
         Units = new Faker<UnitInfo>()
@@ -44,6 +52,7 @@ public sealed partial class MockUnitsViewModel(IVisualDecompositionService decom
             .Generate(20);
     }
 
+    /// <inheritdoc/>
     public void InitializeCategories()
     {
         Units = new Faker<UnitInfo>()
@@ -53,6 +62,7 @@ public sealed partial class MockUnitsViewModel(IVisualDecompositionService decom
             .Generate(200);
     }
 
+    /// <inheritdoc/>
     public void InitializeForgeSchema()
     {
         Units = new Faker<UnitInfo>()
@@ -63,6 +73,7 @@ public sealed partial class MockUnitsViewModel(IVisualDecompositionService decom
             .Generate(2000);
     }
 
+    /// <inheritdoc/>
     public async Task DecomposeAsync(UnitInfo unitInfo)
     {
         await decompositionService.VisualizeDecompositionAsync(unitInfo.Value);

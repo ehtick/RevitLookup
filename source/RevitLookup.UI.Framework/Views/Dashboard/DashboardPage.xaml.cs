@@ -18,8 +18,16 @@ using Wpf.Ui.Abstractions.Controls;
 
 namespace RevitLookup.UI.Framework.Views.Dashboard;
 
+/// <summary>
+///     Represents a page that shows the entry points to the application tools, grouped by category.
+/// </summary>
 public sealed partial class DashboardPage : INavigableView<IDashboardViewModel>
 {
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="DashboardPage"/> class.
+    /// </summary>
+    /// <param name="viewModel">The view model that provides the data for the Dashboard view.</param>
+    /// <param name="themeWatcherService">The service that applies and tracks the current theme for this page.</param>
     public DashboardPage(IDashboardViewModel viewModel, IThemeWatcherService themeWatcherService)
     {
         themeWatcherService.Watch(this);
@@ -29,5 +37,6 @@ public sealed partial class DashboardPage : INavigableView<IDashboardViewModel>
         InitializeComponent();
     }
 
+    /// <inheritdoc/>
     public IDashboardViewModel ViewModel { get; }
 }

@@ -1,20 +1,23 @@
 namespace Build.Options;
 
+/// <summary>
+///     Represents the publish settings used to release and distribute the add-in.
+/// </summary>
 [Serializable]
 public sealed record PublishOptions
 {
     /// <summary>
-    ///     Product release version
+    ///     Gets the product release version.
     /// </summary>
     public string? Version { get; init; }
 
     /// <summary>
-    ///     Path to the release changelog file
+    ///     Gets the path to the release changelog file.
     /// </summary>
     public string ChangelogFile { get; init; } = "CHANGELOG.md";
 
     /// <summary>
-    ///     Classic GitHub PAT with public_repo scope, to create PRs in microsoft/winget-pkgs.
+    ///     Gets the classic GitHub personal access token with <c>public_repo</c> scope used to create pull requests in <c>microsoft/winget-pkgs</c>.
     /// </summary>
     public string? WinGetToken { get; init; }
 }

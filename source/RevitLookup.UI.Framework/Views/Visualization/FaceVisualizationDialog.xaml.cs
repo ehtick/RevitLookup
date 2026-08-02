@@ -18,10 +18,19 @@ using Wpf.Ui;
 
 namespace RevitLookup.UI.Framework.Views.Visualization;
 
+/// <summary>
+///     Represents a dialog that visualizes a face in the active Revit view.
+/// </summary>
 public sealed partial class FaceVisualizationDialog
 {
     private readonly IFaceVisualizationViewModel _viewModel;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="FaceVisualizationDialog"/> class.
+    /// </summary>
+    /// <param name="dialogService">The service that supplies the dialog host this dialog is shown on.</param>
+    /// <param name="viewModel">The view model that renders the face in the active Revit view.</param>
+    /// <param name="themeWatcherService">The service that applies and tracks the current theme for this dialog.</param>
     public FaceVisualizationDialog(
         IContentDialogService dialogService,
         IFaceVisualizationViewModel viewModel,
@@ -36,6 +45,11 @@ public sealed partial class FaceVisualizationDialog
         themeWatcherService.Watch(this);
     }
 
+    /// <summary>
+    ///     Registers the face for visualization and shows the dialog.
+    /// </summary>
+    /// <param name="face">The Revit <c>Face</c> to visualize.</param>
+    /// <returns>A task that represents the asynchronous show operation.</returns>
     public async Task ShowDialogAsync(object face)
     {
         _viewModel.RegisterServer(face);

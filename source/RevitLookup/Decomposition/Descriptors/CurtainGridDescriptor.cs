@@ -17,8 +17,13 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="CurtainGrid"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="curtainGrid">The curtain grid to expose.</param>
 public sealed class CurtainGridDescriptor(CurtainGrid curtainGrid) : Descriptor, IDescriptorConfigurator
 {
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(CurtainGrid.Dispose)).Disable();

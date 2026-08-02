@@ -2,10 +2,17 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace RevitLookup.UI.Playground.ViewModels;
 
+/// <summary>
+///     Provides extension methods for <see cref="IServiceCollection"/> to register Playground view models.
+/// </summary>
 public static class ViewModelsRegistration
 {
+    /// <param name="services">The service collection to add the Playground view models to.</param>
     extension(IServiceCollection services)
     {
+        /// <summary>
+        ///     Adds the Playground view models and their mock view model implementations to the specified <see cref="IServiceCollection"/>.
+        /// </summary>
         public void AddViewModels()
         {
             services.Scan(selector => selector.FromAssemblyOf<App>()

@@ -17,13 +17,21 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.UpdaterInfo"/> exposed to LookupEngine.
+/// </summary>
 public sealed class UpdaterInfoDescriptor : Descriptor, IDescriptorConfigurator
 {
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="UpdaterInfoDescriptor"/> class.
+    /// </summary>
+    /// <param name="info">The updater info to expose.</param>
     public UpdaterInfoDescriptor(UpdaterInfo info)
     {
         Name = info.UpdaterName;
     }
 
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(UpdaterInfo.Dispose)).Disable();

@@ -17,10 +17,15 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="DefinitionBindingMapIterator"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="iterator">The definition binding map iterator positioned at the entry to expose.</param>
 public sealed class DefinitionBindingMapIteratorDescriptor(DefinitionBindingMapIterator iterator) : Descriptor, IDescriptorRedirector
 {
     private readonly object _object = new KeyValuePair<Definition, object?>(iterator.Key, iterator.Current);
 
+    /// <inheritdoc/>
     public bool TryRedirect(string target, out object result)
     {
         result = _object;

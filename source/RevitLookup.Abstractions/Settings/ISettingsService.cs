@@ -1,47 +1,56 @@
 ﻿namespace RevitLookup.Abstractions.Settings;
 
 /// <summary>
-///     Service for managing the application settings.
+///     Defines a contract that manages the application settings.
 /// </summary>
 public interface ISettingsService
 {
     /// <summary>
-    ///     Represents the application settings.
+    ///     Gets the application settings.
     /// </summary>
     ApplicationSettings ApplicationSettings { get; }
-    
+
     /// <summary>
-    ///     Represents the LookupEngine settings.
+    ///     Gets the LookupEngine decomposition settings.
     /// </summary>
     DecompositionSettings DecompositionSettings { get; }
-    
+
     /// <summary>
-    ///     Represents the visualization settings.
+    ///     Gets the visualization settings.
     /// </summary>
     VisualizationSettings VisualizationSettings { get; }
-    
+
     /// <summary>
-    ///     Save the settings to the storage.
+    ///     Saves the settings to storage.
     /// </summary>
     void SaveSettings();
-    
+
     /// <summary>
-    ///     Load the settings from the storage.
+    ///     Loads the settings from storage.
     /// </summary>
     void LoadSettings();
-    
+
     /// <summary>
-    ///     Reset the application settings to the default values. Only in-memory settings will be affected.
+    ///     Resets the application settings to their default values.
     /// </summary>
+    /// <remarks>
+    ///     Only the in-memory settings are affected; storage is left unchanged until <see cref="SaveSettings"/> is called.
+    /// </remarks>
     void ResetApplicationSettings();
-    
+
     /// <summary>
-    ///     Reset the LookupEngine settings to the default values. Only in-memory settings will be affected.
+    ///     Resets the LookupEngine decomposition settings to their default values.
     /// </summary>
+    /// <remarks>
+    ///     Only the in-memory settings are affected; storage is left unchanged until <see cref="SaveSettings"/> is called.
+    /// </remarks>
     void ResetDecompositionSettings();
-    
+
     /// <summary>
-    ///     Reset the visualization settings to the default values. Only in-memory settings will be affected.
+    ///     Resets the visualization settings to their default values.
     /// </summary>
+    /// <remarks>
+    ///     Only the in-memory settings are affected; storage is left unchanged until <see cref="SaveSettings"/> is called.
+    /// </remarks>
     void ResetVisualizationSettings();
 }

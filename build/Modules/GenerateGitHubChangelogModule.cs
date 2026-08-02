@@ -7,7 +7,7 @@ using ModularPipelines.Modules;
 namespace Build.Modules;
 
 /// <summary>
-///     Generate and format the changelog for publishing on the GitHub.
+///     Represents the pipeline module that formats the changelog for the GitHub release.
 /// </summary>
 [DependsOn<GenerateChangelogModule>]
 [DependsOn<ResolveVersioningModule>]
@@ -24,7 +24,7 @@ public sealed class GenerateGitHubChangelogModule : Module<string>
     }
 
     /// <summary>
-    ///     Append extra links for GitHub release.
+    ///     Appends extra links for the GitHub release.
     /// </summary>
     private static string AppendExtraUrls(IModuleContext context, string changelog, ResolveVersioningResult versioning)
     {

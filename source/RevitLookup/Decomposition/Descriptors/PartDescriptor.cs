@@ -16,8 +16,13 @@ using LookupEngine.Abstractions.Configuration;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.Part"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="part">The part to expose.</param>
 public sealed class PartDescriptor(Part part) : ElementDescriptor(part), IDescriptorConfigurator<Document>
 {
+    /// <inheritdoc/>
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Part.Dispose)).Disable();

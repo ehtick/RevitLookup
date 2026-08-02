@@ -18,8 +18,13 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="ExternalDefinition"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="externalDefinition">The shared parameter external definition to expose.</param>
 public sealed class ExternalDefinitionDescriptor(ExternalDefinition externalDefinition) : Descriptor, IDescriptorConfigurator, IDescriptorConfigurator<Document>
 {
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Extension(nameof(RebarShapeParameters.IsValidExternalDefinition)).Register(() => RebarShapeParameters.IsValidExternalDefinition(externalDefinition));

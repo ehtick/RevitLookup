@@ -5,11 +5,12 @@ using RevitLookup.Abstractions.Decomposition;
 
 namespace RevitLookup.UI.Playground.Mocks.Styles.ObjectsTree;
 
+/// <summary>
+///     Selects the objects-tree item template for a decomposed object, giving a WPF media color its own swatch template.
+/// </summary>
 public sealed class TreeViewItemTemplateSelector : DataTemplateSelector
 {
-    /// <summary>
-    ///     Tree view row style selector
-    /// </summary>
+    /// <inheritdoc/>
     public override DataTemplate? SelectTemplate(object? item, DependencyObject container)
     {
         if (item is null) return null;

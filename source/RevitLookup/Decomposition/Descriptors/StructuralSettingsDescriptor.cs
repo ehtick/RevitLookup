@@ -17,8 +17,13 @@ using LookupEngine.Abstractions.Configuration;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.Structure.StructuralSettings"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="structuralSettings">The structural settings to expose.</param>
 public sealed class StructuralSettingsDescriptor(StructuralSettings structuralSettings) : ElementDescriptor(structuralSettings)
 {
+    /// <inheritdoc/>
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(StructuralSettings.Dispose)).Disable();

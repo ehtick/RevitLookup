@@ -18,13 +18,21 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="DefinitionFile"/> exposed to LookupEngine.
+/// </summary>
 public sealed class DefinitionFileDescriptor : Descriptor, IDescriptorConfigurator
 {
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="DefinitionFileDescriptor"/> class.
+    /// </summary>
+    /// <param name="definitionFile">The shared parameter definition file to expose.</param>
     public DefinitionFileDescriptor(DefinitionFile definitionFile)
     {
         Name = definitionFile.Filename;
     }
 
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(DefinitionFile.Dispose)).Disable();

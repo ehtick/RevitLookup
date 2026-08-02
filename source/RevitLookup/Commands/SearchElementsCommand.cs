@@ -20,10 +20,14 @@ using RevitLookup.UI.Framework.Views.Dashboard;
 
 namespace RevitLookup.Commands;
 
+/// <summary>
+///     Represents the Revit command that opens the RevitLookup dashboard and shows the element search dialog.
+/// </summary>
 [UsedImplicitly]
 [Transaction(TransactionMode.Manual)]
 public class SearchElementsCommand : ExternalCommand
 {
+    /// <inheritdoc/>
     public override void Execute()
     {
         Host.GetService<IUiOrchestratorService>()

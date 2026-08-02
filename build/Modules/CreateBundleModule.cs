@@ -15,8 +15,10 @@ using File = ModularPipelines.FileSystem.File;
 namespace Build.Modules;
 
 /// <summary>
-///     Create the Autodesk .bundle package.
+///     Represents the pipeline module that creates the Autodesk <c>.bundle</c> package.
 /// </summary>
+/// <param name="buildOptions">The build settings that supply the bundle output directory.</param>
+/// <param name="bundleOptions">The vendor details embedded in the bundle manifest.</param>
 [DependsOn<ResolveVersioningModule>]
 [DependsOn<CompileProjectModule>]
 [DependsOn<SignAssembliesModule>(Optional = true)]
@@ -73,7 +75,7 @@ public sealed partial class CreateBundleModule(IOptions<BuildOptions> buildOptio
     }
 
     /// <summary>
-    ///     Generate the Autodesk manifest.
+    ///     Generates the Autodesk manifest.
     /// </summary>
     private void GenerateManifest(File bundleTarget, Folder[] targetDirectories, File manifestDirectory, ResolveVersioningResult versioning)
     {
@@ -109,7 +111,7 @@ public sealed partial class CreateBundleModule(IOptions<BuildOptions> buildOptio
     }
     
     /// <summary>
-    ///     Parse a version string from the given input.
+    ///     Parses a version string from the given input.
     /// </summary>
     private static bool TryParseVersion(string input, [NotNullWhen(true)] out string? version)
     {
@@ -131,7 +133,7 @@ public sealed partial class CreateBundleModule(IOptions<BuildOptions> buildOptio
     }
 
     /// <summary>
-    ///     A regular expression to match the last sequence of numeric characters in a string.
+    ///     A regular expression that matches the last sequence of numeric characters in a string.
     /// </summary>
     [GeneratedRegex(@"(\d+)(?!.*\d)")]
     private static partial Regex VersionRegex();

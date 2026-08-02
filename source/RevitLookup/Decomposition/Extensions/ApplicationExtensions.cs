@@ -14,13 +14,23 @@
 
 namespace RevitLookup.Decomposition.Extensions;
 
+/// <summary>
+///     Provides extension methods for <see cref="Autodesk.Revit.ApplicationServices.Application"/> to retrieve extended version information.
+/// </summary>
 [PublicAPI]
 public static class ApplicationExtensions
 {
     private static Version? _version;
-    
+
+    /// <param name="application">The Revit application to inspect.</param>
     extension(Autodesk.Revit.ApplicationServices.Application application)
     {
+        /// <summary>
+        ///     Gets the parsed sub-version number of the Revit application.
+        /// </summary>
+        /// <remarks>
+        ///     The parsed value is cached after the first call and reused for every subsequent call, regardless of the receiver instance.
+        /// </remarks>
         public Version Version => _version ??= Version.Parse(application.SubVersionNumber);
     }
 }

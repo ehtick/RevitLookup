@@ -25,28 +25,38 @@ using RevitLookup.UI.Framework.Extensions;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.Reference"/> exposed to LookupEngine.
+/// </summary>
 public sealed partial class ReferenceDescriptor : Descriptor, IDescriptorConfigurator, IDescriptorConfigurator<Document>, IContextMenuConnector
 {
     private readonly Reference _reference;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="ReferenceDescriptor"/> class.
+    /// </summary>
+    /// <param name="reference">The reference to expose.</param>
     public ReferenceDescriptor(Reference reference)
     {
         _reference = reference;
         Name = reference.ElementReferenceType.ToString();
     }
 
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Reference.Dispose)).Disable();
     }
 
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator<Document> configuration)
     {
         configuration.Member(nameof(Reference.ConvertToStableRepresentation)).Resolve(context => _reference.ConvertToStableRepresentation(context));
-        
+
         configuration.Extension(nameof(CurveByPointsUtils.GetFaceRegions)).Register(context => CurveByPointsUtils.GetFaceRegions(context, _reference));
     }
 
+    /// <inheritdoc/>
     public void RegisterMenu(ContextMenu contextMenu, IServiceProvider serviceProvider)
     {
 #if REVIT2023_OR_GREATER

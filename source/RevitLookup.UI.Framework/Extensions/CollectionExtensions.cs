@@ -2,30 +2,33 @@
 
 namespace RevitLookup.UI.Framework.Extensions;
 
+/// <summary>
+///     Provides extension methods for <see cref="IEnumerable{T}"/> and <see cref="List{T}"/> to convert them into an <see cref="ObservableCollection{T}"/>.
+/// </summary>
 public static class CollectionExtensions
 {
     /// <typeparam name="T">The type of elements in the collection.</typeparam>
-    /// <param name="source">The <see cref="T:System.Collections.Generic.IEnumerable`1"/> source to convert.</param>
+    /// <param name="source">The <see cref="IEnumerable{T}"/> source to convert.</param>
     extension<T>(IEnumerable<T> source)
     {
         /// <summary>
-        /// Converts an <see cref="T:System.Collections.Generic.IEnumerable`1"/> to an <see cref="T:System.Collections.ObjectModel.ObservableCollection`1" />.
+        ///     Creates an <see cref="ObservableCollection{T}"/> from the source.
         /// </summary>
-        /// <returns>An <see cref="T:System.Collections.ObjectModel.ObservableCollection`1" /> containing the elements of the source.</returns>
+        /// <returns>An <see cref="ObservableCollection{T}"/> containing the elements of the source.</returns>
         public ObservableCollection<T> ToObservableCollection()
         {
             return new ObservableCollection<T>(source);
         }
     }
 
-    /// <typeparam name="T">The type of elements in the collection.</typeparam>
-    /// <param name="source">The <see cref="T:System.Collections.Generic.List`1"/> source to convert.</param>
+    /// <typeparam name="T">The type of elements in the list.</typeparam>
+    /// <param name="source">The <see cref="List{T}"/> source to convert.</param>
     extension<T>(List<T> source)
     {
         /// <summary>
-        /// Converts an <see cref="T:System.Collections.Generic.List`1"/> to an <see cref="T:System.Collections.ObjectModel.ObservableCollection`1" />.
+        ///     Creates an <see cref="ObservableCollection{T}"/> from the source.
         /// </summary>
-        /// <returns>An <see cref="T:System.Collections.ObjectModel.ObservableCollection`1" /> containing the elements of the source.</returns>
+        /// <returns>An <see cref="ObservableCollection{T}"/> containing the elements of the source.</returns>
         public ObservableCollection<T> ToObservableCollection()
         {
             return new ObservableCollection<T>(source);

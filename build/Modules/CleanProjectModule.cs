@@ -10,8 +10,9 @@ using Sourcy.DotNet;
 namespace Build.Modules;
 
 /// <summary>
-///     Clean projects and artifact directories.
+///     Represents the pipeline module that cleans the project and artifact output directories.
 /// </summary>
+/// <param name="buildOptions">The build settings that supply the output directory to clean.</param>
 [SkipIf<IsCI>]
 public sealed class CleanProjectModule(IOptions<BuildOptions> buildOptions) : SyncModule
 {

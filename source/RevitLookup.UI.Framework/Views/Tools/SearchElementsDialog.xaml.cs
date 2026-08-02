@@ -21,6 +21,9 @@ using Wpf.Ui.Controls;
 
 namespace RevitLookup.UI.Framework.Views.Tools;
 
+/// <summary>
+///     Represents a dialog that searches the active document for elements matching a query and navigates to the results.
+/// </summary>
 public sealed partial class SearchElementsDialog
 {
     private readonly ISearchElementsViewModel _viewModel;
@@ -28,6 +31,15 @@ public sealed partial class SearchElementsDialog
     private readonly INotificationService _notificationService;
     private readonly ILogger<SearchElementsDialog> _logger;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="SearchElementsDialog"/> class.
+    /// </summary>
+    /// <param name="dialogService">The service that supplies the dialog host this dialog is shown on.</param>
+    /// <param name="viewModel">The view model that provides the data for the Search Elements view.</param>
+    /// <param name="navigationService">The service used to navigate to the decomposition summary after a successful search.</param>
+    /// <param name="themeWatcherService">The service that applies and tracks the current theme for this dialog.</param>
+    /// <param name="notificationService">The service used to notify the user of errors encountered while searching.</param>
+    /// <param name="logger">The logger used to record search failures.</param>
     public SearchElementsDialog(
         IContentDialogService dialogService,
         ISearchElementsViewModel viewModel,
@@ -48,6 +60,10 @@ public sealed partial class SearchElementsDialog
         themeWatcherService.Watch(this);
     }
 
+    /// <inheritdoc/>
+    /// <remarks>
+    ///     Keeps the dialog open when the primary button is clicked and the search finds no matching elements.
+    /// </remarks>
     protected override async void OnButtonClick(ContentDialogButton button)
     {
         try

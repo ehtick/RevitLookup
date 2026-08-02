@@ -17,13 +17,21 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Autodesk.Revit.DB.PrintManager"/> exposed to LookupEngine.
+/// </summary>
 public sealed class PrintManagerDescriptor : Descriptor, IDescriptorConfigurator
 {
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="PrintManagerDescriptor"/> class.
+    /// </summary>
+    /// <param name="printManager">The print manager to expose.</param>
     public PrintManagerDescriptor(PrintManager printManager)
     {
         Name = printManager.PrinterName;
     }
 
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(PrintManager.Dispose)).Disable();

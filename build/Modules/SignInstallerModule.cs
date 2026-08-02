@@ -15,8 +15,10 @@ using File = ModularPipelines.FileSystem.File;
 namespace Build.Modules;
 
 /// <summary>
-///     Sign the installer.
+///     Represents the pipeline module that signs the MSI installer.
 /// </summary>
+/// <param name="signingOptions">The Azure Key Vault credentials used to sign the installer.</param>
+/// <param name="buildOptions">The build settings that supply the output directory containing the installer.</param>
 [DependsOn<CreateInstallerModule>]
 public sealed partial class SignInstallerModule(IOptions<SigningOptions> signingOptions, IOptions<BuildOptions> buildOptions) : Module<CommandResult>
 {

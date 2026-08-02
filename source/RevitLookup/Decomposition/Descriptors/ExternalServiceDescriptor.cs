@@ -18,16 +18,24 @@ using LookupEngine.Abstractions.Decomposition;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="ExternalService"/> exposed to LookupEngine.
+/// </summary>
 public sealed class ExternalServiceDescriptor : Descriptor, IDescriptorConfigurator
 {
     private readonly ExternalService _service;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="ExternalServiceDescriptor"/> class.
+    /// </summary>
+    /// <param name="service">The external service to expose.</param>
     public ExternalServiceDescriptor(ExternalService service)
     {
         _service = service;
         Name = service.Name;
     }
 
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(ExternalService.Dispose)).Disable();

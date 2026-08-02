@@ -22,8 +22,13 @@ using Autodesk.Revit.DB.ExternalData;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="ElementType"/> exposed to LookupEngine.
+/// </summary>
+/// <param name="elementType">The element type to expose.</param>
 public sealed class ElementTypeDescriptor(ElementType elementType) : ElementDescriptor(elementType)
 {
+    /// <inheritdoc/>
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(ElementType.Dispose)).Disable();

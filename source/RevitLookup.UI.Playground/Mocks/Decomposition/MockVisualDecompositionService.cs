@@ -8,6 +8,13 @@ using RevitLookup.Abstractions.ViewModels.Decomposition;
 
 namespace RevitLookup.UI.Playground.Mocks.Decomposition;
 
+/// <summary>
+///     Represents a Playground mock of <see cref="IVisualDecompositionService"/> that decomposes Playground sample data and pushes it into <paramref name="summaryViewModel"/> instead of a live Revit selection.
+/// </summary>
+/// <param name="intercomService">The service used to show or hide the host window around the simulated visualization delay.</param>
+/// <param name="notificationService">The service used to report a cancelled or failed decomposition.</param>
+/// <param name="decompositionService">The service used to decompose the requested object into an observable model.</param>
+/// <param name="summaryViewModel">The view model that receives the decomposed objects.</param>
 [SuppressMessage("ReSharper", "LoopCanBeConvertedToQuery")]
 [SuppressMessage("ReSharper", "ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator")]
 public sealed class MockVisualDecompositionService(
@@ -17,6 +24,7 @@ public sealed class MockVisualDecompositionService(
     IDecompositionSummaryViewModel summaryViewModel)
     : IVisualDecompositionService
 {
+    /// <inheritdoc/>
     public async Task VisualizeDecompositionAsync(KnownDecompositionObject decompositionObject)
     {
         try
@@ -49,6 +57,7 @@ public sealed class MockVisualDecompositionService(
         }
     }
 
+    /// <inheritdoc/>
     public async Task VisualizeDecompositionAsync(object? obj)
     {
         summaryViewModel.DecomposedObjects = obj switch
@@ -59,17 +68,20 @@ public sealed class MockVisualDecompositionService(
         };
     }
 
+    /// <inheritdoc/>
     public async Task VisualizeDecompositionAsync(IEnumerable objects)
     {
         summaryViewModel.DecomposedObjects = await decompositionService.DecomposeAsync(objects);
     }
 
+    /// <inheritdoc/>
     public async Task VisualizeDecompositionAsync(ObservableDecomposedObject decomposedObject)
     {
         summaryViewModel.DecomposedObjects = [decomposedObject];
         await Task.CompletedTask;
     }
 
+    /// <inheritdoc/>
     public async Task VisualizeDecompositionAsync(List<ObservableDecomposedObject> decomposedObjects)
     {
         summaryViewModel.DecomposedObjects = decomposedObjects;

@@ -16,16 +16,24 @@ using Nice3point.Revit.Toolkit.External;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="CurveLoop"/> exposed to LookupEngine.
+/// </summary>
 public sealed partial class CurveLoopDescriptor : Descriptor, IDescriptorConfigurator, IDescriptorConfigurator<Document>, IContextMenuConnector
 {
     private readonly CurveLoop _curveLoop;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="CurveLoopDescriptor"/> class.
+    /// </summary>
+    /// <param name="curveLoop">The curve loop to expose.</param>
     public CurveLoopDescriptor(CurveLoop curveLoop)
     {
         _curveLoop = curveLoop;
         Name = $"{curveLoop.GetExactLength().ToString(CultureInfo.InvariantCulture)} ft";
     }
 
+    /// <inheritdoc/>
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(CurveLoop.Dispose)).Disable();
@@ -48,6 +56,7 @@ public sealed partial class CurveLoopDescriptor : Descriptor, IDescriptorConfigu
 #endif
     }
 
+    /// <inheritdoc/>
     public void RegisterMenu(ContextMenu contextMenu, IServiceProvider serviceProvider)
     {
 #if REVIT2023_OR_GREATER

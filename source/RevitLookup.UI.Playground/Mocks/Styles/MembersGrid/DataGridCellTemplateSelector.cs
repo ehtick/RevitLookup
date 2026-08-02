@@ -6,10 +6,11 @@ using RevitLookup.Abstractions.Decomposition;
 namespace RevitLookup.UI.Playground.Mocks.Styles.MembersGrid;
 
 /// <summary>
-///     Data grid cell template selector
+///     Selects the members grid cell template for a decomposed member, based on its value kind.
 /// </summary>
 public sealed class DataGridCellTemplateSelector : DataTemplateSelector
 {
+    /// <inheritdoc/>
     public override DataTemplate? SelectTemplate(object? item, DependencyObject container)
     {
         if (item is null) return null;

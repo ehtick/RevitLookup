@@ -20,12 +20,12 @@ namespace RevitLookup.Abstractions.Tools;
 public sealed class PostableCommandInfo
 {
     /// <summary>
-    ///     The command name.
+    ///     Gets or sets the command name.
     /// </summary>
     public required string Name { get; init; }
 
     /// <summary>
-    ///     The command value.
+    ///     Gets or sets the underlying Revit postable command value used to invoke the command.
     /// </summary>
     public required object Value { get; init; }
 }

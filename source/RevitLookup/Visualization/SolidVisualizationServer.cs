@@ -17,6 +17,9 @@ using RevitLookup.Visualization.Rendering;
 
 namespace RevitLookup.Visualization;
 
+/// <summary>
+///     Represents a Revit direct-context 3D server that renders <see cref="Solid"/> visualization geometry into the active view.
+/// </summary>
 public sealed class SolidVisualizationServer : DirectContext3DServer
 {
     private Solid _solid = null!;
@@ -33,10 +36,16 @@ public sealed class SolidVisualizationServer : DirectContext3DServer
     private readonly List<RenderingBufferStorage> _faceBuffers = new(4);
     private readonly List<RenderingBufferStorage> _edgeBuffers = new(8);
 
+    /// <inheritdoc/>
     public override string GetName() => "Solid visualization server";
+
+    /// <inheritdoc/>
     public override string GetDescription() => "Solid geometry visualization";
+
+    /// <inheritdoc/>
     public override bool UseInTransparentPass(View view) => _drawFace && _transparency > 0;
 
+    /// <inheritdoc/>
     public override Outline GetBoundingBox(View view)
     {
         var boundingBox = _solid.GetBoundingBox();
@@ -46,30 +55,51 @@ public sealed class SolidVisualizationServer : DirectContext3DServer
         return new Outline(minPoint, maxPoint);
     }
 
+    /// <summary>
+    ///     Registers the server for the specified solid and enables rendering.
+    /// </summary>
+    /// <param name="solid">The solid to visualize.</param>
     public void Register(Solid solid)
     {
         _solid = solid;
         Register();
     }
 
+    /// <summary>
+    ///     Updates the color of the solid faces and refreshes the open views.
+    /// </summary>
+    /// <param name="value">The new face color.</param>
     public void UpdateFaceColor(Color value) => UpdateViews(() =>
     {
         _faceColor = value;
         HasEffectsUpdates = true;
     });
 
+    /// <summary>
+    ///     Updates the color of the solid edges and refreshes the open views.
+    /// </summary>
+    /// <param name="value">The new edge color.</param>
     public void UpdateEdgeColor(Color value) => UpdateViews(() =>
     {
         _edgeColor = value;
         HasEffectsUpdates = true;
     });
 
+    /// <summary>
+    ///     Updates the transparency level of the visualization and refreshes the open views.
+    /// </summary>
+    /// <param name="value">The new transparency level.</param>
     public void UpdateTransparency(double value) => UpdateViews(() =>
     {
         _transparency = value;
         HasEffectsUpdates = true;
     });
 
+    /// <summary>
+    ///     Updates the scale factor of the visualization and refreshes the open views.
+    /// </summary>
+    /// <param name="value">The new scale factor.</param>
+    /// <remarks>Discards the cached face and edge buffers, forcing a full geometry remap.</remarks>
     public void UpdateScale(double value) => UpdateViews(() =>
     {
         _scale = value;
@@ -79,16 +109,26 @@ public sealed class SolidVisualizationServer : DirectContext3DServer
         _edgeBuffers.Clear();
     });
 
+    /// <summary>
+    ///     Updates whether the solid faces are drawn and refreshes the open views.
+    /// </summary>
+    /// <param name="value">A value indicating whether the faces are drawn.</param>
     public void UpdateFaceVisibility(bool value) => UpdateViews(() => { _drawFace = value; });
 
+    /// <summary>
+    ///     Updates whether the solid edges are drawn and refreshes the open views.
+    /// </summary>
+    /// <param name="value">A value indicating whether the edges are drawn.</param>
     public void UpdateEdgeVisibility(bool value) => UpdateViews(() => { _drawEdge = value; });
 
+    /// <inheritdoc/>
     protected override bool AreBuffersValid()
     {
         return _faceBuffers.TrueForAll(static buffer => buffer.IsValid())
                && _edgeBuffers.TrueForAll(static buffer => buffer.IsValid());
     }
 
+    /// <inheritdoc/>
     protected override void MapGeometryBuffer()
     {
         var scaledSolid = RenderGeometryHelper.ScaleSolid(_solid, _scale);
@@ -114,6 +154,7 @@ public sealed class SolidVisualizationServer : DirectContext3DServer
         }
     }
 
+    /// <inheritdoc/>
     protected override void UpdateEffects()
     {
         foreach (var buffer in _faceBuffers)
@@ -130,6 +171,7 @@ public sealed class SolidVisualizationServer : DirectContext3DServer
         }
     }
 
+    /// <inheritdoc/>
     protected override void RenderBuffers()
     {
         if (_drawFace)
@@ -149,6 +191,7 @@ public sealed class SolidVisualizationServer : DirectContext3DServer
         }
     }
 
+    /// <inheritdoc/>
     protected override void DisposeBuffers()
     {
         foreach (var buffer in _faceBuffers) buffer.Dispose();

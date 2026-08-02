@@ -1,12 +1,12 @@
-﻿// Copyright (c) Lookup Foundation and Contributors
-// 
+// Copyright (c) Lookup Foundation and Contributors
+//
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
 // provided that the above copyright notice appears in all copies and
 // that both that copyright notice and the limited warranty and
 // restricted rights notice below appear in all supporting
 // documentation.
-// 
+//
 // THIS PROGRAM IS PROVIDED "AS IS" AND WITH ALL FAULTS.
 // NO IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE IS PROVIDED.
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
@@ -17,10 +17,10 @@ using Color = System.Drawing.Color;
 namespace RevitLookup.UI.Framework.Colors;
 
 /// <summary>
-///     Helper class to easier work with color formats
+///     Provides methods that convert a color between color spaces such as CMYK, HSB, and CIE LAB.
 /// </summary>
 /// <remarks>
-///     Implementation: https://github.com/microsoft/PowerToys/blob/main/src/common/ManagedCommon/ColorFormatHelper.cs
+///     Ports the conversion formulas from the <see href="https://github.com/microsoft/PowerToys/blob/main/src/common/ManagedCommon/ColorFormatHelper.cs">PowerToys ColorFormatHelper</see> implementation.
 /// </remarks>
 public static class ColorFormatUtils
 {
@@ -28,19 +28,23 @@ public static class ColorFormatUtils
     extension(System.Windows.Media.Color color)
     {
         /// <summary>
-        ///     Return a drawing color of a given <see cref="System.Windows.Media.Color"/>
+        ///     Converts the color to a <see cref="Color"/>.
         /// </summary>
+        /// <returns>The equivalent <see cref="Color"/>.</returns>
+        /// <remarks>
+        ///     The returned color's alpha channel is always 255, regardless of the source color's alpha.
+        /// </remarks>
         public Color GetDrawingColor()
         {
-            return Color.FromArgb(1, color.R, color.G, color.B);
+            return Color.FromArgb(255, color.R, color.G, color.B);
         }
     }
 
     /// <summary>
-    /// Convert a given <see cref="Color"/> to a CMYK color (cyan, magenta, yellow, black key)
+    ///     Converts a color to a CMYK color (cyan, magenta, yellow, black key).
     /// </summary>
-    /// <param name="color">The <see cref="Color"/> to convert</param>
-    /// <returns>The cyan[0..1], magenta[0..1], yellow[0..1] and black key[0..1] of the converted color</returns>
+    /// <param name="color">The color to convert.</param>
+    /// <returns>The cyan [0..1], magenta [0..1], yellow [0..1], and black key [0..1] of the converted color.</returns>
     public static (double Cyan, double Magenta, double Yellow, double BlackKey) ConvertToCmykColor(Color color)
     {
         // special case for black (avoid division by zero)
@@ -69,10 +73,10 @@ public static class ColorFormatUtils
     }
 
     /// <summary>
-    /// Convert a given <see cref="Color"/> to a HSB color (hue, saturation, brightness)
+    ///     Converts a color to an HSB color (hue, saturation, brightness).
     /// </summary>
-    /// <param name="color">The <see cref="Color"/> to convert</param>
-    /// <returns>The hue [0°..360°], saturation [0..1] and brightness [0..1] of the converted color</returns>
+    /// <param name="color">The color to convert.</param>
+    /// <returns>The hue [0°..360°], saturation [0..1], and brightness [0..1] of the converted color.</returns>
     public static (double Hue, double Saturation, double Brightness) ConvertToHsbColor(Color color)
     {
         // HSB and HSV represents the same color space
@@ -80,10 +84,10 @@ public static class ColorFormatUtils
     }
 
     /// <summary>
-    /// Convert a given <see cref="Color"/> to a HSV color (hue, saturation, value)
+    ///     Converts a color to an HSV color (hue, saturation, value).
     /// </summary>
-    /// <param name="color">The <see cref="Color"/> to convert</param>
-    /// <returns>The hue [0°..360°], saturation [0..1] and value [0..1] of the converted color</returns>
+    /// <param name="color">The color to convert.</param>
+    /// <returns>The hue [0°..360°], saturation [0..1], and value [0..1] of the converted color.</returns>
     public static (double Hue, double Saturation, double Value) ConvertToHsvColor(Color color)
     {
         var min = Math.Min(Math.Min(color.R, color.G), color.B) / 255d;
@@ -93,10 +97,10 @@ public static class ColorFormatUtils
     }
 
     /// <summary>
-    /// Convert a given <see cref="Color"/> to a HSI color (hue, saturation, intensity)
+    ///     Converts a color to an HSI color (hue, saturation, intensity).
     /// </summary>
-    /// <param name="color">The <see cref="Color"/> to convert</param>
-    /// <returns>The hue [0°..360°], saturation [0..1] and intensity [0..1] of the converted color</returns>
+    /// <param name="color">The color to convert.</param>
+    /// <returns>The hue [0°..360°], saturation [0..1], and intensity [0..1] of the converted color.</returns>
     public static (double Hue, double Saturation, double Intensity) ConvertToHsiColor(Color color)
     {
         // special case for black
@@ -117,10 +121,10 @@ public static class ColorFormatUtils
     }
 
     /// <summary>
-    /// Convert a given <see cref="Color"/> to a HSL color (hue, saturation, lightness)
+    ///     Converts a color to an HSL color (hue, saturation, lightness).
     /// </summary>
-    /// <param name="color">The <see cref="Color"/> to convert</param>
-    /// <returns>The hue [0°..360°], saturation [0..1] and lightness [0..1] values of the converted color</returns>
+    /// <param name="color">The color to convert.</param>
+    /// <returns>The hue [0°..360°], saturation [0..1], and lightness [0..1] of the converted color.</returns>
     public static (double Hue, double Saturation, double Lightness) ConvertToHslColor(Color color)
     {
         var min = Math.Min(Math.Min(color.R, color.G), color.B) / 255d;
@@ -142,10 +146,10 @@ public static class ColorFormatUtils
     }
 
     /// <summary>
-    /// Convert a given <see cref="Color"/> to a HWB color (hue, whiteness, blackness)
+    ///     Converts a color to an HWB color (hue, whiteness, blackness).
     /// </summary>
-    /// <param name="color">The <see cref="Color"/> to convert</param>
-    /// <returns>The hue [0°..360°], whiteness [0..1] and blackness [0..1] of the converted color</returns>
+    /// <param name="color">The color to convert.</param>
+    /// <returns>The hue [0°..360°], whiteness [0..1], and blackness [0..1] of the converted color.</returns>
     public static (double Hue, double Whiteness, double Blackness) ConvertToHwbColor(Color color)
     {
         var min = Math.Min(Math.Min(color.R, color.G), color.B) / 255d;
@@ -155,10 +159,10 @@ public static class ColorFormatUtils
     }
 
     /// <summary>
-    /// Convert a given <see cref="Color"/> to a CIE LAB color (LAB)
+    ///     Converts a color to a CIE LAB color.
     /// </summary>
-    /// <param name="color">The <see cref="Color"/> to convert</param>
-    /// <returns>The lightness [0..100] and two chromaticities [-128..127]</returns>
+    /// <param name="color">The color to convert.</param>
+    /// <returns>The lightness [0..100] and the two chromaticities [-128..127] of the converted color.</returns>
     public static (double Lightness, double ChromaticityA, double ChromaticityB) ConvertToCielabColor(Color color)
     {
         var xyz = ConvertToCiexyzColor(color);
@@ -168,14 +172,14 @@ public static class ColorFormatUtils
     }
 
     /// <summary>
-    /// Convert a given <see cref="Color"/> to a CIE XYZ color (XYZ)
-    /// The constants of the formula matches this Wikipedia page, but at a higher precision:
-    /// https://en.wikipedia.org/wiki/SRGB#The_reverse_transformation_(sRGB_to_CIE_XYZ)
-    /// This page provides a method to calculate the constants:
-    /// http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
+    ///     Converts a color to a CIE XYZ color.
     /// </summary>
-    /// <param name="color">The <see cref="Color"/> to convert</param>
-    /// <returns>The X [0..1], Y [0..1] and Z [0..1]</returns>
+    /// <param name="color">The color to convert.</param>
+    /// <returns>The X [0..1], Y [0..1], and Z [0..1] of the converted color.</returns>
+    /// <remarks>
+    ///     The constants match the formula on <see href="https://en.wikipedia.org/wiki/SRGB#The_reverse_transformation_(sRGB_to_CIE_XYZ)">the sRGB Wikipedia page</see> at higher precision,
+    ///     calculated using the method on <see href="http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html">Bruce Lindbloom's site</see>.
+    /// </remarks>
     public static (double X, double Y, double Z) ConvertToCiexyzColor(Color color)
     {
         var r = color.R / 255d;
@@ -195,14 +199,15 @@ public static class ColorFormatUtils
     }
 
     /// <summary>
-    /// Convert a CIE XYZ color <see cref="double"/> to a CIE LAB color (LAB) adapted to sRGB D65 white point
-    /// The constants of the formula used come from this wikipedia page:
-    /// https://en.wikipedia.org/wiki/CIELAB_color_space#Converting_between_CIELAB_and_CIEXYZ_coordinates
+    ///     Converts a CIE XYZ color to a CIE LAB color adapted to the sRGB D65 white point.
     /// </summary>
-    /// <param name="x">The <see cref="x"/> represents a mix of the three CIE RGB curves</param>
-    /// <param name="y">The <see cref="y"/> represents the luminance</param>
-    /// <param name="z">The <see cref="z"/> is quasi-equal to blue (of CIE RGB)</param>
-    /// <returns>The lightness [0..100] and two chromaticities [-128..127]</returns>
+    /// <param name="x">The X component of the CIE XYZ color, a mix of the three CIE RGB curves.</param>
+    /// <param name="y">The Y component of the CIE XYZ color, the luminance.</param>
+    /// <param name="z">The Z component of the CIE XYZ color, quasi-equal to blue of CIE RGB.</param>
+    /// <returns>The lightness [0..100] and the two chromaticities [-128..127] of the converted color.</returns>
+    /// <remarks>
+    ///     The constants come from the formula on <see href="https://en.wikipedia.org/wiki/CIELAB_color_space#Converting_between_CIELAB_and_CIEXYZ_coordinates">the CIELAB Wikipedia page</see>.
+    /// </remarks>
     private static (double Lightness, double ChromaticityA, double ChromaticityB) GetCielabColorFromCieXyz(double x, double y, double z)
     {
         // sRGB reference white (x=0.3127, y=0.3290, Y=1.0), actually CIE Standard Illuminant D65 truncated to 4 decimal places,
@@ -236,10 +241,10 @@ public static class ColorFormatUtils
     }
 
     /// <summary>
-    /// Convert a given <see cref="Color"/> to a natural color (hue, whiteness, blackness)
+    ///     Converts a color to a natural color (hue, whiteness, blackness).
     /// </summary>
-    /// <param name="color">The <see cref="Color"/> to convert</param>
-    /// <returns>The hue, whiteness [0..1] and blackness [0..1] of the converted color</returns>
+    /// <param name="color">The color to convert.</param>
+    /// <returns>The hue, whiteness [0..1], and blackness [0..1] of the converted color.</returns>
     public static (string Hue, double Whiteness, double Blackness) ConvertToNaturalColor(Color color)
     {
         var min = Math.Min(Math.Min(color.R, color.G), color.B) / 255d;
@@ -249,10 +254,10 @@ public static class ColorFormatUtils
     }
 
     /// <summary>
-    /// Return the natural color for the given hue value
+    ///     Returns the natural color notation for the specified hue.
     /// </summary>
-    /// <param name="hue">The hue value to convert</param>
-    /// <returns>A natural color</returns>
+    /// <param name="hue">The hue value to convert.</param>
+    /// <returns>The natural color notation.</returns>
     private static string GetNaturalColorFromHue(double hue)
     {
         return hue switch

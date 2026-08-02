@@ -11,22 +11,22 @@
 public sealed partial class ResourceLocationsOptions
 {
     /// <summary>
-    ///     Add-in configurations directory.
+    ///     Gets or sets the add-in configurations directory.
     /// </summary>
     public required string SettingsDirectory { get; set; }
 
     /// <summary>
-    ///     Application settings file path.
+    ///     Gets or sets the application settings file path.
     /// </summary>
     public required string ApplicationSettingsPath { get; set; }
-    
+
     /// <summary>
-    ///     LookupEngine settings file path.
+    ///     Gets or sets the LookupEngine settings file path.
     /// </summary>
     public required string DecompositionSettingsPath { get; set; }
-    
+
     /// <summary>
-    ///     Visualization settings file path.
+    ///     Gets or sets the visualization settings file path.
     /// </summary>
     public required string VisualizationSettingsPath { get; set; }
 }

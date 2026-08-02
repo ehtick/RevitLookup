@@ -17,9 +17,13 @@ using RevitLookup.Abstractions.ViewModels.AboutProgram;
 
 namespace RevitLookup.ViewModels.AboutProgram;
 
+/// <summary>
+///     Represents the view model for the OpenSource view, listing the third-party software bundled with the application.
+/// </summary>
 [UsedImplicitly]
 public sealed class OpenSourceViewModel : ObservableObject, IOpenSourceViewModel
 {
+    /// <inheritdoc/>
     public List<OpenSourceSoftware> Software { get; } =
     [
         new()

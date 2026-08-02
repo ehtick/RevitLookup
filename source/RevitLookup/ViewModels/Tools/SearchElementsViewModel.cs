@@ -5,15 +5,22 @@ using RevitLookup.Tools.SearchElements;
 
 namespace RevitLookup.ViewModels.Tools;
 
+/// <summary>
+///     Represents the view model for the Search Elements view, searching the active document and visualizing the results.
+/// </summary>
+/// <param name="notificationService">The service used to report search and context validation failures.</param>
+/// <param name="decompositionService">The service that visualizes the decomposition of the found elements.</param>
 [UsedImplicitly]
 public sealed partial class SearchElementsViewModel(
     INotificationService notificationService,
     IVisualDecompositionService decompositionService)
     : ObservableObject, ISearchElementsViewModel
 {
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
 
+    /// <inheritdoc/>
     public async Task<bool> SearchElementsAsync()
     {
         if (!ValidateContext()) return false;

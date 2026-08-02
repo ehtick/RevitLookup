@@ -19,8 +19,21 @@ using RevitLookup.Abstractions.ViewModels.Decomposition;
 
 namespace RevitLookup.UI.Framework.Views.Decomposition;
 
+/// <summary>
+///     Represents a page that shows the decomposed events of a snooped object in a searchable tree and grid.
+/// </summary>
 public sealed partial class EventsSummaryPage
 {
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="EventsSummaryPage"/> class.
+    /// </summary>
+    /// <param name="serviceProvider">The container used to resolve dependencies for descriptor context-menu commands.</param>
+    /// <param name="viewModel">The view model that provides the data for the Events Summary view.</param>
+    /// <param name="settingsService">The service that provides the decomposition display settings.</param>
+    /// <param name="intercomService">The service that gives access to the hosting window.</param>
+    /// <param name="notificationService">The service used to notify the user of errors encountered while refreshing members.</param>
+    /// <param name="themeWatcherService">The service that applies and tracks the current theme for this page.</param>
+    /// <param name="loggerFactory">The factory used to create the logger for this page.</param>
     public EventsSummaryPage(
         IServiceProvider serviceProvider,
         IEventsSummaryViewModel viewModel,

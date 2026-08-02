@@ -30,21 +30,30 @@ using Nice3point.Revit.Toolkit.External;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
+/// <summary>
+///     Represents the <see cref="Face"/> exposed to LookupEngine.
+/// </summary>
 public partial class FaceDescriptor : Descriptor, IContextMenuConnector, IDescriptorConfigurator
 {
     private readonly Face _face;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="FaceDescriptor"/> class.
+    /// </summary>
+    /// <param name="face">The face to expose.</param>
     public FaceDescriptor(Face face)
     {
         _face = face;
         Name = $"{face.Area.ToString(CultureInfo.InvariantCulture)} ft²";
     }
 
+    /// <inheritdoc/>
     public virtual void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Face.Dispose)).Disable();
     }
 
+    /// <inheritdoc/>
     public virtual void RegisterMenu(ContextMenu contextMenu, IServiceProvider serviceProvider)
     {
 #if REVIT2023_OR_GREATER

@@ -4,16 +4,21 @@ using RevitLookup.Abstractions.Presentation;
 
 namespace RevitLookup.UI.Framework.Presentation;
 
+/// <summary>
+///     Represents a service that tracks the window hosting the current UI and, optionally, shares it across other open windows.
+/// </summary>
 public sealed class WindowIntercomService : IWindowIntercomService
 {
     private Window? _host;
     private static readonly List<Window> SharedWindows = [];
 
+    /// <inheritdoc/>
     public void SetHost(Window host)
     {
         _host = host;
     }
 
+    /// <inheritdoc/>
     public void SetSharedHost(Window host)
     {
         SetHost(host);
@@ -29,8 +34,10 @@ public sealed class WindowIntercomService : IWindowIntercomService
         SharedWindows.Remove(self);
     }
 
+    /// <inheritdoc/>
     public List<Window> OpenedWindows => SharedWindows;
 
+    /// <inheritdoc/>
     [Pure]
     public Window GetHost()
     {
@@ -38,6 +45,7 @@ public sealed class WindowIntercomService : IWindowIntercomService
         return _host;
     }
 
+    /// <inheritdoc/>
     public Dispatcher Dispatcher
     {
         get

@@ -17,6 +17,9 @@ using RevitLookup.Visualization.Rendering;
 
 namespace RevitLookup.Visualization;
 
+/// <summary>
+///     Represents a Revit direct-context 3D server that renders <see cref="Face"/> visualization geometry into the active view.
+/// </summary>
 public sealed class FaceVisualizationServer : DirectContext3DServer
 {
     private Face _face = null!;
@@ -36,10 +39,16 @@ public sealed class FaceVisualizationServer : DirectContext3DServer
     private readonly RenderingBufferStorage _meshGridBuffer = new();
     private readonly RenderingBufferStorage _normalBuffer = new();
 
+    /// <inheritdoc/>
     public override string GetName() => "Face visualization server";
+
+    /// <inheritdoc/>
     public override string GetDescription() => "Face geometry visualization";
+
+    /// <inheritdoc/>
     public override bool UseInTransparentPass(View view) => _drawSurface && _transparency > 0;
 
+    /// <inheritdoc/>
     public override Outline? GetBoundingBox(View view)
     {
         if (_face.Reference is null) return null;
@@ -54,53 +63,91 @@ public sealed class FaceVisualizationServer : DirectContext3DServer
         return new Outline(minPoint, maxPoint);
     }
 
+    /// <summary>
+    ///     Registers the server for the specified face and enables rendering.
+    /// </summary>
+    /// <param name="face">The face to visualize.</param>
     public void Register(Face face)
     {
         _face = face;
         Register();
     }
 
+    /// <summary>
+    ///     Updates the color of the face surface and refreshes the open views.
+    /// </summary>
+    /// <param name="value">The new surface color.</param>
     public void UpdateSurfaceColor(Color value) => UpdateViews(() =>
     {
         _surfaceColor = value;
         HasEffectsUpdates = true;
     });
 
+    /// <summary>
+    ///     Updates the color of the face mesh grid and refreshes the open views.
+    /// </summary>
+    /// <param name="value">The new mesh grid color.</param>
     public void UpdateMeshGridColor(Color value) => UpdateViews(() =>
     {
         _meshColor = value;
         HasEffectsUpdates = true;
     });
 
+    /// <summary>
+    ///     Updates the color of the face normal vector and refreshes the open views.
+    /// </summary>
+    /// <param name="value">The new normal vector color.</param>
     public void UpdateNormalVectorColor(Color value) => UpdateViews(() =>
     {
         _normalColor = value;
         HasEffectsUpdates = true;
     });
 
+    /// <summary>
+    ///     Updates the extrusion value of the face and refreshes the open views.
+    /// </summary>
+    /// <param name="value">The new extrusion value.</param>
     public void UpdateExtrusion(double value) => UpdateViews(() =>
     {
         _extrusion = value;
         HasGeometryUpdates = true;
     });
 
+    /// <summary>
+    ///     Updates the transparency level of the visualization and refreshes the open views.
+    /// </summary>
+    /// <param name="value">The new transparency level.</param>
     public void UpdateTransparency(double value) => UpdateViews(() =>
     {
         _transparency = value;
         HasEffectsUpdates = true;
     });
 
+    /// <summary>
+    ///     Updates whether the face surface is drawn and refreshes the open views.
+    /// </summary>
+    /// <param name="visible">A value indicating whether the surface is drawn.</param>
     public void UpdateSurfaceVisibility(bool visible) => UpdateViews(() => { _drawSurface = visible; });
 
+    /// <summary>
+    ///     Updates whether the face mesh grid is drawn and refreshes the open views.
+    /// </summary>
+    /// <param name="visible">A value indicating whether the mesh grid is drawn.</param>
     public void UpdateMeshGridVisibility(bool visible) => UpdateViews(() => { _drawMeshGrid = visible; });
 
+    /// <summary>
+    ///     Updates whether the face normal vector is drawn and refreshes the open views.
+    /// </summary>
+    /// <param name="visible">A value indicating whether the normal vector is drawn.</param>
     public void UpdateNormalVectorVisibility(bool visible) => UpdateViews(() => { _drawNormalVector = visible; });
 
+    /// <inheritdoc/>
     protected override bool AreBuffersValid()
     {
         return _surfaceBuffer.IsValid() && _meshGridBuffer.IsValid() && _normalBuffer.IsValid();
     }
 
+    /// <inheritdoc/>
     protected override void MapGeometryBuffer()
     {
         var mesh = _face.Triangulate();
@@ -116,6 +163,7 @@ public sealed class FaceVisualizationServer : DirectContext3DServer
             normal, normalLength);
     }
 
+    /// <inheritdoc/>
     protected override void UpdateEffects()
     {
         _surfaceBuffer.EffectInstance ??= new EffectInstance(_surfaceBuffer.FormatBits);
@@ -128,6 +176,7 @@ public sealed class FaceVisualizationServer : DirectContext3DServer
         _surfaceBuffer.EffectInstance.SetTransparency(_transparency);
     }
 
+    /// <inheritdoc/>
     protected override void RenderBuffers()
     {
         if (_drawSurface) FlushTriangleBuffer(_surfaceBuffer, _transparency);
@@ -135,6 +184,7 @@ public sealed class FaceVisualizationServer : DirectContext3DServer
         if (_drawNormalVector) FlushLineBuffer(_normalBuffer);
     }
 
+    /// <inheritdoc/>
     protected override void DisposeBuffers()
     {
         _surfaceBuffer.Dispose();

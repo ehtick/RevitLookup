@@ -21,9 +21,7 @@ namespace RevitLookup.UI.Framework.Views.Decomposition;
 
 public partial class SummaryViewBase : INavigationAware
 {
-    /// <summary>
-    ///     Callback when navigating to the current page
-    /// </summary>
+    /// <inheritdoc/>
     public Task OnNavigatedToAsync()
     {
         var host = _intercomService.GetHost();
@@ -31,9 +29,7 @@ public partial class SummaryViewBase : INavigationAware
         return Task.CompletedTask;
     }
 
-    /// <summary>
-    ///     Callback when navigating from this page
-    /// </summary>
+    /// <inheritdoc/>
     public Task OnNavigatedFromAsync()
     {
         var host = _intercomService.GetHost();

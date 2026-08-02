@@ -19,10 +19,17 @@ using Wpf.Ui.Controls;
 
 namespace RevitLookup.UI.Framework.Presentation;
 
+/// <summary>
+///     Represents a service that displays notifications as snackbar messages on the host window.
+/// </summary>
+/// <remarks>
+///     Queues a notification until the host window has finished loading if it raised before then.
+/// </remarks>
 public sealed class NotificationService(ISnackbarService snackbarService, IWindowIntercomService intercomService) : INotificationService
 {
     private Action? _pendingNotifications;
 
+    /// <inheritdoc/>
     public void ShowSuccess(string title, string message)
     {
         if (intercomService.Dispatcher.CheckAccess())
@@ -35,6 +42,7 @@ public sealed class NotificationService(ISnackbarService snackbarService, IWindo
         }
     }
 
+    /// <inheritdoc/>
     public void ShowWarning(string title, string message)
     {
         if (intercomService.Dispatcher.CheckAccess())
@@ -47,6 +55,7 @@ public sealed class NotificationService(ISnackbarService snackbarService, IWindo
         }
     }
 
+    /// <inheritdoc/>
     public void ShowError(string title, string message)
     {
         if (intercomService.Dispatcher.CheckAccess())
@@ -59,6 +68,7 @@ public sealed class NotificationService(ISnackbarService snackbarService, IWindo
         }
     }
 
+    /// <inheritdoc/>
     public void ShowError(string title, Exception exception)
     {
         if (intercomService.Dispatcher.CheckAccess())

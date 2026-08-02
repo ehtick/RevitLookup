@@ -12,6 +12,14 @@ using RevitLookup.UI.Framework.Views.Decomposition;
 
 namespace RevitLookup.UI.Playground.Mocks.ViewModels.Decomposition;
 
+/// <summary>
+///     Represents a Playground mock of <see cref="IEventsSummaryViewModel"/> that synthesizes a stream of random sample objects instead of monitoring live Revit events.
+/// </summary>
+/// <param name="serviceProvider">The service provider used to resolve navigation targets when drilling into a decomposed object.</param>
+/// <param name="notificationService">The service used to report decomposition and search failures.</param>
+/// <param name="searchService">The service that filters decomposed objects and members by search text.</param>
+/// <param name="decompositionService">The service that evaluates individual members on demand and decomposes generated sample objects.</param>
+/// <param name="logger">The logger used to record decomposition, evaluation, and search failures.</param>
 [UsedImplicitly]
 public sealed partial class MockEventsSummaryViewModel(
     IServiceProvider serviceProvider,
@@ -23,18 +31,23 @@ public sealed partial class MockEventsSummaryViewModel(
 {
     private CancellationTokenSource? _cancellationTokenSource;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial ObservableDecomposedObject? SelectedDecomposedObject { get; set; }
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial List<ObservableDecomposedObject> DecomposedObjects { get; set; } = [];
 
+    /// <inheritdoc/>
     [ObservableProperty]
     public partial ObservableCollection<ObservableDecomposedObject> FilteredDecomposedObjects { get; set; } = [];
 
+    /// <inheritdoc/>
     public void Navigate(object? value)
     {
         Host.GetService<IUiOrchestratorService>()
@@ -44,6 +57,7 @@ public sealed partial class MockEventsSummaryViewModel(
             .Show<DecompositionSummaryPage>();
     }
 
+    /// <inheritdoc/>
     public void Navigate(ObservableDecomposedObject value)
     {
         Host.GetService<IUiOrchestratorService>()
@@ -52,6 +66,7 @@ public sealed partial class MockEventsSummaryViewModel(
             .Show<DecompositionSummaryPage>();
     }
 
+    /// <inheritdoc/>
     public void Navigate(List<ObservableDecomposedObject> values)
     {
         Host.GetService<IUiOrchestratorService>()
@@ -60,6 +75,7 @@ public sealed partial class MockEventsSummaryViewModel(
             .Show<DecompositionSummaryPage>();
     }
 
+    /// <inheritdoc/>
     [RelayCommand]
     private async Task ForceEvaluateMemberAsync(ObservableDecomposedMember member)
     {
@@ -74,6 +90,7 @@ public sealed partial class MockEventsSummaryViewModel(
         }
     }
 
+    /// <inheritdoc/>
     [RelayCommand]
     private async Task EvaluateMemberWithTransactionAsync(ObservableDecomposedMember member)
     {
@@ -88,6 +105,7 @@ public sealed partial class MockEventsSummaryViewModel(
         }
     }
 
+    /// <inheritdoc/>
     public async Task RefreshMembersAsync()
     {
         foreach (var decomposedObject in DecomposedObjects)
@@ -106,6 +124,7 @@ public sealed partial class MockEventsSummaryViewModel(
         }
     }
 
+    /// <inheritdoc/>
     public async Task OnNavigatedToAsync()
     {
         _cancellationTokenSource = new CancellationTokenSource();
@@ -131,6 +150,7 @@ public sealed partial class MockEventsSummaryViewModel(
         }
     }
 
+    /// <inheritdoc/>
     public Task OnNavigatedFromAsync()
     {
         if (_cancellationTokenSource is null) return Task.CompletedTask;
