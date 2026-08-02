@@ -35,16 +35,26 @@ It runs in two hosts from one shared codebase: the production add-in inside `Rev
 
 ## Repository map
 
-* `source/RevitLookup` — the production add-in loaded inside `Revit.exe`, and the only project that references the Revit API. Owns the descriptors (`Decomposition/Descriptors`), the Revit-backed service and view-model implementations, and the DI host registration in `Host.cs`.
-* `source/RevitLookup.Abstractions` — the shared contracts: view-model interfaces, service interfaces, options, and observable models both hosts implement. No Revit reference.
-* `source/RevitLookup.ServiceDefaults` — host configuration shared between the two hosts, and the file-system helpers (`FileSystem/`) the host reads its own paths and permissions through.
-* `source/RevitLookup.UI.Framework` — the shared WPF views, controls, converters, and base classes, plus the presentation-level helpers both hosts draw on: `Colors/`, `Processes/`, and the BCL extensions under `Extensions/`.
-* `source/RevitLookup.UI.Playground` — the standalone WPF host that mocks the shared contracts under `Mocks/`.
-* `source/LookupEngine`, `source/LookupEngine.UI` — git submodules supplying the decomposition engine and its base UI.
-* `tests/RevitLookup.Tests` — the TUnit suite that runs inside a Revit process using Nice3point.TUnit.Revit.
-* `build/` — the ModularPipelines build.
-* `.config/winget/` — the WinGet DSC configuration files listing the per-Revit-year package identifiers.
-* Root — `Directory.Build.props`, `Directory.Packages.props`, `global.json`, `GitVersion.yml`, the README, CHANGELOG, wiki sources, CI workflows.
+### Production services and libraries
+
+* `source/RevitLookup` — the main application distributed to users. It runs within a Revit process.
+* `source/RevitLookup.Abstractions` — common contracts for the RevitLookup, the local Playground application, and tests
+* `source/RevitLookup.ServiceDefaults` — hosting concerns common to all desktop applications.
+* `source/RevitLookup.UI.Framework` — цindows, dialogs, and custom controls used to build the RevitLookup interface.
+* `source/LookupEngine` — git submodule with the decomposition engine.
+* `source/LookupEngine.UI` — git submodule with Wpf.Ui controls and themes.
+
+### Local development
+
+* `source/RevitLookup.UI.Playground` — a WPF host for local development. A full set of windows with mock data for complex UI testing without running Revit.
+
+### Tests
+
+* `tests/RevitLookup.Tests` — integration Revit API tests inside a Revit process using Nice3point.TUnit.Revit.
+
+### Pipeline
+
+* `build` — ModularPipelines build. Builds the bundle/installer, and publishes the release to GitHub and Winget.
 
 ## Build and verify
 
