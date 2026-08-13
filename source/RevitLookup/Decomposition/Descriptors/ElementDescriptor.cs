@@ -34,6 +34,8 @@ using Autodesk.Revit.DB.Structure;
 #endif
 #if REVIT2026_OR_GREATER
 using Autodesk.Revit.DB.ExternalData;
+using System.Runtime.CompilerServices;
+using RevitLookup.Decomposition.Extensions;
 #endif
 
 namespace RevitLookup.Decomposition.Descriptors;
@@ -334,7 +336,6 @@ public partial class ElementDescriptor : ResolvingDescriptor, IDescriptorConfigu
         }
 #endif
     }
-
 #if REVIT2026_OR_GREATER
 
     [MethodImpl(MethodImplOptions.NoInlining)]
