@@ -25,7 +25,7 @@ namespace RevitLookup.UI.Framework.Views.Decomposition;
 public sealed partial class EventsSummaryPage
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="EventsSummaryPage"/> class.
+    ///     Initializes a new instance of the <see cref="EventsSummaryPage" /> class.
     /// </summary>
     /// <param name="serviceProvider">The container used to resolve dependencies for descriptor context-menu commands.</param>
     /// <param name="viewModel">The view model that provides the data for the Events Summary view.</param>

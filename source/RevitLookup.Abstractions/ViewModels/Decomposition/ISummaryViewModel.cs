@@ -17,12 +17,12 @@ public interface ISummaryViewModel
     ///     Gets or sets the selected decomposed object.
     /// </summary>
     ObservableDecomposedObject? SelectedDecomposedObject { get; set; }
-    
+
     /// <summary>
     ///     Gets or sets the list of decomposed objects.
     /// </summary>
     List<ObservableDecomposedObject> DecomposedObjects { get; set; }
-    
+
     /// <summary>
     ///     Gets the command that evaluates a member on demand.
     /// </summary>
@@ -34,7 +34,7 @@ public interface ISummaryViewModel
     IAsyncRelayCommand<ObservableDecomposedMember> EvaluateMemberWithTransactionCommand { get; }
 
     /// <summary>
-    ///     Decomposes the members of <see cref="SelectedDecomposedObject"/>, bypassing the cache.
+    ///     Decomposes the members of <see cref="SelectedDecomposedObject" />, bypassing the cache.
     /// </summary>
     /// <returns>A task that represents the asynchronous refresh operation.</returns>
     Task RefreshMembersAsync();
@@ -42,15 +42,15 @@ public interface ISummaryViewModel
     /// <summary>
     ///     Decomposes the specified value and navigates to it.
     /// </summary>
-    /// <param name="value">The object to decompose, which can be <see langword="null"/>.</param>
+    /// <param name="value">The object to decompose, which can be <see langword="null" />.</param>
     void Navigate(object? value);
-    
+
     /// <summary>
     ///     Navigates to the specified decomposed object.
     /// </summary>
     /// <param name="value">The decomposed object to navigate to.</param>
     void Navigate(ObservableDecomposedObject value);
-    
+
     /// <summary>
     ///     Navigates to the specified collection of decomposed objects.
     /// </summary>

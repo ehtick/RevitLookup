@@ -8,11 +8,11 @@ using Wpf.Ui.Abstractions;
 namespace RevitLookup.UI.Framework.Presentation;
 
 /// <summary>
-/// Service that provides pages for navigation.
+///     Service that provides pages for navigation.
 /// </summary>
 public sealed class DependencyInjectionNavigationViewPageProvider(IServiceProvider serviceProvider) : INavigationViewPageProvider
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public object? GetPage(Type pageType)
     {
         return serviceProvider.GetService(pageType);

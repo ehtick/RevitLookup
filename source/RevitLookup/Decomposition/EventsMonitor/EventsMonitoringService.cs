@@ -20,13 +20,11 @@ using Nice3point.Revit.Toolkit.External;
 namespace RevitLookup.Decomposition.EventsMonitor;
 
 /// <summary>
-///     Monitors every event exposed by the RevitAPI and RevitAPIUI assemblies and republishes them through <see cref="EventInvoked"/>.
+///     Monitors every event exposed by the RevitAPI and RevitAPIUI assemblies and republishes them through <see cref="EventInvoked" />.
 /// </summary>
 /// <param name="logger">The logger used to report events without a supported target.</param>
 public sealed partial class EventsMonitoringService(ILogger<EventsMonitoringService> logger)
 {
-    private Action<object, string>? _eventInvoked;
-    private readonly Dictionary<EventInfo, Delegate> _handlersMap = new(16);
     private static readonly MethodInfo HandlerMethod = typeof(EventHandlerWrapper).GetMethod(nameof(EventHandlerWrapper.OnEvent))!;
 
     private readonly Assembly[] _assemblies = AppDomain.CurrentDomain
@@ -45,11 +43,14 @@ public sealed partial class EventsMonitoringService(ILogger<EventsMonitoringServ
         nameof(Autodesk.Revit.ApplicationServices.Application.ProgressChanged)
     ];
 
+    private readonly Dictionary<EventInfo, Delegate> _handlersMap = new(16);
+    private Action<object, string>? _eventInvoked;
+
     /// <summary>
     ///     An event that is raised when a monitored Revit API event fires, carrying the original event args and the name of the event.
     /// </summary>
     /// <remarks>
-    ///     Subscribing a first handler discovers and subscribes to every non-denied event on <see cref="Autodesk.Revit.ApplicationServices.Application"/>, <see cref="Document"/>, and <see cref="UIApplication"/>.
+    ///     Subscribing a first handler discovers and subscribes to every non-denied event on <see cref="Autodesk.Revit.ApplicationServices.Application" />, <see cref="Document" />, and <see cref="UIApplication" />.
     ///     Removing the last handler unsubscribes from all of them.
     /// </remarks>
     public event Action<object, string> EventInvoked
@@ -72,13 +73,19 @@ public sealed partial class EventsMonitoringService(ILogger<EventsMonitoringServ
     [ExternalEvent(AllowDirectInvocation = true)]
     private void Subscribe()
     {
-        if (_handlersMap.Count > 0) return;
+        if (_handlersMap.Count > 0)
+        {
+            return;
+        }
 
         foreach (var dll in _assemblies)
-        foreach (var type in dll.GetTypes().Where(static type => type is {IsEnum: false, IsValueType: false, IsInterface: false}))
+        foreach (var type in dll.GetTypes().Where(static type => type is { IsEnum: false, IsValueType: false, IsInterface: false }))
         foreach (var eventInfo in type.GetEvents())
         {
-            if (_denyList.Contains(eventInfo.Name)) continue;
+            if (_denyList.Contains(eventInfo.Name))
+            {
+                continue;
+            }
 
             var targets = FindValidTargets(eventInfo.ReflectedType);
             if (targets.Length == 0)
@@ -115,13 +122,22 @@ public sealed partial class EventsMonitoringService(ILogger<EventsMonitoringServ
         _handlersMap.Clear();
     }
 
-    private static object[] FindValidTargets(Type? targetType) => targetType switch
+    private static object[] FindValidTargets(Type? targetType)
     {
-        _ when targetType == typeof(Document) => RevitApiContext.Application.Documents.Cast<object>().ToArray(),
-        _ when targetType == typeof(Autodesk.Revit.ApplicationServices.Application) => [RevitApiContext.Application],
-        _ when targetType == typeof(UIApplication) => [RevitContext.UiApplication],
-        _ => []
-    };
+        return targetType switch
+        {
+            _ when targetType == typeof(Document) => RevitApiContext.Application.Documents.Cast<object>().ToArray(),
+            _ when targetType == typeof(Autodesk.Revit.ApplicationServices.Application) => [RevitApiContext.Application],
+            _ when targetType == typeof(UIApplication) => [RevitContext.UiApplication],
+            _ => []
+        };
+    }
+
+    [LoggerMessage(LogLevel.Debug, "Missing target: {EventType}.{EventName}")]
+    private static partial void LogMissingTarget(ILogger<EventsMonitoringService> logger, Type? eventType, string eventName);
+
+    [LoggerMessage(LogLevel.Debug, "Observing: {EventType}.{EventName}")]
+    private static partial void LogObserving(ILogger<EventsMonitoringService> logger, Type? eventType, string eventName);
 
     private sealed class EventHandlerWrapper(string eventName, EventsMonitoringService service)
     {
@@ -131,10 +147,4 @@ public sealed partial class EventsMonitoringService(ILogger<EventsMonitoringServ
             service._eventInvoked?.Invoke(args, eventName);
         }
     }
-
-    [LoggerMessage(LogLevel.Debug, "Missing target: {EventType}.{EventName}")]
-    private static partial void LogMissingTarget(ILogger<EventsMonitoringService> logger, Type? eventType, string eventName);
-
-    [LoggerMessage(LogLevel.Debug, "Observing: {EventType}.{EventName}")]
-    private static partial void LogObserving(ILogger<EventsMonitoringService> logger, Type? eventType, string eventName);
 }

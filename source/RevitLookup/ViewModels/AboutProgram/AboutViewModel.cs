@@ -26,17 +26,17 @@ using RevitLookup.UI.Framework.Views.AboutProgram;
 namespace RevitLookup.ViewModels.AboutProgram;
 
 /// <summary>
-///     Represents the view model for the About view, checking for and applying application updates through <see cref="ISoftwareUpdateService"/>.
+///     Represents the view model for the About view, checking for and applying application updates through <see cref="ISoftwareUpdateService" />.
 /// </summary>
 [UsedImplicitly]
 public sealed partial class AboutViewModel : ObservableObject, IAboutViewModel
 {
+    private readonly ILogger<AboutViewModel> _logger;
     private readonly IServiceProvider _serviceProvider;
     private readonly ISoftwareUpdateService _updateService;
-    private readonly ILogger<AboutViewModel> _logger;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="AboutViewModel"/> class.
+    ///     Initializes a new instance of the <see cref="AboutViewModel" /> class.
     /// </summary>
     /// <param name="serviceProvider">The service provider used to resolve the open-source software dialog.</param>
     /// <param name="updateService">The service that checks for, downloads, and reports application updates.</param>
@@ -65,36 +65,36 @@ public sealed partial class AboutViewModel : ObservableObject, IAboutViewModel
         LatestCheckDate = _updateService.LatestCheckDate?.ToString("yyyy.MM.dd HH:mm:ss");
         UpdateSoftwareState();
     }
-    
-    /// <inheritdoc/>
-    [ObservableProperty]
-    public partial SoftwareUpdateState State { get; set; } = (SoftwareUpdateState) (-1);
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
+    [ObservableProperty]
+    public partial SoftwareUpdateState State { get; set; } = (SoftwareUpdateState)(-1);
+
+    /// <inheritdoc />
     [ObservableProperty]
     public partial Version CurrentVersion { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial string? NewVersion { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial string? ReleaseNotesUrl { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial string? LatestCheckDate { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial string? ErrorMessage { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial string Runtime { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [RelayCommand]
     private async Task CheckUpdatesAsync()
     {
@@ -127,7 +127,7 @@ public sealed partial class AboutViewModel : ObservableObject, IAboutViewModel
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [RelayCommand]
     private async Task DownloadUpdateAsync()
     {
@@ -144,7 +144,7 @@ public sealed partial class AboutViewModel : ObservableObject, IAboutViewModel
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [RelayCommand]
     private async Task ShowSoftwareDialogAsync()
     {
@@ -160,7 +160,10 @@ public sealed partial class AboutViewModel : ObservableObject, IAboutViewModel
             return;
         }
 
-        if (_updateService.NewVersion is null) return;
+        if (_updateService.NewVersion is null)
+        {
+            return;
+        }
 
         NewVersion = _updateService.NewVersion;
         ReleaseNotesUrl = _updateService.ReleaseNotesUrl;

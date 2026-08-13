@@ -16,7 +16,7 @@ namespace Build.Komac;
 /// <param name="command">The command-line service used to execute the downloaded Komac executable.</param>
 /// <param name="logger">The logger used to record Komac download activity.</param>
 /// <remarks>
-///     Komac is downloaded at most once per process; subsequent calls to <see cref="Update"/> and <see cref="ListVersions"/> reuse the cached executable.
+///     Komac is downloaded at most once per process; subsequent calls to <see cref="Update" /> and <see cref="ListVersions" /> reuse the cached executable.
 /// </remarks>
 public sealed partial class Komac(IGitHub gitHub, ICommand command, ILogger<Komac> logger)
 {
@@ -39,7 +39,7 @@ public sealed partial class Komac(IGitHub gitHub, ICommand command, ILogger<Koma
     public async Task<CommandResult> Update(KomacUpdateOptions options, CancellationToken cancellationToken = default)
     {
         var executable = await EnsureKomacAsync(cancellationToken);
-        return await command.ExecuteCommandLineTool(options with {Tool = executable}, cancellationToken: cancellationToken);
+        return await command.ExecuteCommandLineTool(options with { Tool = executable }, cancellationToken: cancellationToken);
     }
 
     /// <summary>
@@ -47,12 +47,12 @@ public sealed partial class Komac(IGitHub gitHub, ICommand command, ILogger<Koma
     /// </summary>
     /// <param name="options">The <c>list-versions</c> command options, including the package identifier to query.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
-    /// <returns>The result of the Komac <c>list-versions</c> command execution. A non-zero <see cref="CommandResult.ExitCode"/> indicates the package is not yet registered in WinGet.</returns>
+    /// <returns>The result of the Komac <c>list-versions</c> command execution. A non-zero <see cref="CommandResult.ExitCode" /> indicates the package is not yet registered in WinGet.</returns>
     public async Task<CommandResult> ListVersions(KomacListVersionsOptions options, CancellationToken cancellationToken = default)
     {
         var executable = await EnsureKomacAsync(cancellationToken);
         return await command.ExecuteCommandLineTool(
-            options with {Tool = executable},
+            options with { Tool = executable },
             new CommandExecutionOptions
             {
                 ThrowOnNonZeroExitCode = false,
@@ -67,7 +67,10 @@ public sealed partial class Komac(IGitHub gitHub, ICommand command, ILogger<Koma
 
         try
         {
-            if (_komacFile is not null) return _komacFile;
+            if (_komacFile is not null)
+            {
+                return _komacFile;
+            }
 
             var release = await gitHub.Client.Repository.Release.GetLatest(KomacOwner, KomacRepository);
             var asset = release.Assets.FirstOrDefault(item => item.Name.EndsWith(WindowsAssetSuffix) && !item.Name.Contains(WindowsSetupPrefix));

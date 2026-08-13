@@ -18,11 +18,11 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.WorksetTable"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.WorksetTable" /> exposed to LookupEngine.
 /// </summary>
 public sealed class WorksetTableDescriptor : Descriptor, IDescriptorConfigurator
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(WorksetTable.Dispose)).Disable();

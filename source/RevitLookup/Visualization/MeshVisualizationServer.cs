@@ -18,41 +18,53 @@ using RevitLookup.Visualization.Rendering;
 namespace RevitLookup.Visualization;
 
 /// <summary>
-///     Represents a Revit direct-context 3D server that renders <see cref="Mesh"/> visualization geometry into the active view.
+///     Represents a Revit direct-context 3D server that renders <see cref="Mesh" /> visualization geometry into the active view.
 /// </summary>
 public sealed class MeshVisualizationServer : DirectContext3DServer
 {
-    private Mesh _mesh = null!;
+    private readonly RenderingBufferStorage _meshGridBuffer = new();
 
-    private RenderingBufferStorage[] _normalBuffers = [];
-
-    private double _extrusion;
-    private double _transparency;
-
-    private Color _surfaceColor = Color.InvalidColorValue;
-    private Color _meshColor = Color.InvalidColorValue;
-    private Color _normalColor = Color.InvalidColorValue;
-
-    private bool _drawSurface;
+    private readonly RenderingBufferStorage _surfaceBuffer = new();
     private bool _drawMeshGrid;
     private bool _drawNormalVector;
 
-    private readonly RenderingBufferStorage _surfaceBuffer = new();
-    private readonly RenderingBufferStorage _meshGridBuffer = new();
+    private bool _drawSurface;
 
-    /// <inheritdoc/>
-    public override string GetName() => "Mesh visualization server";
+    private double _extrusion;
+    private Mesh _mesh = null!;
+    private Color _meshColor = Color.InvalidColorValue;
 
-    /// <inheritdoc/>
-    public override string GetDescription() => "Mesh geometry visualization";
+    private RenderingBufferStorage[] _normalBuffers = [];
+    private Color _normalColor = Color.InvalidColorValue;
 
-    /// <inheritdoc/>
-    public override bool UseInTransparentPass(View view) => _drawSurface && _transparency > 0;
+    private Color _surfaceColor = Color.InvalidColorValue;
+    private double _transparency;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
+    public override string GetName()
+    {
+        return "Mesh visualization server";
+    }
+
+    /// <inheritdoc />
+    public override string GetDescription()
+    {
+        return "Mesh geometry visualization";
+    }
+
+    /// <inheritdoc />
+    public override bool UseInTransparentPass(View view)
+    {
+        return _drawSurface && _transparency > 0;
+    }
+
+    /// <inheritdoc />
     public override Outline? GetBoundingBox(View view)
     {
-        if (_mesh.Vertices.Count == 0) return null;
+        if (_mesh.Vertices.Count == 0)
+        {
+            return null;
+        }
 
         var min = _mesh.Vertices[0];
         var max = _mesh.Vertices[0];
@@ -85,77 +97,101 @@ public sealed class MeshVisualizationServer : DirectContext3DServer
     ///     Updates the color of the mesh surface and refreshes the open views.
     /// </summary>
     /// <param name="value">The new surface color.</param>
-    public void UpdateSurfaceColor(Color value) => UpdateViews(() =>
+    public void UpdateSurfaceColor(Color value)
     {
-        _surfaceColor = value;
-        HasEffectsUpdates = true;
-    });
+        UpdateViews(() =>
+        {
+            _surfaceColor = value;
+            HasEffectsUpdates = true;
+        });
+    }
 
     /// <summary>
     ///     Updates the color of the mesh grid and refreshes the open views.
     /// </summary>
     /// <param name="value">The new mesh grid color.</param>
-    public void UpdateMeshGridColor(Color value) => UpdateViews(() =>
+    public void UpdateMeshGridColor(Color value)
     {
-        _meshColor = value;
-        HasEffectsUpdates = true;
-    });
+        UpdateViews(() =>
+        {
+            _meshColor = value;
+            HasEffectsUpdates = true;
+        });
+    }
 
     /// <summary>
     ///     Updates the color of the mesh normal vectors and refreshes the open views.
     /// </summary>
     /// <param name="value">The new normal vector color.</param>
-    public void UpdateNormalVectorColor(Color value) => UpdateViews(() =>
+    public void UpdateNormalVectorColor(Color value)
     {
-        _normalColor = value;
-        HasEffectsUpdates = true;
-    });
+        UpdateViews(() =>
+        {
+            _normalColor = value;
+            HasEffectsUpdates = true;
+        });
+    }
 
     /// <summary>
     ///     Updates the extrusion value of the mesh and refreshes the open views.
     /// </summary>
     /// <param name="value">The new extrusion value.</param>
-    public void UpdateExtrusion(double value) => UpdateViews(() =>
+    public void UpdateExtrusion(double value)
     {
-        _extrusion = value;
-        HasGeometryUpdates = true;
-    });
+        UpdateViews(() =>
+        {
+            _extrusion = value;
+            HasGeometryUpdates = true;
+        });
+    }
 
     /// <summary>
     ///     Updates the transparency level of the visualization and refreshes the open views.
     /// </summary>
     /// <param name="value">The new transparency level.</param>
-    public void UpdateTransparency(double value) => UpdateViews(() =>
+    public void UpdateTransparency(double value)
     {
-        _transparency = value;
-        HasEffectsUpdates = true;
-    });
+        UpdateViews(() =>
+        {
+            _transparency = value;
+            HasEffectsUpdates = true;
+        });
+    }
 
     /// <summary>
     ///     Updates whether the mesh surface is drawn and refreshes the open views.
     /// </summary>
     /// <param name="visible">A value indicating whether the surface is drawn.</param>
-    public void UpdateSurfaceVisibility(bool visible) => UpdateViews(() => { _drawSurface = visible; });
+    public void UpdateSurfaceVisibility(bool visible)
+    {
+        UpdateViews(() => { _drawSurface = visible; });
+    }
 
     /// <summary>
     ///     Updates whether the mesh grid is drawn and refreshes the open views.
     /// </summary>
     /// <param name="visible">A value indicating whether the mesh grid is drawn.</param>
-    public void UpdateMeshGridVisibility(bool visible) => UpdateViews(() => { _drawMeshGrid = visible; });
+    public void UpdateMeshGridVisibility(bool visible)
+    {
+        UpdateViews(() => { _drawMeshGrid = visible; });
+    }
 
     /// <summary>
     ///     Updates whether the mesh normal vectors are drawn and refreshes the open views.
     /// </summary>
     /// <param name="visible">A value indicating whether the normal vectors are drawn.</param>
-    public void UpdateNormalVectorVisibility(bool visible) => UpdateViews(() => { _drawNormalVector = visible; });
+    public void UpdateNormalVectorVisibility(bool visible)
+    {
+        UpdateViews(() => { _drawNormalVector = visible; });
+    }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override bool AreBuffersValid()
     {
         return _surfaceBuffer.IsValid() && _meshGridBuffer.IsValid();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override void MapGeometryBuffer()
     {
         RenderHelper.MapSurfaceBuffer(_surfaceBuffer, _mesh, _extrusion);
@@ -163,7 +199,7 @@ public sealed class MeshVisualizationServer : DirectContext3DServer
         MapNormalsBuffer();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override void UpdateEffects()
     {
         _surfaceBuffer.EffectInstance ??= new EffectInstance(_surfaceBuffer.FormatBits);
@@ -180,11 +216,18 @@ public sealed class MeshVisualizationServer : DirectContext3DServer
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override void RenderBuffers()
     {
-        if (_drawSurface) FlushTriangleBuffer(_surfaceBuffer, _transparency);
-        if (_drawMeshGrid) FlushLineBuffer(_meshGridBuffer);
+        if (_drawSurface)
+        {
+            FlushTriangleBuffer(_surfaceBuffer, _transparency);
+        }
+
+        if (_drawMeshGrid)
+        {
+            FlushLineBuffer(_meshGridBuffer);
+        }
 
         if (_drawNormalVector)
         {
@@ -195,12 +238,15 @@ public sealed class MeshVisualizationServer : DirectContext3DServer
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override void DisposeBuffers()
     {
         _surfaceBuffer.Dispose();
         _meshGridBuffer.Dispose();
-        foreach (var buffer in _normalBuffers) buffer.Dispose();
+        foreach (var buffer in _normalBuffers)
+        {
+            buffer.Dispose();
+        }
     }
 
     private void MapNormalsBuffer()

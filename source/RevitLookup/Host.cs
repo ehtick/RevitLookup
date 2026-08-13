@@ -84,22 +84,25 @@ public static class Host
     }
 
     /// <summary>
-    ///     Stops the host and handles <see cref="IHostedService"/> services.
+    ///     Stops the host and handles <see cref="IHostedService" /> services.
     /// </summary>
     /// <returns>A task that represents the asynchronous host shutdown operation.</returns>
     public static async Task StopAsync()
     {
-        if (_host is null) return;
+        if (_host is null)
+        {
+            return;
+        }
 
         await _host.StopAsync();
     }
 
     /// <summary>
-    ///     Gets a service of type <typeparamref name="T"/>.
+    ///     Gets a service of type <typeparamref name="T" />.
     /// </summary>
     /// <typeparam name="T">The type of service object to get.</typeparam>
     /// <returns>The requested service instance.</returns>
-    /// <exception cref="System.InvalidOperationException">There is no service of type <typeparamref name="T"/>.</exception>
+    /// <exception cref="System.InvalidOperationException">There is no service of type <typeparamref name="T" />.</exception>
     public static T GetService<T>() where T : class
     {
         return _host!.Services.GetRequiredService<T>();

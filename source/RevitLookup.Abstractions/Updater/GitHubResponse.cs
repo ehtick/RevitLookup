@@ -25,30 +25,36 @@ public sealed class GitHubResponse
     /// <summary>
     ///     Gets or sets the URL of the release page on GitHub.
     /// </summary>
-    [JsonPropertyName("html_url")] public string? Url { get; set; }
+    [JsonPropertyName("html_url")]
+    public string? Url { get; set; }
 
     /// <summary>
     ///     Gets or sets the Git tag associated with the release.
     /// </summary>
-    [JsonPropertyName("tag_name")] public string? TagName { get; set; }
+    [JsonPropertyName("tag_name")]
+    public string? TagName { get; set; }
 
     /// <summary>
     ///     Gets or sets a value indicating whether the release is an unpublished draft.
     /// </summary>
-    [JsonPropertyName("draft")] public bool Draft { get; set; }
+    [JsonPropertyName("draft")]
+    public bool Draft { get; set; }
 
     /// <summary>
     ///     Gets or sets a value indicating whether the release is marked as a prerelease.
     /// </summary>
-    [JsonPropertyName("prerelease")] public bool PreRelease { get; set; }
+    [JsonPropertyName("prerelease")]
+    public bool PreRelease { get; set; }
 
     /// <summary>
     ///     Gets or sets the date and time the release was published.
     /// </summary>
-    [JsonPropertyName("published_at")] public DateTimeOffset PublishedDate { get; set; }
+    [JsonPropertyName("published_at")]
+    public DateTimeOffset PublishedDate { get; set; }
 
     /// <summary>
-    ///     Gets or sets the assets attached to the release, or <see langword="null"/> when the release has none.
+    ///     Gets or sets the assets attached to the release, or <see langword="null" /> when the release has none.
     /// </summary>
-    [JsonPropertyName("assets")] public List<GitHubResponseAsset>? Assets { get; set; }
+    [JsonPropertyName("assets")]
+    public List<GitHubResponseAsset>? Assets { get; set; }
 }

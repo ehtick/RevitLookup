@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Lookup Foundation and Contributors
-// 
+//
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
 // provided that the above copyright notice appears in all copies and
 // that both that copyright notice and the limited warranty and
 // restricted rights notice below appear in all supporting
 // documentation.
-// 
+//
 // THIS PROGRAM IS PROVIDED "AS IS" AND WITH ALL FAULTS.
 // NO IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE IS PROVIDED.
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
@@ -15,10 +15,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using LookupEngine.Abstractions.Enums;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Abstractions.Decomposition;
-using RevitLookup.UI.Framework.Extensions;
 using RevitLookup.UI.Framework.Menus;
 using Wpf.Ui;
 
@@ -47,7 +45,10 @@ public partial class SummaryViewBase
             .SetCommand(decomposedObject, parameter => ContextHelpUtils.ShowHelp(parameter.TypeFullName))
             .SetShortcut(Key.F1);
 
-        if (decomposedObject.Descriptor is not IContextMenuConnector connector) return;
+        if (decomposedObject.Descriptor is not IContextMenuConnector connector)
+        {
+            return;
+        }
 
         try
         {
@@ -68,7 +69,7 @@ public partial class SummaryViewBase
         var contextMenu = new ContextMenu
         {
             PlacementTarget = row,
-            Resources = UiApplication.Current.Resources,
+            Resources = UiApplication.Current.Resources
         };
 
         row.ContextMenu = contextMenu;
@@ -103,7 +104,10 @@ public partial class SummaryViewBase
             .SetCommand(member, parameter => ContextHelpUtils.ShowHelp(parameter.DeclaringTypeFullName, parameter.Name))
             .SetShortcut(Key.F1);
 
-        if (member.Value.Descriptor is not IContextMenuConnector connector) return;
+        if (member.Value.Descriptor is not IContextMenuConnector connector)
+        {
+            return;
+        }
 
         try
         {

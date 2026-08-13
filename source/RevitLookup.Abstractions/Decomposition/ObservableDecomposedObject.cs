@@ -29,12 +29,12 @@ public sealed partial class ObservableDecomposedObject : ObservableObject
     public required string TypeFullName { get; set; }
 
     /// <summary>
-    ///     Gets or sets the object's description, or <see langword="null"/> when none is available.
+    ///     Gets or sets the object's description, or <see langword="null" /> when none is available.
     /// </summary>
     public string? Description { get; set; }
 
     /// <summary>
-    ///     Gets or sets the engine descriptor used to decompose this object, or <see langword="null"/> when none applies.
+    ///     Gets or sets the engine descriptor used to decompose this object, or <see langword="null" /> when none applies.
     /// </summary>
     public Descriptor? Descriptor { get; init; }
 

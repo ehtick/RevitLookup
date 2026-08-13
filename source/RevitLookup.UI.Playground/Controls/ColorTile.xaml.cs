@@ -12,39 +12,39 @@ namespace RevitLookup.UI.Playground.Controls;
 public sealed class ColorTile : UserControl
 {
     /// <summary>
-    ///     Identifies the <see cref="TileRadius"/> dependency property.
+    ///     Identifies the <see cref="TileRadius" /> dependency property.
     /// </summary>
     public static readonly DependencyProperty TileRadiusProperty = DependencyProperty.Register(nameof(TileRadius), typeof(CornerRadius), typeof(ColorTile), new PropertyMetadata(new CornerRadius(0)));
 
     /// <summary>
-    ///     Identifies the <see cref="ColorName"/> dependency property.
+    ///     Identifies the <see cref="ColorName" /> dependency property.
     /// </summary>
-    public static readonly DependencyProperty ColorNameProperty = DependencyProperty.Register(nameof(ColorName), typeof(string), typeof(ColorTile), new PropertyMetadata(""));
+    public static readonly DependencyProperty ColorNameProperty = DependencyProperty.Register(nameof(ColorName), typeof(string), typeof(ColorTile), new PropertyMetadata(string.Empty));
 
     /// <summary>
-    ///     Identifies the <see cref="ColorExplanation"/> dependency property.
+    ///     Identifies the <see cref="ColorExplanation" /> dependency property.
     /// </summary>
-    public static readonly DependencyProperty ColorExplanationProperty = DependencyProperty.Register(nameof(ColorExplanation), typeof(string), typeof(ColorTile), new PropertyMetadata(""));
+    public static readonly DependencyProperty ColorExplanationProperty = DependencyProperty.Register(nameof(ColorExplanation), typeof(string), typeof(ColorTile), new PropertyMetadata(string.Empty));
 
     /// <summary>
-    ///     Identifies the <see cref="ColorBrushName"/> dependency property.
+    ///     Identifies the <see cref="ColorBrushName" /> dependency property.
     /// </summary>
-    public static readonly DependencyProperty ColorBrushNameProperty = DependencyProperty.Register(nameof(ColorBrushName), typeof(string), typeof(ColorTile), new PropertyMetadata(""));
+    public static readonly DependencyProperty ColorBrushNameProperty = DependencyProperty.Register(nameof(ColorBrushName), typeof(string), typeof(ColorTile), new PropertyMetadata(string.Empty));
 
     /// <summary>
-    ///     Identifies the <see cref="ColorValue"/> dependency property.
+    ///     Identifies the <see cref="ColorValue" /> dependency property.
     /// </summary>
-    public static readonly DependencyProperty ColorValueProperty = DependencyProperty.Register(nameof(ColorValue), typeof(string), typeof(ColorTile), new PropertyMetadata(""));
+    public static readonly DependencyProperty ColorValueProperty = DependencyProperty.Register(nameof(ColorValue), typeof(string), typeof(ColorTile), new PropertyMetadata(string.Empty));
 
     // Using a DependencyProperty as the backing store for ShowSeparator.  This enables animation, styling, binding, etc...
     /// <summary>
-    ///     Identifies the <see cref="ShowSeparator"/> dependency property.
+    ///     Identifies the <see cref="ShowSeparator" /> dependency property.
     /// </summary>
     public static readonly DependencyProperty ShowSeparatorProperty = DependencyProperty.Register(nameof(ShowSeparator), typeof(bool), typeof(ColorTile), new PropertyMetadata(true));
 
     // Using a DependencyProperty as the backing store for ShowSeparator.  This enables animation, styling, binding, etc...
     /// <summary>
-    ///     Identifies the <see cref="ShowWarning"/> dependency property.
+    ///     Identifies the <see cref="ShowWarning" /> dependency property.
     /// </summary>
     public static readonly DependencyProperty ShowWarningProperty = DependencyProperty.Register(nameof(ShowWarning), typeof(bool), typeof(ColorTile), new PropertyMetadata(false));
 
@@ -118,9 +118,16 @@ public sealed class ColorTile : UserControl
 
     private static void OnCopyColorBrushClicked(object sender, RoutedEventArgs e)
     {
-        if (sender is not ColorTile colorTile) return;
-        if (string.IsNullOrEmpty(colorTile.ColorBrushName)) return;
-        
+        if (sender is not ColorTile colorTile)
+        {
+            return;
+        }
+
+        if (string.IsNullOrEmpty(colorTile.ColorBrushName))
+        {
+            return;
+        }
+
         try
         {
             Clipboard.SetText(colorTile.ColorBrushName);
@@ -131,7 +138,6 @@ public sealed class ColorTile : UserControl
                 "Color Brush Name Copied",
                 "ButtonClickedActivity"
             );
-
         }
         catch (Exception exception)
         {

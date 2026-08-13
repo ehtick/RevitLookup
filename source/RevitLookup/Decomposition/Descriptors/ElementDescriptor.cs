@@ -1,18 +1,17 @@
 // Copyright (c) Lookup Foundation and Contributors
-// 
+//
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
 // provided that the above copyright notice appears in all copies and
 // that both that copyright notice and the limited warranty and
 // restricted rights notice below appear in all supporting
 // documentation.
-// 
+//
 // THIS PROGRAM IS PROVIDED "AS IS" AND WITH ALL FAULTS.
 // NO IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE IS PROVIDED.
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using Autodesk.Revit.DB.DirectContext3D;
@@ -26,9 +25,9 @@ using Nice3point.Revit.Toolkit.External;
 using RevitLookup.Abstractions.Decomposition;
 using RevitLookup.Abstractions.Presentation;
 using RevitLookup.Abstractions.ViewModels.Decomposition;
-using RevitLookup.UI.Framework.Extensions;
-using RevitLookup.Decomposition.Extensions;
 using RevitLookup.Decomposition.Schemas;
+using RevitLookup.UI.Framework.Extensions;
+using RevitLookup.UI.Framework.Menus;
 using ContextMenu = System.Windows.Controls.ContextMenu;
 #if REVIT2024_OR_GREATER
 using Autodesk.Revit.DB.Structure;
@@ -40,14 +39,14 @@ using Autodesk.Revit.DB.ExternalData;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Element"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.Element" /> exposed to LookupEngine.
 /// </summary>
 public partial class ElementDescriptor : ResolvingDescriptor, IDescriptorConfigurator, IContextMenuConnector
 {
     private readonly Element _element;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="ElementDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="ElementDescriptor" /> class.
     /// </summary>
     /// <param name="element">The element to expose.</param>
     public ElementDescriptor(Element element)
@@ -56,7 +55,27 @@ public partial class ElementDescriptor : ResolvingDescriptor, IDescriptorConfigu
         Name = element.Name == string.Empty ? $"ID{element.Id}" : $"{element.Name}, ID{element.Id}";
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
+    public virtual void RegisterMenu(ContextMenu contextMenu, IServiceProvider serviceProvider)
+    {
+        contextMenu.AddMenuItem("SelectMenuItem")
+            .SetCommand(_element, element => SelectElementEvent.Raise(element))
+            .SetShortcut(Key.F6);
+
+        if (_element is not ElementType && _element is not Family)
+        {
+            contextMenu.AddMenuItem("ShowMenuItem")
+                .SetCommand(_element, element => ShowElementEvent.Raise(element))
+                .SetShortcut(Key.F7);
+        }
+
+        contextMenu.AddMenuItem("DeleteMenuItem")
+            .SetCommand(_element, element => DeleteElementAsync(element, serviceProvider, contextMenu))
+            .SetAvailability(DocumentValidation.CanDeleteElement(_element.Document, _element.Id))
+            .SetShortcut(Key.Delete);
+    }
+
+    /// <inheritdoc />
     public virtual void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Element.Dispose)).Disable();
@@ -86,7 +105,10 @@ public partial class ElementDescriptor : ResolvingDescriptor, IDescriptorConfigu
             var paintMaterials = _element.GetMaterialIds(true);
 
             var capacity = geometryMaterials.Count + paintMaterials.Count;
-            if (capacity == 0) return Variants.Empty<KeyValuePair<ElementId, double>>();
+            if (capacity == 0)
+            {
+                return Variants.Empty<KeyValuePair<ElementId, double>>();
+            }
 
             var variants = Variants.Values<KeyValuePair<ElementId, double>>(capacity);
             foreach (var materialId in geometryMaterials)
@@ -108,7 +130,10 @@ public partial class ElementDescriptor : ResolvingDescriptor, IDescriptorConfigu
         {
             var geometryMaterials = _element.GetMaterialIds(false);
 
-            if (geometryMaterials.Count == 0) return Variants.Empty<KeyValuePair<ElementId, double>>();
+            if (geometryMaterials.Count == 0)
+            {
+                return Variants.Empty<KeyValuePair<ElementId, double>>();
+            }
 
             var variants = Variants.Values<KeyValuePair<ElementId, double>>(geometryMaterials.Count);
             foreach (var materialId in geometryMaterials)
@@ -129,7 +154,10 @@ public partial class ElementDescriptor : ResolvingDescriptor, IDescriptorConfigu
                 using (schema.GrantAccess())
                 {
                     var entity = _element.GetEntity(schema);
-                    if (!entity.IsValid()) continue;
+                    if (!entity.IsValid())
+                    {
+                        continue;
+                    }
 
                     variants.Add(entity, schema.SchemaName);
                 }
@@ -327,31 +355,18 @@ public partial class ElementDescriptor : ResolvingDescriptor, IDescriptorConfigu
     }
 #endif
 
-    /// <inheritdoc/>
-    public virtual void RegisterMenu(ContextMenu contextMenu, IServiceProvider serviceProvider)
-    {
-        contextMenu.AddMenuItem("SelectMenuItem")
-            .SetCommand(_element, element => SelectElementEvent.Raise(element))
-            .SetShortcut(Key.F6);
-
-        if (_element is not ElementType && _element is not Family)
-        {
-            contextMenu.AddMenuItem("ShowMenuItem")
-                .SetCommand(_element, element => ShowElementEvent.Raise(element))
-                .SetShortcut(Key.F7);
-        }
-
-        contextMenu.AddMenuItem("DeleteMenuItem")
-            .SetCommand(_element, element => DeleteElementAsync(element, serviceProvider, contextMenu))
-            .SetAvailability(DocumentValidation.CanDeleteElement(_element.Document, _element.Id))
-            .SetShortcut(Key.Delete);
-    }
-
     [ExternalEvent(AllowDirectInvocation = true)]
     private static void SelectElement(UIApplication application, Element element)
     {
-        if (application.ActiveUIDocument is null) return;
-        if (!element.IsValidObject) return;
+        if (application.ActiveUIDocument is null)
+        {
+            return;
+        }
+
+        if (!element.IsValidObject)
+        {
+            return;
+        }
 
         application.ActiveUIDocument.Selection.SetElementIds([element.Id]);
     }
@@ -359,8 +374,15 @@ public partial class ElementDescriptor : ResolvingDescriptor, IDescriptorConfigu
     [ExternalEvent(AllowDirectInvocation = true)]
     private static void ShowElement(UIApplication application, Element element)
     {
-        if (application.ActiveUIDocument is null) return;
-        if (!element.IsValidObject) return;
+        if (application.ActiveUIDocument is null)
+        {
+            return;
+        }
+
+        if (!element.IsValidObject)
+        {
+            return;
+        }
 
         application.ActiveUIDocument.ShowElements(element);
         application.ActiveUIDocument.Selection.SetElementIds([element.Id]);
@@ -369,7 +391,10 @@ public partial class ElementDescriptor : ResolvingDescriptor, IDescriptorConfigu
     [ExternalEvent(AllowDirectInvocation = true)]
     private static ICollection<ElementId> DeleteElement(UIApplication application, Element element)
     {
-        if (application.ActiveUIDocument is null) throw new InvalidOperationException("No active document");
+        if (application.ActiveUIDocument is null)
+        {
+            throw new InvalidOperationException("No active document");
+        }
 
         using var transaction = new Transaction(element.Document);
         transaction.Start($"Delete {element.Name}");
@@ -379,13 +404,20 @@ public partial class ElementDescriptor : ResolvingDescriptor, IDescriptorConfigu
             var deletedIds = element.Document.Delete(element.Id);
             transaction.Commit();
 
-            if (transaction.GetStatus() == TransactionStatus.RolledBack) throw new OperationCanceledException("Element deletion cancelled by user");
+            if (transaction.GetStatus() == TransactionStatus.RolledBack)
+            {
+                throw new OperationCanceledException("Element deletion cancelled by user");
+            }
 
             return deletedIds;
         }
         catch
         {
-            if (!transaction.HasEnded()) transaction.RollBack();
+            if (!transaction.HasEnded())
+            {
+                transaction.RollBack();
+            }
+
             throw;
         }
     }
@@ -398,7 +430,7 @@ public partial class ElementDescriptor : ResolvingDescriptor, IDescriptorConfigu
             var removedIds = await DeleteElementAsyncEvent.RaiseAsync(element);
 
             var summaryViewModel = serviceProvider.GetRequiredService<IDecompositionSummaryViewModel>();
-            var placementTarget = (FrameworkElement) contextMenu.PlacementTarget;
+            var placementTarget = (FrameworkElement)contextMenu.PlacementTarget;
             summaryViewModel.RemoveItem(placementTarget.DataContext);
 
             notificationService.ShowSuccess("Success", $"{removedIds.Count} elements completely removed from the Revit database");
@@ -417,7 +449,7 @@ public partial class ElementDescriptor : ResolvingDescriptor, IDescriptorConfigu
     }
 
     /// <summary>
-    ///     Resolves a member across the categories in a <see cref="CategoryNameMap"/>.
+    ///     Resolves a member across the categories in a <see cref="CategoryNameMap" />.
     /// </summary>
     /// <typeparam name="TResult">The type of the resolved value for each category.</typeparam>
     /// <param name="categories">The categories to resolve the member against.</param>

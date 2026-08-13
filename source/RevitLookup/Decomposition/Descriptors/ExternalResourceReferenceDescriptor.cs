@@ -18,12 +18,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="ExternalResourceReference"/> exposed to LookupEngine.
+///     Represents the <see cref="ExternalResourceReference" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="externalResourceReference">The external resource reference to expose.</param>
 public sealed class ExternalResourceReferenceDescriptor(ExternalResourceReference externalResourceReference) : Descriptor, IDescriptorConfigurator
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(ExternalResourceReference.Dispose)).Disable();

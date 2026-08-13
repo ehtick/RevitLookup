@@ -19,12 +19,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="ExternalDefinition"/> exposed to LookupEngine.
+///     Represents the <see cref="ExternalDefinition" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="externalDefinition">The shared parameter external definition to expose.</param>
 public sealed class ExternalDefinitionDescriptor(ExternalDefinition externalDefinition) : Descriptor, IDescriptorConfigurator, IDescriptorConfigurator<Document>
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Extension(nameof(RebarShapeParameters.IsValidExternalDefinition)).Register(() => RebarShapeParameters.IsValidExternalDefinition(externalDefinition));
@@ -34,6 +34,7 @@ public sealed class ExternalDefinitionDescriptor(ExternalDefinition externalDefi
     void IDescriptorConfigurator<Document>.Configure(IMemberConfigurator<Document> configuration)
     {
         configuration.Extension("GetRebarShapeParameterElementId").Map(nameof(RebarShapeParameters.GetElementIdForExternalDefinition)).Register(context => RebarShapeParameters.GetElementIdForExternalDefinition(context, externalDefinition));
-        configuration.Extension("GetOrCreateRebarShapeParameterElementId").Map(nameof(RebarShapeParameters.GetOrCreateElementIdForExternalDefinition)).Register(context => RebarShapeParameters.GetOrCreateElementIdForExternalDefinition(context, externalDefinition));
+        configuration.Extension("GetOrCreateRebarShapeParameterElementId").Map(nameof(RebarShapeParameters.GetOrCreateElementIdForExternalDefinition))
+            .Register(context => RebarShapeParameters.GetOrCreateElementIdForExternalDefinition(context, externalDefinition));
     }
 }

@@ -28,19 +28,19 @@ namespace RevitLookup.ViewModels.Tools;
 [UsedImplicitly]
 public sealed partial class PostableCommandsViewModel(ILogger<PostableCommandsViewModel> logger, INotificationService notificationService) : ObservableObject, IPostableCommandsViewModel
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial List<PostableCommandInfo> Commands { get; private set; } = [];
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial List<PostableCommandInfo> FilteredCommands { get; private set; } = [];
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Initialize()
     {
         var postableCommands = Enum.GetValues<PostableCommand>();
@@ -55,12 +55,12 @@ public sealed partial class PostableCommandsViewModel(ILogger<PostableCommandsVi
             .ToList();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Execute(PostableCommandInfo commandInfo)
     {
         try
         {
-            var postableCommand = (PostableCommand) commandInfo.Value;
+            var postableCommand = (PostableCommand)commandInfo.Value;
             var commandId = RevitCommandId.LookupPostableCommandId(postableCommand);
             RevitContext.UiApplication.PostCommand(commandId);
         }
@@ -73,10 +73,10 @@ public sealed partial class PostableCommandsViewModel(ILogger<PostableCommandsVi
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public bool CanExecute(PostableCommandInfo commandInfo)
     {
-        var postableCommand = (PostableCommand) commandInfo.Value;
+        var postableCommand = (PostableCommand)commandInfo.Value;
         var commandId = RevitCommandId.LookupPostableCommandId(postableCommand);
         return RevitContext.UiApplication.CanPostCommand(commandId);
     }

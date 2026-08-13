@@ -17,12 +17,12 @@ using LookupEngine.Abstractions.Configuration;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.InternalOrigin"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.InternalOrigin" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="internalOrigin">The internal origin to expose.</param>
 public sealed class InternalOriginDescriptor(InternalOrigin internalOrigin) : ElementDescriptor(internalOrigin)
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(InternalOrigin.Dispose)).Disable();

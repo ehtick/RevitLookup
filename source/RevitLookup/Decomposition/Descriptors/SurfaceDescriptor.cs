@@ -18,12 +18,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.Surface"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.Surface" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="surface">The surface to expose.</param>
 public sealed class SurfaceDescriptor(Surface surface) : Descriptor, IDescriptorConfigurator
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Surface.Dispose)).Disable();

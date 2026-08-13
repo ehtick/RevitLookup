@@ -22,36 +22,48 @@ namespace RevitLookup.Visualization;
 /// </summary>
 public sealed class PolylineVisualizationServer : DirectContext3DServer
 {
-    private IList<XYZ> _vertices = null!;
-
-    private double _transparency;
-    private double _diameter;
-
-    private Color _surfaceColor = Color.InvalidColorValue;
-    private Color _curveColor = Color.InvalidColorValue;
-    private Color _directionColor = Color.InvalidColorValue;
-
-    private bool _drawSurface;
-    private bool _drawCurve;
-    private bool _drawDirection;
-
-    private readonly RenderingBufferStorage _surfaceBuffer = new();
     private readonly RenderingBufferStorage _curveBuffer = new();
     private readonly List<RenderingBufferStorage> _normalsBuffers = new(1);
 
-    /// <inheritdoc/>
-    public override string GetName() => "Polyline visualization server";
+    private readonly RenderingBufferStorage _surfaceBuffer = new();
+    private Color _curveColor = Color.InvalidColorValue;
+    private double _diameter;
+    private Color _directionColor = Color.InvalidColorValue;
+    private bool _drawCurve;
+    private bool _drawDirection;
 
-    /// <inheritdoc/>
-    public override string GetDescription() => "Polyline geometry visualization";
+    private bool _drawSurface;
 
-    /// <inheritdoc/>
-    public override bool UseInTransparentPass(View view) => _drawSurface && _transparency > 0;
+    private Color _surfaceColor = Color.InvalidColorValue;
 
-    /// <inheritdoc/>
+    private double _transparency;
+    private IList<XYZ> _vertices = null!;
+
+    /// <inheritdoc />
+    public override string GetName()
+    {
+        return "Polyline visualization server";
+    }
+
+    /// <inheritdoc />
+    public override string GetDescription()
+    {
+        return "Polyline geometry visualization";
+    }
+
+    /// <inheritdoc />
+    public override bool UseInTransparentPass(View view)
+    {
+        return _drawSurface && _transparency > 0;
+    }
+
+    /// <inheritdoc />
     public override Outline? GetBoundingBox(View view)
     {
-        if (_vertices.Count == 0) return null;
+        if (_vertices.Count == 0)
+        {
+            return null;
+        }
 
         var min = _vertices[0];
         var max = _vertices[0];
@@ -80,77 +92,101 @@ public sealed class PolylineVisualizationServer : DirectContext3DServer
     ///     Updates the color of the polyline surface and refreshes the open views.
     /// </summary>
     /// <param name="value">The new surface color.</param>
-    public void UpdateSurfaceColor(Color value) => UpdateViews(() =>
+    public void UpdateSurfaceColor(Color value)
     {
-        _surfaceColor = value;
-        HasEffectsUpdates = true;
-    });
+        UpdateViews(() =>
+        {
+            _surfaceColor = value;
+            HasEffectsUpdates = true;
+        });
+    }
 
     /// <summary>
     ///     Updates the color of the polyline curve and refreshes the open views.
     /// </summary>
     /// <param name="value">The new curve color.</param>
-    public void UpdateCurveColor(Color value) => UpdateViews(() =>
+    public void UpdateCurveColor(Color value)
     {
-        _curveColor = value;
-        HasEffectsUpdates = true;
-    });
+        UpdateViews(() =>
+        {
+            _curveColor = value;
+            HasEffectsUpdates = true;
+        });
+    }
 
     /// <summary>
     ///     Updates the color of the direction indicators and refreshes the open views.
     /// </summary>
     /// <param name="value">The new direction indicator color.</param>
-    public void UpdateDirectionColor(Color value) => UpdateViews(() =>
+    public void UpdateDirectionColor(Color value)
     {
-        _directionColor = value;
-        HasEffectsUpdates = true;
-    });
+        UpdateViews(() =>
+        {
+            _directionColor = value;
+            HasEffectsUpdates = true;
+        });
+    }
 
     /// <summary>
     ///     Updates the diameter of the polyline tube and refreshes the open views.
     /// </summary>
     /// <param name="value">The new diameter.</param>
-    public void UpdateDiameter(double value) => UpdateViews(() =>
+    public void UpdateDiameter(double value)
     {
-        _diameter = value;
-        HasGeometryUpdates = true;
-    });
+        UpdateViews(() =>
+        {
+            _diameter = value;
+            HasGeometryUpdates = true;
+        });
+    }
 
     /// <summary>
     ///     Updates the transparency level of the visualization and refreshes the open views.
     /// </summary>
     /// <param name="value">The new transparency level.</param>
-    public void UpdateTransparency(double value) => UpdateViews(() =>
+    public void UpdateTransparency(double value)
     {
-        _transparency = value;
-        HasEffectsUpdates = true;
-    });
+        UpdateViews(() =>
+        {
+            _transparency = value;
+            HasEffectsUpdates = true;
+        });
+    }
 
     /// <summary>
     ///     Updates whether the polyline surface is drawn and refreshes the open views.
     /// </summary>
     /// <param name="visible">A value indicating whether the surface is drawn.</param>
-    public void UpdateSurfaceVisibility(bool visible) => UpdateViews(() => { _drawSurface = visible; });
+    public void UpdateSurfaceVisibility(bool visible)
+    {
+        UpdateViews(() => { _drawSurface = visible; });
+    }
 
     /// <summary>
     ///     Updates whether the polyline curve is drawn and refreshes the open views.
     /// </summary>
     /// <param name="visible">A value indicating whether the curve is drawn.</param>
-    public void UpdateCurveVisibility(bool visible) => UpdateViews(() => { _drawCurve = visible; });
+    public void UpdateCurveVisibility(bool visible)
+    {
+        UpdateViews(() => { _drawCurve = visible; });
+    }
 
     /// <summary>
     ///     Updates whether the direction indicators are drawn and refreshes the open views.
     /// </summary>
     /// <param name="visible">A value indicating whether the direction indicators are drawn.</param>
-    public void UpdateDirectionVisibility(bool visible) => UpdateViews(() => { _drawDirection = visible; });
+    public void UpdateDirectionVisibility(bool visible)
+    {
+        UpdateViews(() => { _drawDirection = visible; });
+    }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override bool AreBuffersValid()
     {
         return _surfaceBuffer.IsValid() && _curveBuffer.IsValid();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override void MapGeometryBuffer()
     {
         RenderHelper.MapCurveSurfaceBuffer(_surfaceBuffer, _vertices, _diameter);
@@ -158,7 +194,7 @@ public sealed class PolylineVisualizationServer : DirectContext3DServer
         MapDirectionsBuffer();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override void UpdateEffects()
     {
         _surfaceBuffer.EffectInstance ??= new EffectInstance(_surfaceBuffer.FormatBits);
@@ -175,11 +211,18 @@ public sealed class PolylineVisualizationServer : DirectContext3DServer
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override void RenderBuffers()
     {
-        if (_drawSurface) FlushTriangleBuffer(_surfaceBuffer, _transparency);
-        if (_drawCurve) FlushLineBuffer(_curveBuffer);
+        if (_drawSurface)
+        {
+            FlushTriangleBuffer(_surfaceBuffer, _transparency);
+        }
+
+        if (_drawCurve)
+        {
+            FlushLineBuffer(_curveBuffer);
+        }
 
         if (_drawDirection)
         {
@@ -227,17 +270,23 @@ public sealed class PolylineVisualizationServer : DirectContext3DServer
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override void DisposeBuffers()
     {
         _surfaceBuffer.Dispose();
         _curveBuffer.Dispose();
-        foreach (var buffer in _normalsBuffers) buffer.Dispose();
+        foreach (var buffer in _normalsBuffers)
+        {
+            buffer.Dispose();
+        }
     }
 
     private RenderingBufferStorage GetOrCreateNormalBuffer(int index)
     {
-        if (_normalsBuffers.Count > index) return _normalsBuffers[index];
+        if (_normalsBuffers.Count > index)
+        {
+            return _normalsBuffers[index];
+        }
 
         var buffer = new RenderingBufferStorage();
         _normalsBuffers.Add(buffer);

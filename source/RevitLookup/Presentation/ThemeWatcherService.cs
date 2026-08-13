@@ -32,13 +32,12 @@ namespace RevitLookup.Presentation;
 /// <param name="settingsService">The service that provides the current theme and background settings.</param>
 public sealed partial class ThemeWatcherService(ISettingsService settingsService) : IThemeWatcherService
 {
+    private readonly List<FrameworkElement> _observedElements = [];
 #if REVIT2024_OR_GREATER
     private bool _isWatching;
 #endif
 
-    private readonly List<FrameworkElement> _observedElements = [];
-
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Initialize()
     {
         UiApplication.Current.Resources = new ResourceDictionary
@@ -49,7 +48,7 @@ public sealed partial class ThemeWatcherService(ISettingsService settingsService
         ApplicationThemeManager.Changed += OnApplicationThemeManagerChanged;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void ApplyTheme()
     {
         var theme = settingsService.ApplicationSettings.Theme;
@@ -69,7 +68,7 @@ public sealed partial class ThemeWatcherService(ISettingsService settingsService
         UpdateBackground(theme);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Watch(FrameworkElement frameworkElement)
     {
         ApplicationThemeManager.Apply(frameworkElement);
@@ -79,50 +78,19 @@ public sealed partial class ThemeWatcherService(ISettingsService settingsService
         frameworkElement.Unloaded += OnWatchedElementUnloaded;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Unwatch()
     {
 #if REVIT2024_OR_GREATER
-        if (!_isWatching) return;
+        if (!_isWatching)
+        {
+            return;
+        }
 
         UntrackThemeChangesEvent.Raise();
         _isWatching = false;
 #endif
     }
-#if REVIT2024_OR_GREATER
-
-    [ExternalEvent(AllowDirectInvocation = true)]
-    private void TrackThemeChanges(UIApplication application)
-    {
-        application.ThemeChanged += OnRevitThemeChanged;
-    }
-    
-    [ExternalEvent(AllowDirectInvocation = true)]
-    private void UntrackThemeChanges(UIApplication application)
-    {
-        application.ThemeChanged -= OnRevitThemeChanged;
-    }
-    
-    private static ApplicationTheme GetRevitTheme()
-    {
-        return UIThemeManager.CurrentTheme switch
-        {
-            UITheme.Light => ApplicationTheme.Light,
-            UITheme.Dark => ApplicationTheme.Dark,
-            _ => throw new ArgumentOutOfRangeException()
-        };
-    }
-
-    private void OnRevitThemeChanged(object? sender, ThemeChangedEventArgs args)
-    {
-        if (args.ThemeChangedType != ThemeType.UITheme) return;
-
-        if (_observedElements.Count > 0)
-        {
-            _observedElements[0].Dispatcher.Invoke(ApplyTheme);
-        }
-    }
-#endif
 
     private void OnApplicationThemeManagerChanged(ApplicationTheme applicationTheme, Color accent)
     {
@@ -135,7 +103,7 @@ public sealed partial class ThemeWatcherService(ISettingsService settingsService
 
     private void OnWatchedElementLoaded(object sender, RoutedEventArgs args)
     {
-        var element = (FrameworkElement) sender;
+        var element = (FrameworkElement)sender;
         _observedElements.Add(element);
 
         if (element.Resources.MergedDictionaries[0].Source.OriginalString != UiApplication.Current.Resources.MergedDictionaries[0].Source.OriginalString)
@@ -147,7 +115,7 @@ public sealed partial class ThemeWatcherService(ISettingsService settingsService
 
     private void OnWatchedElementUnloaded(object sender, RoutedEventArgs args)
     {
-        var element = (FrameworkElement) sender;
+        var element = (FrameworkElement)sender;
         _observedElements.Remove(element);
     }
 
@@ -173,4 +141,41 @@ public sealed partial class ThemeWatcherService(ISettingsService settingsService
             WindowBackgroundManager.UpdateBackground(window, theme, settingsService.ApplicationSettings.Background);
         }
     }
+#if REVIT2024_OR_GREATER
+
+    [ExternalEvent(AllowDirectInvocation = true)]
+    private void TrackThemeChanges(UIApplication application)
+    {
+        application.ThemeChanged += OnRevitThemeChanged;
+    }
+
+    [ExternalEvent(AllowDirectInvocation = true)]
+    private void UntrackThemeChanges(UIApplication application)
+    {
+        application.ThemeChanged -= OnRevitThemeChanged;
+    }
+
+    private static ApplicationTheme GetRevitTheme()
+    {
+        return UIThemeManager.CurrentTheme switch
+        {
+            UITheme.Light => ApplicationTheme.Light,
+            UITheme.Dark => ApplicationTheme.Dark,
+            _ => throw new ArgumentOutOfRangeException()
+        };
+    }
+
+    private void OnRevitThemeChanged(object? sender, ThemeChangedEventArgs args)
+    {
+        if (args.ThemeChangedType != ThemeType.UITheme)
+        {
+            return;
+        }
+
+        if (_observedElements.Count > 0)
+        {
+            _observedElements[0].Dispatcher.Invoke(ApplyTheme);
+        }
+    }
+#endif
 }

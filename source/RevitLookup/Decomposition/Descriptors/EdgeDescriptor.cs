@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Lookup Foundation and Contributors
-// 
+//
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
 // provided that the above copyright notice appears in all copies and
 // that both that copyright notice and the limited warranty and
 // restricted rights notice below appear in all supporting
 // documentation.
-// 
+//
 // THIS PROGRAM IS PROVIDED "AS IS" AND WITH ALL FAULTS.
 // NO IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE IS PROVIDED.
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
@@ -20,7 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Abstractions.Decomposition;
 using RevitLookup.Abstractions.Presentation;
-using RevitLookup.UI.Framework.Extensions;
+using RevitLookup.UI.Framework.Menus;
 using RevitLookup.UI.Framework.Views.Visualization;
 using ContextMenu = System.Windows.Controls.ContextMenu;
 #if REVIT2023_OR_GREATER
@@ -31,14 +31,14 @@ using Nice3point.Revit.Toolkit.External;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Edge"/> exposed to LookupEngine.
+///     Represents the <see cref="Edge" /> exposed to LookupEngine.
 /// </summary>
 public sealed partial class EdgeDescriptor : Descriptor, IContextMenuConnector, IDescriptorConfigurator
 {
     private readonly Edge _edge;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="EdgeDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="EdgeDescriptor" /> class.
     /// </summary>
     /// <param name="edge">The edge to expose.</param>
     public EdgeDescriptor(Edge edge)
@@ -47,13 +47,7 @@ public sealed partial class EdgeDescriptor : Descriptor, IContextMenuConnector, 
         Name = $"{edge.ApproximateLength.ToString(CultureInfo.InvariantCulture)} ft";
     }
 
-    /// <inheritdoc/>
-    public void Configure(IMemberConfigurator configuration)
-    {
-        configuration.Member(nameof(Edge.Dispose)).Disable();
-    }
-
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void RegisterMenu(ContextMenu contextMenu, IServiceProvider serviceProvider)
     {
 #if REVIT2023_OR_GREATER
@@ -72,7 +66,10 @@ public sealed partial class EdgeDescriptor : Descriptor, IContextMenuConnector, 
 
         async Task VisualizeEdgeAsync(Edge edge)
         {
-            if (RevitContext.ActiveUiDocument is null) return;
+            if (RevitContext.ActiveUiDocument is null)
+            {
+                return;
+            }
 
             try
             {
@@ -89,13 +86,29 @@ public sealed partial class EdgeDescriptor : Descriptor, IContextMenuConnector, 
             }
         }
     }
+
+    /// <inheritdoc />
+    public void Configure(IMemberConfigurator configuration)
+    {
+        configuration.Member(nameof(Edge.Dispose)).Disable();
+    }
+
+    [LoggerMessage(LogLevel.Error, "Visualize Edge error")]
+    private static partial void LogVisualizeEdgeError(ILogger<EdgeDescriptor> logger, Exception exception);
 #if REVIT2023_OR_GREATER
 
     [ExternalEvent(AllowDirectInvocation = true)]
     private static void SelectEdge(UIApplication application, Edge edge)
     {
-        if (application.ActiveUIDocument is null) return;
-        if (edge.Reference is null) return;
+        if (application.ActiveUIDocument is null)
+        {
+            return;
+        }
+
+        if (edge.Reference is null)
+        {
+            return;
+        }
 
         application.ActiveUIDocument.Selection.SetReferences([edge.Reference]);
     }
@@ -104,16 +117,23 @@ public sealed partial class EdgeDescriptor : Descriptor, IContextMenuConnector, 
     private static void ShowEdge(UIApplication application, Edge edge)
     {
         var uiDocument = application.ActiveUIDocument;
-        if (uiDocument is null) return;
-        if (edge.Reference is null) return;
+        if (uiDocument is null)
+        {
+            return;
+        }
+
+        if (edge.Reference is null)
+        {
+            return;
+        }
 
         var element = edge.Reference.ElementId.ToElement(uiDocument.Document);
-        if (element is not null) uiDocument.ShowElements(element);
+        if (element is not null)
+        {
+            uiDocument.ShowElements(element);
+        }
 
         uiDocument.Selection.SetReferences([edge.Reference]);
     }
 #endif
-
-    [LoggerMessage(LogLevel.Error, "Visualize Edge error")]
-    private static partial void LogVisualizeEdgeError(ILogger<EdgeDescriptor> logger, Exception exception);
 }

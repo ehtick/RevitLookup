@@ -21,12 +21,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Connector"/> exposed to LookupEngine.
+///     Represents the <see cref="Connector" /> exposed to LookupEngine.
 /// </summary>
 public sealed class ConnectorDescriptor : Descriptor, IDescriptorConfigurator
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="ConnectorDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="ConnectorDescriptor" /> class.
     /// </summary>
     /// <param name="connector">The connector to expose.</param>
     public ConnectorDescriptor(Connector connector)
@@ -34,7 +34,7 @@ public sealed class ConnectorDescriptor : Descriptor, IDescriptorConfigurator
         Name = connector.Id.ToString();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Connector.Dispose)).Disable();

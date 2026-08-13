@@ -10,9 +10,9 @@ namespace RevitLookup.Tools.Units;
 public static class UnitsCollector
 {
     /// <summary>
-    ///     Collects the built-in parameters defined by <see cref="BuiltInParameter"/>.
+    ///     Collects the built-in parameters defined by <see cref="BuiltInParameter" />.
     /// </summary>
-    /// <returns>The collected parameters. A parameter without a label has an empty <see cref="UnitInfo.Label"/>.</returns>
+    /// <returns>The collected parameters. A parameter without a label has an empty <see cref="UnitInfo.Label" />.</returns>
     public static List<UnitInfo> GetBuiltinParametersInfo()
     {
         var parameters = Enum.GetValues<BuiltInParameter>();
@@ -45,9 +45,9 @@ public static class UnitsCollector
     }
 
     /// <summary>
-    ///     Collects the built-in categories defined by <see cref="BuiltInCategory"/>.
+    ///     Collects the built-in categories defined by <see cref="BuiltInCategory" />.
     /// </summary>
-    /// <returns>The collected categories. A category without a label has an empty <see cref="UnitInfo.Label"/>.</returns>
+    /// <returns>The collected categories. A category without a label has an empty <see cref="UnitInfo.Label" />.</returns>
     public static List<UnitInfo> GetBuiltinCategoriesInfo()
     {
         var categories = Enum.GetValues<BuiltInCategory>();
@@ -139,8 +139,15 @@ public static class UnitsCollector
 
     private static string GetLabel(ForgeTypeId typeId, PropertyInfo property)
     {
-        if (typeId.Empty()) return string.Empty;
-        if (property.Name == nameof(SpecTypeId.Custom)) return string.Empty;
+        if (typeId.Empty())
+        {
+            return string.Empty;
+        }
+
+        if (property.Name == nameof(SpecTypeId.Custom))
+        {
+            return string.Empty;
+        }
 
         var type = property.DeclaringType;
         while (type!.IsNested)

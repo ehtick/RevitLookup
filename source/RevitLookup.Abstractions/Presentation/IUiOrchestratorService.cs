@@ -18,7 +18,7 @@ public interface IRelationshipOrchestrator
     ///     Adds a parent service provider to communicate with the child orchestrator.
     /// </summary>
     /// <param name="serviceProvider">The parent's service provider.</param>
-    /// <returns>The <see cref="IHistoryOrchestrator"/> for chaining.</returns>
+    /// <returns>The <see cref="IHistoryOrchestrator" /> for chaining.</returns>
     IHistoryOrchestrator AddParent(IServiceProvider serviceProvider);
 }
 
@@ -28,10 +28,10 @@ public interface IRelationshipOrchestrator
 public interface IHistoryOrchestrator : IDecompositionOrchestrator
 {
     /// <summary>
-    ///     Adds <paramref name="item"/> to the navigation history.
+    ///     Adds <paramref name="item" /> to the navigation history.
     /// </summary>
     /// <param name="item">The object to add to the history.</param>
-    /// <returns>The <see cref="IDecompositionOrchestrator"/> for chaining.</returns>
+    /// <returns>The <see cref="IDecompositionOrchestrator" /> for chaining.</returns>
     IDecompositionOrchestrator AddStackHistory(ObservableDecomposedObject item);
 }
 
@@ -44,35 +44,35 @@ public interface IDecompositionOrchestrator
     ///     Decomposes the known Revit object.
     /// </summary>
     /// <param name="knownObject">The known Revit object to decompose.</param>
-    /// <returns>The <see cref="INavigationOrchestrator"/> for chaining.</returns>
+    /// <returns>The <see cref="INavigationOrchestrator" /> for chaining.</returns>
     INavigationOrchestrator Decompose(KnownDecompositionObject knownObject);
 
     /// <summary>
     ///     Decomposes the CLR object.
     /// </summary>
     /// <param name="input">The object to decompose.</param>
-    /// <returns>The <see cref="INavigationOrchestrator"/> for chaining.</returns>
+    /// <returns>The <see cref="INavigationOrchestrator" /> for chaining.</returns>
     INavigationOrchestrator Decompose(object? input);
 
     /// <summary>
     ///     Decomposes the collection of objects.
     /// </summary>
     /// <param name="input">The objects to decompose.</param>
-    /// <returns>The <see cref="INavigationOrchestrator"/> for chaining.</returns>
+    /// <returns>The <see cref="INavigationOrchestrator" /> for chaining.</returns>
     INavigationOrchestrator Decompose(IEnumerable input);
 
     /// <summary>
     ///     Decomposes the already decomposed object.
     /// </summary>
     /// <param name="decomposedObject">The decomposed object.</param>
-    /// <returns>The <see cref="INavigationOrchestrator"/> for chaining.</returns>
+    /// <returns>The <see cref="INavigationOrchestrator" /> for chaining.</returns>
     INavigationOrchestrator Decompose(ObservableDecomposedObject decomposedObject);
 
     /// <summary>
     ///     Decomposes the collection of already decomposed objects.
     /// </summary>
     /// <param name="decomposedObjects">The decomposed objects.</param>
-    /// <returns>The <see cref="INavigationOrchestrator"/> for chaining.</returns>
+    /// <returns>The <see cref="INavigationOrchestrator" /> for chaining.</returns>
     INavigationOrchestrator Decompose(List<ObservableDecomposedObject> decomposedObjects);
 }
 
@@ -85,7 +85,7 @@ public interface INavigationOrchestrator
     ///     Opens the RevitLookup instance and navigates to the specified page.
     /// </summary>
     /// <typeparam name="T">The page type to navigate to.</typeparam>
-    /// <returns>The <see cref="IInteractionOrchestrator"/> for chaining.</returns>
+    /// <returns>The <see cref="IInteractionOrchestrator" /> for chaining.</returns>
     IInteractionOrchestrator Show<T>() where T : Page;
 }
 

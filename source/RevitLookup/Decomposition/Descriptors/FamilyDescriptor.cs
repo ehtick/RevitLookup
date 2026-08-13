@@ -18,12 +18,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Family"/> exposed to LookupEngine.
+///     Represents the <see cref="Family" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="family">The family to expose.</param>
 public sealed class FamilyDescriptor(Family family) : ElementDescriptor(family)
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Family.Dispose)).Disable();

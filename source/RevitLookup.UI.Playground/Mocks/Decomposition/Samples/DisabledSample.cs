@@ -7,13 +7,13 @@ namespace RevitLookup.UI.Playground.Mocks.Decomposition.Samples;
 /// </summary>
 /// <remarks>
 ///     The destructive operations are permanently disabled by
-///     <see cref="RevitLookup.UI.Playground.Mocks.Decomposition.Descriptors.DisabledSampleDescriptor"/> and shown as greyed-out placeholder text.
+///     <see cref="RevitLookup.UI.Playground.Mocks.Decomposition.Descriptors.DisabledSampleDescriptor" /> and shown as greyed-out placeholder text.
 /// </remarks>
 [PublicAPI]
 public sealed class DisabledSample
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="DisabledSample"/> class with fake file metadata.
+    ///     Initializes a new instance of the <see cref="DisabledSample" /> class with fake file metadata.
     /// </summary>
     public DisabledSample()
     {

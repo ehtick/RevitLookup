@@ -18,12 +18,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.TableData"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.TableData" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="tableData">The table data to expose.</param>
 public sealed class TableDataDescriptor(TableData tableData) : ResolvingDescriptor, IDescriptorConfigurator
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(TableData.Dispose)).Disable();

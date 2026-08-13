@@ -32,49 +32,55 @@ public sealed partial class UnitsViewModel(
     INotificationService notificationService)
     : ObservableObject, IUnitsViewModel
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial List<UnitInfo> Units { get; set; } = [];
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial List<UnitInfo> FilteredUnits { get; set; } = [];
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void InitializeParameters()
     {
         Units = UnitsCollector.GetBuiltinParametersInfo().OrderBy(static info => info.Unit).ToList();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void InitializeCategories()
     {
         Units = UnitsCollector.GetBuiltinCategoriesInfo().OrderBy(static info => info.Unit).ToList();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void InitializeForgeSchema()
     {
         Units = UnitsCollector.GetForgeInfo().OrderBy(static info => info.Unit).ToList();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public async Task DecomposeAsync(UnitInfo unitInfo)
     {
         object? obj;
         switch (unitInfo.Value)
         {
             case BuiltInParameter parameter:
-                if (!ValidateContext()) return;
+                if (!ValidateContext())
+                {
+                    return;
+                }
 
                 obj = parameter.ToParameter(RevitContext.ActiveDocument!);
                 break;
             case BuiltInCategory category:
-                if (!ValidateContext()) return;
+                if (!ValidateContext())
+                {
+                    return;
+                }
 
                 obj = category.ToCategory(RevitContext.ActiveDocument!);
                 break;

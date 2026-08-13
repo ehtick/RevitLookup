@@ -17,12 +17,12 @@ using LookupEngine.Abstractions.Configuration;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="BasePoint"/> exposed to LookupEngine.
+///     Represents the <see cref="BasePoint" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="basePoint">The base point to expose.</param>
 public sealed class BasePointDescriptor(BasePoint basePoint) : ElementDescriptor(basePoint)
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(BasePoint.Dispose)).Disable();

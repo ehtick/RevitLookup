@@ -4,33 +4,35 @@ Thanks for taking the time to contribute. This guide covers issues and pull requ
 
 ## Maintainers
 
-| Maintainer | Period |
-|---|---|
-| <img src="https://github.com/Nice3point.png" width="20"/> [Nice3point](https://github.com/Nice3point) | 2022 - present |
-| <img src="https://github.com/jeremytammik.png" width="20"/> [Jeremy Tammik](https://github.com/jeremytammik) | 2008 - 2022 |
-| <img src="https://github.com/identicons/jimawe.png" width="20"/> [Jim Awe](https://www.linkedin.com/in/james-awe-4630a94/) | 2005 - 2008 |
+| Maintainer                                                                                                                 | Period         |
+|----------------------------------------------------------------------------------------------------------------------------|----------------|
+| <img src="https://github.com/Nice3point.png" width="20"/> [Nice3point](https://github.com/Nice3point)                      | 2022 - present |
+| <img src="https://github.com/jeremytammik.png" width="20"/> [Jeremy Tammik](https://github.com/jeremytammik)               | 2008 - 2022    |
+| <img src="https://github.com/identicons/jimawe.png" width="20"/> [Jim Awe](https://www.linkedin.com/in/james-awe-4630a94/) | 2005 - 2008    |
 
 Planning a significant change? Check in with the current maintainer before you open a pull request.
 
 ## Table of contents
 
 <!-- TOC -->
-  * [Fork, Clone, Branch and Create your PR](#fork-clone-branch-and-create-your-pr)
-  * [Prerequisites](#prerequisites)
-  * [Building](#building)
+
+* [Fork, Clone, Branch and Create your PR](#fork-clone-branch-and-create-your-pr)
+* [Prerequisites](#prerequisites)
+* [Building](#building)
     * [Building the MSI installer and the Autodesk bundle on local machine](#building-the-msi-installer-and-the-autodesk-bundle-on-local-machine)
-  * [Publishing Releases](#publishing-releases)
+* [Publishing Releases](#publishing-releases)
     * [Updating the Changelog](#updating-the-changelog)
     * [Creating a new Release from the JetBrains Rider](#creating-a-new-release-from-the-jetbrains-rider)
     * [Creating a new Release from the Terminal](#creating-a-new-release-from-the-terminal)
     * [Creating a new Release on GitHub](#creating-a-new-release-on-github)
-  * [Compiling a solution on GitHub](#compiling-a-solution-on-github)
-  * [Conditional compilation for a specific Revit version](#conditional-compilation-for-a-specific-revit-version)
-  * [Managing Supported Revit Versions](#managing-supported-revit-versions)
+* [Compiling a solution on GitHub](#compiling-a-solution-on-github)
+* [Conditional compilation for a specific Revit version](#conditional-compilation-for-a-specific-revit-version)
+* [Managing Supported Revit Versions](#managing-supported-revit-versions)
     * [Solution configurations](#solution-configurations)
     * [Project configurations](#project-configurations)
-  * [API references](#api-references)
-  * [Development Guidelines](#development-guidelines)
+* [API references](#api-references)
+* [Development Guidelines](#development-guidelines)
+
 <!-- TOC -->
 
 ## Fork, Clone, Branch and Create your PR
@@ -94,7 +96,7 @@ To execute your ModularPipelines build locally, you can follow these steps:
 Releases are managed by creating new [Git tags](https://git-scm.com/book/en/v2/Git-Basics-Tagging).
 A tag in Git used to capture a snapshot of the project at a particular point in time, with the ability to roll back to a previous version.
 
-The build system uses [GitVersion.Tool](https://gitversion.net/docs/) to automatically determine the Release version based on the Git history and tags. 
+The build system uses [GitVersion.Tool](https://gitversion.net/docs/) to automatically determine the Release version based on the Git history and tags.
 If a tag is present on the current commit, the version will match the tag. If no tag is specified, the tool automatically generates a release version based on the branch name and commit history.
 
 You can also specify a fixed version by setting the `Version` property in the `build/appsettings.json` file. This will override the version determined by GitVersion.Tool.
@@ -125,7 +127,7 @@ For example:
 
 ### Updating the Changelog
 
-Updating the changelog is optional. If you provide a changelog, the build system will use it for the release notes. 
+Updating the changelog is optional. If you provide a changelog, the build system will use it for the release notes.
 If no entry is found for the current version, GitHub will automatically generate release notes based on your pull requests and commits.
 
 To update the changelog manually:
@@ -171,7 +173,7 @@ Alternatively, you can create and push tags using the terminal:
    git push origin 'version'
    ```
 
-> [!NOTE]  
+> [!NOTE]
 > The tag will reference your current commit, so verify you're on the correct branch and have fetched latest changes from remote first.
 
 ### Creating a new Release on GitHub
@@ -184,11 +186,11 @@ To create releases directly on GitHub:
 4. (Optional) Specify the release version. If not specified, the system will automatically determine the version based on your Git history.
 5. Click **Run**.
 
-    ![image](https://github.com/user-attachments/assets/088388c1-6055-4d21-8d22-70f047d8f104)
+   ![image](https://github.com/user-attachments/assets/088388c1-6055-4d21-8d22-70f047d8f104)
 
 ## Compiling a solution on GitHub
 
-Pushing commits to the remote repository will start a pipeline compiling the solution for all specified Revit versions. 
+Pushing commits to the remote repository will start a pipeline compiling the solution for all specified Revit versions.
 That way, you can check if the plugin is compatible with different API versions without having to spend time building it locally.
 
 ## Conditional compilation for a specific Revit version
@@ -204,10 +206,10 @@ To write code compatible with different Revit versions, use the directives **#if
 To target a specific Revit version, set the solution configuration in your IDE interface to match that version.
 E.g., select the `Debug.R27` configuration for the Revit 2027 API.
 
-The project has available constants such as `REVIT2027`, `REVIT2027_OR_GREATER`. 
+The project has available constants such as `REVIT2027`, `REVIT2027_OR_GREATER`.
 Create conditions, experiment to achieve the desired result.
 
-> [!NOTE]  
+> [!NOTE]
 > For generating directives, a Revit MSBuild SDK is used.
 > You can find more detailed documentation about it here: [Revit MSBuild SDK](https://github.com/Nice3point/Revit.Build.Tasks)
 
@@ -242,6 +244,7 @@ To extend or reduce the range of supported Revit API versions, you need to updat
 Solution configurations determine which projects are built and how they are configured.
 
 To support multiple Revit versions:
+
 - Open the `.sln` file.
 - Add or remove configurations for each Revit version.
 
@@ -260,7 +263,7 @@ EndGlobalSection
 
 For example `Debug.R27` is the Debug configuration for Revit 2027 version.
 
-> [!TIP]  
+> [!TIP]
 > If you are just ending maintenance for some version, removing the Solution configurations without modifying the Project configurations is enough.
 
 ### Project configurations
@@ -268,26 +271,29 @@ For example `Debug.R27` is the Debug configuration for Revit 2027 version.
 Project configurations define build conditions for specific versions.
 
 To add or remove support:
+
 - Open `.csproj` file
 - Add or remove configurations for Debug and Release builds.
 
 Example:
 
 ```xml
+
 <PropertyGroup>
     <Configurations>Debug.R25;Debug.R26;Debug.R27</Configurations>
     <Configurations>$(Configurations);Release.R25;Release.R26;Release.R27</Configurations>
 </PropertyGroup>
 ```
 
-> [!IMPORTANT]  
+> [!IMPORTANT]
 > Edit the `.csproj` file only manually, IDEs often break configurations.
 
-Revit MSBuild SDK automatically sets the required `TargetFramework` based on the `RevitVersion`, extracted from the solution configuration name. 
+Revit MSBuild SDK automatically sets the required `TargetFramework` based on the `RevitVersion`, extracted from the solution configuration name.
 
 If you need to add support for an unreleased or unsupported version of Revit that the SDK doesn't yet know about, you can add a conditional block to specify the `TargetFramework` manually:
 
 ```xml
+
 <PropertyGroup>
     <TargetFramework Condition="$(RevitVersion) == '2027'">net10.0-windows7.0</TargetFramework>
 </PropertyGroup>
@@ -297,12 +303,13 @@ If you need to add support for an unreleased or unsupported version of Revit tha
 
 To support CI/CD pipelines and build a project for Revit versions not installed on your computer, use Nuget packages.
 
-> [!NOTE]  
+> [!NOTE]
 > Revit API dependencies are available in the [Revit.API](https://github.com/Nice3point/RevitApi) repository.
 
 The Nuget package version must include wildcards `Version="$(RevitVersion).*"` to automatically include adding a specific package version, depending on the selected solution configuration.
 
 ```xml
+
 <ItemGroup>
     <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitVersion).*"/>
     <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="$(RevitVersion).*"/>

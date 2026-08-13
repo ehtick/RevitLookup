@@ -27,7 +27,7 @@ namespace RevitLookup.UI.Framework.Views.AboutProgram;
 public sealed partial class OpenSourceDialog
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="OpenSourceDialog"/> class.
+    ///     Initializes a new instance of the <see cref="OpenSourceDialog" /> class.
     /// </summary>
     /// <param name="dialogService">The service that supplies the dialog host this dialog is shown on.</param>
     /// <param name="viewModel">The view model that provides the data for the OpenSource view.</param>
@@ -46,7 +46,7 @@ public sealed partial class OpenSourceDialog
 
     private void OpenLink(object sender, RoutedEventArgs args)
     {
-        var link = (Hyperlink) args.OriginalSource;
+        var link = (Hyperlink)args.OriginalSource;
         ProcessTasks.StartShell(link.NavigateUri.OriginalString);
     }
 }

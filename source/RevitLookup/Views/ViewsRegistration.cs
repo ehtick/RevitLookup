@@ -15,7 +15,7 @@ public static class ViewsRegistration
     extension(IServiceCollection services)
     {
         /// <summary>
-        ///     Adds RevitLookup's windows, dialogs, and pages to the specified <see cref="IServiceCollection"/>.
+        ///     Adds RevitLookup's windows, dialogs, and pages to the specified <see cref="IServiceCollection" />.
         /// </summary>
         public void AddViews()
         {

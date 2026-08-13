@@ -12,21 +12,21 @@
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 
-using Document = Autodesk.Revit.Creation.Document;
 using LookupEngine.Abstractions.Configuration;
 using LookupEngine.Abstractions.Decomposition;
+using Document = Autodesk.Revit.Creation.Document;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.Creation.Document"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.Creation.Document" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="document">The document creation factory to expose.</param>
 #pragma warning disable CS9113 // Parameter is unread.
 public sealed class DocumentCreationDescriptor(Document document) : Descriptor, IDescriptorConfigurator
 #pragma warning restore CS9113 // Parameter is unread.
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Document.Dispose)).Disable();

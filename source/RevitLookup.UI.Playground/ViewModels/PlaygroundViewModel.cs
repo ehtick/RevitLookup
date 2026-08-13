@@ -1,9 +1,4 @@
 ﻿using System.Windows.Controls;
-using DataGrid = System.Windows.Controls.DataGrid;
-using ListView = System.Windows.Controls.ListView;
-using ToggleButton = System.Windows.Controls.Primitives.ToggleButton;
-using Separator = System.Windows.Controls.Separator;
-using TreeView = System.Windows.Controls.TreeView;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Abstractions.Presentation;
@@ -19,6 +14,11 @@ using RevitLookup.UI.Playground.Views.Pages.ProjectControls;
 using RevitLookup.UI.Playground.Views.Pages.Text;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
+using DataGrid = System.Windows.Controls.DataGrid;
+using ListView = System.Windows.Controls.ListView;
+using ToggleButton = System.Windows.Controls.Primitives.ToggleButton;
+using Separator = System.Windows.Controls.Separator;
+using TreeView = System.Windows.Controls.TreeView;
 using Button = Wpf.Ui.Controls.Button;
 using NumberBox = Wpf.Ui.Controls.NumberBox;
 using PasswordBox = Wpf.Ui.Controls.PasswordBox;
@@ -33,12 +33,12 @@ namespace RevitLookup.UI.Playground.ViewModels;
 [UsedImplicitly]
 public sealed class PlaygroundViewModel : ObservableObject
 {
-    private readonly ISettingsService _settingsService;
     private readonly INotificationService _notificationService;
+    private readonly ISettingsService _settingsService;
     private readonly IThemeWatcherService _themeService;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="PlaygroundViewModel"/> class.
+    ///     Initializes a new instance of the <see cref="PlaygroundViewModel" /> class.
     /// </summary>
     /// <param name="settingsService">The service that stores the application and decomposition settings.</param>
     /// <param name="notificationService">The service used to show notifications about theme and background changes.</param>
@@ -75,8 +75,8 @@ public sealed class PlaygroundViewModel : ObservableObject
                 Icon = new FontIcon { Glyph = "\uEF58", FontSize = 16 },
                 MenuItemsSource = new object[]
                 {
-                    new NavigationViewItem("Empty states", typeof(EmptyStatesPage)),
-                },
+                    new NavigationViewItem("Empty states", typeof(EmptyStatesPage))
+                }
             },
             new NavigationViewItem
             {
@@ -94,7 +94,7 @@ public sealed class PlaygroundViewModel : ObservableObject
                     new NavigationViewItem(nameof(Slider), typeof(SliderPage)),
                     new NavigationViewItem(nameof(SplitButton), typeof(SplitButtonPage)),
                     new NavigationViewItem(nameof(ToggleButton), typeof(ToggleButtonPage)),
-                    new NavigationViewItem(nameof(ToggleSwitch), typeof(ToggleSwitchPage)),
+                    new NavigationViewItem(nameof(ToggleSwitch), typeof(ToggleSwitchPage))
                 }
             },
             new NavigationViewItem
@@ -106,7 +106,7 @@ public sealed class PlaygroundViewModel : ObservableObject
                     new NavigationViewItem(nameof(DataGrid), typeof(DataGridPage)),
                     new NavigationViewItem(nameof(ListBox), typeof(ListBoxPage)),
                     new NavigationViewItem(nameof(ListView), typeof(ListViewPage)),
-                    new NavigationViewItem(nameof(TreeView), typeof(TreeViewPage)),
+                    new NavigationViewItem(nameof(TreeView), typeof(TreeViewPage))
                 }
             },
             new NavigationViewItem
@@ -120,7 +120,7 @@ public sealed class PlaygroundViewModel : ObservableObject
                     new NavigationViewItem(nameof(CardColor), typeof(CardColorPage)),
                     new NavigationViewItem(nameof(CardControl), typeof(CardControlPage)),
                     new NavigationViewItem(nameof(CardExpander), typeof(CardExpanderPage)),
-                    new NavigationViewItem(nameof(Separator), typeof(SeparatorPage)),
+                    new NavigationViewItem(nameof(Separator), typeof(SeparatorPage))
                 }
             },
             new NavigationViewItem
@@ -162,7 +162,7 @@ public sealed class PlaygroundViewModel : ObservableObject
         FooterItems =
         [
             new NavigationViewItem("Switch theme", SymbolRegular.DarkTheme24, null!) { Command = new RelayCommand(SwitchApplicationTheme) },
-            new NavigationViewItem("Switch effect", SymbolRegular.Blur24, null!) { Command = new RelayCommand(SwitchBackgroundEffect) },
+            new NavigationViewItem("Switch effect", SymbolRegular.Blur24, null!) { Command = new RelayCommand(SwitchBackgroundEffect) }
         ];
     }
 

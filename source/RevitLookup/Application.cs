@@ -25,14 +25,14 @@ namespace RevitLookup;
 [UsedImplicitly]
 public partial class Application : AsyncExternalApplication
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override async Task OnStartupAsync()
     {
         await Host.StartAsync();
         EnableHardwareRendering();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override async Task OnShutdownAsync()
     {
         await Host.StopAsync();
@@ -41,11 +41,14 @@ public partial class Application : AsyncExternalApplication
     /// <summary>
     ///     Enables GPU-accelerated rendering for the process when the application settings request it.
     /// </summary>
-    /// <remarks>Revit overrides the render mode during its own initialization. This method runs through an <see cref="ExternalEvent"/> after initialization completes.</remarks>
+    /// <remarks>Revit overrides the render mode during its own initialization. This method runs through an <see cref="ExternalEvent" /> after initialization completes.</remarks>
     public static void EnableHardwareRendering()
     {
         var settingsService = Host.GetService<ISettingsService>();
-        if (!settingsService.ApplicationSettings.UseHardwareRendering) return;
+        if (!settingsService.ApplicationSettings.UseHardwareRendering)
+        {
+            return;
+        }
 
         //Revit overrides render mode during initialization
         //ExternalEvent is called after initialization
@@ -58,7 +61,10 @@ public partial class Application : AsyncExternalApplication
     public static void DisableHardwareRendering()
     {
         var settingsService = Host.GetService<ISettingsService>();
-        if (settingsService.ApplicationSettings.UseHardwareRendering) return;
+        if (settingsService.ApplicationSettings.UseHardwareRendering)
+        {
+            return;
+        }
 
         RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
     }

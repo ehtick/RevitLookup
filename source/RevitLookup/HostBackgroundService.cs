@@ -39,7 +39,7 @@ public sealed partial class HostBackgroundService(
     ILogger<HostBackgroundService> logger)
     : IHostedService
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public Task StartAsync(CancellationToken cancellationToken)
     {
         LoadSettings();
@@ -50,7 +50,7 @@ public sealed partial class HostBackgroundService(
         return Task.CompletedTask;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public Task StopAsync(CancellationToken cancellationToken)
     {
         SaveSettings();
@@ -63,7 +63,10 @@ public sealed partial class HostBackgroundService(
         try
         {
             var hasUpdates = await updateService.CheckUpdatesAsync();
-            if (!hasUpdates) return;
+            if (!hasUpdates)
+            {
+                return;
+            }
 
             LogUpdateAvailable(logger, updateService.NewVersion);
         }
@@ -75,7 +78,10 @@ public sealed partial class HostBackgroundService(
 
     private void UpdateSoftware()
     {
-        if (!File.Exists(updateService.LocalFilePath)) return;
+        if (!File.Exists(updateService.LocalFilePath))
+        {
+            return;
+        }
 
         LogInstallingVersion(logger, updateService.NewVersion);
         ProcessTasks.StartShell(updateService.LocalFilePath!);

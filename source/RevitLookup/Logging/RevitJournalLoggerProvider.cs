@@ -10,14 +10,14 @@ namespace RevitLookup.Logging;
 [ProviderAlias("RevitJournal")]
 public sealed class RevitJournalLoggerProvider(string addinName) : ILoggerProvider
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     /// <remarks>Logging scopes are discarded. The journal records carry the category and the message alone.</remarks>
     public ILogger CreateLogger(string categoryName)
     {
         return new RevitJournalLogger(addinName, categoryName);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     /// <remarks>This method does nothing. The provider does not own the Revit application the records are written to.</remarks>
     public void Dispose()
     {

@@ -69,9 +69,9 @@ public sealed class CreateInstallerModule(IOptions<BuildOptions> buildOptions) :
                         WorkingDirectory = context.Git().RootDirectory,
                         EnvironmentVariables = new Dictionary<string, string?>
                         {
-                            {"PATH", $"{Environment.GetEnvironmentVariable("PATH")};{wixToolFolder}"}
+                            { "PATH", $"{Environment.GetEnvironmentVariable("PATH")};{wixToolFolder}" }
                         }
-                    }, cancellationToken: cancellationToken);
+                    }, cancellationToken);
             }, cancellationToken)
             .ProcessInParallel();
 

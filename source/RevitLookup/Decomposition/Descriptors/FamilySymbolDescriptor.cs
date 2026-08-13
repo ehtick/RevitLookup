@@ -18,12 +18,12 @@ using LookupEngine.Abstractions.Configuration;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="FamilySymbol"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.FamilySymbol" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="familySymbol">The family symbol to expose.</param>
 public sealed class FamilySymbolDescriptor(FamilySymbol familySymbol) : ElementDescriptor(familySymbol)
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(FamilySymbol.Dispose)).Disable();
@@ -31,7 +31,7 @@ public sealed class FamilySymbolDescriptor(FamilySymbol familySymbol) : ElementD
 
         var isAdaptiveFamilySymbol = SafeEvaluate(() => AdaptiveComponentInstanceUtils.IsAdaptiveFamilySymbol(familySymbol));
         configuration.Extension(nameof(AdaptiveComponentInstanceUtils.IsAdaptiveFamilySymbol)).Register(() => isAdaptiveFamilySymbol);
-        
+
         if (isAdaptiveFamilySymbol)
         {
             configuration.Extension("CreateAdaptiveComponentInstance").Map(nameof(AdaptiveComponentInstanceUtils.CreateAdaptiveComponentInstance)).NotSupported();

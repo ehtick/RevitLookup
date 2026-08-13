@@ -19,7 +19,7 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.ForgeTypeId"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.ForgeTypeId" /> exposed to LookupEngine.
 /// </summary>
 public sealed class ForgeTypeIdDescriptor : Descriptor, IDescriptorConfigurator
 #if REVIT2024_OR_GREATER
@@ -29,7 +29,7 @@ public sealed class ForgeTypeIdDescriptor : Descriptor, IDescriptorConfigurator
     private readonly ForgeTypeId _typeId;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="ForgeTypeIdDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="ForgeTypeIdDescriptor" /> class.
     /// </summary>
     /// <param name="typeId">The Forge type identifier to expose.</param>
     public ForgeTypeIdDescriptor(ForgeTypeId typeId)
@@ -38,7 +38,7 @@ public sealed class ForgeTypeIdDescriptor : Descriptor, IDescriptorConfigurator
         Name = typeId.TypeId;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(ForgeTypeId.Dispose)).Disable();
@@ -89,7 +89,10 @@ public sealed class ForgeTypeIdDescriptor : Descriptor, IDescriptorConfigurator
         IVariant ResolveIsValidUnit()
         {
 #if REVIT2022_OR_GREATER
-            if (!SpecUtils.IsSpec(_typeId)) return Variants.Empty<bool>();
+            if (!SpecUtils.IsSpec(_typeId))
+            {
+                return Variants.Empty<bool>();
+            }
 #else
             if (!UnitUtils.IsSpec(_typeId)) return Variants.Empty<bool>();
 #endif
@@ -99,7 +102,7 @@ public sealed class ForgeTypeIdDescriptor : Descriptor, IDescriptorConfigurator
 
             foreach (var property in unitProperties)
             {
-                var propertyValue = (ForgeTypeId) property.GetValue(null)!;
+                var propertyValue = (ForgeTypeId)property.GetValue(null)!;
                 var isValidUnit = UnitUtils.IsValidUnit(_typeId, propertyValue);
                 values.Add(isValidUnit, $"{property.Name}: {isValidUnit}");
             }

@@ -11,8 +11,8 @@ public interface ISearchElementsViewModel
     string SearchText { get; set; }
 
     /// <summary>
-    ///     Searches for elements matching <see cref="SearchText"/> in the current document and visualizes them.
+    ///     Searches for elements matching <see cref="SearchText" /> in the current document and visualizes them.
     /// </summary>
-    /// <returns>A task that represents the asynchronous search operation. The result is <see langword="true"/> if matching elements were found and visualized; otherwise, <see langword="false"/>.</returns>
+    /// <returns>A task that represents the asynchronous search operation. The result is <see langword="true" /> if matching elements were found and visualized; otherwise, <see langword="false" />.</returns>
     Task<bool> SearchElementsAsync();
 }

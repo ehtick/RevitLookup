@@ -26,7 +26,7 @@ public sealed partial class BoundingBoxVisualizationDialog
     private readonly IBoundingBoxVisualizationViewModel _viewModel;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="BoundingBoxVisualizationDialog"/> class.
+    ///     Initializes a new instance of the <see cref="BoundingBoxVisualizationDialog" /> class.
     /// </summary>
     /// <param name="dialogService">The service that supplies the dialog host this dialog is shown on.</param>
     /// <param name="viewModel">The view model that renders the bounding box in the active Revit view.</param>

@@ -18,34 +18,43 @@ using RevitLookup.Visualization.Rendering;
 namespace RevitLookup.Visualization;
 
 /// <summary>
-///     Represents a Revit direct-context 3D server that renders <see cref="Solid"/> visualization geometry into the active view.
+///     Represents a Revit direct-context 3D server that renders <see cref="Solid" /> visualization geometry into the active view.
 /// </summary>
 public sealed class SolidVisualizationServer : DirectContext3DServer
 {
+    private readonly List<RenderingBufferStorage> _edgeBuffers = new(8);
+
+    private readonly List<RenderingBufferStorage> _faceBuffers = new(4);
+    private bool _drawEdge;
+
+    private bool _drawFace;
+    private Color _edgeColor = Color.InvalidColorValue;
+
+    private Color _faceColor = Color.InvalidColorValue;
+    private double _scale;
     private Solid _solid = null!;
 
     private double _transparency;
-    private double _scale;
 
-    private Color _faceColor = Color.InvalidColorValue;
-    private Color _edgeColor = Color.InvalidColorValue;
+    /// <inheritdoc />
+    public override string GetName()
+    {
+        return "Solid visualization server";
+    }
 
-    private bool _drawFace;
-    private bool _drawEdge;
+    /// <inheritdoc />
+    public override string GetDescription()
+    {
+        return "Solid geometry visualization";
+    }
 
-    private readonly List<RenderingBufferStorage> _faceBuffers = new(4);
-    private readonly List<RenderingBufferStorage> _edgeBuffers = new(8);
+    /// <inheritdoc />
+    public override bool UseInTransparentPass(View view)
+    {
+        return _drawFace && _transparency > 0;
+    }
 
-    /// <inheritdoc/>
-    public override string GetName() => "Solid visualization server";
-
-    /// <inheritdoc/>
-    public override string GetDescription() => "Solid geometry visualization";
-
-    /// <inheritdoc/>
-    public override bool UseInTransparentPass(View view) => _drawFace && _transparency > 0;
-
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override Outline GetBoundingBox(View view)
     {
         var boundingBox = _solid.GetBoundingBox();
@@ -69,66 +78,84 @@ public sealed class SolidVisualizationServer : DirectContext3DServer
     ///     Updates the color of the solid faces and refreshes the open views.
     /// </summary>
     /// <param name="value">The new face color.</param>
-    public void UpdateFaceColor(Color value) => UpdateViews(() =>
+    public void UpdateFaceColor(Color value)
     {
-        _faceColor = value;
-        HasEffectsUpdates = true;
-    });
+        UpdateViews(() =>
+        {
+            _faceColor = value;
+            HasEffectsUpdates = true;
+        });
+    }
 
     /// <summary>
     ///     Updates the color of the solid edges and refreshes the open views.
     /// </summary>
     /// <param name="value">The new edge color.</param>
-    public void UpdateEdgeColor(Color value) => UpdateViews(() =>
+    public void UpdateEdgeColor(Color value)
     {
-        _edgeColor = value;
-        HasEffectsUpdates = true;
-    });
+        UpdateViews(() =>
+        {
+            _edgeColor = value;
+            HasEffectsUpdates = true;
+        });
+    }
 
     /// <summary>
     ///     Updates the transparency level of the visualization and refreshes the open views.
     /// </summary>
     /// <param name="value">The new transparency level.</param>
-    public void UpdateTransparency(double value) => UpdateViews(() =>
+    public void UpdateTransparency(double value)
     {
-        _transparency = value;
-        HasEffectsUpdates = true;
-    });
+        UpdateViews(() =>
+        {
+            _transparency = value;
+            HasEffectsUpdates = true;
+        });
+    }
 
     /// <summary>
     ///     Updates the scale factor of the visualization and refreshes the open views.
     /// </summary>
     /// <param name="value">The new scale factor.</param>
     /// <remarks>Discards the cached face and edge buffers, forcing a full geometry remap.</remarks>
-    public void UpdateScale(double value) => UpdateViews(() =>
+    public void UpdateScale(double value)
     {
-        _scale = value;
-        HasGeometryUpdates = true;
-        HasEffectsUpdates = true;
-        _faceBuffers.Clear();
-        _edgeBuffers.Clear();
-    });
+        UpdateViews(() =>
+        {
+            _scale = value;
+            HasGeometryUpdates = true;
+            HasEffectsUpdates = true;
+            _faceBuffers.Clear();
+            _edgeBuffers.Clear();
+        });
+    }
 
     /// <summary>
     ///     Updates whether the solid faces are drawn and refreshes the open views.
     /// </summary>
     /// <param name="value">A value indicating whether the faces are drawn.</param>
-    public void UpdateFaceVisibility(bool value) => UpdateViews(() => { _drawFace = value; });
+    public void UpdateFaceVisibility(bool value)
+    {
+        UpdateViews(() => { _drawFace = value; });
+    }
 
     /// <summary>
     ///     Updates whether the solid edges are drawn and refreshes the open views.
     /// </summary>
     /// <param name="value">A value indicating whether the edges are drawn.</param>
-    public void UpdateEdgeVisibility(bool value) => UpdateViews(() => { _drawEdge = value; });
+    public void UpdateEdgeVisibility(bool value)
+    {
+        UpdateViews(() => { _drawEdge = value; });
+    }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override bool AreBuffersValid()
     {
         return _faceBuffers.TrueForAll(static buffer => buffer.IsValid())
                && _edgeBuffers.TrueForAll(static buffer => buffer.IsValid());
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override void MapGeometryBuffer()
     {
         var scaledSolid = RenderGeometryHelper.ScaleSolid(_solid, _scale);
@@ -138,8 +165,11 @@ public sealed class SolidVisualizationServer : DirectContext3DServer
         {
             var buffer = GetOrCreateBuffer(_faceBuffers, faceIndex++);
             var triangulation = face.Triangulate();
-            if (triangulation is null) continue;
-            
+            if (triangulation is null)
+            {
+                continue;
+            }
+
             RenderHelper.MapSurfaceBuffer(buffer, triangulation, 0);
         }
 
@@ -148,13 +178,16 @@ public sealed class SolidVisualizationServer : DirectContext3DServer
         {
             var buffer = GetOrCreateBuffer(_edgeBuffers, edgeIndex++);
             var tessellation = edge.Tessellate();
-            if (tessellation is null) continue;
-            
+            if (tessellation is null)
+            {
+                continue;
+            }
+
             RenderHelper.MapCurveBuffer(buffer, tessellation);
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override void UpdateEffects()
     {
         foreach (var buffer in _faceBuffers)
@@ -171,7 +204,7 @@ public sealed class SolidVisualizationServer : DirectContext3DServer
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override void RenderBuffers()
     {
         if (_drawFace)
@@ -191,16 +224,26 @@ public sealed class SolidVisualizationServer : DirectContext3DServer
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override void DisposeBuffers()
     {
-        foreach (var buffer in _faceBuffers) buffer.Dispose();
-        foreach (var buffer in _edgeBuffers) buffer.Dispose();
+        foreach (var buffer in _faceBuffers)
+        {
+            buffer.Dispose();
+        }
+
+        foreach (var buffer in _edgeBuffers)
+        {
+            buffer.Dispose();
+        }
     }
 
     private static RenderingBufferStorage GetOrCreateBuffer(List<RenderingBufferStorage> buffers, int index)
     {
-        if (buffers.Count > index) return buffers[index];
+        if (buffers.Count > index)
+        {
+            return buffers[index];
+        }
 
         var buffer = new RenderingBufferStorage();
         buffers.Add(buffer);

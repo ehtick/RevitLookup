@@ -1,12 +1,12 @@
 // Copyright (c) Lookup Foundation and Contributors
-// 
+//
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
 // provided that the above copyright notice appears in all copies and
 // that both that copyright notice and the limited warranty and
 // restricted rights notice below appear in all supporting
 // documentation.
-// 
+//
 // THIS PROGRAM IS PROVIDED "AS IS" AND WITH ALL FAULTS.
 // NO IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE IS PROVIDED.
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
@@ -15,7 +15,7 @@
 namespace RevitLookup.Tests.Unit.Artifacts;
 
 /// <summary>
-///     Provides extension methods for <see cref="string"/> to attach it to test output as a file artifact.
+///     Provides extension methods for <see cref="string" /> to attach it to test output as a file artifact.
 /// </summary>
 public static class TestArtifactExtensions
 {
@@ -29,7 +29,7 @@ public static class TestArtifactExtensions
         /// <returns>A task that represents the asynchronous write operation.</returns>
         public async Task CreateArtifactAsync(string name)
         {
-            await CreateArtifactEntryAsync(name, content, extension: null);
+            await CreateArtifactEntryAsync(name, content, null);
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ public static class TestArtifactExtensions
     /// </summary>
     /// <param name="name">The artifact name.</param>
     /// <param name="content">The artifact content.</param>
-    /// <param name="extension">The file extension to give the temporary file, or <see langword="null"/> to keep the generated one.</param>
+    /// <param name="extension">The file extension to give the temporary file, or <see langword="null" /> to keep the generated one.</param>
     /// <returns>A task that represents the asynchronous write operation.</returns>
     /// <exception cref="InvalidOperationException">The call happens outside a running test.</exception>
     private static async Task CreateArtifactEntryAsync(string name, string content, string? extension)

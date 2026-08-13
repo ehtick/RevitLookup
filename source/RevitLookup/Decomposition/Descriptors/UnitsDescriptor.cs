@@ -19,16 +19,16 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.Units"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.Units" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="units">The units settings to expose.</param>
-public sealed class UnitsDescriptor(Autodesk.Revit.DB.Units units) : Descriptor, IDescriptorConfigurator
+public sealed class UnitsDescriptor(Units units) : Descriptor, IDescriptorConfigurator
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
-        configuration.Member(nameof(Autodesk.Revit.DB.Units.Dispose)).Disable();
-        configuration.Member(nameof(Autodesk.Revit.DB.Units.GetFormatOptions)).Resolve(ResolveGetFormatOptions);
+        configuration.Member(nameof(Units.Dispose)).Disable();
+        configuration.Member(nameof(Units.GetFormatOptions)).Resolve(ResolveGetFormatOptions);
 
         configuration.Extension(nameof(UnitFormatUtils.Format)).NotSupported();
         configuration.Extension(nameof(UnitFormatUtils.TryParse)).NotSupported();
@@ -41,7 +41,7 @@ public sealed class UnitsDescriptor(Autodesk.Revit.DB.Units units) : Descriptor,
 
             foreach (var property in specProperties)
             {
-                var propertyValue = (ForgeTypeId) property.GetValue(null)!;
+                var propertyValue = (ForgeTypeId)property.GetValue(null)!;
                 var formatOptions = units.GetFormatOptions(propertyValue);
                 values.Add(formatOptions, propertyValue.TypeId);
             }

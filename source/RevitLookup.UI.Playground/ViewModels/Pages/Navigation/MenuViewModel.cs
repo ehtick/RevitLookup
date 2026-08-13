@@ -6,4 +6,4 @@ namespace RevitLookup.UI.Playground.ViewModels.Pages.Navigation;
 ///     Represents the sample data for the menu gallery page.
 /// </summary>
 [UsedImplicitly]
-public partial class MenuViewModel : ObservableObject;
+public class MenuViewModel : ObservableObject;

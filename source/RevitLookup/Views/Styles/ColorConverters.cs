@@ -11,17 +11,17 @@ namespace RevitLookup.Views.Styles;
 public static class ColorConverters
 {
     /// <summary>
-    ///     Gets the converter that converts a Revit or WPF color to a <see cref="System.Windows.Media.Color"/>.
+    ///     Gets the converter that converts a Revit or WPF color to a <see cref="System.Windows.Media.Color" />.
     /// </summary>
     public static IValueConverter MediaColor { get; } = new ObjectColorConverter();
-    
+
     private sealed class ObjectColorConverter : IValueConverter
     {
         public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             return value switch
             {
-                Color {IsValid: false} => Colors.Transparent,
+                Color { IsValid: false } => Colors.Transparent,
                 Color color => System.Windows.Media.Color.FromRgb(color.Red, color.Green, color.Blue),
                 System.Windows.Media.Color color => color,
                 _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)

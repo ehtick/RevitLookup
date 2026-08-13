@@ -18,12 +18,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.Workset"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.Workset" /> exposed to LookupEngine.
 /// </summary>
 public sealed class WorksetDescriptor : Descriptor, IDescriptorConfigurator
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="WorksetDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="WorksetDescriptor" /> class.
     /// </summary>
     /// <param name="workset">The workset to expose.</param>
     public WorksetDescriptor(Workset workset)
@@ -31,7 +31,7 @@ public sealed class WorksetDescriptor : Descriptor, IDescriptorConfigurator
         Name = workset.Name;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Workset.Dispose)).Disable();

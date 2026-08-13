@@ -42,7 +42,7 @@ public sealed partial class GenerateChangelogModule(IOptions<PublishOptions> pub
         if (changelog.Length == 0)
         {
             versioning.IsPrerelease.ShouldBeTrue($"No version entry exists in the changelog: {versioning.Version}");
-            
+
             LogNoVersionEntry(context.Logger, versioning.Version);
             return await GenerateReleaseNotesAsync(context, versioning);
         }
@@ -64,7 +64,10 @@ public sealed partial class GenerateChangelogModule(IOptions<PublishOptions> pub
         {
             if (isChangelogEntryFound)
             {
-                if (line.StartsWith(separator)) break;
+                if (line.StartsWith(separator))
+                {
+                    break;
+                }
 
                 changelog.AppendLine(line);
                 continue;
@@ -85,13 +88,23 @@ public sealed partial class GenerateChangelogModule(IOptions<PublishOptions> pub
     /// </summary>
     private static void TrimEmptyLines(StringBuilder changelog)
     {
-        if (changelog.Length == 0) return;
+        if (changelog.Length == 0)
+        {
+            return;
+        }
 
         var start = 0;
         var end = changelog.Length - 1;
 
-        while (start < changelog.Length && (changelog[start] == '\r' || changelog[start] == '\n')) start++;
-        while (end >= start && (changelog[end] == '\r' || changelog[end] == '\n')) end--;
+        while (start < changelog.Length && (changelog[start] == '\r' || changelog[start] == '\n'))
+        {
+            start++;
+        }
+
+        while (end >= start && (changelog[end] == '\r' || changelog[end] == '\n'))
+        {
+            end--;
+        }
 
         if (end < changelog.Length - 1)
         {

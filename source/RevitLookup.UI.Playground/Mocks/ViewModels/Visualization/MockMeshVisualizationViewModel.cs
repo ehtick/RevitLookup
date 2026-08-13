@@ -6,13 +6,13 @@ using RevitLookup.Abstractions.ViewModels.Visualization;
 namespace RevitLookup.UI.Playground.Mocks.ViewModels.Visualization;
 
 /// <summary>
-///     Represents a Playground mock of <see cref="IMeshVisualizationViewModel"/> that fabricates its initial values with <c>Bogus</c> and no-ops the visualization server.
+///     Represents a Playground mock of <see cref="IMeshVisualizationViewModel" /> that fabricates its initial values with <c>Bogus</c> and no-ops the visualization server.
 /// </summary>
 [UsedImplicitly]
 public sealed partial class MockMeshVisualizationViewModel : ObservableObject, IMeshVisualizationViewModel
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="MockMeshVisualizationViewModel"/> class with fake appearance settings.
+    ///     Initializes a new instance of the <see cref="MockMeshVisualizationViewModel" /> class with fake appearance settings.
     /// </summary>
     public MockMeshVisualizationViewModel()
     {
@@ -29,48 +29,48 @@ public sealed partial class MockMeshVisualizationViewModel : ObservableObject, I
         ShowMeshGrid = faker.Random.Bool();
         ShowNormalVector = faker.Random.Bool();
     }
-    
-    /// <inheritdoc/>
+
+    /// <inheritdoc />
     [ObservableProperty]
     public partial double Extrusion { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial double Transparency { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial Color SurfaceColor { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial Color MeshColor { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial Color NormalVectorColor { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool ShowSurface { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool ShowMeshGrid { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool ShowNormalVector { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public double MinExtrusion { get; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void RegisterServer(object mesh)
     {
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void UnregisterServer()
     {
     }

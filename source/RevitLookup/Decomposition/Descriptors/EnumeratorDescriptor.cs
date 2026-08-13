@@ -19,15 +19,15 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="IEnumerator"/> Revit API enumerator exposed to LookupEngine.
+///     Represents the <see cref="IEnumerator" /> Revit API enumerator exposed to LookupEngine.
 /// </summary>
 public sealed class EnumeratorDescriptor : Descriptor, IDescriptorRedirector
 {
-    private readonly object? _object;
     private readonly IEnumerator _enumerator;
+    private readonly object? _object;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="EnumeratorDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="EnumeratorDescriptor" /> class.
     /// </summary>
     /// <param name="enumerator">The enumerator to expose.</param>
     public EnumeratorDescriptor(IEnumerator enumerator)
@@ -43,7 +43,7 @@ public sealed class EnumeratorDescriptor : Descriptor, IDescriptorRedirector
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public bool TryRedirect(string target, out object result)
     {
         if (_object is null)

@@ -18,12 +18,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.IndependentTag"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.IndependentTag" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="tag">The independent tag to expose.</param>
 public sealed class IndependentTagDescriptor(IndependentTag tag) : ElementDescriptor(tag)
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(IndependentTag.Dispose)).Disable();
@@ -60,9 +60,15 @@ public sealed class IndependentTagDescriptor(IndependentTag tag) : ElementDescri
             foreach (var reference in references)
             {
 #if REVIT2023_OR_GREATER
-                if (!tag.IsLeaderVisible(reference)) continue;
+                if (!tag.IsLeaderVisible(reference))
+                {
+                    continue;
+                }
 #endif
-                if (!tag.HasLeaderElbow(reference)) continue;
+                if (!tag.HasLeaderElbow(reference))
+                {
+                    continue;
+                }
 
                 variants.Add(tag.GetLeaderElbow(reference));
             }
@@ -78,7 +84,10 @@ public sealed class IndependentTagDescriptor(IndependentTag tag) : ElementDescri
             foreach (var reference in references)
             {
 #if REVIT2023_OR_GREATER
-                if (!tag.IsLeaderVisible(reference)) continue;
+                if (!tag.IsLeaderVisible(reference))
+                {
+                    continue;
+                }
 #endif
                 variants.Add(tag.GetLeaderEnd(reference));
             }
@@ -93,7 +102,10 @@ public sealed class IndependentTagDescriptor(IndependentTag tag) : ElementDescri
             foreach (var reference in references)
             {
 #if REVIT2023_OR_GREATER
-                if (!tag.IsLeaderVisible(reference)) continue;
+                if (!tag.IsLeaderVisible(reference))
+                {
+                    continue;
+                }
 #endif
                 variants.Add(tag.HasLeaderElbow(reference));
             }

@@ -10,53 +10,59 @@ using RevitLookup.Abstractions.Settings;
 namespace RevitLookup.Decomposition;
 
 /// <summary>
-///     Provides the default implementation of <see cref="IDecompositionService"/>.
+///     Provides the default implementation of <see cref="IDecompositionService" />.
 /// </summary>
 /// <param name="settingsService">The settings service that supplies the active decomposition options.</param>
 /// <remarks>
-///     Decomposition runs through the LookupEngine on the Revit external event thread, marshaled via <see cref="ExternalEventAttribute"/>.
+///     Decomposition runs through the LookupEngine on the Revit external event thread, marshaled via <see cref="ExternalEventAttribute" />.
 /// </remarks>
 [SuppressMessage("ReSharper", "LoopCanBeConvertedToQuery")]
 [SuppressMessage("ReSharper", "ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator")]
 public sealed partial class DecompositionService(ISettingsService settingsService) : IDecompositionService
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public List<ObservableDecomposedObject> DecompositionStackHistory { get; } = [];
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public async Task<ObservableDecomposedObject> DecomposeAsync(object? target)
     {
         var options = CreateDecomposeMembersOptions();
         return await DecomposeAsyncEvent.RaiseAsync(target, options);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public async Task<List<ObservableDecomposedObject>> DecomposeAsync(IEnumerable objects)
     {
         var options = CreateDecomposeOptions();
         return await DecomposeIEnumerableAsyncEvent.RaiseAsync(objects, options);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public async Task<List<ObservableDecomposedMember>> DecomposeMembersAsync(ObservableDecomposedObject decomposedObject)
     {
         var options = CreateDecomposeMembersOptions();
         return await DecomposeMembersAsyncEvent.RaiseAsync(decomposedObject, options);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public async Task EvaluateMemberAsync(ObservableDecomposedMember decomposedMember)
     {
-        if (decomposedMember.Member?.Evaluator is null) return;
+        if (decomposedMember.Member?.Evaluator is null)
+        {
+            return;
+        }
 
         var evaluatedMember = await EvaluateMemberAsyncEvent.RaiseAsync(decomposedMember);
         DecompositionResultMapper.Update(evaluatedMember!, decomposedMember);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public async Task EvaluateMemberWithTransactionAsync(ObservableDecomposedMember decomposedMember)
     {
-        if (decomposedMember.Member?.Evaluator is null) return;
+        if (decomposedMember.Member?.Evaluator is null)
+        {
+            return;
+        }
 
         var evaluatedMember = await EvaluateMemberWithTransactionAsyncEvent.RaiseAsync(decomposedMember);
         DecompositionResultMapper.Update(evaluatedMember!, decomposedMember);
@@ -116,7 +122,10 @@ public sealed partial class DecompositionService(ISettingsService settingsServic
     [ExternalEvent(AllowDirectInvocation = true)]
     private static DecomposedMember? EvaluateMember(ObservableDecomposedMember decomposedMember)
     {
-        if (decomposedMember.Member is null) return null;
+        if (decomposedMember.Member is null)
+        {
+            return null;
+        }
 
         decomposedMember.Member.Evaluate();
         return decomposedMember.Member;
@@ -125,7 +134,10 @@ public sealed partial class DecompositionService(ISettingsService settingsServic
     [ExternalEvent(AllowDirectInvocation = true)]
     private DecomposedMember? EvaluateMemberWithTransaction(ObservableDecomposedMember decomposedMember)
     {
-        if (decomposedMember.Member is null) return null;
+        if (decomposedMember.Member is null)
+        {
+            return null;
+        }
 
         if (!TryFindRevitContext(null, out var context))
         {
@@ -149,14 +161,24 @@ public sealed partial class DecompositionService(ISettingsService settingsServic
     private bool TryFindRevitContext(object? obj, [MaybeNullWhen(false)] out Document context)
     {
         context = GetKnownContext(obj);
-        if (context is not null) return true;
-        if (DecompositionStackHistory.Count == 0) return false;
+        if (context is not null)
+        {
+            return true;
+        }
+
+        if (DecompositionStackHistory.Count == 0)
+        {
+            return false;
+        }
 
         for (var i = DecompositionStackHistory.Count - 1; i >= 0; i--)
         {
             var historyItem = DecompositionStackHistory[i];
             context = GetKnownContext(historyItem.RawValue);
-            if (context is not null) return true;
+            if (context is not null)
+            {
+                return true;
+            }
         }
 
         return false;
@@ -167,7 +189,7 @@ public sealed partial class DecompositionService(ISettingsService settingsServic
         return obj switch
         {
             Element element => element.Document,
-            Parameter {Element: not null} parameter => parameter.Element.Document,
+            Parameter { Element: not null } parameter => parameter.Element.Document,
             Document document => document,
             _ => null
         };
@@ -201,12 +223,31 @@ public sealed partial class DecompositionService(ISettingsService settingsServic
             {
                 EvaluatedFilter = (method, type) =>
                 {
-                    if (method.ReturnType == typeof(void)) return false;
-                    if (type.Namespace is null) return true;
-                    if (type.Namespace.StartsWith("System.Windows")) return false;
-                    if (type.Namespace.StartsWith("System")) return true;
-                    if (type.Namespace.StartsWith("Autodesk.Revit")) return true;
-                    
+                    if (method.ReturnType == typeof(void))
+                    {
+                        return false;
+                    }
+
+                    if (type.Namespace is null)
+                    {
+                        return true;
+                    }
+
+                    if (type.Namespace.StartsWith("System.Windows"))
+                    {
+                        return false;
+                    }
+
+                    if (type.Namespace.StartsWith("System"))
+                    {
+                        return true;
+                    }
+
+                    if (type.Namespace.StartsWith("Autodesk.Revit"))
+                    {
+                        return true;
+                    }
+
                     return false;
                 }
             }

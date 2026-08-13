@@ -26,7 +26,7 @@ public sealed partial class MeshVisualizationDialog
     private readonly IMeshVisualizationViewModel _viewModel;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="MeshVisualizationDialog"/> class.
+    ///     Initializes a new instance of the <see cref="MeshVisualizationDialog" /> class.
     /// </summary>
     /// <param name="dialogService">The service that supplies the dialog host this dialog is shown on.</param>
     /// <param name="viewModel">The view model that renders the mesh in the active Revit view.</param>

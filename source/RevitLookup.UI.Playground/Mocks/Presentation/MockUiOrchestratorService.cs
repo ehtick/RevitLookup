@@ -11,22 +11,22 @@ using Wpf.Ui;
 namespace RevitLookup.UI.Playground.Mocks.Presentation;
 
 /// <summary>
-///     Represents a Playground mock of <see cref="IUiOrchestratorService"/> that opens the Playground host window in its own service scope instead of a Revit-hosted instance.
+///     Represents a Playground mock of <see cref="IUiOrchestratorService" /> that opens the Playground host window in its own service scope instead of a Revit-hosted instance.
 /// </summary>
 public sealed partial class MockUiOrchestratorService : IUiOrchestratorService, IHistoryOrchestrator
 {
-    private IServiceProvider? _parentProvider;
     private readonly List<Task> _activeTasks = [];
-    private readonly IServiceScope _scope;
     private readonly IDecompositionService _decompositionService;
-    private readonly IVisualDecompositionService _visualDecompositionService;
+    private readonly Window _host;
+    private readonly ILogger<MockUiOrchestratorService> _logger;
     private readonly INavigationService _navigationService;
     private readonly INotificationService _notificationService;
-    private readonly ILogger<MockUiOrchestratorService> _logger;
-    private readonly Window _host;
+    private readonly IServiceScope _scope;
+    private readonly IVisualDecompositionService _visualDecompositionService;
+    private IServiceProvider? _parentProvider;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="MockUiOrchestratorService"/> class.
+    ///     Initializes a new instance of the <see cref="MockUiOrchestratorService" /> class.
     /// </summary>
     /// <param name="scopeFactory">The factory used to create the service scope backing this orchestrator instance.</param>
     public MockUiOrchestratorService(IServiceScopeFactory scopeFactory)
@@ -43,7 +43,30 @@ public sealed partial class MockUiOrchestratorService : IUiOrchestratorService, 
         _host.Closed += (_, _) => _scope.Dispose();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
+    public IDecompositionOrchestrator AddStackHistory(ObservableDecomposedObject item)
+    {
+        PushTask();
+        return this;
+
+        async void PushTask()
+        {
+            try
+            {
+                await Task.WhenAll(_activeTasks);
+            }
+            catch
+            {
+                // ignored
+            }
+            finally
+            {
+                _decompositionService.DecompositionStackHistory.Add(item);
+            }
+        }
+    }
+
+    /// <inheritdoc />
     public INavigationOrchestrator Decompose(KnownDecompositionObject decompositionObject)
     {
         PushTask();
@@ -66,7 +89,7 @@ public sealed partial class MockUiOrchestratorService : IUiOrchestratorService, 
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public INavigationOrchestrator Decompose(object? obj)
     {
         PushTask();
@@ -89,7 +112,7 @@ public sealed partial class MockUiOrchestratorService : IUiOrchestratorService, 
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public INavigationOrchestrator Decompose(IEnumerable objects)
     {
         PushTask();
@@ -112,7 +135,7 @@ public sealed partial class MockUiOrchestratorService : IUiOrchestratorService, 
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public INavigationOrchestrator Decompose(ObservableDecomposedObject decomposedObject)
     {
         PushTask();
@@ -135,7 +158,7 @@ public sealed partial class MockUiOrchestratorService : IUiOrchestratorService, 
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public INavigationOrchestrator Decompose(List<ObservableDecomposedObject> decomposedObjects)
     {
         PushTask();
@@ -158,7 +181,7 @@ public sealed partial class MockUiOrchestratorService : IUiOrchestratorService, 
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public IHistoryOrchestrator AddParent(IServiceProvider parentProvider)
     {
         PushTask();
@@ -183,30 +206,7 @@ public sealed partial class MockUiOrchestratorService : IUiOrchestratorService, 
         }
     }
 
-    /// <inheritdoc/>
-    public IDecompositionOrchestrator AddStackHistory(ObservableDecomposedObject item)
-    {
-        PushTask();
-        return this;
-
-        async void PushTask()
-        {
-            try
-            {
-                await Task.WhenAll(_activeTasks);
-            }
-            catch
-            {
-                // ignored
-            }
-            finally
-            {
-                _decompositionService.DecompositionStackHistory.Add(item);
-            }
-        }
-    }
-
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public IInteractionOrchestrator Show<T>() where T : Page
     {
         PushTask();
@@ -231,7 +231,7 @@ public sealed partial class MockUiOrchestratorService : IUiOrchestratorService, 
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void RunService<T>(Action<T> handler) where T : class
     {
         PushTask();

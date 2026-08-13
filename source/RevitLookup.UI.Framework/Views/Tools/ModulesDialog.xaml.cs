@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Lookup Foundation and Contributors
-// 
+//
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
 // provided that the above copyright notice appears in all copies and
 // that both that copyright notice and the limited warranty and
 // restricted rights notice below appear in all supporting
 // documentation.
-// 
+//
 // THIS PROGRAM IS PROVIDED "AS IS" AND WITH ALL FAULTS.
 // NO IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE IS PROVIDED.
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
@@ -19,8 +19,8 @@ using System.Windows.Input;
 using RevitLookup.Abstractions.Presentation;
 using RevitLookup.Abstractions.Tools;
 using RevitLookup.Abstractions.ViewModels.Tools;
+using RevitLookup.UI.Framework.Menus;
 using RevitLookup.UI.Framework.Processes;
-using RevitLookup.UI.Framework.Extensions;
 using Wpf.Ui;
 
 namespace RevitLookup.UI.Framework.Views.Tools;
@@ -31,7 +31,7 @@ namespace RevitLookup.UI.Framework.Views.Tools;
 public sealed partial class ModulesDialog
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="ModulesDialog"/> class.
+    ///     Initializes a new instance of the <see cref="ModulesDialog" /> class.
     /// </summary>
     /// <param name="dialogService">The service that supplies the dialog host this dialog is shown on.</param>
     /// <param name="viewModel">The view model that provides the data for the Modules view.</param>
@@ -47,15 +47,15 @@ public sealed partial class ModulesDialog
         themeWatcherService.Watch(this);
 
 #if NETFRAMEWORK
-        var header = (TextBlock) ContainerColumn.Header;
+        var header = (TextBlock)ContainerColumn.Header;
         header.Text = "Domain";
 #endif
     }
 
     private void OnMouseEnter(object sender, RoutedEventArgs args)
     {
-        var element = (FrameworkElement) sender;
-        var moduleInfo = (ModuleInfo) element.DataContext;
+        var element = (FrameworkElement)sender;
+        var moduleInfo = (ModuleInfo)element.DataContext;
         CreateRowContextMenu(moduleInfo, element);
     }
 

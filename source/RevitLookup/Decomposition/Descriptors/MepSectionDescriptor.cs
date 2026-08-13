@@ -19,12 +19,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.Mechanical.MEPSection"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.Mechanical.MEPSection" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="mepSection">The MEP section to expose.</param>
 public sealed class MepSectionDescriptor(MEPSection mepSection) : Descriptor, IDescriptorConfigurator
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(MEPSection.Dispose)).Disable();
@@ -34,7 +34,7 @@ public sealed class MepSectionDescriptor(MEPSection mepSection) : Descriptor, ID
         configuration.Member(nameof(MEPSection.GetSegmentLength)).Resolve(() => ResolveElementIds(mepSection.GetElementIds(), mepSection.GetSegmentLength));
         configuration.Member(nameof(MEPSection.IsMain)).Resolve(() => ResolveElementIds(mepSection.GetElementIds(), mepSection.IsMain));
     }
-    
+
     private static IVariant ResolveElementIds<TResult>(ICollection<ElementId> ids, Func<ElementId, TResult> selector)
     {
         var variants = Variants.Values<TResult>(ids.Count);

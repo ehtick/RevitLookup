@@ -18,7 +18,7 @@ public interface IThemeWatcherService
     void ApplyTheme();
 
     /// <summary>
-    ///     Watches for theme changes on the specified <see cref="FrameworkElement"/>.
+    ///     Watches for theme changes on the specified <see cref="FrameworkElement" />.
     /// </summary>
     /// <param name="frameworkElement">The element to update when the theme changes.</param>
     void Watch(FrameworkElement frameworkElement);

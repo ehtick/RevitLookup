@@ -9,16 +9,16 @@ namespace RevitLookup.UI.Framework.Presentation;
 /// </summary>
 public sealed class WindowIntercomService : IWindowIntercomService
 {
-    private Window? _host;
     private static readonly List<Window> SharedWindows = [];
+    private Window? _host;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void SetHost(Window host)
     {
         _host = host;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void SetSharedHost(Window host)
     {
         SetHost(host);
@@ -26,32 +26,40 @@ public sealed class WindowIntercomService : IWindowIntercomService
         host.Closed += OnHostDisconnected;
     }
 
-    private static void OnHostDisconnected(object? sender, EventArgs args)
-    {
-        var self = (Window) sender!;
-        self.Closed -= OnHostDisconnected;
-
-        SharedWindows.Remove(self);
-    }
-
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public List<Window> OpenedWindows => SharedWindows;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [Pure]
     public Window GetHost()
     {
-        if (_host is null) throw new InvalidOperationException("The Host was never set.");
+        if (_host is null)
+        {
+            throw new InvalidOperationException("The Host was never set.");
+        }
+
         return _host;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public Dispatcher Dispatcher
     {
         get
         {
-            if (_host is null) throw new InvalidOperationException("The Host was never set.");
+            if (_host is null)
+            {
+                throw new InvalidOperationException("The Host was never set.");
+            }
+
             return _host.Dispatcher;
         }
+    }
+
+    private static void OnHostDisconnected(object? sender, EventArgs args)
+    {
+        var self = (Window)sender!;
+        self.Closed -= OnHostDisconnected;
+
+        SharedWindows.Remove(self);
     }
 }

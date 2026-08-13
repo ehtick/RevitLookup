@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Lookup Foundation and Contributors
-// 
+//
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
 // provided that the above copyright notice appears in all copies and
 // that both that copyright notice and the limited warranty and
 // restricted rights notice below appear in all supporting
 // documentation.
-// 
+//
 // THIS PROGRAM IS PROVIDED "AS IS" AND WITH ALL FAULTS.
 // NO IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE IS PROVIDED.
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
@@ -21,7 +21,7 @@ namespace RevitLookup.UI.Framework.Views.Decomposition;
 
 public partial class SummaryViewBase : INavigationAware
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public Task OnNavigatedToAsync()
     {
         var host = _intercomService.GetHost();
@@ -29,7 +29,7 @@ public partial class SummaryViewBase : INavigationAware
         return Task.CompletedTask;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public Task OnNavigatedFromAsync()
     {
         var host = _intercomService.GetHost();
@@ -43,19 +43,25 @@ public partial class SummaryViewBase : INavigationAware
     private void OnPageKeyPressed(object sender, KeyEventArgs args)
     {
         HandleRefreshShortcut(args);
-        if (args.Handled) return;
+        if (args.Handled)
+        {
+            return;
+        }
 
         HandleFocusSearchShortcut(sender, args);
     }
 
     private async void HandleRefreshShortcut(KeyEventArgs args)
     {
-        if (args.Key != Key.F5) return;
-
-        args.Handled = true;
-
         try
         {
+            if (args.Key != Key.F5)
+            {
+                return;
+            }
+
+            args.Handled = true;
+
             await ViewModel.RefreshMembersAsync();
         }
         catch (Exception exception)
@@ -67,11 +73,25 @@ public partial class SummaryViewBase : INavigationAware
 
     private void HandleFocusSearchShortcut(object sender, KeyEventArgs args)
     {
-        if (SearchBoxControl.IsKeyboardFocused) return;
-        if (args.KeyboardDevice.Modifiers != ModifierKeys.None) return;
+        if (SearchBoxControl.IsKeyboardFocused)
+        {
+            return;
+        }
 
-        if (sender is not RevitLookupView rootWindow) return;
-        if (rootWindow.DialogHost.Content is not null) return;
+        if (args.KeyboardDevice.Modifiers != ModifierKeys.None)
+        {
+            return;
+        }
+
+        if (sender is not RevitLookupView rootWindow)
+        {
+            return;
+        }
+
+        if (rootWindow.DialogHost.Content is not null)
+        {
+            return;
+        }
 
         if (args.Key is >= Key.D0 and <= Key.Z or >= Key.NumPad0 and <= Key.NumPad9)
         {

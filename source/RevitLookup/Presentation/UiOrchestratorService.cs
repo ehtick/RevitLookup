@@ -45,55 +45,7 @@ public sealed partial class UiOrchestratorService(IServiceScopeFactory scopeFact
         Dispatcher = Dispatcher.FromThread(uiThread)!;
     }
 
-    /// <inheritdoc/>
-    public INavigationOrchestrator Decompose(KnownDecompositionObject decompositionObject)
-    {
-        var session = EnsureSession();
-        InvokeOnDispatcher(() => session.Decompose(decompositionObject));
-        return this;
-    }
-
-    /// <inheritdoc/>
-    public INavigationOrchestrator Decompose(object? obj)
-    {
-        var session = EnsureSession();
-        InvokeOnDispatcher(() => session.Decompose(obj));
-        return this;
-    }
-
-    /// <inheritdoc/>
-    public INavigationOrchestrator Decompose(IEnumerable objects)
-    {
-        var session = EnsureSession();
-        InvokeOnDispatcher(() => session.Decompose(objects));
-        return this;
-    }
-
-    /// <inheritdoc/>
-    public INavigationOrchestrator Decompose(ObservableDecomposedObject decomposedObject)
-    {
-        var session = EnsureSession();
-        InvokeOnDispatcher(() => session.Decompose(decomposedObject));
-        return this;
-    }
-
-    /// <inheritdoc/>
-    public INavigationOrchestrator Decompose(List<ObservableDecomposedObject> decomposedObjects)
-    {
-        var session = EnsureSession();
-        InvokeOnDispatcher(() => session.Decompose(decomposedObjects));
-        return this;
-    }
-
-    /// <inheritdoc/>
-    public IHistoryOrchestrator AddParent(IServiceProvider parentProvider)
-    {
-        var session = EnsureSession();
-        InvokeOnDispatcher(() => session.AddParent(parentProvider));
-        return this;
-    }
-
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public IDecompositionOrchestrator AddStackHistory(ObservableDecomposedObject item)
     {
         var session = EnsureSession();
@@ -101,7 +53,55 @@ public sealed partial class UiOrchestratorService(IServiceScopeFactory scopeFact
         return this;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
+    public INavigationOrchestrator Decompose(KnownDecompositionObject decompositionObject)
+    {
+        var session = EnsureSession();
+        InvokeOnDispatcher(() => session.Decompose(decompositionObject));
+        return this;
+    }
+
+    /// <inheritdoc />
+    public INavigationOrchestrator Decompose(object? obj)
+    {
+        var session = EnsureSession();
+        InvokeOnDispatcher(() => session.Decompose(obj));
+        return this;
+    }
+
+    /// <inheritdoc />
+    public INavigationOrchestrator Decompose(IEnumerable objects)
+    {
+        var session = EnsureSession();
+        InvokeOnDispatcher(() => session.Decompose(objects));
+        return this;
+    }
+
+    /// <inheritdoc />
+    public INavigationOrchestrator Decompose(ObservableDecomposedObject decomposedObject)
+    {
+        var session = EnsureSession();
+        InvokeOnDispatcher(() => session.Decompose(decomposedObject));
+        return this;
+    }
+
+    /// <inheritdoc />
+    public INavigationOrchestrator Decompose(List<ObservableDecomposedObject> decomposedObjects)
+    {
+        var session = EnsureSession();
+        InvokeOnDispatcher(() => session.Decompose(decomposedObjects));
+        return this;
+    }
+
+    /// <inheritdoc />
+    public IHistoryOrchestrator AddParent(IServiceProvider parentProvider)
+    {
+        var session = EnsureSession();
+        InvokeOnDispatcher(() => session.AddParent(parentProvider));
+        return this;
+    }
+
+    /// <inheritdoc />
     public IInteractionOrchestrator Show<T>() where T : Page
     {
         var session = EnsureSession();
@@ -109,10 +109,10 @@ public sealed partial class UiOrchestratorService(IServiceScopeFactory scopeFact
         return this;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void RunService<T>(Action<T> handler) where T : class
     {
-        if (_session is {IsAlive: true})
+        if (_session is { IsAlive: true })
         {
             var session = _session;
             InvokeOnDispatcher(() => session.RunService(handler));
@@ -131,7 +131,7 @@ public sealed partial class UiOrchestratorService(IServiceScopeFactory scopeFact
 
     private UiSession EnsureSession()
     {
-        if (_session is {IsAlive: true})
+        if (_session is { IsAlive: true })
         {
             return _session;
         }
@@ -154,15 +154,13 @@ public sealed partial class UiOrchestratorService(IServiceScopeFactory scopeFact
 
     private sealed partial class UiSession
     {
-        private IServiceProvider? _parentProvider;
+        private readonly Window _host;
+        private readonly ILogger<UiOrchestratorService> _logger;
+        private readonly List<Task> _pendingTasks = [];
 
         private readonly IServiceScope _scope;
-        private readonly List<Task> _pendingTasks = [];
         private readonly IVisualDecompositionService _visualDecompositionService;
-        private readonly ILogger<UiOrchestratorService> _logger;
-        private readonly Window _host;
-
-        public bool IsAlive { get; private set; } = true;
+        private IServiceProvider? _parentProvider;
 
         public UiSession(IServiceScopeFactory scopeFactory)
         {
@@ -173,6 +171,8 @@ public sealed partial class UiOrchestratorService(IServiceScopeFactory scopeFact
 
             _host.Closed += OnHostClosed;
         }
+
+        public bool IsAlive { get; private set; } = true;
 
         public async void Decompose(KnownDecompositionObject decompositionObject)
         {

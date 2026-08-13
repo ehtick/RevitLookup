@@ -3,7 +3,7 @@
 namespace RevitLookup.UI.Playground.SampleData;
 
 /// <summary>
-///     Provides a sample <see cref="SymbolRegular"/> icon for the Playground icon gallery.
+///     Provides a sample <see cref="SymbolRegular" /> icon for the Playground icon gallery.
 /// </summary>
 public sealed class SymbolIconData
 {
@@ -23,7 +23,7 @@ public sealed class SymbolIconData
     public required string Code { get; init; }
 
     /// <summary>
-    ///     Gets the XML character entity for <see cref="Code"/>.
+    ///     Gets the XML character entity for <see cref="Code" />.
     /// </summary>
     public string TextGlyph => $"&#x{Code};";
 }

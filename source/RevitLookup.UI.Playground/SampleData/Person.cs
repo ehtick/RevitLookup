@@ -1,7 +1,7 @@
 namespace RevitLookup.UI.Playground.SampleData;
 
 /// <summary>
-///     Provides a sample <see cref="Person"/> instance for the Playground.
+///     Provides a sample <see cref="Person" /> instance for the Playground.
 /// </summary>
 public sealed record Person
 {
@@ -21,12 +21,12 @@ public sealed record Person
     public required string Company { get; set; }
 
     /// <summary>
-    ///     Gets the person's full name, combining <see cref="FirstName"/> and <see cref="LastName"/>.
+    ///     Gets the person's full name, combining <see cref="FirstName" /> and <see cref="LastName" />.
     /// </summary>
     public string Name => $"{FirstName} {LastName}";
 
     /// <summary>
-    ///     Gets or sets the person's children, or <see langword="null"/> if the person has none.
+    ///     Gets or sets the person's children, or <see langword="null" /> if the person has none.
     /// </summary>
     public List<Person>? Children { get; set; }
 }

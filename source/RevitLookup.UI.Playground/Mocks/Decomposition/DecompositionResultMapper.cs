@@ -14,21 +14,21 @@ public static partial class DecompositionResultMapper
     ///     Converts a decomposed object into its observable equivalent.
     /// </summary>
     /// <param name="decomposedObject">The decomposed object to convert.</param>
-    /// <returns>The observable equivalent of <paramref name="decomposedObject"/>.</returns>
+    /// <returns>The observable equivalent of <paramref name="decomposedObject" />.</returns>
     public static partial ObservableDecomposedObject Convert(DecomposedObject decomposedObject);
 
     /// <summary>
     ///     Converts a decomposed value into its observable equivalent.
     /// </summary>
     /// <param name="decomposedValue">The decomposed value to convert.</param>
-    /// <returns>The observable equivalent of <paramref name="decomposedValue"/>.</returns>
+    /// <returns>The observable equivalent of <paramref name="decomposedValue" />.</returns>
     public static partial ObservableDecomposedValue Convert(DecomposedValue decomposedValue);
 
     /// <summary>
     ///     Converts a decomposed member into its observable equivalent.
     /// </summary>
     /// <param name="decomposedMember">The decomposed member to convert.</param>
-    /// <returns>The observable equivalent of <paramref name="decomposedMember"/>, with its <see cref="ObservableDecomposedMember.Member"/> set to <paramref name="decomposedMember"/>.</returns>
+    /// <returns>The observable equivalent of <paramref name="decomposedMember" />, with its <see cref="ObservableDecomposedMember.Member" /> set to <paramref name="decomposedMember" />.</returns>
     [UserMapping(Default = true)]
     public static ObservableDecomposedMember Convert(DecomposedMember decomposedMember)
     {

@@ -29,7 +29,10 @@ public partial class SummaryViewBase
     /// </remarks>
     private void MonitorRowValueChanges(DataGridRow row)
     {
-        if (row.Item is not ObservableDecomposedMember member) return;
+        if (row.Item is not ObservableDecomposedMember member)
+        {
+            return;
+        }
 
         member.PropertyChanged -= OnRowMemberEvaluated;
         member.PropertyChanged += OnRowMemberEvaluated;
@@ -40,10 +43,21 @@ public partial class SummaryViewBase
     /// </summary>
     private void OnRowMemberEvaluated(object? sender, PropertyChangedEventArgs args)
     {
-        if (sender is not ObservableDecomposedMember member) return;
-        if (args.PropertyName != nameof(ObservableDecomposedMember.Value) && args.PropertyName != nameof(ObservableDecomposedMember.EvaluationPolicy)) return;
-        if (DataGridControl.ItemContainerGenerator.ContainerFromItem(member) is not DataGridRow row) return;
-        
+        if (sender is not ObservableDecomposedMember member)
+        {
+            return;
+        }
+
+        if (args.PropertyName != nameof(ObservableDecomposedMember.Value) && args.PropertyName != nameof(ObservableDecomposedMember.EvaluationPolicy))
+        {
+            return;
+        }
+
+        if (DataGridControl.ItemContainerGenerator.ContainerFromItem(member) is not DataGridRow row)
+        {
+            return;
+        }
+
         if (DataGridControl.RowStyleSelector is not null)
         {
             row.Style = DataGridControl.RowStyleSelector.SelectStyle(member, row);
@@ -58,13 +72,22 @@ public partial class SummaryViewBase
     private void UpdateValueCellTemplate(DataGridRow row)
     {
         const int valueColumnIndex = 1;
-        if (DataGridControl.Columns.Count <= valueColumnIndex) return;
+        if (DataGridControl.Columns.Count <= valueColumnIndex)
+        {
+            return;
+        }
 
         var cellPresenter = DataGridControl.Columns[valueColumnIndex].GetCellContent(row);
-        if (cellPresenter is null) return;
+        if (cellPresenter is null)
+        {
+            return;
+        }
 
         var content = cellPresenter.FindVisualChild<ContentControl>();
-        if (content is null) return;
+        if (content is null)
+        {
+            return;
+        }
 
         var selector = content.ContentTemplateSelector;
         content.ContentTemplateSelector = null;

@@ -1,7 +1,7 @@
 ﻿namespace RevitLookup.UI.Framework.Extensions;
 
 /// <summary>
-///     Provides extension methods for <see cref="IEnumerable{T}"/> to pick or reorder its elements at random.
+///     Provides extension methods for <see cref="IEnumerable{T}" /> to pick or reorder its elements at random.
 /// </summary>
 [PublicAPI]
 public static class EnumerableExtensions
@@ -22,7 +22,10 @@ public static class EnumerableExtensions
                 list = collection.ToArray();
             }
 
-            if (list.Count == 0) throw new InvalidOperationException("Collection contains no elements");
+            if (list.Count == 0)
+            {
+                throw new InvalidOperationException("Collection contains no elements");
+            }
 
             return list[System.Random.Shared.Next(list.Count)];
         }
@@ -30,9 +33,9 @@ public static class EnumerableExtensions
         /// <summary>
         ///     Returns the collection elements reordered at random.
         /// </summary>
-        /// <returns>A <see cref="List{T}"/> containing the elements of the collection in random order.</returns>
+        /// <returns>A <see cref="List{T}" /> containing the elements of the collection in random order.</returns>
         /// <remarks>
-        ///     When the collection is already a <see cref="List{T}"/>, this method shuffles it in place and returns that same instance.
+        ///     When the collection is already a <see cref="List{T}" />, this method shuffles it in place and returns that same instance.
         /// </remarks>
         public List<T> Randomize()
         {

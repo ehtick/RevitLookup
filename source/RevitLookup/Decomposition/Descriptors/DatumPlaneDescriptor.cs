@@ -18,12 +18,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="DatumPlane"/> exposed to LookupEngine.
+///     Represents the <see cref="DatumPlane" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="datumPlane">The datum plane to expose.</param>
 public sealed class DatumPlaneDescriptor(DatumPlane datumPlane) : ElementDescriptor(datumPlane)
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(DatumPlane.Dispose)).Disable();
@@ -42,7 +42,7 @@ public sealed class DatumPlaneDescriptor(DatumPlane datumPlane) : ElementDescrip
                 .Instances()
                 .OfClass<View>()
                 .ToElements();
-            
+
             var variants = Variants.Values<bool>(views.Count);
 
             foreach (var element in views)
@@ -67,7 +67,10 @@ public sealed class DatumPlaneDescriptor(DatumPlane datumPlane) : ElementDescrip
             foreach (var element in views)
             {
                 var view = (View)element;
-                if (!datumPlane.CanBeVisibleInView(view)) continue;
+                if (!datumPlane.CanBeVisibleInView(view))
+                {
+                    continue;
+                }
 
                 var result = datumPlane.GetPropagationViews(view);
                 variants.Add(result, view.Name);

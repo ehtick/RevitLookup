@@ -7,7 +7,7 @@ using RevitLookup.ServiceDefaults.FileSystem;
 namespace RevitLookup.ServiceDefaults.Application;
 
 /// <summary>
-///     Provides extension methods for <see cref="IHostApplicationBuilder"/> to bind the application's resource locations.
+///     Provides extension methods for <see cref="IHostApplicationBuilder" /> to bind the application's resource locations.
 /// </summary>
 [PublicAPI]
 public static class ResourcesRegistration
@@ -16,9 +16,9 @@ public static class ResourcesRegistration
     extension<TBuilder>(TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
         /// <summary>
-        ///     Binds the roaming and local directories the application reads and writes its own files under to <see cref="ResourceLocationsOptions"/>.
+        ///     Binds the roaming and local directories the application reads and writes its own files under to <see cref="ResourceLocationsOptions" />.
         /// </summary>
-        /// <returns>The <see cref="TBuilder"/> for chaining.</returns>
+        /// <returns>The <see cref="TBuilder" /> for chaining.</returns>
         public TBuilder ConfigureResourceLocations()
         {
             builder.Services.AddOptions<ResourceLocationsOptions>().Configure<IHostEnvironment>((options, environment) =>

@@ -18,12 +18,12 @@ using LookupEngine.Abstractions.Configuration;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="AnalyticalLinkType"/> exposed to LookupEngine.
+///     Represents the <see cref="AnalyticalLinkType" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="analyticalLinkType">The analytical link type to expose.</param>
 public sealed class AnalyticalLinkTypeDescriptor(AnalyticalLinkType analyticalLinkType) : ElementDescriptor(analyticalLinkType)
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(AnalyticalLinkType.Dispose)).Disable();

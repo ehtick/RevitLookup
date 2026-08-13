@@ -7,13 +7,13 @@ namespace RevitLookup.UI.Playground.Mocks.Decomposition.Samples;
 /// </summary>
 /// <remarks>
 ///     Cheap metadata is evaluated eagerly, while the expensive operations are deferred by
-///     <see cref="RevitLookup.UI.Playground.Mocks.Decomposition.Descriptors.DeferredSampleDescriptor"/> and shown with a "Force evaluate" button.
+///     <see cref="RevitLookup.UI.Playground.Mocks.Decomposition.Descriptors.DeferredSampleDescriptor" /> and shown with a "Force evaluate" button.
 /// </remarks>
 [PublicAPI]
 public sealed class DeferredSample
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="DeferredSample"/> class with fake report metadata.
+    ///     Initializes a new instance of the <see cref="DeferredSample" /> class with fake report metadata.
     /// </summary>
     public DeferredSample()
     {
@@ -45,7 +45,7 @@ public sealed class DeferredSample
     public int RecordCount { get; }
 
     /// <summary>
-    ///     Aggregates <see cref="RecordCount"/> into a summary message.
+    ///     Aggregates <see cref="RecordCount" /> into a summary message.
     /// </summary>
     /// <returns>A message reporting the number of aggregated records.</returns>
     public string CalculateTotals()

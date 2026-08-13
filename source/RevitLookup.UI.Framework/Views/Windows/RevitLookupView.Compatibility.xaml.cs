@@ -36,15 +36,18 @@ public sealed partial class RevitLookupView
 
     private void ContentPresenterOnContentRendered(object? sender, EventArgs args)
     {
-        var contentPresenter = (NavigationViewContentPresenter) sender!;
-        if (!contentPresenter.IsDynamicScrollViewerEnabled) return;
+        var contentPresenter = (NavigationViewContentPresenter)sender!;
+        if (!contentPresenter.IsDynamicScrollViewerEnabled)
+        {
+            return;
+        }
 
         if (VisualTreeHelper.GetChildrenCount(contentPresenter) == 0)
         {
             contentPresenter.ApplyTemplate();
         }
 
-        var scrollViewer = (ScrollViewer) VisualTreeHelper.GetChild(contentPresenter, 0);
+        var scrollViewer = (ScrollViewer)VisualTreeHelper.GetChild(contentPresenter, 0);
         _themeWatcherService.Watch(scrollViewer);
     }
 }

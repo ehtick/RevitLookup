@@ -24,7 +24,7 @@ namespace RevitLookup.UI.Framework.Views.Dashboard;
 public sealed partial class DashboardPage : INavigableView<IDashboardViewModel>
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="DashboardPage"/> class.
+    ///     Initializes a new instance of the <see cref="DashboardPage" /> class.
     /// </summary>
     /// <param name="viewModel">The view model that provides the data for the Dashboard view.</param>
     /// <param name="themeWatcherService">The service that applies and tracks the current theme for this page.</param>
@@ -37,6 +37,6 @@ public sealed partial class DashboardPage : INavigableView<IDashboardViewModel>
         InitializeComponent();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public IDashboardViewModel ViewModel { get; }
 }

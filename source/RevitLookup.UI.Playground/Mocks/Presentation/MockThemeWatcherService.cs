@@ -20,19 +20,19 @@ using Wpf.Ui.Appearance;
 namespace RevitLookup.UI.Playground.Mocks.Presentation;
 
 /// <summary>
-///     Represents a Playground mock of <see cref="IThemeWatcherService"/> that applies the Playground settings theme directly through Wpf.Ui.
+///     Represents a Playground mock of <see cref="IThemeWatcherService" /> that applies the Playground settings theme directly through Wpf.Ui.
 /// </summary>
 /// <param name="settingsService">The service supplying the theme and backdrop applied to watched elements.</param>
 public sealed class MockThemeWatcherService(ISettingsService settingsService) : IThemeWatcherService
 {
     private readonly List<FrameworkElement> _observedElements = [];
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Initialize()
     {
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void ApplyTheme()
     {
         var theme = settingsService.ApplicationSettings.Theme;
@@ -40,7 +40,7 @@ public sealed class MockThemeWatcherService(ISettingsService settingsService) : 
         UpdateBackground(theme);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Watch(FrameworkElement frameworkElement)
     {
         frameworkElement.Loaded -= OnWatchedElementLoaded;
@@ -49,20 +49,20 @@ public sealed class MockThemeWatcherService(ISettingsService settingsService) : 
         frameworkElement.Unloaded += OnWatchedElementUnloaded;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Unwatch()
     {
     }
 
     private void OnWatchedElementLoaded(object sender, RoutedEventArgs e)
     {
-        var element = (FrameworkElement) sender;
+        var element = (FrameworkElement)sender;
         _observedElements.Add(element);
     }
 
     private void OnWatchedElementUnloaded(object sender, RoutedEventArgs e)
     {
-        var element = (FrameworkElement) sender;
+        var element = (FrameworkElement)sender;
         _observedElements.Remove(element);
     }
 

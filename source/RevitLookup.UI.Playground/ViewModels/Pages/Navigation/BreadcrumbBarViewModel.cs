@@ -20,7 +20,7 @@ public partial class BreadcrumbBarViewModel : ObservableObject
     ];
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="BreadcrumbBarViewModel"/> class.
+    ///     Initializes a new instance of the <see cref="BreadcrumbBarViewModel" /> class.
     /// </summary>
     public BreadcrumbBarViewModel()
     {
@@ -54,10 +54,16 @@ public partial class BreadcrumbBarViewModel : ObservableObject
     [RelayCommand]
     private void OnDirectorySelected(object item)
     {
-        if (item is not DirectoryInfo selectedFolder) return;
+        if (item is not DirectoryInfo selectedFolder)
+        {
+            return;
+        }
 
         var index = Directories.IndexOf(selectedFolder);
-        if (index < 0) return;
+        if (index < 0)
+        {
+            return;
+        }
 
         Directories.Clear();
 

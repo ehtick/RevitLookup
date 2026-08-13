@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Lookup Foundation and Contributors
-// 
+//
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
 // provided that the above copyright notice appears in all copies and
 // that both that copyright notice and the limited warranty and
 // restricted rights notice below appear in all supporting
 // documentation.
-// 
+//
 // THIS PROGRAM IS PROVIDED "AS IS" AND WITH ALL FAULTS.
 // NO IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE IS PROVIDED.
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
@@ -20,7 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Abstractions.Decomposition;
 using RevitLookup.Abstractions.Presentation;
-using RevitLookup.UI.Framework.Extensions;
+using RevitLookup.UI.Framework.Menus;
 using RevitLookup.UI.Framework.Views.Visualization;
 using ContextMenu = System.Windows.Controls.ContextMenu;
 #if REVIT2023_OR_GREATER
@@ -31,14 +31,14 @@ using Nice3point.Revit.Toolkit.External;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Face"/> exposed to LookupEngine.
+///     Represents the <see cref="Face" /> exposed to LookupEngine.
 /// </summary>
 public partial class FaceDescriptor : Descriptor, IContextMenuConnector, IDescriptorConfigurator
 {
     private readonly Face _face;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="FaceDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="FaceDescriptor" /> class.
     /// </summary>
     /// <param name="face">The face to expose.</param>
     public FaceDescriptor(Face face)
@@ -47,13 +47,7 @@ public partial class FaceDescriptor : Descriptor, IContextMenuConnector, IDescri
         Name = $"{face.Area.ToString(CultureInfo.InvariantCulture)} ft²";
     }
 
-    /// <inheritdoc/>
-    public virtual void Configure(IMemberConfigurator configuration)
-    {
-        configuration.Member(nameof(Face.Dispose)).Disable();
-    }
-
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public virtual void RegisterMenu(ContextMenu contextMenu, IServiceProvider serviceProvider)
     {
 #if REVIT2023_OR_GREATER
@@ -71,9 +65,18 @@ public partial class FaceDescriptor : Descriptor, IContextMenuConnector, IDescri
             .SetShortcut(Key.F8);
     }
 
+    /// <inheritdoc />
+    public virtual void Configure(IMemberConfigurator configuration)
+    {
+        configuration.Member(nameof(Face.Dispose)).Disable();
+    }
+
     private static async Task VisualizeFaceAsync(Face face, IServiceProvider serviceProvider)
     {
-        if (RevitContext.ActiveUiDocument is null) return;
+        if (RevitContext.ActiveUiDocument is null)
+        {
+            return;
+        }
 
         try
         {
@@ -89,13 +92,23 @@ public partial class FaceDescriptor : Descriptor, IContextMenuConnector, IDescri
             notificationService.ShowError("Visualization error", exception);
         }
     }
+
+    [LoggerMessage(LogLevel.Error, "Visualize Face error")]
+    private static partial void LogVisualizeFaceError(ILogger<FaceDescriptor> logger, Exception exception);
 #if REVIT2023_OR_GREATER
 
     [ExternalEvent(AllowDirectInvocation = true)]
     private static void SelectFace(UIApplication application, Face face)
     {
-        if (application.ActiveUIDocument is null) return;
-        if (face.Reference is null) return;
+        if (application.ActiveUIDocument is null)
+        {
+            return;
+        }
+
+        if (face.Reference is null)
+        {
+            return;
+        }
 
         application.ActiveUIDocument.Selection.SetReferences([face.Reference]);
     }
@@ -104,16 +117,23 @@ public partial class FaceDescriptor : Descriptor, IContextMenuConnector, IDescri
     private static void ShowFace(UIApplication application, Face face)
     {
         var uiDocument = application.ActiveUIDocument;
-        if (uiDocument is null) return;
-        if (face.Reference is null) return;
+        if (uiDocument is null)
+        {
+            return;
+        }
+
+        if (face.Reference is null)
+        {
+            return;
+        }
 
         var element = face.Reference.ElementId.ToElement(uiDocument.Document);
-        if (element is not null) uiDocument.ShowElements(element);
+        if (element is not null)
+        {
+            uiDocument.ShowElements(element);
+        }
 
         uiDocument.Selection.SetReferences([face.Reference]);
     }
 #endif
-
-    [LoggerMessage(LogLevel.Error, "Visualize Face error")]
-    private static partial void LogVisualizeFaceError(ILogger<FaceDescriptor> logger, Exception exception);
 }

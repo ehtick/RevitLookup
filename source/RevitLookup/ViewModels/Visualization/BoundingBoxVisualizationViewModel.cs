@@ -1,14 +1,14 @@
-﻿using Color = System.Windows.Media.Color;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using RevitLookup.Abstractions.Presentation;
 using RevitLookup.Abstractions.Settings;
 using RevitLookup.Abstractions.ViewModels.Visualization;
 using RevitLookup.Visualization;
+using Color = System.Windows.Media.Color;
 
 namespace RevitLookup.ViewModels.Visualization;
 
 /// <summary>
-///     Represents the view model for bounding box visualization, rendering a <see cref="BoundingBoxXYZ"/> through a dedicated Revit visualization server.
+///     Represents the view model for bounding box visualization, rendering a <see cref="BoundingBoxXYZ" /> through a dedicated Revit visualization server.
 /// </summary>
 /// <param name="settingsService">The service that persists and supplies the bounding box visualization settings.</param>
 /// <param name="notificationService">The service used to report rendering failures.</param>
@@ -22,36 +22,36 @@ public sealed partial class BoundingBoxVisualizationViewModel(
 {
     private readonly BoundingBoxVisualizationServer _server = new();
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial double Transparency { get; set; } = settingsService.VisualizationSettings.BoundingBoxSettings.Transparency;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial Color SurfaceColor { get; set; } = settingsService.VisualizationSettings.BoundingBoxSettings.SurfaceColor;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial Color EdgeColor { get; set; } = settingsService.VisualizationSettings.BoundingBoxSettings.EdgeColor;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial Color AxisColor { get; set; } = settingsService.VisualizationSettings.BoundingBoxSettings.AxisColor;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool ShowSurface { get; set; } = settingsService.VisualizationSettings.BoundingBoxSettings.ShowSurface;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool ShowEdge { get; set; } = settingsService.VisualizationSettings.BoundingBoxSettings.ShowEdge;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool ShowAxis { get; set; } = settingsService.VisualizationSettings.BoundingBoxSettings.ShowAxis;
 
-    /// <inheritdoc/>
-    /// <exception cref="ArgumentException"><paramref name="boxObject"/> is not a <see cref="BoundingBoxXYZ"/>.</exception>
+    /// <inheritdoc />
+    /// <exception cref="ArgumentException"><paramref name="boxObject" /> is not a <see cref="BoundingBoxXYZ" />.</exception>
     public void RegisterServer(object boxObject)
     {
         if (boxObject is not BoundingBoxXYZ box)
@@ -73,7 +73,7 @@ public sealed partial class BoundingBoxVisualizationViewModel(
         _server.Register(box);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void UnregisterServer()
     {
         _server.RenderFailed -= HandleRenderFailure;

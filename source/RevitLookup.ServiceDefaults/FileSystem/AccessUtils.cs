@@ -12,7 +12,6 @@
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 
-using System.IO;
 using System.Security.AccessControl;
 using System.Security.Principal;
 
@@ -27,7 +26,7 @@ public static class AccessUtils
     ///     Determines whether the current user has write access to the specified path.
     /// </summary>
     /// <param name="path">The path to check.</param>
-    /// <returns><see langword="true"/> if the current user has write access; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true" /> if the current user has write access; otherwise, <see langword="false" />.</returns>
     public static bool CheckWriteAccess(string path)
     {
         var identity = WindowsIdentity.GetCurrent();

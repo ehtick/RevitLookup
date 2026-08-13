@@ -2,7 +2,7 @@
 using RevitLookup.UI.Playground.SampleData;
 using Wpf.Ui.Controls;
 #if NETFRAMEWORK
-using RevitLookup.UI.Framework.Extensions;
+using RevitLookup.UI.Framework.Menus;
 #endif
 
 namespace RevitLookup.UI.Playground.ViewModels.Pages.DesignGuidance;
@@ -14,7 +14,7 @@ namespace RevitLookup.UI.Playground.ViewModels.Pages.DesignGuidance;
 public partial class SymbolIconsPageViewModel : ObservableObject
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="SymbolIconsPageViewModel"/> class.
+    ///     Initializes a new instance of the <see cref="SymbolIconsPageViewModel" /> class.
     /// </summary>
     public SymbolIconsPageViewModel()
     {
@@ -24,19 +24,18 @@ public partial class SymbolIconsPageViewModel : ObservableObject
             {
                 Name = symbol.ToString(),
                 Icon = symbol,
-                Code = ((int) symbol).ToString("X4")
+                Code = ((int)symbol).ToString("X4")
             })
             .OrderBy(data => data.Name)
             .ToList();
 
         SelectedIcon = Icons.FirstOrDefault();
     }
-    
-    [ObservableProperty]
-    private partial List<SymbolIconData> Icons { get; set; }
+
+    [ObservableProperty] private partial List<SymbolIconData> Icons { get; set; }
 
     /// <summary>
-    ///     Gets the icons that match the current <see cref="SearchText"/> filter.
+    ///     Gets the icons that match the current <see cref="SearchText" /> filter.
     /// </summary>
     [ObservableProperty]
     public partial List<SymbolIconData> FilteredIcons { get; private set; } = [];

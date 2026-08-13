@@ -2,23 +2,22 @@
 // The Microsoft Corporation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-
-// ReSharper disable once CheckNamespace
-
 using ColorConverter = System.Drawing.ColorConverter;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using Button = System.Windows.Controls.Button;
-using TextBox = System.Windows.Controls.TextBox;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using Color = System.Windows.Media.Color;
-using Point = System.Windows.Point;
 using RevitLookup.UI.Framework.Colors;
 using RevitLookup.UI.Framework.Controls.ColorPicker;
 using Wpf.Ui.Controls;
+using Button = System.Windows.Controls.Button;
+using TextBox = System.Windows.Controls.TextBox;
+using Color = System.Windows.Media.Color;
+using Point = System.Windows.Point;
+
+// ReSharper disable once CheckNamespace
 
 namespace RevitLookup.UI.Framework.Controls;
 
@@ -27,30 +26,30 @@ namespace RevitLookup.UI.Framework.Controls;
 /// </summary>
 public sealed partial class ColorPickerControl
 {
-    private double _currH = 360;
-    private double _currS = 1;
-    private double _currV = 1;
-    private bool _ignoreHexChanges;
-    private bool _ignoreRgbChanges;
-    private bool _ignoreGradientsChanges;
-    private bool _isCollapsed = true;
-    private Color _originalColor;
-    private Color _currentColor;
-
     private static readonly Regex HexColorRegex = new("^#?([0-9A-Fa-f]{3}){1,2}$", RegexOptions.Compiled);
     private static readonly Regex ShortHexColorRegex = new("^#?([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])$", RegexOptions.Compiled);
     private static readonly ColorConverter DrawingColorConverter = new();
 
     /// <summary>
-    ///     Identifies the <see cref="SelectedColor"/> dependency property.
+    ///     Identifies the <see cref="SelectedColor" /> dependency property.
     /// </summary>
     public static readonly DependencyProperty SelectedColorProperty = DependencyProperty.Register(nameof(SelectedColor),
         typeof(Color),
         typeof(ColorPickerControl),
         new FrameworkPropertyMetadata(Color.FromArgb(0, 0, 0, 0), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, SelectedColorPropertyChanged));
 
+    private double _currH = 360;
+    private double _currS = 1;
+    private double _currV = 1;
+    private Color _currentColor;
+    private bool _ignoreGradientsChanges;
+    private bool _ignoreHexChanges;
+    private bool _ignoreRgbChanges;
+    private bool _isCollapsed = true;
+    private Color _originalColor;
+
     /// <summary>
-    ///     Initializes a new instance of the <see cref="ColorPickerControl"/> class.
+    ///     Initializes a new instance of the <see cref="ColorPickerControl" /> class.
     /// </summary>
     public ColorPickerControl()
     {
@@ -64,14 +63,14 @@ public sealed partial class ColorPickerControl
     /// <value>The default value is transparent black.</value>
     public Color SelectedColor
     {
-        get => (Color) GetValue(SelectedColorProperty);
+        get => (Color)GetValue(SelectedColorProperty);
         set => SetValue(SelectedColorProperty, value);
     }
 
     private static void SelectedColorPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
     {
-        var control = (ColorPickerControl) dependencyObject;
-        var newColor = (Color) e.NewValue;
+        var control = (ColorPickerControl)dependencyObject;
+        var newColor = (Color)e.NewValue;
 
         control._originalColor = control._currentColor = newColor;
         var newColorBackground = new SolidColorBrush(newColor);
@@ -127,13 +126,13 @@ public sealed partial class ColorPickerControl
         }
 
         var s = hsv.Saturation;
-        var control = (ColorPickerControl) d;
+        var control = (ColorPickerControl)d;
 
-        control.ColorVariation1Button.Background = new SolidColorBrush(HsvColor.RgbFromHsv(Math.Min(hsv.Hue + (hueCoefficient * 8), 360), s, Math.Min(hsv.Value + 0.3, 1)));
-        control.ColorVariation2Button.Background = new SolidColorBrush(HsvColor.RgbFromHsv(Math.Min(hsv.Hue + (hueCoefficient * 4), 360), s, Math.Min(hsv.Value + 0.15, 1)));
+        control.ColorVariation1Button.Background = new SolidColorBrush(HsvColor.RgbFromHsv(Math.Min(hsv.Hue + hueCoefficient * 8, 360), s, Math.Min(hsv.Value + 0.3, 1)));
+        control.ColorVariation2Button.Background = new SolidColorBrush(HsvColor.RgbFromHsv(Math.Min(hsv.Hue + hueCoefficient * 4, 360), s, Math.Min(hsv.Value + 0.15, 1)));
 
-        control.ColorVariation3Button.Background = new SolidColorBrush(HsvColor.RgbFromHsv(Math.Max(hsv.Hue - (hueCoefficient2 * 4), 0), s, Math.Max(hsv.Value - 0.2, 0)));
-        control.ColorVariation4Button.Background = new SolidColorBrush(HsvColor.RgbFromHsv(Math.Max(hsv.Hue - (hueCoefficient2 * 8), 0), s, Math.Max(hsv.Value - 0.3, 0)));
+        control.ColorVariation3Button.Background = new SolidColorBrush(HsvColor.RgbFromHsv(Math.Max(hsv.Hue - hueCoefficient2 * 4, 0), s, Math.Max(hsv.Value - 0.2, 0)));
+        control.ColorVariation4Button.Background = new SolidColorBrush(HsvColor.RgbFromHsv(Math.Max(hsv.Hue - hueCoefficient2 * 8, 0), s, Math.Max(hsv.Value - 0.3, 0)));
     }
 
     private void UpdateValueColorGradient(double posX)
@@ -204,12 +203,12 @@ public sealed partial class ColorPickerControl
 
             var resizeColor = new DoubleAnimation(256, new Duration(TimeSpan.FromMilliseconds(250)))
             {
-                EasingFunction = new ExponentialEase {EasingMode = EasingMode.EaseInOut}
+                EasingFunction = new ExponentialEase { EasingMode = EasingMode.EaseInOut }
             };
 
             var moveColor = new ThicknessAnimation(new Thickness(0), new Duration(TimeSpan.FromMilliseconds(250)))
             {
-                EasingFunction = new ExponentialEase {EasingMode = EasingMode.EaseInOut}
+                EasingFunction = new ExponentialEase { EasingMode = EasingMode.EaseInOut }
             };
 
             CurrentColorButton.BeginAnimation(WidthProperty, resizeColor);
@@ -221,18 +220,21 @@ public sealed partial class ColorPickerControl
 
     private void HideDetails()
     {
-        if (_isCollapsed) return;
+        if (_isCollapsed)
+        {
+            return;
+        }
 
         _isCollapsed = true;
 
         var resizeColor = new DoubleAnimation(165, new Duration(TimeSpan.FromMilliseconds(150)))
         {
-            EasingFunction = new ExponentialEase {EasingMode = EasingMode.EaseInOut}
+            EasingFunction = new ExponentialEase { EasingMode = EasingMode.EaseInOut }
         };
 
         var moveColor = new ThicknessAnimation(new Thickness(72, 0, 72, 0), new Duration(TimeSpan.FromMilliseconds(150)))
         {
-            EasingFunction = new ExponentialEase {EasingMode = EasingMode.EaseInOut}
+            EasingFunction = new ExponentialEase { EasingMode = EasingMode.EaseInOut }
         };
 
         CurrentColorButton.BeginAnimation(WidthProperty, resizeColor);
@@ -259,13 +261,13 @@ public sealed partial class ColorPickerControl
 
     private void OnColorVariationButtonClicked(object sender, RoutedEventArgs e)
     {
-        var selectedColor = ((SolidColorBrush) ((Button) sender).Background).Color;
+        var selectedColor = ((SolidColorBrush)((Button)sender).Background).Color;
         SelectedColor = selectedColor;
     }
 
     private void OnSaturationGradientSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
-        UpdateSaturationColorGradient(((Slider) sender).Value);
+        UpdateSaturationColorGradient(((Slider)sender).Value);
         _ignoreGradientsChanges = true;
         UpdateTextBoxesAndCurrentColor(HsvColor.RgbFromHsv(_currH, _currS, _currV));
         _ignoreGradientsChanges = false;
@@ -273,7 +275,7 @@ public sealed partial class ColorPickerControl
 
     private void OnHueGradientSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
-        UpdateHueColorGradient(((Slider) sender).Value);
+        UpdateHueColorGradient(((Slider)sender).Value);
         _ignoreGradientsChanges = true;
         UpdateTextBoxesAndCurrentColor(HsvColor.RgbFromHsv(_currH, _currS, _currV));
         _ignoreGradientsChanges = false;
@@ -281,7 +283,7 @@ public sealed partial class ColorPickerControl
 
     private void OnValueGradientSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
-        UpdateValueColorGradient(((Slider) sender).Value);
+        UpdateValueColorGradient(((Slider)sender).Value);
         _ignoreGradientsChanges = true;
         UpdateTextBoxesAndCurrentColor(HsvColor.RgbFromHsv(_currH, _currS, _currV));
         _ignoreGradientsChanges = false;
@@ -289,7 +291,7 @@ public sealed partial class ColorPickerControl
 
     private void OnHexCodeTextChanged(object sender, TextChangedEventArgs e)
     {
-        var newValue = ((TextBox) sender).Text;
+        var newValue = ((TextBox)sender).Text;
 
         // support hex with 3 and 6 characters and optional with hashtag
         if (!HexColorRegex.IsMatch(newValue))
@@ -297,10 +299,13 @@ public sealed partial class ColorPickerControl
             return;
         }
 
-        if (_ignoreHexChanges) return;
+        if (_ignoreHexChanges)
+        {
+            return;
+        }
 
         // "FormatHexColorString()" is needed to add hashtag if missing and to convert the hex code from three to six characters. Without this we get format exceptions and incorrect color values.
-        var color = (System.Drawing.Color) DrawingColorConverter.ConvertFromString(FormatHexColorString(HexCode.Text))!;
+        var color = (System.Drawing.Color)DrawingColorConverter.ConvertFromString(FormatHexColorString(HexCode.Text))!;
 
         _ignoreHexChanges = true;
         SetColorFromTextBoxes(color);
@@ -313,7 +318,7 @@ public sealed partial class ColorPickerControl
         {
             var hsv = ColorFormatUtils.ConvertToHsvColor(color);
 
-            var huePosition = (hsv.Hue / 360) * HueGradientSlider.Maximum;
+            var huePosition = hsv.Hue / 360 * HueGradientSlider.Maximum;
             var saturationPosition = hsv.Saturation * SaturationGradientSlider.Maximum;
             var valuePosition = hsv.Value * ValueGradientSlider.Maximum;
             UpdateHueColorGradient(huePosition);
@@ -339,7 +344,7 @@ public sealed partial class ColorPickerControl
     }
 
     /// <summary>
-    /// Formats the hex code string to be accepted by <see cref="System.Drawing.ColorConverter.ConvertFromString(string)"/>. We are adding hashtag at the beginning if needed and convert from three characters to six characters code.
+    ///     Formats the hex code string to be accepted by <see cref="System.Drawing.ColorConverter.ConvertFromString(string)" />. We are adding hashtag at the beginning if needed and convert from three characters to six characters code.
     /// </summary>
     /// <param name="hexCodeText">The string we read from the hex text box.</param>
     /// <returns>Formatted string with hashtag and six characters of hex code.</returns>
@@ -357,22 +362,36 @@ public sealed partial class ColorPickerControl
 
     private void OnHexCodeGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
     {
-        ((TextBox) sender).SelectAll();
+        ((TextBox)sender).SelectAll();
     }
 
     private void OnRgbNumberBoxTextChanged(object sender, TextChangedEventArgs e)
     {
-        if (_ignoreRgbChanges) return;
+        if (_ignoreRgbChanges)
+        {
+            return;
+        }
 
-        var numberBox = (NumberBox) sender;
+        var numberBox = (NumberBox)sender;
 
-        if (!RNumberBox.Value.HasValue) return;
-        if (!GNumberBox.Value.HasValue) return;
-        if (!BNumberBox.Value.HasValue) return;
+        if (!RNumberBox.Value.HasValue)
+        {
+            return;
+        }
 
-        var r = numberBox.Name == "RNumberBox" ? GetValueFromNumberBox(numberBox) : (byte) RNumberBox.Value;
-        var g = numberBox.Name == "GNumberBox" ? GetValueFromNumberBox(numberBox) : (byte) GNumberBox.Value;
-        var b = numberBox.Name == "BNumberBox" ? GetValueFromNumberBox(numberBox) : (byte) BNumberBox.Value;
+        if (!GNumberBox.Value.HasValue)
+        {
+            return;
+        }
+
+        if (!BNumberBox.Value.HasValue)
+        {
+            return;
+        }
+
+        var r = numberBox.Name == "RNumberBox" ? GetValueFromNumberBox(numberBox) : (byte)RNumberBox.Value;
+        var g = numberBox.Name == "GNumberBox" ? GetValueFromNumberBox(numberBox) : (byte)GNumberBox.Value;
+        var b = numberBox.Name == "BNumberBox" ? GetValueFromNumberBox(numberBox) : (byte)BNumberBox.Value;
 
         _ignoreRgbChanges = true;
         SetColorFromTextBoxes(System.Drawing.Color.FromArgb(r, g, b));
@@ -380,19 +399,25 @@ public sealed partial class ColorPickerControl
     }
 
     /// <summary>
-    /// NumberBox provides value only after it has been validated - happens after pressing enter or leaving this control.
-    /// However, we need to get value immediately after the underlying textbox value changes
+    ///     NumberBox provides value only after it has been validated - happens after pressing enter or leaving this control.
+    ///     However, we need to get value immediately after the underlying textbox value changes
     /// </summary>
     /// <param name="numberBox">numberBox control which value we want to get</param>
     /// <returns>Validated value as per numberbox conditions, if content is invalid it returns previous value</returns>
     private static byte GetValueFromNumberBox(NumberBox numberBox)
     {
-        if (!numberBox.Value.HasValue) return byte.MinValue;
+        if (!numberBox.Value.HasValue)
+        {
+            return byte.MinValue;
+        }
 
         var parsedValue = ParseDouble(numberBox.Text);
-        if (!parsedValue.HasValue) return (byte) numberBox.Value;
+        if (!parsedValue.HasValue)
+        {
+            return (byte)numberBox.Value;
+        }
 
-        var parsedValueByte = (byte) parsedValue;
+        var parsedValueByte = (byte)parsedValue;
 
         if (parsedValueByte >= numberBox.Minimum && parsedValueByte <= numberBox.Maximum)
         {
@@ -400,14 +425,14 @@ public sealed partial class ColorPickerControl
         }
 
         // not valid input, return previous value
-        return (byte) numberBox.Value;
+        return (byte)numberBox.Value;
     }
 
     /// <summary>
     ///     Parses a floating-point number using the current culture.
     /// </summary>
     /// <param name="text">The text to parse.</param>
-    /// <returns>The parsed value, or <see langword="null"/> if <paramref name="text"/> is not a valid number.</returns>
+    /// <returns>The parsed value, or <see langword="null" /> if <paramref name="text" /> is not a valid number.</returns>
     public static double? ParseDouble(string text)
     {
         if (double.TryParse(text, out var result))

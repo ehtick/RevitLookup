@@ -19,12 +19,12 @@ using RevitLookup.Abstractions.ViewModels.AboutProgram;
 namespace RevitLookup.UI.Playground.Mocks.ViewModels.AboutProgram;
 
 /// <summary>
-///     Represents a Playground mock of <see cref="IOpenSourceViewModel"/> that lists the same third-party software bundled with the production application.
+///     Represents a Playground mock of <see cref="IOpenSourceViewModel" /> that lists the same third-party software bundled with the production application.
 /// </summary>
 [UsedImplicitly]
 public sealed class MockOpenSourceViewModel : ObservableObject, IOpenSourceViewModel
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public List<OpenSourceSoftware> Software { get; } =
     [
         new()

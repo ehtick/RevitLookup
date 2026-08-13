@@ -9,7 +9,7 @@ using RevitLookup.ServiceDefaults.FileSystem;
 namespace RevitLookup.ServiceDefaults.Application;
 
 /// <summary>
-///     Provides extension methods for <see cref="IHostApplicationBuilder"/> to bind the running assembly's facts.
+///     Provides extension methods for <see cref="IHostApplicationBuilder" /> to bind the running assembly's facts.
 /// </summary>
 [PublicAPI]
 public static class AssemblyRegistration
@@ -18,9 +18,9 @@ public static class AssemblyRegistration
     extension<TBuilder>(TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
         /// <summary>
-        ///     Binds the framework, version, and write-access facts of the running assembly to <see cref="AssemblyOptions"/>.
+        ///     Binds the framework, version, and write-access facts of the running assembly to <see cref="AssemblyOptions" />.
         /// </summary>
-        /// <returns>The <see cref="TBuilder"/> for chaining.</returns>
+        /// <returns>The <see cref="TBuilder" /> for chaining.</returns>
         public TBuilder ConfigureAssembly()
         {
             var assembly = Assembly.GetExecutingAssembly();

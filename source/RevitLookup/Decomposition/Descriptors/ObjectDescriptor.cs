@@ -23,15 +23,15 @@ namespace RevitLookup.Decomposition.Descriptors;
 public sealed class ObjectDescriptor : Descriptor, IDescriptorConfigurator
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="ObjectDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="ObjectDescriptor" /> class.
     /// </summary>
-    /// <param name="value">The object to expose. Its display name is derived from <see cref="object.ToString()"/>.</param>
+    /// <param name="value">The object to expose. Its display name is derived from <see cref="object.ToString()" />.</param>
     public ObjectDescriptor(object? value)
     {
         Name = value?.ToString();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(IDisposable.Dispose)).Disable();

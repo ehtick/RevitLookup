@@ -20,7 +20,7 @@ using System.Windows.Data;
 namespace RevitLookup.UI.Framework.Converters;
 
 /// <summary>
-///     Provides <see cref="IMultiValueConverter"/> instances that show the settings empty-state placeholder.
+///     Provides <see cref="IMultiValueConverter" /> instances that show the settings empty-state placeholder.
 /// </summary>
 public static class SettingsVisibilityConverters
 {
@@ -42,22 +42,35 @@ public static class SettingsVisibilityConverters
 
     private sealed class VisibleWhenEmptySearchResultsConverter : IMultiValueConverter
     {
-        /// <inheritdoc/>
-        /// <exception cref="ArgumentException"><paramref name="values"/> does not contain exactly three elements.</exception>
+        /// <inheritdoc />
+        /// <exception cref="ArgumentException"><paramref name="values" /> does not contain exactly three elements.</exception>
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values.Length != 3) throw new ArgumentException("Invalid parameters");
+            if (values.Length != 3)
+            {
+                throw new ArgumentException("Invalid parameters");
+            }
 
             var items = (ICollection)values[0]!;
-            if (items.Count > 0) return Visibility.Collapsed;
+            if (items.Count > 0)
+            {
+                return Visibility.Collapsed;
+            }
 
-            if (values[1] is > 0) return Visibility.Collapsed;
-            if (values[2] is false) return Visibility.Collapsed;
+            if (values[1] is > 0)
+            {
+                return Visibility.Collapsed;
+            }
+
+            if (values[2] is false)
+            {
+                return Visibility.Collapsed;
+            }
 
             return Visibility.Visible;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotSupportedException();
@@ -66,19 +79,33 @@ public static class SettingsVisibilityConverters
 
     private sealed class VisibleWhenEmptyAfterInitializationConverter : IMultiValueConverter
     {
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values[0] is not int collectionSize) return Visibility.Collapsed;
-            if (values[1] is not bool isInitialized) return Visibility.Collapsed;
+            if (values[0] is not int collectionSize)
+            {
+                return Visibility.Collapsed;
+            }
 
-            if (!isInitialized) return Visibility.Collapsed;
-            if (collectionSize > 0) return Visibility.Collapsed;
+            if (values[1] is not bool isInitialized)
+            {
+                return Visibility.Collapsed;
+            }
+
+            if (!isInitialized)
+            {
+                return Visibility.Collapsed;
+            }
+
+            if (collectionSize > 0)
+            {
+                return Visibility.Collapsed;
+            }
 
             return Visibility.Visible;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotSupportedException();

@@ -18,12 +18,12 @@ using LookupEngine.Abstractions.Configuration;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="AssetProperties"/> exposed to LookupEngine.
+///     Represents the <see cref="AssetProperties" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="assetProperties">The asset properties collection to expose.</param>
 public sealed class AssetPropertiesDescriptor(AssetProperties assetProperties) : ResolvingDescriptor, IDescriptorConfigurator
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(AssetProperties.Dispose)).Disable();

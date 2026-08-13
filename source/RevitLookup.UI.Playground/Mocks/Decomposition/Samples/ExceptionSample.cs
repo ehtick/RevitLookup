@@ -13,7 +13,7 @@ namespace RevitLookup.UI.Playground.Mocks.Decomposition.Samples;
 public sealed class ExceptionSample
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="ExceptionSample"/> class with fake endpoint metadata.
+    ///     Initializes a new instance of the <see cref="ExceptionSample" /> class with fake endpoint metadata.
     /// </summary>
     public ExceptionSample()
     {

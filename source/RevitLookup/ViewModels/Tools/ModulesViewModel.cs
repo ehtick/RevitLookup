@@ -29,7 +29,7 @@ namespace RevitLookup.ViewModels.Tools;
 public sealed partial class ModulesViewModel : ObservableObject, IModulesViewModel
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="ModulesViewModel"/> class.
+    ///     Initializes a new instance of the <see cref="ModulesViewModel" /> class.
     /// </summary>
     public ModulesViewModel()
     {
@@ -56,16 +56,16 @@ public sealed partial class ModulesViewModel : ObservableObject, IModulesViewMod
             Modules.Add(module);
         }
     }
-    
-    /// <inheritdoc/>
+
+    /// <inheritdoc />
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial List<ModuleInfo> Modules { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial List<ModuleInfo> FilteredModules { get; set; } = [];
 

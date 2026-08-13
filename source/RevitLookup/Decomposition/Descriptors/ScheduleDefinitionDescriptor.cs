@@ -18,24 +18,32 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.ScheduleDefinition"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.ScheduleDefinition" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="scheduleDefinition">The schedule definition to expose.</param>
 public sealed class ScheduleDefinitionDescriptor(ScheduleDefinition scheduleDefinition) : Descriptor, IDescriptorConfigurator, IDescriptorConfigurator<Document>
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(ScheduleDefinition.Dispose)).Disable();
-        configuration.Member(nameof(ScheduleDefinition.CanFilterByGlobalParameters)).Resolve(() => ResolveScheduleFields(scheduleDefinition.GetFieldOrder(), scheduleDefinition.CanFilterByGlobalParameters, (field, result) => $"{scheduleDefinition.GetField(field).GetName()}: {result}"));
-        configuration.Member(nameof(ScheduleDefinition.CanFilterByParameterExistence)).Resolve(() => ResolveScheduleFields(scheduleDefinition.GetFieldOrder(), scheduleDefinition.CanFilterByParameterExistence, (field, result) => $"{scheduleDefinition.GetField(field).GetName()}: {result}"));
-        configuration.Member(nameof(ScheduleDefinition.CanFilterBySubstring)).Resolve(() => ResolveScheduleFields(scheduleDefinition.GetFieldOrder(), scheduleDefinition.CanFilterBySubstring, (field, result) => $"{scheduleDefinition.GetField(field).GetName()}: {result}"));
-        configuration.Member(nameof(ScheduleDefinition.CanFilterByValue)).Resolve(() => ResolveScheduleFields(scheduleDefinition.GetFieldOrder(), scheduleDefinition.CanFilterByValue, (field, result) => $"{scheduleDefinition.GetField(field).GetName()}: {result}"));
-        configuration.Member(nameof(ScheduleDefinition.CanFilterByValuePresence)).Resolve(() => ResolveScheduleFields(scheduleDefinition.GetFieldOrder(), scheduleDefinition.CanFilterByValuePresence, (field, result) => $"{scheduleDefinition.GetField(field).GetName()}: {result}"));
-        configuration.Member(nameof(ScheduleDefinition.CanSortByField)).Resolve(() => ResolveScheduleFields(scheduleDefinition.GetFieldOrder(), scheduleDefinition.CanSortByField, (field, result) => $"{scheduleDefinition.GetField(field).GetName()}: {result}"));
+        configuration.Member(nameof(ScheduleDefinition.CanFilterByGlobalParameters)).Resolve(() =>
+            ResolveScheduleFields(scheduleDefinition.GetFieldOrder(), scheduleDefinition.CanFilterByGlobalParameters, (field, result) => $"{scheduleDefinition.GetField(field).GetName()}: {result}"));
+        configuration.Member(nameof(ScheduleDefinition.CanFilterByParameterExistence)).Resolve(() =>
+            ResolveScheduleFields(scheduleDefinition.GetFieldOrder(), scheduleDefinition.CanFilterByParameterExistence, (field, result) => $"{scheduleDefinition.GetField(field).GetName()}: {result}"));
+        configuration.Member(nameof(ScheduleDefinition.CanFilterBySubstring)).Resolve(() =>
+            ResolveScheduleFields(scheduleDefinition.GetFieldOrder(), scheduleDefinition.CanFilterBySubstring, (field, result) => $"{scheduleDefinition.GetField(field).GetName()}: {result}"));
+        configuration.Member(nameof(ScheduleDefinition.CanFilterByValue)).Resolve(() =>
+            ResolveScheduleFields(scheduleDefinition.GetFieldOrder(), scheduleDefinition.CanFilterByValue, (field, result) => $"{scheduleDefinition.GetField(field).GetName()}: {result}"));
+        configuration.Member(nameof(ScheduleDefinition.CanFilterByValuePresence)).Resolve(() =>
+            ResolveScheduleFields(scheduleDefinition.GetFieldOrder(), scheduleDefinition.CanFilterByValuePresence, (field, result) => $"{scheduleDefinition.GetField(field).GetName()}: {result}"));
+        configuration.Member(nameof(ScheduleDefinition.CanSortByField))
+            .Resolve(() => ResolveScheduleFields(scheduleDefinition.GetFieldOrder(), scheduleDefinition.CanSortByField, (field, result) => $"{scheduleDefinition.GetField(field).GetName()}: {result}"));
         configuration.Member(nameof(ScheduleDefinition.GetField)).Resolve(() => ResolveScheduleFields(scheduleDefinition.GetFieldOrder(), scheduleDefinition.GetField, (_, result) => result.GetName()));
-        configuration.Member(nameof(ScheduleDefinition.GetFieldId)).Resolve(() => ResolveScheduleFields(scheduleDefinition.GetFieldOrder(), field => scheduleDefinition.GetFieldId(field.IntegerValue), (field, result) => $"{scheduleDefinition.GetField(field).GetName()}: {result}"));
-        configuration.Member(nameof(ScheduleDefinition.GetFieldIndex)).Resolve(() => ResolveScheduleFields(scheduleDefinition.GetFieldOrder(), scheduleDefinition.GetFieldIndex, (field, result) => $"{scheduleDefinition.GetField(field).GetName()}: {result}"));
+        configuration.Member(nameof(ScheduleDefinition.GetFieldId)).Resolve(() =>
+            ResolveScheduleFields(scheduleDefinition.GetFieldOrder(), field => scheduleDefinition.GetFieldId(field.IntegerValue), (field, result) => $"{scheduleDefinition.GetField(field).GetName()}: {result}"));
+        configuration.Member(nameof(ScheduleDefinition.GetFieldIndex))
+            .Resolve(() => ResolveScheduleFields(scheduleDefinition.GetFieldOrder(), scheduleDefinition.GetFieldIndex, (field, result) => $"{scheduleDefinition.GetField(field).GetName()}: {result}"));
         configuration.Member(nameof(ScheduleDefinition.GetFilter)).Resolve(ResolveGetFilter);
         configuration.Member(nameof(ScheduleDefinition.GetSortGroupField)).Resolve(ResolveGetSortGroupField);
         return;
@@ -85,7 +93,7 @@ public sealed class ScheduleDefinitionDescriptor(ScheduleDefinition scheduleDefi
             return variants.Consume();
         }
     }
-    
+
     private static IVariant ResolveScheduleFields<TResult>(
         IList<ScheduleFieldId> fields,
         Func<ScheduleFieldId, TResult> selector,

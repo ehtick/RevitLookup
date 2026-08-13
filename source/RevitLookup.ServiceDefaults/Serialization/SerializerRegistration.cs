@@ -6,7 +6,7 @@ using Microsoft.Extensions.Hosting;
 namespace RevitLookup.ServiceDefaults.Serialization;
 
 /// <summary>
-///     Provides extension methods for <see cref="IHostApplicationBuilder"/> to configure JSON serialization.
+///     Provides extension methods for <see cref="IHostApplicationBuilder" /> to configure JSON serialization.
 /// </summary>
 [PublicAPI]
 public static class SerializerRegistration
@@ -17,7 +17,7 @@ public static class SerializerRegistration
         /// <summary>
         ///     Configures the JSON serializer options the application serializes through.
         /// </summary>
-        /// <returns>The <see cref="TBuilder"/> for chaining.</returns>
+        /// <returns>The <see cref="TBuilder" /> for chaining.</returns>
         public TBuilder ConfigureJsonSerializerDefaults()
         {
             builder.Services.Configure<JsonSerializerOptions>(options =>

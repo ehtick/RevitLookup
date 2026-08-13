@@ -23,8 +23,8 @@ public static class Versioning
     ///     Resolves the version, pre-release label, and MSI-compatible version from the specified version string.
     /// </summary>
     /// <param name="version">The release version string, in the <c>version-environment.n.date</c> format.</param>
-    /// <returns>The resolved <see cref="ResolveVersioningResult"/>.</returns>
-    /// <exception cref="FormatException"><paramref name="version"/> does not contain a parsable version number.</exception>
+    /// <returns>The resolved <see cref="ResolveVersioningResult" />.</returns>
+    /// <exception cref="FormatException"><paramref name="version" /> does not contain a parsable version number.</exception>
     public static ResolveVersioningResult CreateFromVersionStringAsync(string version)
     {
         var versionParts = version.Split('-');
@@ -48,8 +48,8 @@ public sealed record ResolveVersioningResult
     /// </summary>
     /// <remarks>Version format: <c>version-environment.n.date</c>.</remarks>
     /// <example>
-    ///     1.0.0-alpha.1.250101 <br/>
-    ///     1.0.0-beta.2.250101 <br/>
+    ///     1.0.0-alpha.1.250101 <br />
+    ///     1.0.0-beta.2.250101 <br />
     ///     1.0.0
     /// </example>
     public required string Version { get; init; }
@@ -58,8 +58,8 @@ public sealed record ResolveVersioningResult
     ///     The normal part of the release version number.
     /// </summary>
     /// <example>
-    ///     1.0.0 <br/>
-    ///     12.3.6 <br/>
+    ///     1.0.0 <br />
+    ///     12.3.6 <br />
     ///     2026.4.0
     /// </example>
     public required Version VersionPrefix { get; init; }
@@ -68,8 +68,8 @@ public sealed record ResolveVersioningResult
     ///     The pre-release label of the release version number.
     /// </summary>
     /// <example>
-    ///     alpha <br/>
-    ///     beta <br/>
+    ///     alpha <br />
+    ///     beta <br />
     ///     rc.1.250101
     /// </example>
     public required string? VersionSuffix { get; init; }

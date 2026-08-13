@@ -43,9 +43,9 @@
                     FontTypography="Subtitle" />
             </StackPanel>
         </StackPanel>
-        
+
         <controls:TileGallery
-            Margin="0 24 0 0"/>
+            Margin="0 24 0 0" />
 
         <ui:CardAction
             Margin="0 24 0 0"

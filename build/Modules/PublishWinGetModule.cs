@@ -31,24 +31,27 @@ public sealed partial class PublishWinGetModule(IOptions<BuildOptions> buildOpti
 {
     private const string PackageIdPrefix = "LookupFoundation.RevitLookup";
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-        .WithSkipWhen(async context =>
-        {
-            if (string.IsNullOrEmpty(publishOptions.Value.WinGetToken))
+    protected override ModuleConfiguration Configure()
+    {
+        return ModuleConfiguration.Create()
+            .WithSkipWhen(async context =>
             {
-                return SkipDecision.Skip("WinGetToken is not provided");
-            }
+                if (string.IsNullOrEmpty(publishOptions.Value.WinGetToken))
+                {
+                    return SkipDecision.Skip("WinGetToken is not provided");
+                }
 
-            var versioningResult = await context.GetModule<ResolveVersioningModule>();
-            var versioning = versioningResult.ValueOrDefault!;
-            if (versioning.IsPrerelease)
-            {
-                return SkipDecision.Skip($"Prerelease version: {versioning.Version}");
-            }
+                var versioningResult = await context.GetModule<ResolveVersioningModule>();
+                var versioning = versioningResult.ValueOrDefault!;
+                if (versioning.IsPrerelease)
+                {
+                    return SkipDecision.Skip($"Prerelease version: {versioning.Version}");
+                }
 
-            return SkipDecision.DoNotSkip;
-        })
-        .Build();
+                return SkipDecision.DoNotSkip;
+            })
+            .Build();
+    }
 
     protected override async Task ExecuteModuleAsync(IModuleContext context, CancellationToken cancellationToken)
     {

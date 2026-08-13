@@ -7,12 +7,12 @@ namespace RevitLookup.UI.Framework.Controls.Automation;
 ///     Represents a window automation peer that reports no children, disabling UI Automation for the window.
 /// </summary>
 /// <remarks>
-///     Works around a freeze that occurs when a <see cref="System.Windows.Controls.ToolTip"/> or <see cref="System.Windows.Controls.Primitives.Popup"/> is used together with UI Automation;
+///     Works around a freeze that occurs when a <see cref="System.Windows.Controls.ToolTip" /> or <see cref="System.Windows.Controls.Primitives.Popup" /> is used together with UI Automation;
 ///     see <see href="https://github.com/dotnet/wpf/issues/5807">dotnet/wpf#5807</see>.
 /// </remarks>
 public sealed class NoAutomationWindowPeer(Window owner) : WindowAutomationPeer(owner)
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override List<AutomationPeer> GetChildrenCore()
     {
         return [];

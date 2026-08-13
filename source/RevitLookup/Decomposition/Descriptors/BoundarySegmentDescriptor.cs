@@ -19,12 +19,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="BoundarySegment"/> exposed to LookupEngine.
+///     Represents the <see cref="BoundarySegment" /> exposed to LookupEngine.
 /// </summary>
 public sealed class BoundarySegmentDescriptor : Descriptor, IDescriptorConfigurator
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="BoundarySegmentDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="BoundarySegmentDescriptor" /> class.
     /// </summary>
     /// <param name="boundarySegment">The boundary segment to expose.</param>
     public BoundarySegmentDescriptor(BoundarySegment boundarySegment)
@@ -33,11 +33,11 @@ public sealed class BoundarySegmentDescriptor : Descriptor, IDescriptorConfigura
         Name = curve switch
         {
             null => $"ID{boundarySegment.ElementId}",
-            _ => $"ID{boundarySegment.ElementId}, {curve.Length.ToString(CultureInfo.InvariantCulture)} ft",
+            _ => $"ID{boundarySegment.ElementId}, {curve.Length.ToString(CultureInfo.InvariantCulture)} ft"
         };
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(BoundarySegment.Dispose)).Disable();

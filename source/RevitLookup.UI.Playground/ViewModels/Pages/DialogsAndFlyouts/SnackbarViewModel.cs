@@ -12,8 +12,8 @@ namespace RevitLookup.UI.Playground.ViewModels.Pages.DialogsAndFlyouts;
 [UsedImplicitly]
 public partial class SnackbarViewModel(ISnackbarService snackbarService) : ObservableObject
 {
-    private ControlAppearance _snackbarAppearance = ControlAppearance.Secondary;
     private IconElement _icon = new SymbolIcon { Symbol = SymbolRegular.Info24, FontSize = 24 };
+    private ControlAppearance _snackbarAppearance = ControlAppearance.Secondary;
 
     /// <summary>
     ///     Gets or sets the duration, in seconds, the sample snackbar remains visible.
@@ -51,7 +51,7 @@ public partial class SnackbarViewModel(ISnackbarService snackbarService) : Obser
             6 => ControlAppearance.Light,
             7 => ControlAppearance.Dark,
             8 => ControlAppearance.Transparent,
-            _ => ControlAppearance.Primary,
+            _ => ControlAppearance.Primary
         };
 
         _icon = _snackbarAppearance switch

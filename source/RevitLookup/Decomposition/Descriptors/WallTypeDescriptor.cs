@@ -17,12 +17,12 @@ using LookupEngine.Abstractions.Configuration;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.WallType"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.WallType" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="wallType">The wall type to expose.</param>
 public sealed class WallTypeDescriptor(WallType wallType) : ElementDescriptor(wallType)
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(WallType.Dispose)).Disable();

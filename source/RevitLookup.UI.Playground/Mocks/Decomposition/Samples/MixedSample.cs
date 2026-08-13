@@ -9,15 +9,18 @@ namespace RevitLookup.UI.Playground.Mocks.Decomposition.Samples;
 /// <remarks>
 ///     One window can exercise all cell templates, row styles, and decomposition options at once.
 ///     Synthetic computed, deferred, disabled, and unsupported members are added by
-///     <see cref="RevitLookup.UI.Playground.Mocks.Decomposition.Descriptors.MixedSampleDescriptor"/>.
+///     <see cref="RevitLookup.UI.Playground.Mocks.Decomposition.Descriptors.MixedSampleDescriptor" />.
 /// </remarks>
 [PublicAPI]
 public sealed class MixedSample
 {
-    private readonly string _checksum;
+    /// <summary>
+    ///     The current revision number.
+    /// </summary>
+    public int Revision;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="MixedSample"/> class with fake data covering every rendered value kind.
+    ///     Initializes a new instance of the <see cref="MixedSample" /> class with fake data covering every rendered value kind.
     /// </summary>
     public MixedSample()
     {
@@ -27,7 +30,7 @@ public sealed class MixedSample
         Tint = Color.FromArgb(faker.Random.Byte(), faker.Random.Byte(), faker.Random.Byte(), faker.Random.Byte());
         Revision = faker.Random.Int(1, 10);
         Author = new PlaceholderSample();
-        _checksum = faker.Random.Guid().ToString();
+        Checksum = faker.Random.Guid().ToString();
 
         var swatches = new List<Color>(8);
         for (var i = 0; i < swatches.Capacity; i++)
@@ -62,13 +65,13 @@ public sealed class MixedSample
     /// <summary>
     ///     Gets the note.
     /// </summary>
-    /// <value><see langword="null"/>.</value>
+    /// <value><see langword="null" />.</value>
     public string? Note => null;
 
     /// <summary>
     ///     Gets the reference URI.
     /// </summary>
-    /// <value><see langword="null"/>.</value>
+    /// <value><see langword="null" />.</value>
     public Uri? Reference => null;
 
     /// <summary>
@@ -92,22 +95,17 @@ public sealed class MixedSample
     /// </summary>
     public static string DefaultCategory { get; } = "Samples";
 
-    /// <summary>
-    ///     The current revision number.
-    /// </summary>
-    public int Revision;
-
-    private string Checksum => _checksum;
+    private string Checksum { get; }
 
     /// <summary>
-    ///     An event that is raised when <see cref="Refresh"/> updates the revision.
+    ///     An event that is raised when <see cref="Refresh" /> updates the revision.
     /// </summary>
     public event EventHandler? Changed;
 
     /// <summary>
-    ///     Raises <see cref="Changed"/> and reports the current revision.
+    ///     Raises <see cref="Changed" /> and reports the current revision.
     /// </summary>
-    /// <returns>A message combining <see cref="Revision"/> and the checksum.</returns>
+    /// <returns>A message combining <see cref="Revision" /> and the checksum.</returns>
     public string Refresh()
     {
         Changed?.Invoke(this, EventArgs.Empty);

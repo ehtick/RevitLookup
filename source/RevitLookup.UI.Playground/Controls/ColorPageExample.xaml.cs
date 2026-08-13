@@ -11,17 +11,17 @@ namespace RevitLookup.UI.Playground.Controls;
 public sealed class ColorPageExample : UserControl
 {
     /// <summary>
-    ///     Identifies the <see cref="Description"/> dependency property.
+    ///     Identifies the <see cref="Description" /> dependency property.
     /// </summary>
-    public static readonly DependencyProperty DescriptionProperty = DependencyProperty.Register(nameof(Description), typeof(string), typeof(ColorPageExample), new PropertyMetadata(""));
+    public static readonly DependencyProperty DescriptionProperty = DependencyProperty.Register(nameof(Description), typeof(string), typeof(ColorPageExample), new PropertyMetadata(string.Empty));
 
     /// <summary>
-    ///     Identifies the <see cref="Title"/> dependency property.
+    ///     Identifies the <see cref="Title" /> dependency property.
     /// </summary>
-    public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(string), typeof(ColorPageExample), new PropertyMetadata(""));
+    public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(string), typeof(ColorPageExample), new PropertyMetadata(string.Empty));
 
     /// <summary>
-    ///     Identifies the <see cref="ExampleContent"/> dependency property.
+    ///     Identifies the <see cref="ExampleContent" /> dependency property.
     /// </summary>
     public static readonly DependencyProperty ExampleContentProperty = DependencyProperty.Register(nameof(ExampleContent), typeof(UIElement), typeof(ColorPageExample), new PropertyMetadata(null));
 
@@ -51,5 +51,4 @@ public sealed class ColorPageExample : UserControl
         get => (UIElement)GetValue(ExampleContentProperty);
         set => SetValue(ExampleContentProperty, value);
     }
-
 }

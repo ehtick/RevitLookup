@@ -12,10 +12,7 @@
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 
-using System.Runtime.CompilerServices;
-using Autodesk.Revit.DB.Structure;
 using LookupEngine.Abstractions.Configuration;
-using RevitLookup.Decomposition.Extensions;
 #if REVIT2026_OR_GREATER
 using Autodesk.Revit.DB.ExternalData;
 #endif
@@ -23,12 +20,12 @@ using Autodesk.Revit.DB.ExternalData;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="ElementType"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.ElementType" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="elementType">The element type to expose.</param>
 public sealed class ElementTypeDescriptor(ElementType elementType) : ElementDescriptor(elementType)
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(ElementType.Dispose)).Disable();
@@ -68,7 +65,7 @@ public sealed class ElementTypeDescriptor(ElementType elementType) : ElementDesc
     {
         var isCoordinationModelType = SafeEvaluate(() => CoordinationModelLinkUtils.IsCoordinationModelType(elementType.Document, elementType));
         configuration.Extension(nameof(CoordinationModelLinkUtils.IsCoordinationModelType)).Register(() => isCoordinationModelType);
-        
+
         if (isCoordinationModelType)
         {
             configuration.Extension("GetCoordinationModelTransparencyOverride").Register(() => CoordinationModelLinkUtils.GetTransparencyOverride(elementType.Document, elementType.Document.ActiveView, elementType));

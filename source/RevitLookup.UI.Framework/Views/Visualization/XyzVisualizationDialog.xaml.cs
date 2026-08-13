@@ -26,7 +26,7 @@ public sealed partial class XyzVisualizationDialog
     private readonly IXyzVisualizationViewModel _viewModel;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="XyzVisualizationDialog"/> class.
+    ///     Initializes a new instance of the <see cref="XyzVisualizationDialog" /> class.
     /// </summary>
     /// <param name="dialogService">The service that supplies the dialog host this dialog is shown on.</param>
     /// <param name="viewModel">The view model that renders the point in the active Revit view.</param>

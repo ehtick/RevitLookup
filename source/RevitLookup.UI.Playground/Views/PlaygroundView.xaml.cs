@@ -10,14 +10,14 @@ using Wpf.Ui.Controls;
 namespace RevitLookup.UI.Playground.Views;
 
 /// <summary>
-/// Represents the main window that hosts navigation between the Playground's demo pages.
+///     Represents the main window that hosts navigation between the Playground's demo pages.
 /// </summary>
 public sealed partial class PlaygroundView
 {
     private readonly INavigationService _navigationService;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PlaygroundView"/> class.
+    ///     Initializes a new instance of the <see cref="PlaygroundView" /> class.
     /// </summary>
     /// <param name="viewModel">The view model that supplies data for the window.</param>
     /// <param name="navigationService">The service that navigates between pages hosted in the window.</param>
@@ -42,14 +42,17 @@ public sealed partial class PlaygroundView
 
         Loaded += (sender, _) =>
         {
-            var self = (PlaygroundView) sender;
+            var self = (PlaygroundView)sender;
             self._navigationService.Navigate(typeof(DashboardPage));
         };
     }
 
     private void OnNavigationSelectionChanged(object sender, RoutedEventArgs e)
     {
-        if (sender is not NavigationView navigationView) return;
+        if (sender is not NavigationView navigationView)
+        {
+            return;
+        }
 
         var onControlsPage = navigationView.SelectedItem?.TargetPageType != typeof(DashboardPage);
         var showHeader = onControlsPage ? Visibility.Visible : Visibility.Collapsed;
@@ -57,7 +60,7 @@ public sealed partial class PlaygroundView
         NavigationView.SetCurrentValue(NavigationView.HeaderVisibilityProperty, showHeader);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override AutomationPeer OnCreateAutomationPeer()
     {
         return new NoAutomationWindowPeer(this);

@@ -22,50 +22,105 @@ using Binding = System.Windows.Data.Binding;
 namespace RevitLookup.UI.Framework.Converters;
 
 /// <summary>
-///     Provides <see cref="IValueConverter"/> instances that display a member icon for a given <see cref="MemberAttributes"/> combination.
+///     Provides <see cref="IValueConverter" /> instances that display a member icon for a given <see cref="MemberAttributes" /> combination.
 /// </summary>
 public static class IconConverters
 {
     /// <summary>
-    ///     Gets a converter that maps a <see cref="MemberAttributes"/> combination to the <see cref="SymbolRegular"/> icon representing it.
+    ///     Gets a converter that maps a <see cref="MemberAttributes" /> combination to the <see cref="SymbolRegular" /> icon representing it.
     /// </summary>
     public static IValueConverter MemberAttribute { get; } = new MemberAttributeConverter();
 
     private sealed class MemberAttributeConverter : IValueConverter
     {
-        /// <inheritdoc/>
+        /// <inheritdoc />
         /// <remarks>
-        ///     Returns <see cref="Binding.DoNothing"/> for a <see cref="MemberAttributes"/> combination this converter does not recognize.
+        ///     Returns <see cref="Binding.DoNothing" /> for a <see cref="MemberAttributes" /> combination this converter does not recognize.
         /// </remarks>
         public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             var attributes = (MemberAttributes)value!;
 
-            if ((attributes & MemberAttributes.Property) != 0 && (attributes & MemberAttributes.Private) != 0 && (attributes & MemberAttributes.Static) != 0) return SymbolRegular.CalendarLock16;
-            if ((attributes & MemberAttributes.Property) != 0 && (attributes & MemberAttributes.Private) != 0) return SymbolRegular.DocumentLock16;
-            if ((attributes & MemberAttributes.Property) != 0 && (attributes & MemberAttributes.Static) != 0) return SymbolRegular.ClipboardNote16;
-            if ((attributes & MemberAttributes.Property) != 0) return SymbolRegular.ClipboardBulletListLtr16;
+            if ((attributes & MemberAttributes.Property) != 0 && (attributes & MemberAttributes.Private) != 0 && (attributes & MemberAttributes.Static) != 0)
+            {
+                return SymbolRegular.CalendarLock16;
+            }
 
-            if ((attributes & MemberAttributes.Method) != 0 && (attributes & MemberAttributes.Private) != 0 && (attributes & MemberAttributes.Static) != 0) return SymbolRegular.ShieldLock16;
-            if ((attributes & MemberAttributes.Method) != 0 && (attributes & MemberAttributes.Private) != 0) return SymbolRegular.TableLock16;
-            if ((attributes & MemberAttributes.Method) != 0 && (attributes & MemberAttributes.Static) != 0) return SymbolRegular.Box16;
-            if ((attributes & MemberAttributes.Method) != 0) return SymbolRegular.Cube16;
+            if ((attributes & MemberAttributes.Property) != 0 && (attributes & MemberAttributes.Private) != 0)
+            {
+                return SymbolRegular.DocumentLock16;
+            }
 
-            if ((attributes & MemberAttributes.Field) != 0 && (attributes & MemberAttributes.Private) != 0 && (attributes & MemberAttributes.Static) != 0) return SymbolRegular.TrophyLock16;
-            if ((attributes & MemberAttributes.Field) != 0 && (attributes & MemberAttributes.Private) != 0) return SymbolRegular.TagLock16;
-            if ((attributes & MemberAttributes.Field) != 0 && (attributes & MemberAttributes.Static) != 0) return SymbolRegular.TagMultiple16;
-            if ((attributes & MemberAttributes.Field) != 0) return SymbolRegular.Tag16;
+            if ((attributes & MemberAttributes.Property) != 0 && (attributes & MemberAttributes.Static) != 0)
+            {
+                return SymbolRegular.ClipboardNote16;
+            }
 
-            if ((attributes & MemberAttributes.Event) != 0 && (attributes & MemberAttributes.Private) != 0) return SymbolRegular.FlashSettings20;
-            if ((attributes & MemberAttributes.Event) != 0) return SymbolRegular.Flash16;
+            if ((attributes & MemberAttributes.Property) != 0)
+            {
+                return SymbolRegular.ClipboardBulletListLtr16;
+            }
 
-            if ((attributes & MemberAttributes.Extension) != 0) return SymbolRegular.CubeArrowCurveDown20;
+            if ((attributes & MemberAttributes.Method) != 0 && (attributes & MemberAttributes.Private) != 0 && (attributes & MemberAttributes.Static) != 0)
+            {
+                return SymbolRegular.ShieldLock16;
+            }
+
+            if ((attributes & MemberAttributes.Method) != 0 && (attributes & MemberAttributes.Private) != 0)
+            {
+                return SymbolRegular.TableLock16;
+            }
+
+            if ((attributes & MemberAttributes.Method) != 0 && (attributes & MemberAttributes.Static) != 0)
+            {
+                return SymbolRegular.Box16;
+            }
+
+            if ((attributes & MemberAttributes.Method) != 0)
+            {
+                return SymbolRegular.Cube16;
+            }
+
+            if ((attributes & MemberAttributes.Field) != 0 && (attributes & MemberAttributes.Private) != 0 && (attributes & MemberAttributes.Static) != 0)
+            {
+                return SymbolRegular.TrophyLock16;
+            }
+
+            if ((attributes & MemberAttributes.Field) != 0 && (attributes & MemberAttributes.Private) != 0)
+            {
+                return SymbolRegular.TagLock16;
+            }
+
+            if ((attributes & MemberAttributes.Field) != 0 && (attributes & MemberAttributes.Static) != 0)
+            {
+                return SymbolRegular.TagMultiple16;
+            }
+
+            if ((attributes & MemberAttributes.Field) != 0)
+            {
+                return SymbolRegular.Tag16;
+            }
+
+            if ((attributes & MemberAttributes.Event) != 0 && (attributes & MemberAttributes.Private) != 0)
+            {
+                return SymbolRegular.FlashSettings20;
+            }
+
+            if ((attributes & MemberAttributes.Event) != 0)
+            {
+                return SymbolRegular.Flash16;
+            }
+
+            if ((attributes & MemberAttributes.Extension) != 0)
+            {
+                return SymbolRegular.CubeArrowCurveDown20;
+            }
 
             Debug.Assert(false, "Unsupported MemberAttributes combination");
             return Binding.DoNothing;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotSupportedException();

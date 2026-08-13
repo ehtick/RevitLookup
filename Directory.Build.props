@@ -9,7 +9,7 @@
         <EnableWindowsTargeting>true</EnableWindowsTargeting>
         <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
     </PropertyGroup>
-    
+
     <!-- Polyfills configuration -->
     <PropertyGroup>
         <PolyArgumentExceptions>true</PolyArgumentExceptions>

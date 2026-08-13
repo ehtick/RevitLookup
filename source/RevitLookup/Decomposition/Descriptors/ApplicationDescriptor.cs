@@ -21,14 +21,14 @@ using LookupEngine.Abstractions.Configuration;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.ApplicationServices.Application"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.ApplicationServices.Application" /> exposed to LookupEngine.
 /// </summary>
 public sealed class ApplicationDescriptor : ResolvingDescriptor, IDescriptorConfigurator
 {
     private readonly Autodesk.Revit.ApplicationServices.Application _application;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="ApplicationDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="ApplicationDescriptor" /> class.
     /// </summary>
     /// <param name="application">The Revit application to expose.</param>
     public ApplicationDescriptor(Autodesk.Revit.ApplicationServices.Application application)
@@ -37,7 +37,7 @@ public sealed class ApplicationDescriptor : ResolvingDescriptor, IDescriptorConf
         Name = application.VersionName;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Autodesk.Revit.ApplicationServices.Application.Dispose)).Disable();

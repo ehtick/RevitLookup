@@ -34,7 +34,7 @@ public interface ISettingsService
     ///     Resets the application settings to their default values.
     /// </summary>
     /// <remarks>
-    ///     Only the in-memory settings are affected; storage is left unchanged until <see cref="SaveSettings"/> is called.
+    ///     Only the in-memory settings are affected; storage is left unchanged until <see cref="SaveSettings" /> is called.
     /// </remarks>
     void ResetApplicationSettings();
 
@@ -42,7 +42,7 @@ public interface ISettingsService
     ///     Resets the LookupEngine decomposition settings to their default values.
     /// </summary>
     /// <remarks>
-    ///     Only the in-memory settings are affected; storage is left unchanged until <see cref="SaveSettings"/> is called.
+    ///     Only the in-memory settings are affected; storage is left unchanged until <see cref="SaveSettings" /> is called.
     /// </remarks>
     void ResetDecompositionSettings();
 
@@ -50,7 +50,7 @@ public interface ISettingsService
     ///     Resets the visualization settings to their default values.
     /// </summary>
     /// <remarks>
-    ///     Only the in-memory settings are affected; storage is left unchanged until <see cref="SaveSettings"/> is called.
+    ///     Only the in-memory settings are affected; storage is left unchanged until <see cref="SaveSettings" /> is called.
     /// </remarks>
     void ResetVisualizationSettings();
 }

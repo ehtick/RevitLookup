@@ -79,7 +79,10 @@ public sealed partial class RevitRibbonService(ISettingsService settingsService)
     [ExternalEvent(AllowDirectInvocation = true)]
     private void RemovePanels()
     {
-        if (_createdPanels.Count == 0) return;
+        if (_createdPanels.Count == 0)
+        {
+            return;
+        }
 
         foreach (var ribbonPanel in _createdPanels)
         {

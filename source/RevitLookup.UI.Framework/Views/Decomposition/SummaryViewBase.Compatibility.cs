@@ -22,16 +22,6 @@ namespace RevitLookup.UI.Framework.Views.Decomposition;
 
 public partial class SummaryViewBase
 {
-#if !NET8_0_OR_GREATER
-    private static readonly FieldInfo InternalGridScrollHostField =
-        typeof(System.Windows.Controls.DataGrid).GetField("_internalScrollHost",
-            BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly)!;
-
-    private static readonly MethodInfo InternalGridOnViewportSizeChangedMethod =
-        typeof(System.Windows.Controls.DataGrid).GetMethod("OnViewportSizeChanged",
-            BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)!;
-#endif
-
     private static readonly PropertyInfo InternalGridColumnsProperty =
         typeof(System.Windows.Controls.DataGrid).GetProperty("InternalColumns",
             BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly)!;
@@ -41,7 +31,7 @@ public partial class SummaryViewBase
             BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)!;
 
     /// <summary>
-    ///      By default, WPF calculates the column width after adding items to the ItemSource. This fix calculates it on loading
+    ///     By default, WPF calculates the column width after adding items to the ItemSource. This fix calculates it on loading
     /// </summary>
     /// <remarks>
     ///     Presetting the scroll host skips the native discovery that also binds ContentHorizontalOffset,
@@ -50,13 +40,16 @@ public partial class SummaryViewBase
     /// </remarks>
     private static void FixInitialGridColumnSize(object sender, RoutedEventArgs args)
     {
-        var dataGrid = (DataGrid) sender;
+        var dataGrid = (DataGrid)sender;
         var passiveScrollViewer = dataGrid.FindVisualChild<PassiveScrollViewer>();
         if (passiveScrollViewer is null)
         {
             dataGrid.ApplyTemplate();
             passiveScrollViewer = dataGrid.FindVisualChild<PassiveScrollViewer>();
-            if (passiveScrollViewer is null) return;
+            if (passiveScrollViewer is null)
+            {
+                return;
+            }
         }
 
         var gridColumns = InternalGridColumnsProperty.GetValue(dataGrid);
@@ -72,14 +65,14 @@ public partial class SummaryViewBase
     }
 
     /// <summary>
-    ///      By default, WPF doesn't recalculate column widths if ScrollViewer.CanContentScroll is enabled
+    ///     By default, WPF doesn't recalculate column widths if ScrollViewer.CanContentScroll is enabled
     /// </summary>
     /// <remarks>
     ///     https://github.com/dotnet/wpf/blob/main/src/Microsoft.DotNet.Wpf/src/PresentationFramework/System/Windows/Controls/DataGrid.cs#L1961-L1968
     /// </remarks>
     private static void FixCanContentScrollResizing(object sender, SizeChangedEventArgs args)
     {
-        var scrollViewer = (PassiveScrollViewer) sender;
+        var scrollViewer = (PassiveScrollViewer)sender;
         var dataGrid = scrollViewer.FindVisualParent<System.Windows.Controls.DataGrid>(); //find parent to avoid closure allocations
 #if NET8_0_OR_GREATER
         UnsafePresentationAccessors.DataGridOnViewportSizeChanged(dataGrid!, args.PreviousSize, args.NewSize);
@@ -87,4 +80,13 @@ public partial class SummaryViewBase
         InternalGridOnViewportSizeChangedMethod.Invoke(dataGrid, [args.PreviousSize, args.NewSize]);
 #endif
     }
+#if !NET8_0_OR_GREATER
+    private static readonly FieldInfo InternalGridScrollHostField =
+        typeof(System.Windows.Controls.DataGrid).GetField("_internalScrollHost",
+            BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly)!;
+
+    private static readonly MethodInfo InternalGridOnViewportSizeChangedMethod =
+        typeof(System.Windows.Controls.DataGrid).GetMethod("OnViewportSizeChanged",
+            BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)!;
+#endif
 }

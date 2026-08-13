@@ -3,7 +3,7 @@
 namespace RevitLookup.ViewModels;
 
 /// <summary>
-///     Provides extension methods for <see cref="IServiceCollection"/> to register view models.
+///     Provides extension methods for <see cref="IServiceCollection" /> to register view models.
 /// </summary>
 public static class ViewModelsRegistration
 {
@@ -11,7 +11,7 @@ public static class ViewModelsRegistration
     extension(IServiceCollection services)
     {
         /// <summary>
-        ///     Adds all view model types from the current assembly to the specified <see cref="IServiceCollection"/>.
+        ///     Adds all view model types from the current assembly to the specified <see cref="IServiceCollection" />.
         /// </summary>
         public void AddViewModels()
         {

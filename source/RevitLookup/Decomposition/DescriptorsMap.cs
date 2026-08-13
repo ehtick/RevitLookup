@@ -15,7 +15,6 @@
 using System.Collections;
 using System.ComponentModel;
 using System.Windows;
-using Document = Autodesk.Revit.Creation.Document;
 using Autodesk.Revit.DB.Electrical;
 using Autodesk.Revit.DB.ExtensibleStorage;
 using Autodesk.Revit.DB.ExternalService;
@@ -26,33 +25,34 @@ using Autodesk.Revit.DB.PointClouds;
 using Autodesk.Revit.DB.Structure;
 using Autodesk.Revit.DB.Visual;
 using Autodesk.Revit.UI;
-using RibbonItem = Autodesk.Revit.UI.RibbonItem;
-using RibbonPanel = Autodesk.Revit.UI.RibbonPanel;
 using Autodesk.Windows;
 using LookupEngine.Abstractions.Decomposition;
 using LookupEngine.Descriptors;
 using RevitLookup.Decomposition.Descriptors;
+using Document = Autodesk.Revit.Creation.Document;
+using RibbonItem = Autodesk.Revit.UI.RibbonItem;
+using RibbonPanel = Autodesk.Revit.UI.RibbonPanel;
 using EnumerableDescriptor = RevitLookup.Decomposition.Descriptors.EnumerableDescriptor;
 using ObjectDescriptor = RevitLookup.Decomposition.Descriptors.ObjectDescriptor;
 
 namespace RevitLookup.Decomposition;
 
 /// <summary>
-///     Resolves the <see cref="Descriptor"/> that describes a Revit or CLR object encountered during decomposition.
+///     Resolves the <see cref="Descriptor" /> that describes a Revit or CLR object encountered during decomposition.
 /// </summary>
 public static class DescriptorsMap
 {
     /// <summary>
-    ///     Resolves the <see cref="Descriptor"/> for the specified object.
+    ///     Resolves the <see cref="Descriptor" /> for the specified object.
     /// </summary>
-    /// <param name="obj">The object to describe, or <see langword="null"/> to resolve by <paramref name="type"/> alone.</param>
+    /// <param name="obj">The object to describe, or <see langword="null" /> to resolve by <paramref name="type" /> alone.</param>
     /// <param name="type">
-    ///     The exact type to match, or <see langword="null"/> to match the runtime type of <paramref name="obj"/> or one of its base types.
+    ///     The exact type to match, or <see langword="null" /> to match the runtime type of <paramref name="obj" /> or one of its base types.
     /// </param>
-    /// <returns>The <see cref="Descriptor"/> that describes <paramref name="obj"/>, or a generic <see cref="ObjectDescriptor"/> when no specific match exists.</returns>
+    /// <returns>The <see cref="Descriptor" /> that describes <paramref name="obj" />, or a generic <see cref="ObjectDescriptor" /> when no specific match exists.</returns>
     /// <remarks>
-    ///     Pass a non-null <paramref name="type"/> for an exact match. The reflection engine relies on this to add extensions and resolve conflicts when calling methods and properties.
-    ///     Pass a <see langword="null"/> <paramref name="type"/> for an approximate match. This is used to describe an object for display to the user.
+    ///     Pass a non-null <paramref name="type" /> for an exact match. The reflection engine relies on this to add extensions and resolve conflicts when calling methods and properties.
+    ///     Pass a <see langword="null" /> <paramref name="type" /> for an approximate match. This is used to describe an object for display to the user.
     /// </remarks>
     public static Descriptor FindDescriptor(object? obj, Type? type)
     {
@@ -179,7 +179,7 @@ public static class DescriptorsMap
             FamilySizeTableColumn value when type is null || type == typeof(FamilySizeTableColumn) => new FamilySizeTableColumnDescriptor(value),
             PointCloudFilter value when type is null || type == typeof(PointCloudFilter) => new PointCloudFilterDescriptor(value),
             TriangulationInterface value when type is null || type == typeof(TriangulationInterface) => new TriangulationInterfaceDescriptor(value),
-            Autodesk.Revit.DB.Units value when type is null || type == typeof(Autodesk.Revit.DB.Units) => new UnitsDescriptor(value),
+            Units value when type is null || type == typeof(Units) => new UnitsDescriptor(value),
             CompoundStructure value when type is null || type == typeof(CompoundStructure) => new CompoundStructureDescriptor(value),
             FailureDefinitionAccessor value when type is null || type == typeof(FailureDefinitionAccessor) => new FailureDefinitionAccessorDescriptor(value),
 #if REVIT2024_OR_GREATER
@@ -193,11 +193,11 @@ public static class DescriptorsMap
             //ComponentManager
             UIElement value when type is null || type == typeof(UIElement) => new UiElementDescriptor(value),
             DependencyObject value when type is null || type == typeof(DependencyObject) => new DependencyObjectDescriptor(value),
-            RibbonItem value when type is null || type == typeof(RibbonItem)=> new RibbonItemDescriptor(value),
+            RibbonItem value when type is null || type == typeof(RibbonItem) => new RibbonItemDescriptor(value),
             RibbonPanel value when type is null || type == typeof(RibbonPanel) => new RibbonPanelDescriptor(value),
-            Autodesk.Windows.RibbonItem value when type is null || type == typeof(Autodesk.Windows.RibbonItem)=> new RibbonItemDescriptor(value),
-            Autodesk.Windows.RibbonPanel value when type is null || type == typeof(Autodesk.Windows.RibbonPanel)=> new RibbonPanelDescriptor(value),
-            RibbonTab value when type is null || type == typeof(RibbonTab)=> new RibbonTabDescriptor(value),
+            Autodesk.Windows.RibbonItem value when type is null || type == typeof(Autodesk.Windows.RibbonItem) => new RibbonItemDescriptor(value),
+            Autodesk.Windows.RibbonPanel value when type is null || type == typeof(Autodesk.Windows.RibbonPanel) => new RibbonPanelDescriptor(value),
+            RibbonTab value when type is null || type == typeof(RibbonTab) => new RibbonTabDescriptor(value),
             INotifyPropertyChanged => new UiObjectDescriptor(),
 
             //Unknown

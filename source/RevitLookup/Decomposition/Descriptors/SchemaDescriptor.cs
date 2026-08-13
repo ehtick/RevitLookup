@@ -20,14 +20,14 @@ using RevitLookup.Decomposition.Schemas;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.ExtensibleStorage.Schema"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.ExtensibleStorage.Schema" /> exposed to LookupEngine.
 /// </summary>
 public sealed class SchemaDescriptor : Descriptor, IDescriptorConfigurator, IDescriptorConfigurator<Document>
 {
     private readonly Schema _schema;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="SchemaDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="SchemaDescriptor" /> class.
     /// </summary>
     /// <param name="schema">The extensible storage schema to expose.</param>
     public SchemaDescriptor(Schema schema)
@@ -36,7 +36,7 @@ public sealed class SchemaDescriptor : Descriptor, IDescriptorConfigurator, IDes
         Name = schema.SchemaName;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Schema.Dispose)).Disable();

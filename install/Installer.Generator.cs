@@ -12,7 +12,7 @@ public static class Generator
     /// </summary>
     /// <param name="versioning">The resolved version the generated entities are named after.</param>
     /// <param name="directory">The directory the add-in files are read from.</param>
-    /// <returns>The generated <see cref="WixEntity"/> array.</returns>
+    /// <returns>The generated <see cref="WixEntity" /> array.</returns>
     public static WixEntity[] GenerateWixEntities(ResolveVersioningResult versioning, string directory)
     {
         var versionStorages = new Dictionary<string, List<WixEntity>>();
@@ -52,7 +52,7 @@ public static class Generator
     }
 
     /// <summary>
-    ///    Write a list of installer files.
+    ///     Write a list of installer files.
     /// </summary>
     private static void LogFeatureFiles(string directory, string fileVersion)
     {

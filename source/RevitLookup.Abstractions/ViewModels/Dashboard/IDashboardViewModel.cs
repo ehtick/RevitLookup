@@ -26,12 +26,12 @@ public interface IDashboardViewModel
     ///     Gets the list of navigation actions.
     /// </summary>
     List<NavigationCardGroup> NavigationGroups { get; }
-    
+
     /// <summary>
     ///     Gets the command that navigates to a specific page.
     /// </summary>
     IAsyncRelayCommand<string?> NavigatePageCommand { get; }
-    
+
     /// <summary>
     ///     Gets the command that opens a dialog for an action.
     /// </summary>

@@ -18,14 +18,14 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="ElementId"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.ElementId" /> exposed to LookupEngine.
 /// </summary>
 public sealed class ElementIdDescriptor : Descriptor, IDescriptorRedirector<Document>
 {
     private readonly ElementId _elementId;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="ElementIdDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="ElementIdDescriptor" /> class.
     /// </summary>
     /// <param name="elementId">The element identifier to expose.</param>
     public ElementIdDescriptor(ElementId elementId)
@@ -34,12 +34,19 @@ public sealed class ElementIdDescriptor : Descriptor, IDescriptorRedirector<Docu
         Name = _elementId.ToString();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public bool TryRedirect(string target, Document context, out object result)
     {
         result = _elementId;
-        if (target == nameof(Element.Id)) return false;
-        if (_elementId == ElementId.InvalidElementId) return false;
+        if (target == nameof(Element.Id))
+        {
+            return false;
+        }
+
+        if (_elementId == ElementId.InvalidElementId)
+        {
+            return false;
+        }
 
 #if REVIT2024_OR_GREATER
         if (_elementId.Value is > -3000000 and < -2000000)
@@ -48,7 +55,10 @@ public sealed class ElementIdDescriptor : Descriptor, IDescriptorRedirector<Docu
 #endif
         {
             var element = Category.GetCategory(context, _elementId);
-            if (element is null) return false;
+            if (element is null)
+            {
+                return false;
+            }
 
             result = element;
             return true;
@@ -56,7 +66,10 @@ public sealed class ElementIdDescriptor : Descriptor, IDescriptorRedirector<Docu
         else
         {
             var element = _elementId.ToElement(context);
-            if (element is null) return false;
+            if (element is null)
+            {
+                return false;
+            }
 
             result = element;
             return true;

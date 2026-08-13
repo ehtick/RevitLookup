@@ -23,7 +23,7 @@ namespace RevitLookup.ViewModels.AboutProgram;
 [UsedImplicitly]
 public sealed class OpenSourceViewModel : ObservableObject, IOpenSourceViewModel
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public List<OpenSourceSoftware> Software { get; } =
     [
         new()

@@ -1,7 +1,7 @@
 namespace RevitLookup.UI.Framework.Extensions;
 
 /// <summary>
-///     Provides extension methods for <see cref="Type"/> to classify it as primitive.
+///     Provides extension methods for <see cref="Type" /> to classify it as primitive.
 /// </summary>
 [PublicAPI]
 public static class TypeExtensions
@@ -13,8 +13,11 @@ public static class TypeExtensions
         ///     Determines whether the type is a primitive type.
         /// </summary>
         /// <returns>
-        ///     <see langword="true"/> if the type is a primitive type, an enumeration, or a <see cref="string"/>; otherwise, <see langword="false"/>.
+        ///     <see langword="true" /> if the type is a primitive type, an enumeration, or a <see cref="string" />; otherwise, <see langword="false" />.
         /// </returns>
-        public bool IsPrimitiveType() => type.IsPrimitive || type.IsEnum || type == typeof(string);
+        public bool IsPrimitiveType()
+        {
+            return type.IsPrimitive || type.IsEnum || type == typeof(string);
+        }
     }
 }

@@ -24,7 +24,7 @@ namespace RevitLookup.UI.Framework.Views.EditDialogs;
 public sealed partial class EditValueDialog
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="EditValueDialog"/> class.
+    ///     Initializes a new instance of the <see cref="EditValueDialog" /> class.
     /// </summary>
     /// <param name="dialogService">The service that supplies the dialog host this dialog is shown on.</param>
     /// <param name="themeWatcherService">The service that applies and tracks the current theme for this dialog.</param>
@@ -33,6 +33,11 @@ public sealed partial class EditValueDialog
         InitializeComponent();
         themeWatcherService.Watch(this);
     }
+
+    /// <summary>
+    ///     Gets the current text of the value box.
+    /// </summary>
+    public string Value => ValueBox.Text;
 
     /// <summary>
     ///     Shows the dialog with the default title.
@@ -66,9 +71,4 @@ public sealed partial class EditValueDialog
 
         return await ShowAsync();
     }
-
-    /// <summary>
-    ///     Gets the current text of the value box.
-    /// </summary>
-    public string Value => ValueBox.Text;
 }

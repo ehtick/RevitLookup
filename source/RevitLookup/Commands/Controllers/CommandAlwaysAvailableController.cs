@@ -7,7 +7,7 @@ namespace RevitLookup.Commands.Controllers;
 /// </summary>
 public sealed class CommandAlwaysAvailableController : IExternalCommandAvailability
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public bool IsCommandAvailable(UIApplication applicationData, CategorySet selectedCategories)
     {
         return true;

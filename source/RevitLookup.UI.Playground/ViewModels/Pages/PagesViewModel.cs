@@ -5,12 +5,12 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Abstractions.Decomposition;
 using RevitLookup.Abstractions.ViewModels.Decomposition;
-using RevitLookup.UI.Playground.Presentation;
 using RevitLookup.UI.Framework.Views.AboutProgram;
 using RevitLookup.UI.Framework.Views.Decomposition;
 using RevitLookup.UI.Framework.Views.Settings;
 using RevitLookup.UI.Framework.Views.Tools;
 using RevitLookup.UI.Playground.Controls;
+using RevitLookup.UI.Playground.Presentation;
 using RevitLookup.UI.Playground.Views.Pages;
 
 namespace RevitLookup.UI.Playground.ViewModels.Pages;
@@ -39,7 +39,7 @@ public sealed partial class PagesViewModel(IServiceProvider serviceProvider) : O
         viewer.Height = 500;
         viewer.Width = 900;
 
-        viewer.ShowPage<DecompositionSummaryPage>((page, provider) =>
+        viewer.ShowPage<DecompositionSummaryPage>((_, provider) =>
         {
             var faker = new Faker();
 
@@ -64,15 +64,15 @@ public sealed partial class PagesViewModel(IServiceProvider serviceProvider) : O
 
         viewer.Closing += (sender, _) =>
         {
-            var self = (PageViewer) sender!;
-            var view = (EventsSummaryPage) self.Viewer.Content;
-            var viewModel = (IEventsSummaryViewModel) view.ViewModel;
+            var self = (PageViewer)sender!;
+            var view = (EventsSummaryPage)self.Viewer.Content;
+            var viewModel = (IEventsSummaryViewModel)view.ViewModel;
             viewModel.OnNavigatedFromAsync();
         };
 
-        viewer.ShowPage<EventsSummaryPage>((page, provider) =>
+        viewer.ShowPage<EventsSummaryPage>((page, _) =>
         {
-            var viewModel = (IEventsSummaryViewModel) page.ViewModel;
+            var viewModel = (IEventsSummaryViewModel)page.ViewModel;
             viewModel.OnNavigatedToAsync();
         });
     }

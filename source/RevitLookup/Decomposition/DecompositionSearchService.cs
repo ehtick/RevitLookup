@@ -4,7 +4,7 @@ using RevitLookup.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition;
 
 /// <summary>
-///     Provides the default implementation of <see cref="IDecompositionSearchService"/>.
+///     Provides the default implementation of <see cref="IDecompositionSearchService" />.
 /// </summary>
 /// <remarks>
 ///     A query matches an object by name, type name, or description, and matches a member by name, all case-insensitively.
@@ -16,7 +16,7 @@ public sealed class DecompositionSearchService : IDecompositionSearchService
 {
     private ObservableDecomposedObject? _previousSelection;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public (List<ObservableDecomposedObject>, List<ObservableDecomposedMember>) Search(
         string query,
         ObservableDecomposedObject? selectedObject,
@@ -54,7 +54,7 @@ public sealed class DecompositionSearchService : IDecompositionSearchService
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public List<ObservableDecomposedMember> SearchMembers(string query, ObservableDecomposedObject value)
     {
         var filteredMembers = FilterMembers(query, value.Members);
@@ -93,14 +93,17 @@ public sealed class DecompositionSearchService : IDecompositionSearchService
 
     private static List<ObservableDecomposedObject> FilterObjects(string query, List<ObservableDecomposedObject> objects)
     {
-        if (query.Length == 0) return objects;
+        if (query.Length == 0)
+        {
+            return objects;
+        }
 
         var filteredObjects = new List<ObservableDecomposedObject>();
         foreach (var item in objects)
         {
             if (item.Name.Contains(query, StringComparison.OrdinalIgnoreCase) ||
                 item.TypeName.Contains(query, StringComparison.OrdinalIgnoreCase) ||
-                item.Description is not null && item.Description.Contains(query, StringComparison.OrdinalIgnoreCase))
+                (item.Description is not null && item.Description.Contains(query, StringComparison.OrdinalIgnoreCase)))
             {
                 filteredObjects.Add(item);
             }
@@ -111,7 +114,10 @@ public sealed class DecompositionSearchService : IDecompositionSearchService
 
     private static List<ObservableDecomposedMember> FilterMembers(string query, List<ObservableDecomposedMember> members)
     {
-        if (query.Length == 0) return members;
+        if (query.Length == 0)
+        {
+            return members;
+        }
 
         var filteredMembers = new List<ObservableDecomposedMember>();
         foreach (var item in members)
@@ -127,13 +133,23 @@ public sealed class DecompositionSearchService : IDecompositionSearchService
 
     private ObservableDecomposedObject? FindPreviousSelectedType(List<ObservableDecomposedObject> decomposedObjects)
     {
-        if (_previousSelection is null) return null;
+        if (_previousSelection is null)
+        {
+            return null;
+        }
 
         ObservableDecomposedObject? fetchedObject = null;
         foreach (var decomposedObject in decomposedObjects)
         {
-            if (decomposedObject.TypeFullName != _previousSelection.TypeFullName) continue;
-            if (decomposedObject.Members.Count == 0) continue;
+            if (decomposedObject.TypeFullName != _previousSelection.TypeFullName)
+            {
+                continue;
+            }
+
+            if (decomposedObject.Members.Count == 0)
+            {
+                continue;
+            }
 
             fetchedObject = decomposedObject;
             break;

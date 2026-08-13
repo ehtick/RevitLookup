@@ -8,7 +8,7 @@ public sealed class EnumerableExtensionsTests
     public async Task Random_SingleElement_ReturnsThatElement()
     {
         // Arrange
-        var source = new[] {42};
+        var source = new[] { 42 };
 
         // Act
         var picked = source.Random();
@@ -21,7 +21,7 @@ public sealed class EnumerableExtensionsTests
     public async Task Random_PopulatedCollection_ReturnsContainedElement()
     {
         // Arrange
-        var source = new[] {1, 2, 3, 4, 5};
+        var source = new[] { 1, 2, 3, 4, 5 };
 
         // Act
         var picked = source.Random();
@@ -55,7 +55,7 @@ public sealed class EnumerableExtensionsTests
     public async Task Randomize_Collection_PreservesAllElements()
     {
         // Arrange
-        var source = new List<int> {1, 2, 3, 4, 5};
+        var source = new List<int> { 1, 2, 3, 4, 5 };
 
         // Act
         var result = source.Randomize();

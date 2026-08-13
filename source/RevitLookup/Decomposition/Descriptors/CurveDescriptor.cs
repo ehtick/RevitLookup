@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Lookup Foundation and Contributors
-// 
+//
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
 // provided that the above copyright notice appears in all copies and
 // that both that copyright notice and the limited warranty and
 // restricted rights notice below appear in all supporting
 // documentation.
-// 
+//
 // THIS PROGRAM IS PROVIDED "AS IS" AND WITH ALL FAULTS.
 // NO IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE IS PROVIDED.
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
@@ -21,7 +21,7 @@ using Microsoft.Extensions.Logging;
 using Nice3point.Revit.Extensions.Runtime;
 using RevitLookup.Abstractions.Decomposition;
 using RevitLookup.Abstractions.Presentation;
-using RevitLookup.UI.Framework.Extensions;
+using RevitLookup.UI.Framework.Menus;
 using RevitLookup.UI.Framework.Views.Visualization;
 using ContextMenu = System.Windows.Controls.ContextMenu;
 #if REVIT2023_OR_GREATER
@@ -32,23 +32,44 @@ using Nice3point.Revit.Toolkit.External;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Curve"/> exposed to LookupEngine.
+///     Represents the <see cref="Curve" /> exposed to LookupEngine.
 /// </summary>
 public sealed partial class CurveDescriptor : Descriptor, IDescriptorConfigurator, IContextMenuConnector
 {
     private readonly Curve _curve;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="CurveDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="CurveDescriptor" /> class.
     /// </summary>
     /// <param name="curve">The curve to expose.</param>
     public CurveDescriptor(Curve curve)
     {
         _curve = curve;
-        if (curve.IsBound || curve.IsCyclic) Name = $"{curve.Length.ToString(CultureInfo.InvariantCulture)} ft";
+        if (curve.IsBound || curve.IsCyclic)
+        {
+            Name = $"{curve.Length.ToString(CultureInfo.InvariantCulture)} ft";
+        }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
+    public void RegisterMenu(ContextMenu contextMenu, IServiceProvider serviceProvider)
+    {
+#if REVIT2023_OR_GREATER
+        contextMenu.AddMenuItem("SelectMenuItem")
+            .SetCommand(_curve, curve => SelectCurveEvent.Raise(curve))
+            .SetShortcut(Key.F6);
+
+        contextMenu.AddMenuItem("ShowMenuItem")
+            .SetCommand(_curve, curve => ShowCurveEvent.Raise(curve))
+            .SetShortcut(Key.F7);
+#endif
+        contextMenu.AddMenuItem("VisualizeMenuItem")
+            .SetAvailability((_curve.IsBound || _curve.IsCyclic) && _curve.ApproximateLength > 1e-6)
+            .SetCommand(_curve, curve => VisualizeCurveAsync(curve, serviceProvider))
+            .SetShortcut(Key.F8);
+    }
+
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Curve.Dispose)).Disable();
@@ -97,27 +118,12 @@ public sealed partial class CurveDescriptor : Descriptor, IDescriptorConfigurato
         }
     }
 
-    /// <inheritdoc/>
-    public void RegisterMenu(ContextMenu contextMenu, IServiceProvider serviceProvider)
-    {
-#if REVIT2023_OR_GREATER
-        contextMenu.AddMenuItem("SelectMenuItem")
-            .SetCommand(_curve, curve => SelectCurveEvent.Raise(curve))
-            .SetShortcut(Key.F6);
-
-        contextMenu.AddMenuItem("ShowMenuItem")
-            .SetCommand(_curve, curve => ShowCurveEvent.Raise(curve))
-            .SetShortcut(Key.F7);
-#endif
-        contextMenu.AddMenuItem("VisualizeMenuItem")
-            .SetAvailability((_curve.IsBound || _curve.IsCyclic) && _curve.ApproximateLength > 1e-6)
-            .SetCommand(_curve, curve => VisualizeCurveAsync(curve, serviceProvider))
-            .SetShortcut(Key.F8);
-    }
-
     private static async Task VisualizeCurveAsync(Curve curve, IServiceProvider serviceProvider)
     {
-        if (RevitContext.ActiveUiDocument is null) return;
+        if (RevitContext.ActiveUiDocument is null)
+        {
+            return;
+        }
 
         try
         {
@@ -133,13 +139,23 @@ public sealed partial class CurveDescriptor : Descriptor, IDescriptorConfigurato
             notificationService.ShowError("Visualization error", exception);
         }
     }
+
+    [LoggerMessage(LogLevel.Error, "Visualize curve error")]
+    private static partial void LogVisualizeCurveError(ILogger<CurveDescriptor> logger, Exception exception);
 #if REVIT2023_OR_GREATER
 
     [ExternalEvent(AllowDirectInvocation = true)]
     private static void SelectCurve(UIApplication application, Curve curve)
     {
-        if (application.ActiveUIDocument is null) return;
-        if (curve.Reference is null) return;
+        if (application.ActiveUIDocument is null)
+        {
+            return;
+        }
+
+        if (curve.Reference is null)
+        {
+            return;
+        }
 
         application.ActiveUIDocument.Selection.SetReferences([curve.Reference]);
     }
@@ -148,16 +164,23 @@ public sealed partial class CurveDescriptor : Descriptor, IDescriptorConfigurato
     private static void ShowCurve(UIApplication application, Curve curve)
     {
         var uiDocument = application.ActiveUIDocument;
-        if (uiDocument is null) return;
-        if (curve.Reference is null) return;
+        if (uiDocument is null)
+        {
+            return;
+        }
+
+        if (curve.Reference is null)
+        {
+            return;
+        }
 
         var element = curve.Reference.ElementId.ToElement(uiDocument.Document);
-        if (element is not null) uiDocument.ShowElements(element);
+        if (element is not null)
+        {
+            uiDocument.ShowElements(element);
+        }
 
         uiDocument.Selection.SetReferences([curve.Reference]);
     }
 #endif
-
-    [LoggerMessage(LogLevel.Error, "Visualize curve error")]
-    private static partial void LogVisualizeCurveError(ILogger<CurveDescriptor> logger, Exception exception);
 }

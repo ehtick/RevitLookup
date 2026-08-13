@@ -27,7 +27,7 @@
             Value="DemiBold" />
         <Setter
             Property="Foreground"
-            Value="{DynamicResource ListViewItemPillFillBrush}"/>
+            Value="{DynamicResource ListViewItemPillFillBrush}" />
         <Setter
             Property="Cursor"
             Value="Hand" />

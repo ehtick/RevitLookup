@@ -18,12 +18,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.GuidEnum"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.GuidEnum" /> exposed to LookupEngine.
 /// </summary>
 public sealed class GuidEnumDescriptor : Descriptor, IDescriptorCollector
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="GuidEnumDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="GuidEnumDescriptor" /> class.
     /// </summary>
     /// <param name="guidEnum">The GUID-backed enumeration value to expose.</param>
     public GuidEnumDescriptor(GuidEnum guidEnum)

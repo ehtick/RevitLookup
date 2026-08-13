@@ -1,12 +1,12 @@
 // Copyright (c) Lookup Foundation and Contributors
-// 
+//
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
 // provided that the above copyright notice appears in all copies and
 // that both that copyright notice and the limited warranty and
 // restricted rights notice below appear in all supporting
 // documentation.
-// 
+//
 // THIS PROGRAM IS PROVIDED "AS IS" AND WITH ALL FAULTS.
 // NO IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE IS PROVIDED.
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
@@ -23,7 +23,7 @@ namespace RevitLookup.Tests.Unit.Coverage.Discovery;
 /// </summary>
 /// <remarks>
 ///     The interop layer mirrors the native C++ containers: iteration runs through an iterator factory, an entry key lives
-///     on the concrete iterator, and the collection contract stops at the non-generic <see cref="IEnumerable"/>.
+///     on the concrete iterator, and the collection contract stops at the non-generic <see cref="IEnumerable" />.
 /// </remarks>
 internal static class ApiEnumerableScanner
 {
@@ -60,14 +60,14 @@ internal static class ApiEnumerableScanner
     /// <summary>
     ///     The methods carrying the element type in their signature, in the order the element type is read from them.
     /// </summary>
-    private static readonly string[] ElementTypeSourceMethodNames = [..InsertionMethodNames, nameof(IList.Contains), "Erase"];
+    private static readonly string[] ElementTypeSourceMethodNames = [.. InsertionMethodNames, nameof(IList.Contains), "Erase"];
 
     /// <summary>
     ///     Builds one report row per enumerable the assembly exposes.
     /// </summary>
     /// <param name="assembly">The assembly to scan.</param>
     /// <param name="sourceFileIndex">The index reading the switch arms of the descriptor sources.</param>
-    /// <returns>One <see cref="ApiEnumerableRow"/> per enumerable <paramref name="assembly"/> exposes.</returns>
+    /// <returns>One <see cref="ApiEnumerableRow" /> per enumerable <paramref name="assembly" /> exposes.</returns>
     [Pure]
     public static IReadOnlyList<ApiEnumerableRow> ScanEnumerables(Assembly assembly, SourceFileIndex sourceFileIndex)
     {
@@ -97,7 +97,7 @@ internal static class ApiEnumerableScanner
     }
 
     /// <summary>
-    ///     Reflects the shape of the type, or returns <see langword="null"/> for a type that enumerates nothing.
+    ///     Reflects the shape of the type, or returns <see langword="null" /> for a type that enumerates nothing.
     /// </summary>
     private static ApiEnumerableShape? DescribeEnumerable(Type type)
     {
@@ -247,7 +247,7 @@ internal static class ApiEnumerableScanner
     /// </summary>
     /// <remarks>
     ///     The interop layer declares the iterator factory on the base collection and narrows the return type on the derived one,
-    ///     a pair of overloads <see cref="Type.GetMethod(string, BindingFlags)"/> reports as an ambiguous match.
+    ///     a pair of overloads <see cref="Type.GetMethod(string, BindingFlags)" /> reports as an ambiguous match.
     /// </remarks>
     private static MethodInfo? FindParameterlessMethod(Type type, string methodName)
     {
@@ -273,7 +273,7 @@ internal static class ApiEnumerableScanner
     }
 
     /// <summary>
-    ///     Finds the type named by the descriptor switch arm matching the type, or <see langword="null"/> when no arm matches it.
+    ///     Finds the type named by the descriptor switch arm matching the type, or <see langword="null" /> when no arm matches it.
     /// </summary>
     /// <remarks>
     ///     A switch arm holds a declaration pattern, which matches every type deriving from the type it names.

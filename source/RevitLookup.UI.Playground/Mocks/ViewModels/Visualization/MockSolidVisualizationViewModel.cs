@@ -6,13 +6,13 @@ using RevitLookup.Abstractions.ViewModels.Visualization;
 namespace RevitLookup.UI.Playground.Mocks.ViewModels.Visualization;
 
 /// <summary>
-///     Represents a Playground mock of <see cref="ISolidVisualizationViewModel"/> that fabricates its initial values with <c>Bogus</c> and no-ops the visualization server.
+///     Represents a Playground mock of <see cref="ISolidVisualizationViewModel" /> that fabricates its initial values with <c>Bogus</c> and no-ops the visualization server.
 /// </summary>
 [UsedImplicitly]
 public sealed partial class MockSolidVisualizationViewModel : ObservableObject, ISolidVisualizationViewModel
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="MockSolidVisualizationViewModel"/> class with fake appearance settings.
+    ///     Initializes a new instance of the <see cref="MockSolidVisualizationViewModel" /> class with fake appearance settings.
     /// </summary>
     public MockSolidVisualizationViewModel()
     {
@@ -26,37 +26,37 @@ public sealed partial class MockSolidVisualizationViewModel : ObservableObject, 
         ShowFace = faker.Random.Bool();
         ShowEdge = faker.Random.Bool();
     }
-    
-    /// <inheritdoc/>
+
+    /// <inheritdoc />
     [ObservableProperty]
     public partial double Scale { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial double Transparency { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial Color FaceColor { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial Color EdgeColor { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool ShowFace { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool ShowEdge { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void RegisterServer(object solid)
     {
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void UnregisterServer()
     {
     }

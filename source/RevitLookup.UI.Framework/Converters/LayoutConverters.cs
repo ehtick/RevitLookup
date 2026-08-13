@@ -18,7 +18,7 @@ using System.Windows.Data;
 namespace RevitLookup.UI.Framework.Converters;
 
 /// <summary>
-///     Provides <see cref="IValueConverter"/> instances that compute a layout dimension from an available size.
+///     Provides <see cref="IValueConverter" /> instances that compute a layout dimension from an available size.
 /// </summary>
 public static class LayoutConverters
 {
@@ -29,7 +29,7 @@ public static class LayoutConverters
 
     private sealed class UniformColumnsByWidthConverter : IValueConverter
     {
-        /// <inheritdoc/>
+        /// <inheritdoc />
         /// <remarks>
         ///     Divides the available width into columns of 400 device-independent units and always returns at least 1.
         /// </remarks>
@@ -40,7 +40,7 @@ public static class LayoutConverters
             return columns > 0 ? columns : 1;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotSupportedException();

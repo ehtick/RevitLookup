@@ -10,8 +10,8 @@ public sealed record BuildOptions
     ///     Gets the application versions keyed by compile configuration.
     /// </summary>
     /// <example>
-    ///     1.0.0-alpha.1.250101 <br/>
-    ///     1.0.0-beta.2.250101 <br/>
+    ///     1.0.0-alpha.1.250101 <br />
+    ///     1.0.0-beta.2.250101 <br />
     ///     1.0.0
     /// </example>
     public Dictionary<string, string> Versions { get; init; } = [];

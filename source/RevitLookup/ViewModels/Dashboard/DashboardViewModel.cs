@@ -1,5 +1,4 @@
-﻿using ArgumentOutOfRangeException = System.ArgumentOutOfRangeException;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Abstractions.Dashboard;
 using RevitLookup.Abstractions.Decomposition;
 using RevitLookup.Abstractions.Presentation;
@@ -8,6 +7,7 @@ using RevitLookup.UI.Framework.Views.Decomposition;
 using RevitLookup.UI.Framework.Views.Tools;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
+using ArgumentOutOfRangeException = System.ArgumentOutOfRangeException;
 
 namespace RevitLookup.ViewModels.Dashboard;
 
@@ -17,13 +17,13 @@ namespace RevitLookup.ViewModels.Dashboard;
 [UsedImplicitly]
 public sealed partial class DashboardViewModel : IDashboardViewModel
 {
-    private readonly IServiceProvider _serviceProvider;
     private readonly INavigationService _navigationService;
     private readonly INotificationService _notificationService;
+    private readonly IServiceProvider _serviceProvider;
     private readonly IVisualDecompositionService _visualDecompositionService;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="DashboardViewModel"/> class.
+    ///     Initializes a new instance of the <see cref="DashboardViewModel" /> class.
     /// </summary>
     /// <param name="serviceProvider">The service provider used to resolve dialog instances opened from the dashboard.</param>
     /// <param name="navigationService">The service used to navigate to decomposition and tool pages.</param>
@@ -94,7 +94,7 @@ public sealed partial class DashboardViewModel : IDashboardViewModel
                         Icon = SymbolRegular.Database24,
                         Command = NavigatePageCommand,
                         CommandParameter = "database"
-                    },
+                    }
                 ]
             },
             new NavigationCardGroup
@@ -295,10 +295,10 @@ public sealed partial class DashboardViewModel : IDashboardViewModel
         ];
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public List<NavigationCardGroup> NavigationGroups { get; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [RelayCommand]
     private async Task NavigatePageAsync(string? parameter)
     {
@@ -307,13 +307,19 @@ public sealed partial class DashboardViewModel : IDashboardViewModel
             switch (parameter)
             {
                 case "view":
-                    if (!ValidateContext()) return;
+                    if (!ValidateContext())
+                    {
+                        return;
+                    }
 
                     await _visualDecompositionService.VisualizeDecompositionAsync(KnownDecompositionObject.View);
                     _navigationService.Navigate(typeof(DecompositionSummaryPage));
                     break;
                 case "document":
-                    if (!ValidateContext()) return;
+                    if (!ValidateContext())
+                    {
+                        return;
+                    }
 
                     await _visualDecompositionService.VisualizeDecompositionAsync(KnownDecompositionObject.Document);
                     _navigationService.Navigate(typeof(DecompositionSummaryPage));
@@ -331,49 +337,73 @@ public sealed partial class DashboardViewModel : IDashboardViewModel
                     _navigationService.Navigate(typeof(DecompositionSummaryPage));
                     break;
                 case "database":
-                    if (!ValidateContext()) return;
+                    if (!ValidateContext())
+                    {
+                        return;
+                    }
 
                     await _visualDecompositionService.VisualizeDecompositionAsync(KnownDecompositionObject.Database);
                     _navigationService.Navigate(typeof(DecompositionSummaryPage));
                     break;
                 case "dependents":
-                    if (!ValidateContext()) return;
+                    if (!ValidateContext())
+                    {
+                        return;
+                    }
 
                     await _visualDecompositionService.VisualizeDecompositionAsync(KnownDecompositionObject.DependentElements);
                     _navigationService.Navigate(typeof(DecompositionSummaryPage));
                     break;
                 case "selection":
-                    if (!ValidateContext()) return;
+                    if (!ValidateContext())
+                    {
+                        return;
+                    }
 
                     await _visualDecompositionService.VisualizeDecompositionAsync(KnownDecompositionObject.Selection);
                     _navigationService.Navigate(typeof(DecompositionSummaryPage));
                     break;
                 case "linked":
-                    if (!ValidateContext()) return;
+                    if (!ValidateContext())
+                    {
+                        return;
+                    }
 
                     await _visualDecompositionService.VisualizeDecompositionAsync(KnownDecompositionObject.LinkedElement);
                     _navigationService.Navigate(typeof(DecompositionSummaryPage));
                     break;
                 case "face":
-                    if (!ValidateContext()) return;
+                    if (!ValidateContext())
+                    {
+                        return;
+                    }
 
                     await _visualDecompositionService.VisualizeDecompositionAsync(KnownDecompositionObject.Face);
                     _navigationService.Navigate(typeof(DecompositionSummaryPage));
                     break;
                 case "edge":
-                    if (!ValidateContext()) return;
+                    if (!ValidateContext())
+                    {
+                        return;
+                    }
 
                     await _visualDecompositionService.VisualizeDecompositionAsync(KnownDecompositionObject.Edge);
                     _navigationService.Navigate(typeof(DecompositionSummaryPage));
                     break;
                 case "point":
-                    if (!ValidateContext()) return;
+                    if (!ValidateContext())
+                    {
+                        return;
+                    }
 
                     await _visualDecompositionService.VisualizeDecompositionAsync(KnownDecompositionObject.Point);
                     _navigationService.Navigate(typeof(DecompositionSummaryPage));
                     break;
                 case "subElement":
-                    if (!ValidateContext()) return;
+                    if (!ValidateContext())
+                    {
+                        return;
+                    }
 
                     await _visualDecompositionService.VisualizeDecompositionAsync(KnownDecompositionObject.SubElement);
                     _navigationService.Navigate(typeof(DecompositionSummaryPage));
@@ -383,7 +413,10 @@ public sealed partial class DashboardViewModel : IDashboardViewModel
                     _navigationService.Navigate(typeof(DecompositionSummaryPage));
                     break;
                 case "performance":
-                    if (!ValidateContext()) return;
+                    if (!ValidateContext())
+                    {
+                        return;
+                    }
 
                     await _visualDecompositionService.VisualizeDecompositionAsync(KnownDecompositionObject.PerformanceAdviser);
                     _navigationService.Navigate(typeof(DecompositionSummaryPage));
@@ -416,7 +449,7 @@ public sealed partial class DashboardViewModel : IDashboardViewModel
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [RelayCommand]
     private async Task OpenDialogAsync(string parameter)
     {
@@ -437,7 +470,10 @@ public sealed partial class DashboardViewModel : IDashboardViewModel
                     await unitsDialog.ShowForgeSchemaDialogAsync();
                     return;
                 case "search":
-                    if (!ValidateContext()) return;
+                    if (!ValidateContext())
+                    {
+                        return;
+                    }
 
                     var searchDialog = _serviceProvider.GetRequiredService<SearchElementsDialog>();
                     await searchDialog.ShowAsync();
@@ -460,7 +496,10 @@ public sealed partial class DashboardViewModel : IDashboardViewModel
 
     private bool ValidateContext()
     {
-        if (RevitContext.ActiveUiDocument is not null) return true;
+        if (RevitContext.ActiveUiDocument is not null)
+        {
+            return true;
+        }
 
         _notificationService.ShowWarning("Invalid context", "There are no open documents");
         return false;

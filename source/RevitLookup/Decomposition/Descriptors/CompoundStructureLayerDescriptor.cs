@@ -18,12 +18,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="CompoundStructureLayer"/> exposed to LookupEngine.
+///     Represents the <see cref="CompoundStructureLayer" /> exposed to LookupEngine.
 /// </summary>
 public sealed class CompoundStructureLayerDescriptor : Descriptor, IDescriptorConfigurator
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="CompoundStructureLayerDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="CompoundStructureLayerDescriptor" /> class.
     /// </summary>
     /// <param name="layer">The compound structure layer to expose.</param>
     public CompoundStructureLayerDescriptor(CompoundStructureLayer layer)
@@ -31,7 +31,7 @@ public sealed class CompoundStructureLayerDescriptor : Descriptor, IDescriptorCo
         Name = layer.Function.ToString();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(CompoundStructureLayer.Dispose)).Disable();

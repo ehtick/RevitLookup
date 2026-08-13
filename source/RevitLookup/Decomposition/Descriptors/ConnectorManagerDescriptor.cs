@@ -17,12 +17,12 @@ using LookupEngine.Abstractions.Configuration;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="ConnectorManager"/> exposed to LookupEngine.
+///     Represents the <see cref="ConnectorManager" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="connectorManager">The connector manager to expose.</param>
 public sealed class ConnectorManagerDescriptor(ConnectorManager connectorManager) : ResolvingDescriptor, IDescriptorConfigurator
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(ConnectorManager.Dispose)).Disable();

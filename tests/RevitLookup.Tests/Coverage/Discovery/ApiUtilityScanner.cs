@@ -13,7 +13,6 @@
 // UNINTERRUPTED OR ERROR FREE.
 
 using System.Reflection;
-using RevitLookup.UI.Framework.Extensions;
 using RevitLookup.Tests.Unit.Coverage.Models;
 
 namespace RevitLookup.Tests.Unit.Coverage.Discovery;
@@ -34,7 +33,7 @@ internal static class ApiUtilityScanner
     /// </summary>
     /// <param name="assembly">The assembly to scan.</param>
     /// <param name="sourceFileIndex">The index resolving which descriptor source files resolve each method.</param>
-    /// <returns>One <see cref="ApiMethodRow"/> per public static method of every utility type in <paramref name="assembly"/>.</returns>
+    /// <returns>One <see cref="ApiMethodRow" /> per public static method of every utility type in <paramref name="assembly" />.</returns>
     public static IReadOnlyList<ApiMethodRow> ScanUtilityMethods(Assembly assembly, SourceFileIndex sourceFileIndex)
     {
         return
@@ -130,7 +129,7 @@ internal static class ApiUtilityScanner
 
     private static bool IsStaticClass(Type type)
     {
-        return type is {IsAbstract: true, IsSealed: true};
+        return type is { IsAbstract: true, IsSealed: true };
     }
 
     private static ApiMethodRow CreateRow(Type type, MethodInfo method, SourceFileIndex sourceFileIndex)

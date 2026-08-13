@@ -16,10 +16,8 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using TreeViewItem = System.Windows.Controls.TreeViewItem;
 using System.Windows.Data;
 using System.Windows.Input;
-using Visibility = System.Windows.Visibility;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Abstractions.Decomposition;
 using RevitLookup.Abstractions.Presentation;
@@ -28,6 +26,8 @@ using RevitLookup.Abstractions.ViewModels.Decomposition;
 using RevitLookup.UI.Framework.Presentation;
 using Wpf.Ui.Abstractions.Controls;
 using Wpf.Ui.Controls;
+using TreeViewItem = System.Windows.Controls.TreeViewItem;
+using Visibility = System.Windows.Visibility;
 using DataGrid = Wpf.Ui.Controls.DataGrid;
 using TreeView = Wpf.Ui.Controls.TreeView;
 
@@ -37,22 +37,22 @@ namespace RevitLookup.UI.Framework.Views.Decomposition;
 ///     Represents a page that shows decomposed members in a searchable tree and grid.
 /// </summary>
 /// <remarks>
-///     A derived class supplies its own <see cref="ISummaryViewModel"/>.
-///     It wires <see cref="SearchBoxControl"/>, <see cref="TreeViewControl"/>, and <see cref="DataGridControl"/> before calling <see cref="InitializeControls"/>.
+///     A derived class supplies its own <see cref="ISummaryViewModel" />.
+///     It wires <see cref="SearchBoxControl" />, <see cref="TreeViewControl" />, and <see cref="DataGridControl" /> before calling <see cref="InitializeControls" />.
 /// </remarks>
 public partial class SummaryViewBase : Page, INavigableView<ISummaryViewModel>
 {
+    private readonly IWindowIntercomService _intercomService;
+    private readonly ILogger<SummaryViewBase> _logger;
+    private readonly INotificationService _notificationService;
     private readonly IServiceProvider _serviceProvider;
     private readonly ISettingsService _settingsService;
-    private readonly IWindowIntercomService _intercomService;
-    private readonly INotificationService _notificationService;
-    private readonly ILogger<SummaryViewBase> _logger;
 
     private TreeViewItem? _capturedTreeItem;
     private object? _capturedTreeItemContext;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="SummaryViewBase"/> class.
+    ///     Initializes a new instance of the <see cref="SummaryViewBase" /> class.
     /// </summary>
     /// <param name="serviceProvider">The container used to resolve dependencies for descriptor context-menu commands.</param>
     /// <param name="settingsService">The service that provides the decomposition display settings.</param>
@@ -88,11 +88,11 @@ public partial class SummaryViewBase : Page, INavigableView<ISummaryViewModel>
     /// </summary>
     public required DataGrid DataGridControl { get; init; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public required ISummaryViewModel ViewModel { get; init; }
 
     /// <summary>
-    ///     Wires the tree view and data grid interactions for <see cref="TreeViewControl"/> and <see cref="DataGridControl"/>.
+    ///     Wires the tree view and data grid interactions for <see cref="TreeViewControl" /> and <see cref="DataGridControl" />.
     /// </summary>
     protected void InitializeControls()
     {
@@ -111,7 +111,10 @@ public partial class SummaryViewBase : Page, INavigableView<ISummaryViewModel>
         control.MouseMove += OnTreeItemCaptured;
         control.PreviewMouseLeftButtonUp += OnTreeItemClicked;
 
-        if (control.ItemsSource is not null) OnTreeSourceChanged(control, control.ItemsSource);
+        if (control.ItemsSource is not null)
+        {
+            OnTreeSourceChanged(control, control.ItemsSource);
+        }
     }
 
     /// <summary>
@@ -119,7 +122,7 @@ public partial class SummaryViewBase : Page, INavigableView<ISummaryViewModel>
     /// </summary>
     private static void OnTreeSourceChanged(object? sender, IEnumerable enumerable)
     {
-        var treeView = (TreeView) sender!;
+        var treeView = (TreeView)sender!;
 
         if (treeView.IsLoaded)
         {
@@ -132,7 +135,7 @@ public partial class SummaryViewBase : Page, INavigableView<ISummaryViewModel>
 
         void OnLoaded(object nestedSender, RoutedEventArgs args)
         {
-            var self = (TreeView) nestedSender;
+            var self = (TreeView)nestedSender;
             self.Loaded -= OnLoaded;
             ExpandFirstTreeGroup(treeView);
         }
@@ -147,17 +150,26 @@ public partial class SummaryViewBase : Page, INavigableView<ISummaryViewModel>
         try
         {
             // Await Frame transition. GetMembers freezes the thread and breaks the animation
-            var transitionDuration = (int) NavigationView.TransitionDurationProperty.DefaultMetadata.DefaultValue;
+            var transitionDuration = (int)NavigationView.TransitionDurationProperty.DefaultMetadata.DefaultValue;
             await Task.Delay(transitionDuration);
 
             //3 is optimal groups count for expanding
-            if (treeView.Items.Count > 3) return;
+            if (treeView.Items.Count > 3)
+            {
+                return;
+            }
 
-            var rootItem = (TreeViewItem?) treeView.GetItemAtIndex(0);
-            if (rootItem is null) return;
+            var rootItem = (TreeViewItem?)treeView.GetItemAtIndex(0);
+            if (rootItem is null)
+            {
+                return;
+            }
 
-            var nestedItem = (TreeViewItem?) rootItem.GetItemAtIndex(0);
-            if (nestedItem is null) return;
+            var nestedItem = (TreeViewItem?)rootItem.GetItemAtIndex(0);
+            if (nestedItem is null)
+            {
+                return;
+            }
 
             nestedItem.IsSelected = true;
         }
@@ -175,7 +187,7 @@ public partial class SummaryViewBase : Page, INavigableView<ISummaryViewModel>
     /// </remarks>
     private void OnTreeItemCaptured(object sender, MouseEventArgs args)
     {
-        var origin = (DependencyObject) args.OriginalSource;
+        var origin = (DependencyObject)args.OriginalSource;
         var treeItem = origin as TreeViewItem ?? origin.FindVisualParent<TreeViewItem>();
         if (treeItem is null)
         {
@@ -184,7 +196,10 @@ public partial class SummaryViewBase : Page, INavigableView<ISummaryViewModel>
             return;
         }
 
-        if (ReferenceEquals(treeItem, _capturedTreeItem) && ReferenceEquals(treeItem.DataContext, _capturedTreeItemContext)) return;
+        if (ReferenceEquals(treeItem, _capturedTreeItem) && ReferenceEquals(treeItem.DataContext, _capturedTreeItemContext))
+        {
+            return;
+        }
 
         _capturedTreeItem = treeItem;
         _capturedTreeItemContext = treeItem.DataContext;
@@ -232,11 +247,11 @@ public partial class SummaryViewBase : Page, INavigableView<ISummaryViewModel>
     ///     Set DataGrid sorting rules
     /// </summary>
     /// <remarks>
-    ///     Re-applied on every ItemsSource change: <see cref="DataGrid"/> clears <see cref="ItemCollection.SortDescriptions"/> in its ItemsSource coercion callback, so descriptions applied once do not survive object switching.
+    ///     Re-applied on every ItemsSource change: <see cref="DataGrid" /> clears <see cref="ItemCollection.SortDescriptions" /> in its ItemsSource coercion callback, so descriptions applied once do not survive object switching.
     /// </remarks>
     private static void ApplySorting(object? sender, EventArgs eventArgs)
     {
-        var dataGrid = (DataGrid) sender!;
+        var dataGrid = (DataGrid)sender!;
 
         dataGrid.Items.SortDescriptions.Add(new SortDescription(nameof(ObservableDecomposedMember.Depth), ListSortDirection.Descending));
         dataGrid.Items.SortDescriptions.Add(new SortDescription(nameof(ObservableDecomposedMember.MemberAttributes), ListSortDirection.Ascending));
@@ -270,8 +285,8 @@ public partial class SummaryViewBase : Page, INavigableView<ISummaryViewModel>
     /// </remarks>
     private void OnGridRowCaptured(object sender, RoutedEventArgs args)
     {
-        var element = (FrameworkElement) sender;
-        var member = (ObservableDecomposedMember) element.DataContext;
+        var element = (FrameworkElement)sender;
+        var member = (ObservableDecomposedMember)element.DataContext;
         CreateGridRowTooltip(member, element);
         CreateGridRowContextMenu(member, element);
     }

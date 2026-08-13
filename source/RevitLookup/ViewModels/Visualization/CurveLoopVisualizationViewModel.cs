@@ -12,17 +12,17 @@
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 
-using Color = System.Windows.Media.Color;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Abstractions.Presentation;
 using RevitLookup.Abstractions.Settings;
 using RevitLookup.Abstractions.ViewModels.Visualization;
 using RevitLookup.Visualization;
+using Color = System.Windows.Media.Color;
 
 namespace RevitLookup.ViewModels.Visualization;
 
 /// <summary>
-///     Represents the view model for curve loop visualization, rendering a <see cref="CurveLoop"/> through a dedicated Revit visualization server.
+///     Represents the view model for curve loop visualization, rendering a <see cref="CurveLoop" /> through a dedicated Revit visualization server.
 /// </summary>
 /// <param name="settingsService">The service that persists and supplies the curve loop visualization settings.</param>
 /// <param name="notificationService">The service used to report rendering failures.</param>
@@ -36,52 +36,62 @@ public sealed partial class CurveLoopVisualizationViewModel(
 {
     private readonly CurveLoopVisualizationServer _server = new();
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial double Diameter { get; set; } = settingsService.VisualizationSettings.CurveLoopSettings.Diameter;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial double Transparency { get; set; } = settingsService.VisualizationSettings.CurveLoopSettings.Transparency;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial Color SurfaceColor { get; set; } = settingsService.VisualizationSettings.CurveLoopSettings.SurfaceColor;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial Color CurveColor { get; set; } = settingsService.VisualizationSettings.CurveLoopSettings.CurveColor;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial Color DirectionColor { get; set; } = settingsService.VisualizationSettings.CurveLoopSettings.DirectionColor;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool ShowSurface { get; set; } = settingsService.VisualizationSettings.CurveLoopSettings.ShowSurface;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool ShowCurve { get; set; } = settingsService.VisualizationSettings.CurveLoopSettings.ShowCurve;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool ShowDirection { get; set; } = settingsService.VisualizationSettings.CurveLoopSettings.ShowDirection;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public double MinThickness => settingsService.VisualizationSettings.CurveLoopSettings.MinThickness;
 
-    /// <inheritdoc/>
-    /// <exception cref="ArgumentException"><paramref name="curveLoop"/> is not a <see cref="CurveLoop"/>.</exception>
+    /// <inheritdoc />
+    /// <exception cref="ArgumentException"><paramref name="curveLoop" /> is not a <see cref="CurveLoop" />.</exception>
     public void RegisterServer(object curveLoop)
     {
-        if (curveLoop is not CurveLoop loop) throw new ArgumentException("Unexpected CurveLoop type", nameof(curveLoop));
+        if (curveLoop is not CurveLoop loop)
+        {
+            throw new ArgumentException("Unexpected CurveLoop type", nameof(curveLoop));
+        }
 
         Initialize();
         _server.RenderFailed += HandleRenderFailure;
-        
+
         var vertices = CollectVertices(loop);
         _server.Register(vertices);
+    }
+
+    /// <inheritdoc />
+    public void UnregisterServer()
+    {
+        _server.RenderFailed -= HandleRenderFailure;
+        _server.Unregister();
     }
 
     private static List<XYZ> CollectVertices(CurveLoop loop)
@@ -92,13 +102,20 @@ public sealed partial class CurveLoopVisualizationViewModel(
             var curveVertices = curve.Tessellate().ToList();
             foreach (var vertex in curveVertices)
             {
-                if (ContainsVertex(vertices, vertex)) continue;
+                if (ContainsVertex(vertices, vertex))
+                {
+                    continue;
+                }
 
                 vertices.Add(vertex);
             }
         }
 
-        if (!loop.IsOpen()) vertices.Add(vertices[0]);
+        if (!loop.IsOpen())
+        {
+            vertices.Add(vertices[0]);
+        }
+
         return vertices;
     }
 
@@ -106,7 +123,10 @@ public sealed partial class CurveLoopVisualizationViewModel(
     {
         foreach (var point in vertices)
         {
-            if (point.IsAlmostEqualTo(vertex)) return true;
+            if (point.IsAlmostEqualTo(vertex))
+            {
+                return true;
+            }
         }
 
         return false;
@@ -124,13 +144,6 @@ public sealed partial class CurveLoopVisualizationViewModel(
 
         UpdateTransparency(Transparency);
         UpdateDiameter(Diameter);
-    }
-
-    /// <inheritdoc/>
-    public void UnregisterServer()
-    {
-        _server.RenderFailed -= HandleRenderFailure;
-        _server.Unregister();
     }
 
     private void HandleRenderFailure(object? sender, RenderFailedEventArgs args)

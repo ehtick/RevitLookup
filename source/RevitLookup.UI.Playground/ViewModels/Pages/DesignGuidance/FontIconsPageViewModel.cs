@@ -4,7 +4,7 @@ using System.Text.Json;
 using CommunityToolkit.Mvvm.ComponentModel;
 using RevitLookup.UI.Playground.SampleData;
 #if NETFRAMEWORK
-using RevitLookup.UI.Framework.Extensions;
+using RevitLookup.UI.Framework.Menus;
 #endif
 
 namespace RevitLookup.UI.Playground.ViewModels.Pages.DesignGuidance;
@@ -16,13 +16,26 @@ namespace RevitLookup.UI.Playground.ViewModels.Pages.DesignGuidance;
 public partial class FontIconsPageViewModel : ObservableObject
 {
     /// <summary>
+    ///     Initializes a new instance of the <see cref="FontIconsPageViewModel" /> class.
+    /// </summary>
+    public FontIconsPageViewModel()
+    {
+        var jsonText = ReadIconData();
+        Icons = JsonSerializer.Deserialize<List<FontIconData>>(jsonText)!
+            .OrderBy(data => data.Name)
+            .ToList();
+
+        SelectedIcon = Icons.FirstOrDefault();
+    }
+
+    /// <summary>
     ///     Gets or sets the full set of Segoe icons available to browse.
     /// </summary>
     [ObservableProperty]
     public partial List<FontIconData> Icons { get; set; } = [];
 
     /// <summary>
-    ///     Gets or sets the icons that match the current <see cref="SearchText"/> filter.
+    ///     Gets or sets the icons that match the current <see cref="SearchText" /> filter.
     /// </summary>
     [ObservableProperty]
     public partial List<FontIconData> FilteredIcons { get; set; } = [];
@@ -38,19 +51,6 @@ public partial class FontIconsPageViewModel : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="FontIconsPageViewModel"/> class.
-    /// </summary>
-    public FontIconsPageViewModel()
-    {
-        var jsonText = ReadIconData();
-        Icons = JsonSerializer.Deserialize<List<FontIconData>>(jsonText)!
-            .OrderBy(data => data.Name)
-            .ToList();
-
-        SelectedIcon = Icons.FirstOrDefault();
-    }
 
     private static string ReadIconData()
     {
@@ -69,26 +69,33 @@ public partial class FontIconsPageViewModel : ObservableObject
 
     async partial void OnSearchTextChanged(string value)
     {
-        FilteredIcons = await Task.Run(() =>
+        try
         {
-            if (string.IsNullOrWhiteSpace(value))
+            FilteredIcons = await Task.Run(() =>
             {
-                return Icons;
-            }
-
-            var formattedText = value.Trim();
-            var results = new List<FontIconData>();
-
-            // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach (var setData in Icons)
-            {
-                if (setData.Name.Contains(formattedText, StringComparison.OrdinalIgnoreCase))
+                if (string.IsNullOrWhiteSpace(value))
                 {
-                    results.Add(setData);
+                    return Icons;
                 }
-            }
 
-            return results;
-        });
+                var formattedText = value.Trim();
+                var results = new List<FontIconData>();
+
+                // ReSharper disable once LoopCanBeConvertedToQuery
+                foreach (var setData in Icons)
+                {
+                    if (setData.Name.Contains(formattedText, StringComparison.OrdinalIgnoreCase))
+                    {
+                        results.Add(setData);
+                    }
+                }
+
+                return results;
+            });
+        }
+        catch (Exception)
+        {
+            //ignored
+        }
     }
 }

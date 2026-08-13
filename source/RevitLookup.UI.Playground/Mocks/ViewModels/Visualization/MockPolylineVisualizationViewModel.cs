@@ -6,13 +6,13 @@ using RevitLookup.Abstractions.ViewModels.Visualization;
 namespace RevitLookup.UI.Playground.Mocks.ViewModels.Visualization;
 
 /// <summary>
-///     Represents a Playground mock of <see cref="IPolylineVisualizationViewModel"/> that fabricates its initial values with <c>Bogus</c> and no-ops the visualization server.
+///     Represents a Playground mock of <see cref="IPolylineVisualizationViewModel" /> that fabricates its initial values with <c>Bogus</c> and no-ops the visualization server.
 /// </summary>
 [UsedImplicitly]
 public sealed partial class MockPolylineVisualizationViewModel : ObservableObject, IPolylineVisualizationViewModel
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="MockPolylineVisualizationViewModel"/> class with fake appearance settings.
+    ///     Initializes a new instance of the <see cref="MockPolylineVisualizationViewModel" /> class with fake appearance settings.
     /// </summary>
     public MockPolylineVisualizationViewModel()
     {
@@ -29,48 +29,48 @@ public sealed partial class MockPolylineVisualizationViewModel : ObservableObjec
         ShowCurve = faker.Random.Bool();
         ShowDirection = faker.Random.Bool();
     }
-    
-    /// <inheritdoc/>
+
+    /// <inheritdoc />
     [ObservableProperty]
     public partial double Diameter { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial double Transparency { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial Color SurfaceColor { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial Color CurveColor { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial Color DirectionColor { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool ShowSurface { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool ShowCurve { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool ShowDirection { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public double MinThickness { get; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void RegisterServer(object curveOrEdge)
     {
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void UnregisterServer()
     {
     }

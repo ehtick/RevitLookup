@@ -22,22 +22,25 @@ namespace Build.Modules;
 [DependsOn<CreateInstallerModule>]
 public sealed partial class SignInstallerModule(IOptions<SigningOptions> signingOptions, IOptions<BuildOptions> buildOptions) : Module<CommandResult>
 {
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-        .WithSkipWhen(() =>
-        {
-            var signing = signingOptions.Value;
-            if (string.IsNullOrEmpty(signing.VaultUri) ||
-                string.IsNullOrEmpty(signing.TenantId) ||
-                string.IsNullOrEmpty(signing.ClientId) ||
-                string.IsNullOrEmpty(signing.ClientSecret) ||
-                string.IsNullOrEmpty(signing.CertificateName))
+    protected override ModuleConfiguration Configure()
+    {
+        return ModuleConfiguration.Create()
+            .WithSkipWhen(() =>
             {
-                return SkipDecision.Skip("Signing credentials are not provided");
-            }
+                var signing = signingOptions.Value;
+                if (string.IsNullOrEmpty(signing.VaultUri) ||
+                    string.IsNullOrEmpty(signing.TenantId) ||
+                    string.IsNullOrEmpty(signing.ClientId) ||
+                    string.IsNullOrEmpty(signing.ClientSecret) ||
+                    string.IsNullOrEmpty(signing.CertificateName))
+                {
+                    return SkipDecision.Skip("Signing credentials are not provided");
+                }
 
-            return SkipDecision.DoNotSkip;
-        })
-        .Build();
+                return SkipDecision.DoNotSkip;
+            })
+            .Build();
+    }
 
     protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -64,7 +67,7 @@ public sealed partial class SignInstallerModule(IOptions<SigningOptions> signing
             SkipSigned = true,
             ContinueOnError = true,
             InputFileList = inputFile
-        }, cancellationToken: cancellationToken);
+        }, cancellationToken);
     }
 
     [LoggerMessage(LogLevel.Information, "Signing {Count} files")]

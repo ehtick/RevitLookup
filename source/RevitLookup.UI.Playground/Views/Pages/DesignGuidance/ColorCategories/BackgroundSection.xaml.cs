@@ -1,14 +1,12 @@
-using System.Windows.Controls;
-
 namespace RevitLookup.UI.Playground.Views.Pages.DesignGuidance.ColorCategories;
 
 /// <summary>
-/// Represents a page that demonstrates background color tokens in the Playground.
+///     Represents a page that demonstrates background color tokens in the Playground.
 /// </summary>
-public partial class BackgroundSection : Page
+public sealed partial class BackgroundSection
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="BackgroundSection"/> class.
+    ///     Initializes a new instance of the <see cref="BackgroundSection" /> class.
     /// </summary>
     public BackgroundSection()
     {

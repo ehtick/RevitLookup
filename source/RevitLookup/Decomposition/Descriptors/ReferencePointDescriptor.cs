@@ -17,12 +17,12 @@ using LookupEngine.Abstractions.Configuration;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.ReferencePoint"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.ReferencePoint" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="referencePoint">The reference point to expose.</param>
 public sealed class ReferencePointDescriptor(ReferencePoint referencePoint) : ElementDescriptor(referencePoint)
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(ReferencePoint.Dispose)).Disable();
@@ -31,21 +31,23 @@ public sealed class ReferencePointDescriptor(ReferencePoint referencePoint) : El
 
         var isAdaptivePlacementPoint = SafeEvaluate(() => AdaptiveComponentFamilyUtils.IsAdaptivePlacementPoint(referencePoint.Document, referencePoint.Id));
         configuration.Extension(nameof(AdaptiveComponentFamilyUtils.IsAdaptivePlacementPoint)).Register(() => isAdaptivePlacementPoint);
-        
+
         if (isAdaptivePlacementPoint)
         {
             configuration.Extension("GetAdaptivePlacementNumber").Map(nameof(AdaptiveComponentFamilyUtils.GetPlacementNumber)).Register(() => AdaptiveComponentFamilyUtils.GetPlacementNumber(referencePoint.Document, referencePoint.Id));
             configuration.Extension("SetAdaptivePlacementNumber").Map(nameof(AdaptiveComponentFamilyUtils.SetPlacementNumber)).NotSupported();
-            configuration.Extension("GetAdaptivePointOrientationType").Map(nameof(AdaptiveComponentFamilyUtils.GetPointOrientationType)).Register(() => AdaptiveComponentFamilyUtils.GetPointOrientationType(referencePoint.Document, referencePoint.Id));
+            configuration.Extension("GetAdaptivePointOrientationType").Map(nameof(AdaptiveComponentFamilyUtils.GetPointOrientationType))
+                .Register(() => AdaptiveComponentFamilyUtils.GetPointOrientationType(referencePoint.Document, referencePoint.Id));
             configuration.Extension("SetAdaptivePointOrientationType").Map(nameof(AdaptiveComponentFamilyUtils.SetPointOrientationType)).NotSupported();
         }
 
         var isAdaptiveShapeHandlePoint = SafeEvaluate(() => AdaptiveComponentFamilyUtils.IsAdaptiveShapeHandlePoint(referencePoint.Document, referencePoint.Id));
         configuration.Extension(nameof(AdaptiveComponentFamilyUtils.IsAdaptiveShapeHandlePoint)).Register(() => isAdaptiveShapeHandlePoint);
-        
+
         if (isAdaptiveShapeHandlePoint)
         {
-            configuration.Extension("GetAdaptivePointConstraintType").Map(nameof(AdaptiveComponentFamilyUtils.GetPointConstraintType)).Register(() => AdaptiveComponentFamilyUtils.GetPointConstraintType(referencePoint.Document, referencePoint.Id));
+            configuration.Extension("GetAdaptivePointConstraintType").Map(nameof(AdaptiveComponentFamilyUtils.GetPointConstraintType))
+                .Register(() => AdaptiveComponentFamilyUtils.GetPointConstraintType(referencePoint.Document, referencePoint.Id));
             configuration.Extension("SetAdaptivePointConstraintType").Map(nameof(AdaptiveComponentFamilyUtils.SetPointConstraintType)).NotSupported();
         }
     }

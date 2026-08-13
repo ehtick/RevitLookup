@@ -26,7 +26,7 @@ public sealed partial class FaceVisualizationDialog
     private readonly IFaceVisualizationViewModel _viewModel;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="FaceVisualizationDialog"/> class.
+    ///     Initializes a new instance of the <see cref="FaceVisualizationDialog" /> class.
     /// </summary>
     /// <param name="dialogService">The service that supplies the dialog host this dialog is shown on.</param>
     /// <param name="viewModel">The view model that renders the face in the active Revit view.</param>

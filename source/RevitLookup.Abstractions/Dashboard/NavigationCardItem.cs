@@ -29,7 +29,7 @@ public sealed class NavigationCardItem
     public required ICommand Command { get; set; }
 
     /// <summary>
-    ///     Gets or sets the parameter to pass to <see cref="Command"/>.
+    ///     Gets or sets the parameter to pass to <see cref="Command" />.
     /// </summary>
     public object? CommandParameter { get; set; }
 }

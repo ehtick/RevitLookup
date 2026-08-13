@@ -19,12 +19,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.UI.RibbonPanel"/> or <see cref="Autodesk.Windows.RibbonPanel"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.UI.RibbonPanel" /> or <see cref="Autodesk.Windows.RibbonPanel" /> exposed to LookupEngine.
 /// </summary>
 public sealed class RibbonPanelDescriptor : Descriptor, IDescriptorCollector
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="RibbonPanelDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="RibbonPanelDescriptor" /> class.
     /// </summary>
     /// <param name="panel">The Revit API ribbon panel to expose.</param>
     public RibbonPanelDescriptor(RibbonPanel panel)
@@ -33,11 +33,14 @@ public sealed class RibbonPanelDescriptor : Descriptor, IDescriptorCollector
     }
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="RibbonPanelDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="RibbonPanelDescriptor" /> class.
     /// </summary>
     /// <param name="panel">The underlying ribbon panel to expose.</param>
     public RibbonPanelDescriptor(Autodesk.Windows.RibbonPanel panel)
     {
-        if (panel.Source is not null) Name = panel.Source.AutomationName;
+        if (panel.Source is not null)
+        {
+            Name = panel.Source.AutomationName;
+        }
     }
 }

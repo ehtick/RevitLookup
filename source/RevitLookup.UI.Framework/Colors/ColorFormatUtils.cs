@@ -28,9 +28,9 @@ public static class ColorFormatUtils
     extension(System.Windows.Media.Color color)
     {
         /// <summary>
-        ///     Converts the color to a <see cref="Color"/>.
+        ///     Converts the color to a <see cref="Color" />.
         /// </summary>
-        /// <returns>The equivalent <see cref="Color"/>.</returns>
+        /// <returns>The equivalent <see cref="Color" />.</returns>
         /// <remarks>
         ///     The returned color's alpha channel is always 255, regardless of the source color's alpha.
         /// </remarks>
@@ -48,7 +48,7 @@ public static class ColorFormatUtils
     public static (double Cyan, double Magenta, double Yellow, double BlackKey) ConvertToCmykColor(Color color)
     {
         // special case for black (avoid division by zero)
-        if (color is {R: 0, G: 0, B: 0})
+        if (color is { R: 0, G: 0, B: 0 })
         {
             return (0d, 0d, 0d, 1d);
         }
@@ -104,7 +104,7 @@ public static class ColorFormatUtils
     public static (double Hue, double Saturation, double Intensity) ConvertToHsiColor(Color color)
     {
         // special case for black
-        if (color.R == 0 && color.G == 0 && color.B == 0)
+        if (color.R == 0 && color is { G: 0, B: 0 })
         {
             return (0d, 0d, 0d);
         }
@@ -117,7 +117,7 @@ public static class ColorFormatUtils
 
         var min = Math.Min(Math.Min(color.R, color.G), color.B) / 255d;
 
-        return (color.GetHue(), 1d - (min / intensity), intensity);
+        return (color.GetHue(), 1d - min / intensity, intensity);
     }
 
     /// <summary>
@@ -187,14 +187,14 @@ public static class ColorFormatUtils
         var b = color.B / 255d;
 
         // inverse companding, gamma correction must be undone
-        var rLinear = (r > 0.04045) ? Math.Pow((r + 0.055) / 1.055, 2.4) : (r / 12.92);
-        var gLinear = (g > 0.04045) ? Math.Pow((g + 0.055) / 1.055, 2.4) : (g / 12.92);
-        var bLinear = (b > 0.04045) ? Math.Pow((b + 0.055) / 1.055, 2.4) : (b / 12.92);
+        var rLinear = r > 0.04045 ? Math.Pow((r + 0.055) / 1.055, 2.4) : r / 12.92;
+        var gLinear = g > 0.04045 ? Math.Pow((g + 0.055) / 1.055, 2.4) : g / 12.92;
+        var bLinear = b > 0.04045 ? Math.Pow((b + 0.055) / 1.055, 2.4) : b / 12.92;
 
         return (
-            (rLinear * 0.41239079926595948) + (gLinear * 0.35758433938387796) + (bLinear * 0.18048078840183429),
-            (rLinear * 0.21263900587151036) + (gLinear * 0.71516867876775593) + (bLinear * 0.07219231536073372),
-            (rLinear * 0.01933081871559185) + (gLinear * 0.11919477979462599) + (bLinear * 0.95053215224966058)
+            rLinear * 0.41239079926595948 + gLinear * 0.35758433938387796 + bLinear * 0.18048078840183429,
+            rLinear * 0.21263900587151036 + gLinear * 0.71516867876775593 + bLinear * 0.07219231536073372,
+            rLinear * 0.01933081871559185 + gLinear * 0.11919477979462599 + bLinear * 0.95053215224966058
         );
     }
 
@@ -226,14 +226,14 @@ public static class ColorFormatUtils
 
         // XYZ to CIELab transformation
         const double delta = 6d / 29;
-        var m = (1d / 3) * Math.Pow(delta, -2);
+        var m = 1d / 3 * Math.Pow(delta, -2);
         var t = Math.Pow(delta, 3);
 
-        var fx = (x > t) ? Math.Pow(x, 1.0 / 3.0) : (x * m) + (16.0 / 116.0);
-        var fy = (y > t) ? Math.Pow(y, 1.0 / 3.0) : (y * m) + (16.0 / 116.0);
-        var fz = (z > t) ? Math.Pow(z, 1.0 / 3.0) : (z * m) + (16.0 / 116.0);
+        var fx = x > t ? Math.Pow(x, 1.0 / 3.0) : x * m + 16.0 / 116.0;
+        var fy = y > t ? Math.Pow(y, 1.0 / 3.0) : y * m + 16.0 / 116.0;
+        var fz = z > t ? Math.Pow(z, 1.0 / 3.0) : z * m + 16.0 / 116.0;
 
-        var l = (116 * fy) - 16;
+        var l = 116 * fy - 16;
         var a = 500 * (fx - fy);
         var b = 200 * (fy - fz);
 

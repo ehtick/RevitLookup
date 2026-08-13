@@ -18,12 +18,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.PerformanceAdviser"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.PerformanceAdviser" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="adviser">The performance adviser to expose.</param>
 public sealed class PerformanceAdviserDescriptor(PerformanceAdviser adviser) : Descriptor, IDescriptorConfigurator, IDescriptorConfigurator<Document>
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(PerformanceAdviser.Dispose)).Disable();
@@ -51,7 +51,7 @@ public sealed class PerformanceAdviserDescriptor(PerformanceAdviser adviser) : D
             .Resolve(context => ResolveIndexedPairs(adviser.GetNumberOfRules(), i => adviser.GetElementFilterFromRule(i, context)));
         configuration.Member(nameof(PerformanceAdviser.ExecuteAllRules)).Defer(adviser.ExecuteAllRules);
     }
-    
+
     private static IVariant ResolveIndexedPairs<TResult>(int capacity, Func<int, TResult> selector)
     {
         var variants = Variants.Values<KeyValuePair<int, TResult>>(capacity);

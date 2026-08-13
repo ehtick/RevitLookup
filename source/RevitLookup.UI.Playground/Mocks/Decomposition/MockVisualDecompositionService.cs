@@ -9,7 +9,7 @@ using RevitLookup.Abstractions.ViewModels.Decomposition;
 namespace RevitLookup.UI.Playground.Mocks.Decomposition;
 
 /// <summary>
-///     Represents a Playground mock of <see cref="IVisualDecompositionService"/> that decomposes Playground sample data and pushes it into <paramref name="summaryViewModel"/> instead of a live Revit selection.
+///     Represents a Playground mock of <see cref="IVisualDecompositionService" /> that decomposes Playground sample data and pushes it into <paramref name="summaryViewModel" /> instead of a live Revit selection.
 /// </summary>
 /// <param name="intercomService">The service used to show or hide the host window around the simulated visualization delay.</param>
 /// <param name="notificationService">The service used to report a cancelled or failed decomposition.</param>
@@ -24,7 +24,7 @@ public sealed class MockVisualDecompositionService(
     IDecompositionSummaryViewModel summaryViewModel)
     : IVisualDecompositionService
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public async Task VisualizeDecompositionAsync(KnownDecompositionObject decompositionObject)
     {
         try
@@ -41,7 +41,7 @@ public sealed class MockVisualDecompositionService(
                     break;
             }
 
-            summaryViewModel.DecomposedObjects = await decompositionService.DecomposeAsync(new object[] {decompositionObject});
+            summaryViewModel.DecomposedObjects = await decompositionService.DecomposeAsync(new object[] { decompositionObject });
         }
         catch (OperationCanceledException)
         {
@@ -57,31 +57,31 @@ public sealed class MockVisualDecompositionService(
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public async Task VisualizeDecompositionAsync(object? obj)
     {
         summaryViewModel.DecomposedObjects = obj switch
         {
-            ObservableDecomposedValue {Descriptor: IDescriptorEnumerator} decomposedValue => await decompositionService.DecomposeAsync((IEnumerable) decomposedValue.RawValue!),
+            ObservableDecomposedValue { Descriptor: IDescriptorEnumerator } decomposedValue => await decompositionService.DecomposeAsync((IEnumerable)decomposedValue.RawValue!),
             ObservableDecomposedValue decomposedValue => [await decompositionService.DecomposeAsync(decomposedValue.RawValue)],
             _ => [await decompositionService.DecomposeAsync(obj)]
         };
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public async Task VisualizeDecompositionAsync(IEnumerable objects)
     {
         summaryViewModel.DecomposedObjects = await decompositionService.DecomposeAsync(objects);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public async Task VisualizeDecompositionAsync(ObservableDecomposedObject decomposedObject)
     {
         summaryViewModel.DecomposedObjects = [decomposedObject];
         await Task.CompletedTask;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public async Task VisualizeDecompositionAsync(List<ObservableDecomposedObject> decomposedObjects)
     {
         summaryViewModel.DecomposedObjects = decomposedObjects;
@@ -91,7 +91,10 @@ public sealed class MockVisualDecompositionService(
     private void ShowHost()
     {
         var host = intercomService.GetHost();
-        if (!host.IsLoaded) return;
+        if (!host.IsLoaded)
+        {
+            return;
+        }
 
         host.Visibility = Visibility.Visible;
     }
@@ -99,7 +102,10 @@ public sealed class MockVisualDecompositionService(
     private void HideHost()
     {
         var host = intercomService.GetHost();
-        if (!host.IsLoaded) return;
+        if (!host.IsLoaded)
+        {
+            return;
+        }
 
         host.Visibility = Visibility.Hidden;
     }

@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Lookup Foundation and Contributors
-// 
+//
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
 // provided that the above copyright notice appears in all copies and
 // that both that copyright notice and the limited warranty and
 // restricted rights notice below appear in all supporting
 // documentation.
-// 
+//
 // THIS PROGRAM IS PROVIDED "AS IS" AND WITH ALL FAULTS.
 // NO IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE IS PROVIDED.
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
@@ -27,7 +27,7 @@ using RevitLookup.UI.Framework.Views.AboutProgram;
 namespace RevitLookup.UI.Playground.Mocks.ViewModels.AboutProgram;
 
 /// <summary>
-///     Represents a Playground mock of <see cref="IAboutViewModel"/> that fabricates update check and download outcomes through <see cref="ISoftwareUpdateService"/>.
+///     Represents a Playground mock of <see cref="IAboutViewModel" /> that fabricates update check and download outcomes through <see cref="ISoftwareUpdateService" />.
 /// </summary>
 [UsedImplicitly]
 public sealed partial class MockAboutViewModel : ObservableObject, IAboutViewModel
@@ -36,7 +36,7 @@ public sealed partial class MockAboutViewModel : ObservableObject, IAboutViewMod
     private readonly ISoftwareUpdateService _updateService;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="MockAboutViewModel"/> class.
+    ///     Initializes a new instance of the <see cref="MockAboutViewModel" /> class.
     /// </summary>
     /// <param name="serviceProvider">The service provider used to resolve the open-source software dialog.</param>
     /// <param name="updateService">The service that checks for, downloads, and reports application updates.</param>
@@ -59,36 +59,35 @@ public sealed partial class MockAboutViewModel : ObservableObject, IAboutViewMod
         LatestCheckDate = _updateService.LatestCheckDate?.ToString("yyyy.MM.dd HH:mm:ss");
         UpdateSoftwareState();
     }
-    
-    /// <inheritdoc/>
-    [ObservableProperty]
-    public partial SoftwareUpdateState State { get; set; } = (SoftwareUpdateState) (-1);
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
+    [ObservableProperty]
+    public partial SoftwareUpdateState State { get; set; } = (SoftwareUpdateState)(-1);
+
+    /// <inheritdoc />
     [ObservableProperty]
     public partial Version CurrentVersion { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial string? NewVersion { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial string? ReleaseNotesUrl { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial string? LatestCheckDate { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial string? ErrorMessage { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial string Runtime { get; set; }
 
-    /// <inheritdoc/>
     [RelayCommand]
     private async Task CheckUpdatesAsync()
     {
@@ -115,7 +114,6 @@ public sealed partial class MockAboutViewModel : ObservableObject, IAboutViewMod
         }
     }
 
-    /// <inheritdoc/>
     [RelayCommand]
     private async Task DownloadUpdateAsync()
     {
@@ -131,7 +129,6 @@ public sealed partial class MockAboutViewModel : ObservableObject, IAboutViewMod
         }
     }
 
-    /// <inheritdoc/>
     [RelayCommand]
     private async Task ShowSoftwareDialogAsync()
     {
@@ -147,7 +144,10 @@ public sealed partial class MockAboutViewModel : ObservableObject, IAboutViewMod
             return;
         }
 
-        if (_updateService.NewVersion is null) return;
+        if (_updateService.NewVersion is null)
+        {
+            return;
+        }
 
         NewVersion = _updateService.NewVersion;
         ReleaseNotesUrl = _updateService.ReleaseNotesUrl;

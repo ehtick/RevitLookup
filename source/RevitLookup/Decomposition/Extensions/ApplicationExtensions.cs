@@ -15,7 +15,7 @@
 namespace RevitLookup.Decomposition.Extensions;
 
 /// <summary>
-///     Provides extension methods for <see cref="Autodesk.Revit.ApplicationServices.Application"/> to retrieve extended version information.
+///     Provides extension methods for <see cref="Autodesk.Revit.ApplicationServices.Application" /> to retrieve extended version information.
 /// </summary>
 [PublicAPI]
 public static class ApplicationExtensions

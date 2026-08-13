@@ -25,14 +25,14 @@ namespace RevitLookup.UI.Playground;
 /// <param name="logger">The logger used to record life cycle events.</param>
 public sealed partial class HostBackgroundService(ISettingsService settingsService, ILogger<HostBackgroundService> logger) : IHostedService
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public Task StartAsync(CancellationToken cancellationToken)
     {
         LoadSettings();
         return Task.CompletedTask;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public Task StopAsync(CancellationToken cancellationToken)
     {
         SaveSettings();

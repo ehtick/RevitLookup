@@ -1,17 +1,17 @@
 ﻿using System.Collections;
 using System.Diagnostics.CodeAnalysis;
-using Visibility = System.Windows.Visibility;
-using OperationCanceledException = Autodesk.Revit.Exceptions.OperationCanceledException;
 using LookupEngine.Abstractions.Configuration;
 using Nice3point.Revit.Toolkit.External;
 using RevitLookup.Abstractions.Decomposition;
 using RevitLookup.Abstractions.Presentation;
 using RevitLookup.Abstractions.ViewModels.Decomposition;
+using Visibility = System.Windows.Visibility;
+using OperationCanceledException = Autodesk.Revit.Exceptions.OperationCanceledException;
 
 namespace RevitLookup.Decomposition;
 
 /// <summary>
-///     Provides the default implementation of <see cref="IVisualDecompositionService"/>.
+///     Provides the default implementation of <see cref="IVisualDecompositionService" />.
 /// </summary>
 /// <param name="intercomService">The service that exposes the host window hosting the decomposition UI.</param>
 /// <param name="notificationService">The service used to report a cancelled or failed visualization.</param>
@@ -26,7 +26,7 @@ public sealed partial class VisualDecompositionService(
     IDecompositionSummaryViewModel summaryViewModel)
     : IVisualDecompositionService
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public async Task VisualizeDecompositionAsync(KnownDecompositionObject decompositionObject)
     {
         try
@@ -59,6 +59,37 @@ public sealed partial class VisualDecompositionService(
         }
     }
 
+    /// <inheritdoc />
+    public async Task VisualizeDecompositionAsync(object? obj)
+    {
+        summaryViewModel.DecomposedObjects = obj switch
+        {
+            ObservableDecomposedValue { Descriptor: IDescriptorEnumerator } decomposedValue => await decompositionService.DecomposeAsync((IEnumerable)decomposedValue.RawValue!),
+            ObservableDecomposedValue decomposedValue => [await decompositionService.DecomposeAsync(decomposedValue.RawValue)],
+            _ => [await decompositionService.DecomposeAsync(obj)]
+        };
+    }
+
+    /// <inheritdoc />
+    public async Task VisualizeDecompositionAsync(IEnumerable objects)
+    {
+        summaryViewModel.DecomposedObjects = await decompositionService.DecomposeAsync(objects);
+    }
+
+    /// <inheritdoc />
+    public async Task VisualizeDecompositionAsync(ObservableDecomposedObject decomposedObject)
+    {
+        summaryViewModel.DecomposedObjects = [decomposedObject];
+        await Task.CompletedTask;
+    }
+
+    /// <inheritdoc />
+    public async Task VisualizeDecompositionAsync(List<ObservableDecomposedObject> decomposedObjects)
+    {
+        summaryViewModel.DecomposedObjects = decomposedObjects;
+        await Task.CompletedTask;
+    }
+
     [ExternalEvent(AllowDirectInvocation = true)]
     private static IEnumerable CollectObjects(KnownDecompositionObject decompositionObject)
     {
@@ -68,7 +99,10 @@ public sealed partial class VisualDecompositionService(
     private void ShowHost()
     {
         var host = intercomService.GetHost();
-        if (!host.IsLoaded) return;
+        if (!host.IsLoaded)
+        {
+            return;
+        }
 
         host.Visibility = Visibility.Visible;
     }
@@ -76,39 +110,11 @@ public sealed partial class VisualDecompositionService(
     private void HideHost()
     {
         var host = intercomService.GetHost();
-        if (!host.IsLoaded) return;
+        if (!host.IsLoaded)
+        {
+            return;
+        }
 
         host.Visibility = Visibility.Hidden;
-    }
-
-    /// <inheritdoc/>
-    public async Task VisualizeDecompositionAsync(object? obj)
-    {
-        summaryViewModel.DecomposedObjects = obj switch
-        {
-            ObservableDecomposedValue {Descriptor: IDescriptorEnumerator} decomposedValue => await decompositionService.DecomposeAsync((IEnumerable) decomposedValue.RawValue!),
-            ObservableDecomposedValue decomposedValue => [await decompositionService.DecomposeAsync(decomposedValue.RawValue)],
-            _ => [await decompositionService.DecomposeAsync(obj)]
-        };
-    }
-
-    /// <inheritdoc/>
-    public async Task VisualizeDecompositionAsync(IEnumerable objects)
-    {
-        summaryViewModel.DecomposedObjects = await decompositionService.DecomposeAsync(objects);
-    }
-
-    /// <inheritdoc/>
-    public async Task VisualizeDecompositionAsync(ObservableDecomposedObject decomposedObject)
-    {
-        summaryViewModel.DecomposedObjects = [decomposedObject];
-        await Task.CompletedTask;
-    }
-
-    /// <inheritdoc/>
-    public async Task VisualizeDecompositionAsync(List<ObservableDecomposedObject> decomposedObjects)
-    {
-        summaryViewModel.DecomposedObjects = decomposedObjects;
-        await Task.CompletedTask;
     }
 }

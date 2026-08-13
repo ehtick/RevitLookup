@@ -5,12 +5,12 @@ using RevitLookup.UI.Playground.Views.Pages.DesignGuidance.ColorCategories;
 namespace RevitLookup.UI.Playground.Views.Pages.DesignGuidance;
 
 /// <summary>
-/// Represents a page that demonstrates the color design guidance categories in the Playground.
+///     Represents a page that demonstrates the color design guidance categories in the Playground.
 /// </summary>
 public sealed partial class ColorsPage
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ColorsPage"/> class.
+    ///     Initializes a new instance of the <see cref="ColorsPage" /> class.
     /// </summary>
     public ColorsPage()
     {

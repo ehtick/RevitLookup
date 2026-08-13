@@ -1,14 +1,14 @@
-﻿using Color = System.Windows.Media.Color;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using RevitLookup.Abstractions.Presentation;
 using RevitLookup.Abstractions.Settings;
 using RevitLookup.Abstractions.ViewModels.Visualization;
 using RevitLookup.Visualization;
+using Color = System.Windows.Media.Color;
 
 namespace RevitLookup.ViewModels.Visualization;
 
 /// <summary>
-///     Represents the view model for face visualization, rendering a <see cref="Face"/> through a dedicated Revit visualization server.
+///     Represents the view model for face visualization, rendering a <see cref="Face" /> through a dedicated Revit visualization server.
 /// </summary>
 /// <param name="settingsService">The service that persists and supplies the face visualization settings.</param>
 /// <param name="notificationService">The service used to report rendering failures.</param>
@@ -22,43 +22,43 @@ public sealed partial class FaceVisualizationViewModel(
 {
     private readonly FaceVisualizationServer _server = new();
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial double Extrusion { get; set; } = settingsService.VisualizationSettings.FaceSettings.Extrusion;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial double Transparency { get; set; } = settingsService.VisualizationSettings.FaceSettings.Transparency;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial Color SurfaceColor { get; set; } = settingsService.VisualizationSettings.FaceSettings.SurfaceColor;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial Color MeshColor { get; set; } = settingsService.VisualizationSettings.FaceSettings.MeshColor;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial Color NormalVectorColor { get; set; } = settingsService.VisualizationSettings.FaceSettings.NormalVectorColor;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool ShowSurface { get; set; } = settingsService.VisualizationSettings.FaceSettings.ShowSurface;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool ShowMeshGrid { get; set; } = settingsService.VisualizationSettings.FaceSettings.ShowMeshGrid;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool ShowNormalVector { get; set; } = settingsService.VisualizationSettings.FaceSettings.ShowNormalVector;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public double MinExtrusion => settingsService.VisualizationSettings.FaceSettings.MinExtrusion;
 
-    /// <inheritdoc/>
-    /// <exception cref="ArgumentException"><paramref name="faceObject"/> is not a <see cref="Face"/>.</exception>
+    /// <inheritdoc />
+    /// <exception cref="ArgumentException"><paramref name="faceObject" /> is not a <see cref="Face" />.</exception>
     public void RegisterServer(object faceObject)
     {
         if (faceObject is not Face face)
@@ -81,7 +81,7 @@ public sealed partial class FaceVisualizationViewModel(
         _server.Register(face);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void UnregisterServer()
     {
         _server.RenderFailed -= HandleRenderFailure;

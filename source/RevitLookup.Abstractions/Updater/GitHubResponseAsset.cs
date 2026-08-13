@@ -11,10 +11,12 @@ public sealed class GitHubResponseAsset
     /// <summary>
     ///     Gets or sets the file name of the release asset.
     /// </summary>
-    [JsonPropertyName("name")] public string? Name { get; set; }
+    [JsonPropertyName("name")]
+    public string? Name { get; set; }
 
     /// <summary>
     ///     Gets or sets the URL to download the release asset.
     /// </summary>
-    [JsonPropertyName("browser_download_url")] public string? DownloadUrl { get; set; }
+    [JsonPropertyName("browser_download_url")]
+    public string? DownloadUrl { get; set; }
 }

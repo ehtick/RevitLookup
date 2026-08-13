@@ -27,11 +27,11 @@ namespace RevitLookup.Decomposition;
 public static class RevitObjectsCollector
 {
     /// <summary>
-    ///     Gets the Revit objects associated with <paramref name="decompositionObject"/>.
+    ///     Gets the Revit objects associated with <paramref name="decompositionObject" />.
     /// </summary>
     /// <param name="decompositionObject">The well-known object category to retrieve.</param>
-    /// <returns>The objects for <paramref name="decompositionObject"/>; empty when none are currently available.</returns>
-    /// <exception cref="ArgumentOutOfRangeException"><paramref name="decompositionObject"/> is not a defined <see cref="KnownDecompositionObject"/> value.</exception>
+    /// <returns>The objects for <paramref name="decompositionObject" />; empty when none are currently available.</returns>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="decompositionObject" /> is not a defined <see cref="KnownDecompositionObject" /> value.</exception>
     public static IEnumerable GetObjects(KnownDecompositionObject decompositionObject)
     {
         return decompositionObject switch
@@ -60,27 +60,27 @@ public static class RevitObjectsCollector
 
     private static IEnumerable FindView()
     {
-        return new object?[] {RevitContext.ActiveView};
+        return new object?[] { RevitContext.ActiveView };
     }
 
     private static IEnumerable FindDocument()
     {
-        return new object?[] {RevitContext.ActiveDocument};
+        return new object?[] { RevitContext.ActiveDocument };
     }
 
     private static IEnumerable FindApplication()
     {
-        return new object?[] {RevitApiContext.Application};
+        return new object?[] { RevitApiContext.Application };
     }
 
     private static IEnumerable FindUiApplication()
     {
-        return new object?[] {RevitContext.UiApplication};
+        return new object?[] { RevitContext.UiApplication };
     }
 
     private static IEnumerable FindUiControlledApplication()
     {
-        return new object[] {RevitContext.UiApplication.AsControlledApplication()};
+        return new object[] { RevitContext.UiApplication.AsControlledApplication() };
     }
 
     private static IEnumerable FindEdge()
@@ -139,7 +139,10 @@ public static class RevitObjectsCollector
     private static IEnumerable FindDependentElements()
     {
         var selectedIds = RevitContext.ActiveUiDocument!.Selection.GetElementIds();
-        if (selectedIds.Count == 0) return Array.Empty<object>();
+        if (selectedIds.Count == 0)
+        {
+            return Array.Empty<object>();
+        }
 
         var elements = new List<ElementId>();
         var activeDocument = RevitContext.ActiveDocument!;
@@ -148,7 +151,10 @@ public static class RevitObjectsCollector
         foreach (var selectedElement in selectedElements)
         {
             var dependentElements = selectedElement.GetDependentElements(null);
-            foreach (var dependentElement in dependentElements) elements.Add(dependentElement);
+            foreach (var dependentElement in dependentElements)
+            {
+                elements.Add(dependentElement);
+            }
         }
 
         return activeDocument.CollectElements().OfElements(elements).ToElements();
@@ -156,12 +162,12 @@ public static class RevitObjectsCollector
 
     private static IEnumerable FindComponentManager()
     {
-        return new object?[] {typeof(ComponentManager)};
+        return new object?[] { typeof(ComponentManager) };
     }
 
     private static IEnumerable FindPerformanceAdviser()
     {
-        return new object?[] {PerformanceAdviser.GetPerformanceAdviser()};
+        return new object?[] { PerformanceAdviser.GetPerformanceAdviser() };
     }
 
     private static IEnumerable FindUpdaterRegistry()
@@ -212,6 +218,6 @@ public static class RevitObjectsCollector
                 throw new NotSupportedException();
         }
 
-        return new[] {element};
+        return new[] { element };
     }
 }

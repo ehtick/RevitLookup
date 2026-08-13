@@ -1,12 +1,12 @@
 // Copyright (c) Lookup Foundation and Contributors
-// 
+//
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
 // provided that the above copyright notice appears in all copies and
 // that both that copyright notice and the limited warranty and
 // restricted rights notice below appear in all supporting
 // documentation.
-// 
+//
 // THIS PROGRAM IS PROVIDED "AS IS" AND WITH ALL FAULTS.
 // NO IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE IS PROVIDED.
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
@@ -20,18 +20,26 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Abstractions.Decomposition;
 using RevitLookup.Abstractions.Presentation;
-using RevitLookup.UI.Framework.Extensions;
+using RevitLookup.UI.Framework.Menus;
 using RevitLookup.UI.Framework.Views.Visualization;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="BoundingBoxXYZ"/> exposed to LookupEngine.
+///     Represents the <see cref="BoundingBoxXYZ" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="box">The bounding box to expose.</param>
 public sealed partial class BoundingBoxXyzDescriptor(BoundingBoxXYZ box) : Descriptor, IDescriptorConfigurator, IContextMenuConnector
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
+    public void RegisterMenu(ContextMenu contextMenu, IServiceProvider serviceProvider)
+    {
+        contextMenu.AddMenuItem("VisualizeMenuItem")
+            .SetCommand(box, xyz => VisualizeBoundingBoxAsync(xyz, serviceProvider))
+            .SetShortcut(Key.F8);
+    }
+
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(BoundingBoxXYZ.Dispose)).Disable();
@@ -136,17 +144,12 @@ public sealed partial class BoundingBoxXyzDescriptor(BoundingBoxXYZ box) : Descr
         }
     }
 
-    /// <inheritdoc/>
-    public void RegisterMenu(ContextMenu contextMenu, IServiceProvider serviceProvider)
-    {
-        contextMenu.AddMenuItem("VisualizeMenuItem")
-            .SetCommand(box, xyz => VisualizeBoundingBoxAsync(xyz, serviceProvider))
-            .SetShortcut(Key.F8);
-    }
-
     private static async Task VisualizeBoundingBoxAsync(BoundingBoxXYZ boundingBox, IServiceProvider serviceProvider)
     {
-        if (RevitContext.ActiveUiDocument is null) return;
+        if (RevitContext.ActiveUiDocument is null)
+        {
+            return;
+        }
 
         try
         {

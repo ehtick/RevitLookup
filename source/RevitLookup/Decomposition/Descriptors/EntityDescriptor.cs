@@ -21,7 +21,7 @@ using RevitLookup.Decomposition.Schemas;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Entity"/> exposed to LookupEngine.
+///     Represents the <see cref="Entity" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="entity">The extensible storage entity to expose.</param>
 public sealed class EntityDescriptor(Entity entity) : Descriptor, IDescriptorConfigurator
@@ -29,7 +29,7 @@ public sealed class EntityDescriptor(Entity entity) : Descriptor, IDescriptorCon
     private static readonly MethodInfo GetByFieldMethod = typeof(Entity).GetMethod(nameof(Entity.Get), [typeof(Field)])!;
     private static readonly MethodInfo GetByFieldForgeMethod = typeof(Entity).GetMethod(nameof(Entity.Get), [typeof(Field), typeof(ForgeTypeId)])!;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Entity.Dispose)).Disable();
@@ -50,7 +50,10 @@ public sealed class EntityDescriptor(Entity entity) : Descriptor, IDescriptorCon
                 foreach (var field in fields)
                 {
                     //for double we always need UnitTypeId, so we can not see these fields when we use the overload with fieldName only
-                    if (field.ValueType == typeof(double) || field.KeyType == typeof(double)) continue;
+                    if (field.ValueType == typeof(double) || field.KeyType == typeof(double))
+                    {
+                        continue;
+                    }
 
                     var genericMethod = MakeGenericInvoker(field, GetByFieldMethod);
                     variants.Add(genericMethod.Invoke(entity, [field]), field.FieldName);

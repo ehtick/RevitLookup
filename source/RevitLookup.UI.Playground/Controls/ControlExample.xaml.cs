@@ -16,13 +16,8 @@ namespace RevitLookup.UI.Playground.Controls;
 [ContentProperty(nameof(ExampleContent))]
 public sealed class ControlExample : Control
 {
-    static ControlExample()
-    {
-        CommandManager.RegisterClassCommandBinding(typeof(ControlExample), new CommandBinding(ApplicationCommands.Copy, Copy_SourceCode));
-    }
-
     /// <summary>
-    ///     Identifies the <see cref="HeaderText"/> dependency property.
+    ///     Identifies the <see cref="HeaderText" /> dependency property.
     /// </summary>
     public static readonly DependencyProperty HeaderTextProperty = DependencyProperty.Register(
         nameof(HeaderText),
@@ -32,7 +27,7 @@ public sealed class ControlExample : Control
     );
 
     /// <summary>
-    ///     Identifies the <see cref="ExampleContent"/> dependency property.
+    ///     Identifies the <see cref="ExampleContent" /> dependency property.
     /// </summary>
     public static readonly DependencyProperty ExampleContentProperty = DependencyProperty.Register(
         nameof(ExampleContent),
@@ -42,7 +37,7 @@ public sealed class ControlExample : Control
     );
 
     /// <summary>
-    ///     Identifies the <see cref="XamlCode"/> dependency property.
+    ///     Identifies the <see cref="XamlCode" /> dependency property.
     /// </summary>
     public static readonly DependencyProperty XamlCodeProperty = DependencyProperty.Register(
         nameof(XamlCode),
@@ -52,7 +47,7 @@ public sealed class ControlExample : Control
     );
 
     /// <summary>
-    ///     Identifies the <see cref="XamlCodeSource"/> dependency property.
+    ///     Identifies the <see cref="XamlCodeSource" /> dependency property.
     /// </summary>
     public static readonly DependencyProperty XamlCodeSourceProperty = DependencyProperty.Register(
         nameof(XamlCodeSource),
@@ -65,7 +60,7 @@ public sealed class ControlExample : Control
     );
 
     /// <summary>
-    ///     Identifies the <see cref="CsharpCode"/> dependency property.
+    ///     Identifies the <see cref="CsharpCode" /> dependency property.
     /// </summary>
     public static readonly DependencyProperty CsharpCodeProperty = DependencyProperty.Register(
         nameof(CsharpCode),
@@ -75,7 +70,7 @@ public sealed class ControlExample : Control
     );
 
     /// <summary>
-    ///     Identifies the <see cref="CsharpCodeSource"/> dependency property.
+    ///     Identifies the <see cref="CsharpCodeSource" /> dependency property.
     /// </summary>
     public static readonly DependencyProperty CsharpCodeSourceProperty = DependencyProperty.Register(
         nameof(CsharpCodeSource),
@@ -86,6 +81,11 @@ public sealed class ControlExample : Control
             static (o, args) => ((ControlExample)o).OnCsharpCodeSourceChanged((Uri)args.NewValue)
         )
     );
+
+    static ControlExample()
+    {
+        CommandManager.RegisterClassCommandBinding(typeof(ControlExample), new CommandBinding(ApplicationCommands.Copy, Copy_SourceCode));
+    }
 
     /// <summary>
     ///     Gets or sets the header text displayed above the example.
@@ -115,7 +115,7 @@ public sealed class ControlExample : Control
     }
 
     /// <summary>
-    ///     Gets or sets the resource <see cref="Uri"/> that <see cref="XamlCode"/> is loaded from.
+    ///     Gets or sets the resource <see cref="Uri" /> that <see cref="XamlCode" /> is loaded from.
     /// </summary>
     public Uri? XamlCodeSource
     {
@@ -133,7 +133,7 @@ public sealed class ControlExample : Control
     }
 
     /// <summary>
-    ///     Gets or sets the resource <see cref="Uri"/> that <see cref="CsharpCode"/> is loaded from.
+    ///     Gets or sets the resource <see cref="Uri" /> that <see cref="CsharpCode" /> is loaded from.
     /// </summary>
     public Uri? CsharpCodeSource
     {
@@ -160,7 +160,10 @@ public sealed class ControlExample : Control
             switch (((ExecutedRoutedEventArgs)e).Parameter.ToString())
             {
                 case "Copy_XamlCode":
-                    if (string.IsNullOrEmpty(controlExample.XamlCode)) break;
+                    if (string.IsNullOrEmpty(controlExample.XamlCode))
+                    {
+                        break;
+                    }
 
                     Clipboard.SetText(controlExample.XamlCode);
                     var peer = UIElementAutomationPeer.CreatePeerForElement((Button)e.OriginalSource);
@@ -173,7 +176,10 @@ public sealed class ControlExample : Control
 
                     break;
                 case "Copy_CsharpCode":
-                    if (string.IsNullOrEmpty(controlExample.CsharpCode)) break;
+                    if (string.IsNullOrEmpty(controlExample.CsharpCode))
+                    {
+                        break;
+                    }
 
                     Clipboard.SetText(controlExample.CsharpCode);
                     break;

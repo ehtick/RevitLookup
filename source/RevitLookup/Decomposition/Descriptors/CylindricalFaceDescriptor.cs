@@ -18,12 +18,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="CylindricalFace"/> exposed to LookupEngine.
+///     Represents the <see cref="CylindricalFace" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="face">The cylindrical face to expose.</param>
 public sealed class CylindricalFaceDescriptor(CylindricalFace face) : FaceDescriptor(face)
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(CylindricalFace.Dispose)).Disable();

@@ -51,10 +51,13 @@ internal sealed
         return new SchemaAccessScope(target, original);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Dispose()
     {
-        if (Interlocked.Exchange(ref _disposed, 1) != 0) return;
+        if (Interlocked.Exchange(ref _disposed, 1) != 0)
+        {
+            return;
+        }
 
         Write(_address, _original);
     }

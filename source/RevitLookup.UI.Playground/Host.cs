@@ -76,7 +76,7 @@ public static class Host
     }
 
     /// <summary>
-    ///     Stops the host and shuts down its <see cref="IHostedService"/> services.
+    ///     Stops the host and shuts down its <see cref="IHostedService" /> services.
     /// </summary>
     /// <remarks>
     ///     Blocks the calling thread by pumping the dispatcher until host shutdown completes.
@@ -84,7 +84,10 @@ public static class Host
     /// <exception cref="InvalidOperationException">The host is not running.</exception>
     public static void Stop()
     {
-        if (_host is null) throw new InvalidOperationException("Host is not running");
+        if (_host is null)
+        {
+            throw new InvalidOperationException("Host is not running");
+        }
 
         var frame = new DispatcherFrame();
         _host.StopAsync().ContinueWith(_ => frame.Continue = false);
@@ -93,11 +96,11 @@ public static class Host
     }
 
     /// <summary>
-    ///     Gets the registered service of type <typeparamref name="T"/>.
+    ///     Gets the registered service of type <typeparamref name="T" />.
     /// </summary>
     /// <typeparam name="T">The type of service object to get.</typeparam>
-    /// <returns>The resolved <typeparamref name="T"/> instance.</returns>
-    /// <exception cref="InvalidOperationException">There is no service of type <typeparamref name="T"/>.</exception>
+    /// <returns>The resolved <typeparamref name="T" /> instance.</returns>
+    /// <exception cref="InvalidOperationException">There is no service of type <typeparamref name="T" />.</exception>
     public static T GetService<T>() where T : class
     {
         return _host!.Services.GetRequiredService<T>();

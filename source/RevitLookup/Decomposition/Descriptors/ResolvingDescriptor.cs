@@ -70,7 +70,7 @@ public abstract class ResolvingDescriptor : Descriptor
     ///     Safely evaluates a predicate and returns its result.
     /// </summary>
     /// <param name="predicate">The predicate to evaluate.</param>
-    /// <returns><see langword="true"/> if the predicate evaluates to <see langword="true"/>; otherwise, <see langword="false"/>, including when evaluation throws.</returns>
+    /// <returns><see langword="true" /> if the predicate evaluates to <see langword="true" />; otherwise, <see langword="false" />, including when evaluation throws.</returns>
     protected static bool SafeEvaluate(Func<bool> predicate)
     {
         try

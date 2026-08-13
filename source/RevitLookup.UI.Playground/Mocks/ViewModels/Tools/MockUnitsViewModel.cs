@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Lookup Foundation and Contributors
-// 
+//
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
 // provided that the above copyright notice appears in all copies and
 // that both that copyright notice and the limited warranty and
 // restricted rights notice below appear in all supporting
 // documentation.
-// 
+//
 // THIS PROGRAM IS PROVIDED "AS IS" AND WITH ALL FAULTS.
 // NO IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE IS PROVIDED.
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
@@ -14,35 +14,35 @@
 
 using Bogus;
 using CommunityToolkit.Mvvm.ComponentModel;
-using RevitLookup.Abstractions.Tools;
 using RevitLookup.Abstractions.Decomposition;
+using RevitLookup.Abstractions.Tools;
 using RevitLookup.Abstractions.ViewModels.Tools;
 #if NETFRAMEWORK
-using RevitLookup.UI.Framework.Extensions;
+using RevitLookup.UI.Framework.Menus;
 #endif
 
 namespace RevitLookup.UI.Playground.Mocks.ViewModels.Tools;
 
 /// <summary>
-///     Represents a Playground mock of <see cref="IUnitsViewModel"/> that fabricates parameter, category, and Forge schema entries with <c>Bogus</c>.
+///     Represents a Playground mock of <see cref="IUnitsViewModel" /> that fabricates parameter, category, and Forge schema entries with <c>Bogus</c>.
 /// </summary>
 /// <param name="decompositionService">The service that visualizes the decomposition of the selected unit value.</param>
 [UsedImplicitly]
 public sealed partial class MockUnitsViewModel(IVisualDecompositionService decompositionService) : ObservableObject, IUnitsViewModel
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial List<UnitInfo> Units { get; set; } = [];
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial List<UnitInfo> FilteredUnits { get; set; } = [];
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void InitializeParameters()
     {
         Units = new Faker<UnitInfo>()
@@ -52,7 +52,7 @@ public sealed partial class MockUnitsViewModel(IVisualDecompositionService decom
             .Generate(20);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void InitializeCategories()
     {
         Units = new Faker<UnitInfo>()
@@ -62,7 +62,7 @@ public sealed partial class MockUnitsViewModel(IVisualDecompositionService decom
             .Generate(200);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void InitializeForgeSchema()
     {
         Units = new Faker<UnitInfo>()
@@ -73,7 +73,7 @@ public sealed partial class MockUnitsViewModel(IVisualDecompositionService decom
             .Generate(2000);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public async Task DecomposeAsync(UnitInfo unitInfo)
     {
         await decompositionService.VisualizeDecompositionAsync(unitInfo.Value);

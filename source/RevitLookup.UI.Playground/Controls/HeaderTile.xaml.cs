@@ -9,27 +9,27 @@ namespace RevitLookup.UI.Playground.Controls;
 public sealed partial class HeaderTile
 {
     /// <summary>
-    ///     Identifies the <see cref="Title"/> dependency property.
+    ///     Identifies the <see cref="Title" /> dependency property.
     /// </summary>
-    public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(string), typeof(HeaderTile), new PropertyMetadata(""));
+    public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(string), typeof(HeaderTile), new PropertyMetadata(string.Empty));
 
     /// <summary>
-    ///     Identifies the <see cref="Description"/> dependency property.
+    ///     Identifies the <see cref="Description" /> dependency property.
     /// </summary>
-    public static readonly DependencyProperty DescriptionProperty = DependencyProperty.Register("ColorExplanation", typeof(string), typeof(HeaderTile), new PropertyMetadata(""));
+    public static readonly DependencyProperty DescriptionProperty = DependencyProperty.Register("ColorExplanation", typeof(string), typeof(HeaderTile), new PropertyMetadata(string.Empty));
 
     /// <summary>
-    ///     Identifies the <see cref="Link"/> dependency property.
+    ///     Identifies the <see cref="Link" /> dependency property.
     /// </summary>
     public static readonly DependencyProperty LinkProperty = DependencyProperty.Register(nameof(Link), typeof(string), typeof(HeaderTile), new PropertyMetadata(null));
 
     /// <summary>
-    ///     Identifies the <see cref="Source"/> dependency property.
+    ///     Identifies the <see cref="Source" /> dependency property.
     /// </summary>
     public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(nameof(Source), typeof(object), typeof(HeaderTile), new PropertyMetadata(null));
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="HeaderTile"/> class.
+    ///     Initializes a new instance of the <see cref="HeaderTile" /> class.
     /// </summary>
     public HeaderTile()
     {

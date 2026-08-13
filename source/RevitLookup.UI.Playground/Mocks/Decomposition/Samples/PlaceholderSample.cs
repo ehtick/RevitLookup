@@ -6,13 +6,13 @@ namespace RevitLookup.UI.Playground.Mocks.Decomposition.Samples;
 ///     Demonstrates placeholder values.
 /// </summary>
 /// <remarks>
-///     Members that evaluate to content with nothing to display, such as <see langword="null"/> or an empty string, are shown with a placeholder instead of a value.
+///     Members that evaluate to content with nothing to display, such as <see langword="null" /> or an empty string, are shown with a placeholder instead of a value.
 /// </remarks>
 [PublicAPI]
 public sealed class PlaceholderSample
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="PlaceholderSample"/> class with fake contact metadata.
+    ///     Initializes a new instance of the <see cref="PlaceholderSample" /> class with fake contact metadata.
     /// </summary>
     public PlaceholderSample()
     {
@@ -46,12 +46,12 @@ public sealed class PlaceholderSample
     /// <summary>
     ///     Gets the nickname.
     /// </summary>
-    /// <value><see langword="null"/>.</value>
+    /// <value><see langword="null" />.</value>
     public string? Nickname => null;
 
     /// <summary>
     ///     Gets the website.
     /// </summary>
-    /// <value><see langword="null"/>.</value>
+    /// <value><see langword="null" />.</value>
     public Uri? Website => null;
 }

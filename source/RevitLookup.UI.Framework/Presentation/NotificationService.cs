@@ -29,7 +29,7 @@ public sealed class NotificationService(ISnackbarService snackbarService, IWindo
 {
     private Action? _pendingNotifications;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void ShowSuccess(string title, string message)
     {
         if (intercomService.Dispatcher.CheckAccess())
@@ -42,7 +42,7 @@ public sealed class NotificationService(ISnackbarService snackbarService, IWindo
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void ShowWarning(string title, string message)
     {
         if (intercomService.Dispatcher.CheckAccess())
@@ -55,7 +55,7 @@ public sealed class NotificationService(ISnackbarService snackbarService, IWindo
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void ShowError(string title, string message)
     {
         if (intercomService.Dispatcher.CheckAccess())
@@ -68,7 +68,7 @@ public sealed class NotificationService(ISnackbarService snackbarService, IWindo
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void ShowError(string title, Exception exception)
     {
         if (intercomService.Dispatcher.CheckAccess())
@@ -86,7 +86,11 @@ public sealed class NotificationService(ISnackbarService snackbarService, IWindo
         var host = intercomService.GetHost();
         if (!host.IsLoaded)
         {
-            if (_pendingNotifications is null) host.Loaded += ShowPendingNotifications;
+            if (_pendingNotifications is null)
+            {
+                host.Loaded += ShowPendingNotifications;
+            }
+
             _pendingNotifications += () => ShowSuccessBar(title, message);
         }
         else
@@ -100,7 +104,11 @@ public sealed class NotificationService(ISnackbarService snackbarService, IWindo
         var host = intercomService.GetHost();
         if (!host.IsLoaded)
         {
-            if (_pendingNotifications is null) host.Loaded += ShowPendingNotifications;
+            if (_pendingNotifications is null)
+            {
+                host.Loaded += ShowPendingNotifications;
+            }
+
             _pendingNotifications += () => ShowWarningBar(title, message);
         }
         else
@@ -114,7 +122,11 @@ public sealed class NotificationService(ISnackbarService snackbarService, IWindo
         var host = intercomService.GetHost();
         if (!host.IsLoaded)
         {
-            if (_pendingNotifications is null) host.Loaded += ShowPendingNotifications;
+            if (_pendingNotifications is null)
+            {
+                host.Loaded += ShowPendingNotifications;
+            }
+
             _pendingNotifications += () => ShowErrorBar(title, message);
         }
         else
@@ -157,7 +169,10 @@ public sealed class NotificationService(ISnackbarService snackbarService, IWindo
     {
         var host = intercomService.GetHost();
         host.Loaded -= ShowPendingNotifications;
-        if (_pendingNotifications is null) return;
+        if (_pendingNotifications is null)
+        {
+            return;
+        }
 
         _pendingNotifications.Invoke();
         _pendingNotifications = null;

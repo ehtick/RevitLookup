@@ -64,13 +64,40 @@ public partial class SummaryViewBase
     {
         var builder = new StringBuilder();
 
-        if ((member.MemberAttributes & MemberAttributes.Private) != 0) builder.Append("Private ");
-        if ((member.MemberAttributes & MemberAttributes.Static) != 0) builder.Append("Static ");
-        if ((member.MemberAttributes & MemberAttributes.Property) != 0) builder.Append("Property: ");
-        if ((member.MemberAttributes & MemberAttributes.Extension) != 0) builder.Append("Extension: ");
-        if ((member.MemberAttributes & MemberAttributes.Method) != 0) builder.Append("Method: ");
-        if ((member.MemberAttributes & MemberAttributes.Event) != 0) builder.Append("Event: ");
-        if ((member.MemberAttributes & MemberAttributes.Field) != 0) builder.Append("Field: ");
+        if ((member.MemberAttributes & MemberAttributes.Private) != 0)
+        {
+            builder.Append("Private ");
+        }
+
+        if ((member.MemberAttributes & MemberAttributes.Static) != 0)
+        {
+            builder.Append("Static ");
+        }
+
+        if ((member.MemberAttributes & MemberAttributes.Property) != 0)
+        {
+            builder.Append("Property: ");
+        }
+
+        if ((member.MemberAttributes & MemberAttributes.Extension) != 0)
+        {
+            builder.Append("Extension: ");
+        }
+
+        if ((member.MemberAttributes & MemberAttributes.Method) != 0)
+        {
+            builder.Append("Method: ");
+        }
+
+        if ((member.MemberAttributes & MemberAttributes.Event) != 0)
+        {
+            builder.Append("Event: ");
+        }
+
+        if ((member.MemberAttributes & MemberAttributes.Field) != 0)
+        {
+            builder.Append("Field: ");
+        }
 
         builder.Append(member.Name);
 

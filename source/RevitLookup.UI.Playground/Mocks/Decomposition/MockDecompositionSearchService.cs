@@ -4,7 +4,7 @@ using RevitLookup.Abstractions.Decomposition;
 namespace RevitLookup.UI.Playground.Mocks.Decomposition;
 
 /// <summary>
-///     Represents a Playground mock of <see cref="IDecompositionSearchService"/> that filters an in-memory sample set instead of a decomposed Revit document.
+///     Represents a Playground mock of <see cref="IDecompositionSearchService" /> that filters an in-memory sample set instead of a decomposed Revit document.
 /// </summary>
 [SuppressMessage("ReSharper", "LoopCanBeConvertedToQuery")]
 [SuppressMessage("ReSharper", "ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator")]
@@ -12,7 +12,7 @@ public sealed class MockDecompositionSearchService : IDecompositionSearchService
 {
     private ObservableDecomposedObject? _previousSelection;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public (List<ObservableDecomposedObject>, List<ObservableDecomposedMember>) Search(string query, ObservableDecomposedObject? selectedObject, List<ObservableDecomposedObject> objects)
     {
         try
@@ -47,7 +47,7 @@ public sealed class MockDecompositionSearchService : IDecompositionSearchService
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public List<ObservableDecomposedMember> SearchMembers(string query, ObservableDecomposedObject value)
     {
         var filteredMembers = FilterMembers(query, value.Members);
@@ -83,7 +83,10 @@ public sealed class MockDecompositionSearchService : IDecompositionSearchService
 
     private static List<ObservableDecomposedObject> FilterObjects(string query, List<ObservableDecomposedObject> objects)
     {
-        if (query.Length == 0) return objects;
+        if (query.Length == 0)
+        {
+            return objects;
+        }
 
         var filteredObjects = new List<ObservableDecomposedObject>();
         foreach (var item in objects)
@@ -99,7 +102,10 @@ public sealed class MockDecompositionSearchService : IDecompositionSearchService
 
     private static List<ObservableDecomposedMember> FilterMembers(string query, List<ObservableDecomposedMember> members)
     {
-        if (query.Length == 0) return members;
+        if (query.Length == 0)
+        {
+            return members;
+        }
 
         var filteredMembers = new List<ObservableDecomposedMember>();
         foreach (var item in members)
@@ -115,13 +121,23 @@ public sealed class MockDecompositionSearchService : IDecompositionSearchService
 
     private ObservableDecomposedObject? FindPreviousSelectedType(List<ObservableDecomposedObject> decomposedObjects)
     {
-        if (_previousSelection is null) return null;
+        if (_previousSelection is null)
+        {
+            return null;
+        }
 
         ObservableDecomposedObject? fetchedObject = null;
         foreach (var decomposedObject in decomposedObjects)
         {
-            if (decomposedObject.TypeFullName != _previousSelection.TypeFullName) continue;
-            if (decomposedObject.Members.Count == 0) continue;
+            if (decomposedObject.TypeFullName != _previousSelection.TypeFullName)
+            {
+                continue;
+            }
+
+            if (decomposedObject.Members.Count == 0)
+            {
+                continue;
+            }
 
             fetchedObject = decomposedObject;
             break;

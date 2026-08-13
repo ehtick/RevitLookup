@@ -27,7 +27,7 @@ public sealed partial class App
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override void OnExit(ExitEventArgs e)
     {
         Host.Stop();

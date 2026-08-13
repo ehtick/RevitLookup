@@ -19,12 +19,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.TableView"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.TableView" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="tableView">The table view to expose.</param>
 public sealed class TableViewDescriptor(TableView tableView) : ElementDescriptor(tableView)
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(TableView.Dispose)).Disable();
@@ -61,7 +61,10 @@ public sealed class TableViewDescriptor(TableView tableView) : ElementDescriptor
             foreach (var sectionType in sectionTypes)
             {
                 var section = tableData.GetSectionData(sectionType);
-                if (section is null) continue;
+                if (section is null)
+                {
+                    continue;
+                }
 
                 for (var i = section.FirstRowNumber; i < section.LastRowNumber; i++)
                 for (var j = section.FirstColumnNumber; j < section.LastColumnNumber; j++)

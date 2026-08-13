@@ -14,15 +14,15 @@ namespace Build.Azure;
 /// <param name="command">The command-line runner used to execute the installed tool.</param>
 /// <remarks>
 ///     <para>The tool code-signs files with a certificate stored in an Azure Key Vault instance.</para>
-///     <para>Concurrent calls to <see cref="Sign"/> are serialized; only one installation and signing command runs at a time.</para>
+///     <para>Concurrent calls to <see cref="Sign" /> are serialized; only one installation and signing command runs at a time.</para>
 /// </remarks>
 public sealed class AzureSignTool(IDotNet dotNet, ICommand command)
 {
-    private readonly Folder _temporaryFolder = Folder.CreateTemporaryFolder();
     private static readonly SemaphoreSlim SemaphoreSlim = new(1, 1);
+    private readonly Folder _temporaryFolder = Folder.CreateTemporaryFolder();
 
     /// <summary>
-    ///     Installs the AzureSignTool tool if needed and code-signs the files described by <paramref name="options"/> using its <c>sign</c> command.
+    ///     Installs the AzureSignTool tool if needed and code-signs the files described by <paramref name="options" /> using its <c>sign</c> command.
     /// </summary>
     /// <param name="options">The signing options passed to the AzureSignTool <c>sign</c> command.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>

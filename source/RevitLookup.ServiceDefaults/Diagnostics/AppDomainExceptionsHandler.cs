@@ -9,14 +9,14 @@ namespace RevitLookup.ServiceDefaults.Diagnostics;
 /// <param name="logger">The logger the service writes unhandled exceptions to.</param>
 public sealed partial class AppDomainExceptionsHandler(ILogger<AppDomainExceptionsHandler> logger) : IHostedService
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public Task StartAsync(CancellationToken cancellationToken)
     {
         AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
         return Task.CompletedTask;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public Task StopAsync(CancellationToken cancellationToken)
     {
         AppDomain.CurrentDomain.UnhandledException -= OnUnhandledException;

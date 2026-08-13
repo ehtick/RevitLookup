@@ -1,5 +1,5 @@
-using Color = System.Drawing.Color;
 using RevitLookup.UI.Framework.Colors;
+using Color = System.Drawing.Color;
 
 namespace RevitLookup.Tests.Unit;
 

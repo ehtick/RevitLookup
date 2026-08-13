@@ -22,12 +22,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="FamilyInstance"/> exposed to LookupEngine.
+///     Represents the <see cref="FamilyInstance" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="familyInstance">The family instance to expose.</param>
 public sealed class FamilyInstanceDescriptor(FamilyInstance familyInstance) : ElementDescriptor(familyInstance)
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(FamilyInstance.Dispose)).Disable();
@@ -99,48 +99,48 @@ public sealed class FamilyInstanceDescriptor(FamilyInstance familyInstance) : El
             return Variants.Values<GeometryElement>(10)
                 .Add(familyInstance.GetOriginalGeometry(new Options
                 {
-                    View = RevitContext.ActiveView,
+                    View = RevitContext.ActiveView
                 }), "Active view")
                 .Add(familyInstance.GetOriginalGeometry(new Options
                 {
                     View = RevitContext.ActiveView,
-                    IncludeNonVisibleObjects = true,
+                    IncludeNonVisibleObjects = true
                 }), "Active view, including non-visible objects")
                 .Add(familyInstance.GetOriginalGeometry(new Options
                 {
-                    DetailLevel = ViewDetailLevel.Coarse,
+                    DetailLevel = ViewDetailLevel.Coarse
                 }), "Model, coarse detail level")
                 .Add(familyInstance.GetOriginalGeometry(new Options
                 {
-                    DetailLevel = ViewDetailLevel.Fine,
+                    DetailLevel = ViewDetailLevel.Fine
                 }), "Model, fine detail level")
                 .Add(familyInstance.GetOriginalGeometry(new Options
                 {
-                    DetailLevel = ViewDetailLevel.Medium,
+                    DetailLevel = ViewDetailLevel.Medium
                 }), "Model, medium detail level")
                 .Add(familyInstance.GetOriginalGeometry(new Options
                 {
-                    DetailLevel = ViewDetailLevel.Undefined,
+                    DetailLevel = ViewDetailLevel.Undefined
                 }), "Model, undefined detail level")
                 .Add(familyInstance.GetOriginalGeometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Coarse,
-                    IncludeNonVisibleObjects = true,
+                    IncludeNonVisibleObjects = true
                 }), "Model, coarse detail level, including non-visible objects")
                 .Add(familyInstance.GetOriginalGeometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Fine,
-                    IncludeNonVisibleObjects = true,
+                    IncludeNonVisibleObjects = true
                 }), "Model, fine detail level, including non-visible objects")
                 .Add(familyInstance.GetOriginalGeometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Medium,
-                    IncludeNonVisibleObjects = true,
+                    IncludeNonVisibleObjects = true
                 }), "Model, medium detail level, including non-visible objects")
                 .Add(familyInstance.GetOriginalGeometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Undefined,
-                    IncludeNonVisibleObjects = true,
+                    IncludeNonVisibleObjects = true
                 }), "Model, undefined detail level, including non-visible objects")
                 .Consume();
         }
@@ -183,7 +183,7 @@ public sealed class FamilyInstanceDescriptor(FamilyInstance familyInstance) : El
 
         var isAdaptiveComponentInstance = SafeEvaluate(() => AdaptiveComponentInstanceUtils.IsAdaptiveComponentInstance(familyInstance));
         configuration.Extension(nameof(AdaptiveComponentInstanceUtils.IsAdaptiveComponentInstance)).Register(() => isAdaptiveComponentInstance);
-        
+
         if (isAdaptiveComponentInstance)
         {
             configuration.Extension(nameof(AdaptiveComponentInstanceUtils.GetInstancePlacementPointElementRefIds)).Register(() => AdaptiveComponentInstanceUtils.GetInstancePlacementPointElementRefIds(familyInstance));
@@ -197,7 +197,7 @@ public sealed class FamilyInstanceDescriptor(FamilyInstance familyInstance) : El
 
         var isMassFamilyInstance = SafeEvaluate(() => MassLevelData.IsMassFamilyInstance(familyInstance.Document, familyInstance.Id));
         configuration.Extension(nameof(MassLevelData.IsMassFamilyInstance)).Register(() => isMassFamilyInstance);
-        
+
         if (isMassFamilyInstance)
         {
             configuration.Extension("GetMassGrossFloorArea").Register(() => MassInstanceUtils.GetGrossFloorArea(familyInstance.Document, familyInstance.Id));

@@ -1,12 +1,12 @@
 // Copyright (c) Lookup Foundation and Contributors
-// 
+//
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
 // provided that the above copyright notice appears in all copies and
 // that both that copyright notice and the limited warranty and
 // restricted rights notice below appear in all supporting
 // documentation.
-// 
+//
 // THIS PROGRAM IS PROVIDED "AS IS" AND WITH ALL FAULTS.
 // NO IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE IS PROVIDED.
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
@@ -20,7 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Abstractions.Decomposition;
 using RevitLookup.Abstractions.Presentation;
-using RevitLookup.UI.Framework.Extensions;
+using RevitLookup.UI.Framework.Menus;
 using RevitLookup.UI.Framework.Views.Visualization;
 using ContextMenu = System.Windows.Controls.ContextMenu;
 #if REVIT2023_OR_GREATER
@@ -31,14 +31,14 @@ using Nice3point.Revit.Toolkit.External;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.Solid"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.Solid" /> exposed to LookupEngine.
 /// </summary>
 public sealed partial class SolidDescriptor : Descriptor, IDescriptorConfigurator, IContextMenuConnector
 {
     private readonly Solid _solid;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="SolidDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="SolidDescriptor" /> class.
     /// </summary>
     /// <param name="solid">The solid to expose.</param>
     public SolidDescriptor(Solid solid)
@@ -47,7 +47,25 @@ public sealed partial class SolidDescriptor : Descriptor, IDescriptorConfigurato
         Name = $"{solid.Volume.ToString(CultureInfo.InvariantCulture)} ft?";
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
+    public void RegisterMenu(ContextMenu contextMenu, IServiceProvider serviceProvider)
+    {
+#if REVIT2023_OR_GREATER
+        contextMenu.AddMenuItem("SelectMenuItem")
+            .SetCommand(_solid, solid => SelectSolidEvent.Raise(solid))
+            .SetShortcut(Key.F6);
+
+        contextMenu.AddMenuItem("ShowMenuItem")
+            .SetCommand(_solid, solid => ShowSolidEvent.Raise(solid))
+            .SetShortcut(Key.F7);
+#endif
+        contextMenu.AddMenuItem("VisualizeMenuItem")
+            .SetAvailability(_solid.IsValidForTessellation)
+            .SetCommand(_solid, solid => VisualizeSolidAsync(solid, serviceProvider))
+            .SetShortcut(Key.F8);
+    }
+
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Solid.Dispose)).Disable();
@@ -76,33 +94,18 @@ public sealed partial class SolidDescriptor : Descriptor, IDescriptorConfigurato
         IVariant ResolveTessellateSolidOrShell()
         {
             return Variants.Values<TriangulatedSolidOrShell>(2)
-                .Add(SolidUtils.TessellateSolidOrShell(_solid, new SolidOrShellTessellationControls {LevelOfDetail = 0}), "Coarse")
-                .Add(SolidUtils.TessellateSolidOrShell(_solid, new SolidOrShellTessellationControls {LevelOfDetail = 1}), "Fine")
+                .Add(SolidUtils.TessellateSolidOrShell(_solid, new SolidOrShellTessellationControls { LevelOfDetail = 0 }), "Coarse")
+                .Add(SolidUtils.TessellateSolidOrShell(_solid, new SolidOrShellTessellationControls { LevelOfDetail = 1 }), "Fine")
                 .Consume();
         }
     }
 
-    /// <inheritdoc/>
-    public void RegisterMenu(ContextMenu contextMenu, IServiceProvider serviceProvider)
-    {
-#if REVIT2023_OR_GREATER
-        contextMenu.AddMenuItem("SelectMenuItem")
-            .SetCommand(_solid, solid => SelectSolidEvent.Raise(solid))
-            .SetShortcut(Key.F6);
-
-        contextMenu.AddMenuItem("ShowMenuItem")
-            .SetCommand(_solid, solid => ShowSolidEvent.Raise(solid))
-            .SetShortcut(Key.F7);
-#endif
-        contextMenu.AddMenuItem("VisualizeMenuItem")
-            .SetAvailability(_solid.IsValidForTessellation)
-            .SetCommand(_solid, solid => VisualizeSolidAsync(solid, serviceProvider))
-            .SetShortcut(Key.F8);
-    }
-
     private static async Task VisualizeSolidAsync(Solid solid, IServiceProvider serviceProvider)
     {
-        if (RevitContext.ActiveUiDocument is null) return;
+        if (RevitContext.ActiveUiDocument is null)
+        {
+            return;
+        }
 
         try
         {
@@ -118,19 +121,28 @@ public sealed partial class SolidDescriptor : Descriptor, IDescriptorConfigurato
             notificationService.ShowError("Visualization error", exception);
         }
     }
+
+    [LoggerMessage(LogLevel.Error, "Visualize solid error")]
+    private static partial void LogVisualizeSolidError(ILogger<SolidDescriptor> logger, Exception exception);
 #if REVIT2023_OR_GREATER
 
     [ExternalEvent(AllowDirectInvocation = true)]
     private static void SelectSolid(UIApplication application, Solid solid)
     {
-        if (application.ActiveUIDocument is null) return;
+        if (application.ActiveUIDocument is null)
+        {
+            return;
+        }
 
         var references = solid.Faces.Cast<Face>()
             .Select(static face => face.Reference)
             .Where(static reference => reference is not null)
             .ToList();
 
-        if (references.Count == 0) return;
+        if (references.Count == 0)
+        {
+            return;
+        }
 
         application.ActiveUIDocument.Selection.SetReferences(references);
     }
@@ -139,22 +151,28 @@ public sealed partial class SolidDescriptor : Descriptor, IDescriptorConfigurato
     private static void ShowSolid(UIApplication application, Solid solid)
     {
         var uiDocument = application.ActiveUIDocument;
-        if (uiDocument is null) return;
+        if (uiDocument is null)
+        {
+            return;
+        }
 
         var references = solid.Faces.Cast<Face>()
             .Select(static face => face.Reference)
             .Where(static reference => reference is not null)
             .ToList();
 
-        if (references.Count == 0) return;
+        if (references.Count == 0)
+        {
+            return;
+        }
 
         var element = references[0].ElementId.ToElement(uiDocument.Document);
-        if (element is not null) uiDocument.ShowElements(element);
+        if (element is not null)
+        {
+            uiDocument.ShowElements(element);
+        }
 
         uiDocument.Selection.SetReferences(references);
     }
 #endif
-
-    [LoggerMessage(LogLevel.Error, "Visualize solid error")]
-    private static partial void LogVisualizeSolidError(ILogger<SolidDescriptor> logger, Exception exception);
 }

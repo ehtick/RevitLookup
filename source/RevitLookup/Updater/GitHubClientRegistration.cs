@@ -16,7 +16,7 @@ public static class GitHubClientRegistration
         /// <summary>
         ///     Adds the named client that reads the repository releases, with the request logging the add-in has no journal room for stripped out.
         /// </summary>
-        /// <returns>The <see cref="TBuilder"/> for chaining.</returns>
+        /// <returns>The <see cref="TBuilder" /> for chaining.</returns>
         public TBuilder AddGitHubClient()
         {
             builder.Services.AddHttpClient("GitHubSource", client => client.BaseAddress = new Uri("https://api.github.com/repos/lookup-foundation/RevitLookup/"));

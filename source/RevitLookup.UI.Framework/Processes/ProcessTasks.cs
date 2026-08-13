@@ -13,8 +13,8 @@ public static class ProcessTasks
     /// </summary>
     /// <param name="toolPath">The path of the executable to start.</param>
     /// <param name="arguments">The command-line arguments to pass to the process.</param>
-    /// <param name="logger">The callback invoked for each output line. When <see langword="null"/>, output is written to the console.</param>
-    /// <returns>The started <see cref="Process"/>, or <see langword="null"/> if the process could not be started.</returns>
+    /// <param name="logger">The callback invoked for each output line. When <see langword="null" />, output is written to the console.</param>
+    /// <returns>The started <see cref="Process" />, or <see langword="null" /> if the process could not be started.</returns>
     public static Process? StartProcess(string toolPath, string arguments = "", Action<OutputType, string>? logger = null)
     {
         var startInfo = new ProcessStartInfo
@@ -30,18 +30,21 @@ public static class ProcessTasks
         };
 
         var process = Process.Start(startInfo);
-        if (process == null) return null;
+        if (process == null)
+        {
+            return null;
+        }
 
         RedirectProcessOutput(process, logger);
         return process;
     }
 
     /// <summary>
-    ///     Starts a process through the shell, using the shell's file associations to open <paramref name="toolPath"/>.
+    ///     Starts a process through the shell, using the shell's file associations to open <paramref name="toolPath" />.
     /// </summary>
     /// <param name="toolPath">The path or URI to open.</param>
     /// <param name="arguments">The command-line arguments to pass to the process.</param>
-    /// <returns>The started <see cref="Process"/>, or <see langword="null"/> if the process could not be started.</returns>
+    /// <returns>The started <see cref="Process" />, or <see langword="null" /> if the process could not be started.</returns>
     public static Process? StartShell(string toolPath, string arguments = "")
     {
         var startInfo = new ProcessStartInfo
@@ -63,12 +66,20 @@ public static class ProcessTasks
         logger ??= DefaultLogger;
         process.OutputDataReceived += (_, args) =>
         {
-            if (string.IsNullOrEmpty(args.Data)) return;
+            if (string.IsNullOrEmpty(args.Data))
+            {
+                return;
+            }
+
             logger.Invoke(OutputType.Standard, args.Data);
         };
         process.ErrorDataReceived += (_, args) =>
         {
-            if (string.IsNullOrEmpty(args.Data)) return;
+            if (string.IsNullOrEmpty(args.Data))
+            {
+                return;
+            }
+
             logger.Invoke(OutputType.Error, args.Data);
         };
 

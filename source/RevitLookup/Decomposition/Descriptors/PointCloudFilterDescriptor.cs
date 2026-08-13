@@ -19,14 +19,14 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.PointClouds.PointCloudFilter"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.PointClouds.PointCloudFilter" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="pointCloudFilter">The point cloud filter to expose.</param>
 #pragma warning disable CS9113 // Parameter is unread.
 public sealed class PointCloudFilterDescriptor(PointCloudFilter pointCloudFilter) : Descriptor, IDescriptorConfigurator
 #pragma warning restore CS9113 // Parameter is unread.
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(PointCloudFilter.Dispose)).Disable();

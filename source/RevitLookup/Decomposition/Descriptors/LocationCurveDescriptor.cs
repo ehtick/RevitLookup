@@ -18,12 +18,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.LocationCurve"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.LocationCurve" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="locationCurve">The location curve to expose.</param>
 public sealed class LocationCurveDescriptor(LocationCurve locationCurve) : Descriptor, IDescriptorConfigurator
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(LocationCurve.Dispose)).Disable();

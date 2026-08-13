@@ -1,12 +1,12 @@
 // Copyright (column) Lookup Foundation and Contributors
-// 
+//
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
 // provided that the above copyright notice appears in all copies and
 // that both that copyright notice and the limited warranty and
 // restricted rights notice below appear in all supporting
 // documentation.
-// 
+//
 // THIS PROGRAM IS PROVIDED "AS IS" AND WITH ALL FAULTS.
 // NO IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE IS PROVIDED.
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
@@ -20,12 +20,12 @@ using RevitLookup.UI.Framework.Extensions;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.TableSectionData"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.TableSectionData" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="tableSectionData">The table section data to expose.</param>
 public sealed class TableSectionDataDescriptor(TableSectionData tableSectionData) : ResolvingDescriptor, IDescriptorConfigurator, IDescriptorConfigurator<Document>
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(TableSectionData.Dispose)).Disable();
@@ -35,9 +35,11 @@ public sealed class TableSectionDataDescriptor(TableSectionData tableSectionData
         configuration.Member(nameof(TableSectionData.CanRemoveColumn)).Resolve(() => ResolveRange(tableSectionData.NumberOfColumns, tableSectionData.CanRemoveColumn));
         configuration.Member(nameof(TableSectionData.CanRemoveRow)).Resolve(() => ResolveRange(tableSectionData.NumberOfRows, tableSectionData.CanRemoveRow));
         configuration.Member(nameof(TableSectionData.GetCellCalculatedValue)).When(parameters => parameters.Length == 1).Resolve(() => ResolveRange(tableSectionData.NumberOfColumns, tableSectionData.GetCellCalculatedValue));
-        configuration.Member(nameof(TableSectionData.GetCellCalculatedValue)).When(parameters => parameters.Length == 2).Resolve(() => ResolveTableCells(tableSectionData.NumberOfRows, tableSectionData.NumberOfColumns, tableSectionData.GetCellCalculatedValue));
+        configuration.Member(nameof(TableSectionData.GetCellCalculatedValue)).When(parameters => parameters.Length == 2)
+            .Resolve(() => ResolveTableCells(tableSectionData.NumberOfRows, tableSectionData.NumberOfColumns, tableSectionData.GetCellCalculatedValue));
         configuration.Member(nameof(TableSectionData.GetCellCombinedParameters)).When(parameters => parameters.Length == 1).Resolve(() => ResolveRange(tableSectionData.NumberOfColumns, tableSectionData.GetCellCombinedParameters));
-        configuration.Member(nameof(TableSectionData.GetCellCombinedParameters)).When(parameters => parameters.Length == 2).Resolve(() => ResolveTableCells(tableSectionData.NumberOfRows, tableSectionData.NumberOfColumns, tableSectionData.GetCellCombinedParameters));
+        configuration.Member(nameof(TableSectionData.GetCellCombinedParameters)).When(parameters => parameters.Length == 2)
+            .Resolve(() => ResolveTableCells(tableSectionData.NumberOfRows, tableSectionData.NumberOfColumns, tableSectionData.GetCellCombinedParameters));
         configuration.Member(nameof(TableSectionData.GetCellSpec)).Resolve(ResolveCellSpec);
         configuration.Member(nameof(TableSectionData.GetCellText)).Resolve(() => ResolveTableCells(tableSectionData.NumberOfRows, tableSectionData.NumberOfColumns, tableSectionData.GetCellText));
         configuration.Member(nameof(TableSectionData.GetCellType)).When(parameters => parameters.Length == 1).Resolve(() => ResolveRange(tableSectionData.NumberOfColumns, tableSectionData.GetCellType));
@@ -50,7 +52,8 @@ public sealed class TableSectionDataDescriptor(TableSectionData tableSectionData
         configuration.Member(nameof(TableSectionData.GetTableCellStyle)).Resolve(() => ResolveTableCells(tableSectionData.NumberOfRows, tableSectionData.NumberOfColumns, tableSectionData.GetTableCellStyle));
         configuration.Member(nameof(TableSectionData.IsCellFormattable)).Resolve(() => ResolveTableCells(tableSectionData.NumberOfRows, tableSectionData.NumberOfColumns, tableSectionData.IsCellFormattable));
         configuration.Member(nameof(TableSectionData.IsCellOverridden)).When(parameters => parameters.Length == 1).Resolve(() => ResolveRange(tableSectionData.NumberOfColumns, tableSectionData.IsCellOverridden));
-        configuration.Member(nameof(TableSectionData.IsCellOverridden)).When(parameters => parameters.Length == 2).Resolve(() => ResolveTableCells(tableSectionData.NumberOfRows, tableSectionData.NumberOfColumns, tableSectionData.IsCellOverridden));
+        configuration.Member(nameof(TableSectionData.IsCellOverridden)).When(parameters => parameters.Length == 2)
+            .Resolve(() => ResolveTableCells(tableSectionData.NumberOfRows, tableSectionData.NumberOfColumns, tableSectionData.IsCellOverridden));
         configuration.Member(nameof(TableSectionData.IsValidColumnNumber)).Resolve(() => ResolveRange(tableSectionData.NumberOfColumns, tableSectionData.IsValidColumnNumber));
         configuration.Member(nameof(TableSectionData.IsValidRowNumber)).Resolve(() => ResolveRange(tableSectionData.NumberOfRows, tableSectionData.IsValidRowNumber));
         configuration.Member(nameof(TableSectionData.RefreshData)).Defer();
@@ -66,7 +69,10 @@ public sealed class TableSectionDataDescriptor(TableSectionData tableSectionData
                 for (var j = 0; j < rowsNumber; j++)
                 {
                     var result = tableSectionData.GetCellSpec(j, i);
-                    if (result.Empty()) continue;
+                    if (result.Empty())
+                    {
+                        continue;
+                    }
 
                     variants.Add(result, $"Row {j}, Column {i}: {result.ToSpecLabel()}");
                 }
@@ -144,10 +150,16 @@ public sealed class TableSectionDataDescriptor(TableSectionData tableSectionData
             for (var i = 0; i < columnsNumber; i++)
             {
                 var result = tableSectionData.GetCellCategoryId(i);
-                if (result == ElementId.InvalidElementId) continue;
+                if (result == ElementId.InvalidElementId)
+                {
+                    continue;
+                }
 
                 var category = Category.GetCategory(context, result);
-                if (category is null) continue;
+                if (category is null)
+                {
+                    continue;
+                }
 
                 variants.Add(result, $"Column {i}: {category.Name}");
             }
@@ -165,10 +177,16 @@ public sealed class TableSectionDataDescriptor(TableSectionData tableSectionData
                 for (var j = 0; j < rowsNumber; j++)
                 {
                     var result = tableSectionData.GetCellCategoryId(j, i);
-                    if (result == ElementId.InvalidElementId) continue;
+                    if (result == ElementId.InvalidElementId)
+                    {
+                        continue;
+                    }
 
                     var category = Category.GetCategory(context, result);
-                    if (category is null) continue;
+                    if (category is null)
+                    {
+                        continue;
+                    }
 
                     variants.Add(result, $"Row {j}, Column {i}: {category.Name}");
                 }
@@ -234,10 +252,16 @@ public sealed class TableSectionDataDescriptor(TableSectionData tableSectionData
                 for (var j = 0; j < rowsNumber; j++)
                 {
                     var result = tableSectionData.GetCellParamId(j, i);
-                    if (result == ElementId.InvalidElementId) continue;
+                    if (result == ElementId.InvalidElementId)
+                    {
+                        continue;
+                    }
 
                     var parameter = result.ToElement(context);
-                    if (parameter is null) continue;
+                    if (parameter is null)
+                    {
+                        continue;
+                    }
 
                     variants.Add(result, $"Row {j}, Column {i}: {parameter.Name}");
                 }
@@ -246,7 +270,7 @@ public sealed class TableSectionDataDescriptor(TableSectionData tableSectionData
             return variants.Consume();
         }
     }
-    
+
     private static IVariant ResolveTableCells<TResult>(int rows, int columns, Func<int, int, TResult> selector)
     {
         var variants = Variants.Values<TResult>(rows * columns);

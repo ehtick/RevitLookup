@@ -15,7 +15,7 @@
 namespace RevitLookup.Decomposition.Extensions;
 
 /// <summary>
-///     Provides extension methods for <see cref="Parameter"/> to read and write its value as a string.
+///     Provides extension methods for <see cref="Parameter" /> to read and write its value as a string.
 /// </summary>
 [PublicAPI]
 public static class ParameterExtensions
@@ -24,7 +24,7 @@ public static class ParameterExtensions
     extension(Parameter parameter)
     {
         /// <summary>
-        ///     Gets the value of the parameter formatted as a string according to its <see cref="StorageType"/>.
+        ///     Gets the value of the parameter formatted as a string according to its <see cref="StorageType" />.
         /// </summary>
         /// <returns>The parameter value formatted as a string.</returns>
         public string GetStringValue()
@@ -40,10 +40,10 @@ public static class ParameterExtensions
         }
 
         /// <summary>
-        ///     Attempts to set the value of the parameter by parsing <paramref name="value"/> according to its <see cref="StorageType"/>.
+        ///     Attempts to set the value of the parameter by parsing <paramref name="value" /> according to its <see cref="StorageType" />.
         /// </summary>
         /// <param name="value">The string representation of the value to set.</param>
-        /// <returns><see langword="true"/> if the value was parsed and set successfully; otherwise, <see langword="false"/>.</returns>
+        /// <returns><see langword="true" /> if the value was parsed and set successfully; otherwise, <see langword="false" />.</returns>
         public bool TrySetStringValue(string value)
         {
             bool result;
@@ -51,7 +51,10 @@ public static class ParameterExtensions
             {
                 case StorageType.Integer:
                     result = int.TryParse(value, out var intValue);
-                    if (!result) break;
+                    if (!result)
+                    {
+                        break;
+                    }
 
                     result = parameter.Set(intValue);
                     break;
@@ -67,7 +70,10 @@ public static class ParameterExtensions
 #else
                     result = int.TryParse(value, out var idValue);
 #endif
-                    if (!result) break;
+                    if (!result)
+                    {
+                        break;
+                    }
 
                     result = parameter.Set(new ElementId(idValue));
                     break;

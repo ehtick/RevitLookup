@@ -35,7 +35,7 @@ public sealed record ApiMethodRow
     public required string Parameters { get; init; }
 
     /// <summary>
-    ///     Gets the names of the descriptor source files mentioning <see cref="QualifiedName"/>.
+    ///     Gets the names of the descriptor source files mentioning <see cref="QualifiedName" />.
     /// </summary>
     /// <remarks>
     ///     An empty list marks a method no descriptor resolves yet.

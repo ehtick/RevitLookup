@@ -6,8 +6,8 @@ using Nice3point.Revit.Extensions.Runtime;
 using RevitLookup.Abstractions.Presentation;
 using RevitLookup.Abstractions.Tools;
 using RevitLookup.Abstractions.ViewModels.Tools;
-using RevitLookup.UI.Framework.Processes;
 using RevitLookup.Tools.RevitSettings;
+using RevitLookup.UI.Framework.Processes;
 using RevitLookup.UI.Framework.Views.EditDialogs;
 using Wpf.Ui.Controls;
 
@@ -29,47 +29,47 @@ public sealed partial class RevitSettingsViewModel(
     private readonly RevitConfigurator _configurator = new();
     private TaskNotifier<List<ObservableIniEntry>>? _initializationTask;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ClearFiltersCommand))]
     public partial bool Filtered { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial string CategoryFilter { get; set; } = string.Empty;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial string PropertyFilter { get; set; } = string.Empty;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial string ValueFilter { get; set; } = string.Empty;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool ShowUserSettingsFilter { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial ObservableIniEntry? SelectedEntry { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial List<ObservableIniEntry> Entries { get; set; } = [];
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial ObservableCollection<ObservableIniEntry> FilteredEntries { get; set; } = [];
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public Task<List<ObservableIniEntry>>? InitializationTask
     {
         get => _initializationTask!;
         private set => SetPropertyAndNotifyOnCompletion(ref _initializationTask, value);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public async Task InitializeAsync()
     {
         try
@@ -86,7 +86,34 @@ public sealed partial class RevitSettingsViewModel(
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
+    public async Task UpdateEntryAsync()
+    {
+        if (SelectedEntry is null)
+        {
+            return;
+        }
+
+        try
+        {
+            var editingValue = SelectedEntry.Clone();
+            var dialog = serviceProvider.GetRequiredService<EditSettingsEntryDialog>();
+            var result = await dialog.ShowUpdateDialogAsync(editingValue);
+            if (result == ContentDialogResult.Primary)
+            {
+                UpdateEntry(editingValue);
+            }
+        }
+        catch (Exception exception)
+        {
+            const string message = "Unavailable to update Revit configuration";
+
+            LogUpdateConfigurationFailed(logger, exception);
+            notificationService.ShowError(message, exception);
+        }
+    }
+
+    /// <inheritdoc />
     [RelayCommand]
     private async Task CreateEntryAsync()
     {
@@ -96,8 +123,15 @@ public sealed partial class RevitSettingsViewModel(
             var result = await dialog.ShowCreateDialogAsync(SelectedEntry);
             if (result == ContentDialogResult.Primary)
             {
-                if (dialog.Entry.Category.IsNullOrWhiteSpace()) return;
-                if (dialog.Entry.Property.IsNullOrWhiteSpace()) return;
+                if (dialog.Entry.Category.IsNullOrWhiteSpace())
+                {
+                    return;
+                }
+
+                if (dialog.Entry.Property.IsNullOrWhiteSpace())
+                {
+                    return;
+                }
 
                 Entries.Add(dialog.Entry);
                 FilteredEntries.Add(dialog.Entry);
@@ -113,14 +147,14 @@ public sealed partial class RevitSettingsViewModel(
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [RelayCommand]
     private void ActivateEntry(ObservableIniEntry entry)
     {
         Task.Run(SaveAsync);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [RelayCommand]
     private void DeleteEntry(ObservableIniEntry entry)
     {
@@ -129,7 +163,7 @@ public sealed partial class RevitSettingsViewModel(
         Task.Run(SaveAsync);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [RelayCommand]
     private void RestoreDefault(ObservableIniEntry entry)
     {
@@ -137,7 +171,7 @@ public sealed partial class RevitSettingsViewModel(
         Task.Run(SaveAsync);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [RelayCommand]
     private void ShowHelp()
     {
@@ -145,7 +179,7 @@ public sealed partial class RevitSettingsViewModel(
         ProcessTasks.StartShell($"https://help.autodesk.com/view/RVT/{version}/ENU/?guid=GUID-9ECD669E-81D3-43E5-9970-9FA1C38E8507");
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [RelayCommand]
     private void OpenSettings()
     {
@@ -159,7 +193,7 @@ public sealed partial class RevitSettingsViewModel(
         ProcessTasks.StartShell(iniFile);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [RelayCommand(CanExecute = nameof(CanClearFiltersExecute))]
     private void ClearFilters()
     {
@@ -196,30 +230,12 @@ public sealed partial class RevitSettingsViewModel(
         ApplyFilters();
     }
 
-    /// <inheritdoc/>
-    public async Task UpdateEntryAsync()
-    {
-        if (SelectedEntry is null) return;
-
-        try
-        {
-            var editingValue = SelectedEntry.Clone();
-            var dialog = serviceProvider.GetRequiredService<EditSettingsEntryDialog>();
-            var result = await dialog.ShowUpdateDialogAsync(editingValue);
-            if (result == ContentDialogResult.Primary) UpdateEntry(editingValue);
-        }
-        catch (Exception exception)
-        {
-            const string message = "Unavailable to update Revit configuration";
-
-            LogUpdateConfigurationFailed(logger, exception);
-            notificationService.ShowError(message, exception);
-        }
-    }
-
     private void UpdateEntry(ObservableIniEntry entry)
     {
-        if (SelectedEntry is null) return;
+        if (SelectedEntry is null)
+        {
+            return;
+        }
 
         var forceRefresh = SelectedEntry.Category != entry.Category || SelectedEntry.Property != entry.Property;
 

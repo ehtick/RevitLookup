@@ -13,22 +13,25 @@ namespace RevitLookup.Logging;
 /// </remarks>
 public sealed partial class RevitJournalLogger(string addinName, string categoryName) : ILogger
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public IDisposable BeginScope<TState>(TState state) where TState : notnull
     {
         return NullLogger.Instance.BeginScope(state);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public bool IsEnabled(LogLevel logLevel)
     {
         return logLevel != LogLevel.None;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
     {
-        if (!IsEnabled(logLevel)) return;
+        if (!IsEnabled(logLevel))
+        {
+            return;
+        }
 
         var message = formatter(state, exception);
         var payload = exception is null ? message : $"{message} {exception}";

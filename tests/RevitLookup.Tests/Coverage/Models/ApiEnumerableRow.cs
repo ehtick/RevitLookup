@@ -40,7 +40,7 @@ public sealed record ApiEnumerableRow
     public required string ElementType { get; init; }
 
     /// <summary>
-    ///     Gets a value indicating whether the type derives from <see cref="Autodesk.Revit.DB.APIObject"/>, the interop base holding a native handle.
+    ///     Gets a value indicating whether the type derives from <see cref="Autodesk.Revit.DB.APIObject" />, the interop base holding a native handle.
     /// </summary>
     public required bool IsApiObject { get; init; }
 
@@ -58,7 +58,7 @@ public sealed record ApiEnumerableRow
     ///     Gets the type named by the <c>EnumerableDescriptor</c> switch arm reading <c>IsEmpty</c> or <c>Count</c> of this type.
     /// </summary>
     /// <remarks>
-    ///     <see langword="null"/> marks a type no arm matches. A base type or an interface here marks a type an arm reaches through the hierarchy.
+    ///     <see langword="null" /> marks a type no arm matches. A base type or an interface here marks a type an arm reaches through the hierarchy.
     /// </remarks>
     public required string? DescriptorArm { get; init; }
 

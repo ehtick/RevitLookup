@@ -63,7 +63,7 @@ public sealed partial class PublishGithubModule(IOptions<BuildOptions> buildOpti
                 await context.GitHub().Client.Repository.Release.UploadAsset(release, asset, cancellationToken);
             }, cancellationToken)
             .ProcessInParallel();
-        
+
         context.Summary.KeyValue("Deployment", "GitHub", release.HtmlUrl);
     }
 

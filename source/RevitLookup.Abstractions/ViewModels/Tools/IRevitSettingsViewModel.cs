@@ -35,7 +35,7 @@ public interface IRevitSettingsViewModel
     bool ShowUserSettingsFilter { get; set; }
 
     /// <summary>
-    ///     Gets or sets the selected settings entry, or <see langword="null"/> if none is selected.
+    ///     Gets or sets the selected settings entry, or <see langword="null" /> if none is selected.
     /// </summary>
     ObservableIniEntry? SelectedEntry { get; set; }
 
@@ -85,7 +85,7 @@ public interface IRevitSettingsViewModel
     IRelayCommand<ObservableIniEntry> RestoreDefaultCommand { get; }
 
     /// <summary>
-    ///     Gets the task that initializes the settings entries, or <see langword="null"/> if initialization has not started.
+    ///     Gets the task that initializes the settings entries, or <see langword="null" /> if initialization has not started.
     /// </summary>
     Task<List<ObservableIniEntry>>? InitializationTask { get; }
 

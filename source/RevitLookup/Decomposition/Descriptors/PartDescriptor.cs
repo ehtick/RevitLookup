@@ -17,21 +17,11 @@ using LookupEngine.Abstractions.Configuration;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.Part"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.Part" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="part">The part to expose.</param>
 public sealed class PartDescriptor(Part part) : ElementDescriptor(part), IDescriptorConfigurator<Document>
 {
-    /// <inheritdoc/>
-    public override void Configure(IMemberConfigurator configuration)
-    {
-        configuration.Member(nameof(Part.Dispose)).Disable();
-        configuration.Extension(nameof(PartUtils.IsMergedPart)).Register(() => PartUtils.IsMergedPart(part));
-        configuration.Extension(nameof(PartUtils.IsPartDerivedFromLink)).Register(() => PartUtils.IsPartDerivedFromLink(part));
-        configuration.Extension(nameof(PartUtils.GetChainLengthToOriginal)).Register(() => PartUtils.GetChainLengthToOriginal(part));
-        configuration.Extension(nameof(PartUtils.GetMergedParts)).Register(() => PartUtils.GetMergedParts(part));
-    }
-
     void IDescriptorConfigurator<Document>.Configure(IMemberConfigurator<Document> configuration)
     {
         configuration.Extension(nameof(PartUtils.ArePartsValidForDivide)).Register(context => PartUtils.ArePartsValidForDivide(context, [part.Id]));
@@ -41,5 +31,15 @@ public sealed class PartDescriptor(Part part) : ElementDescriptor(part), IDescri
         configuration.Extension(nameof(PartUtils.GetSplittingCurves)).Register(context => PartUtils.GetSplittingCurves(context, part.Id));
         configuration.Extension(nameof(PartUtils.GetSplittingElements)).Register(context => PartUtils.GetSplittingElements(context, part.Id));
         configuration.Extension(nameof(PartUtils.HasAssociatedParts)).Register(context => PartUtils.HasAssociatedParts(context, part.Id));
+    }
+
+    /// <inheritdoc />
+    public override void Configure(IMemberConfigurator configuration)
+    {
+        configuration.Member(nameof(Part.Dispose)).Disable();
+        configuration.Extension(nameof(PartUtils.IsMergedPart)).Register(() => PartUtils.IsMergedPart(part));
+        configuration.Extension(nameof(PartUtils.IsPartDerivedFromLink)).Register(() => PartUtils.IsPartDerivedFromLink(part));
+        configuration.Extension(nameof(PartUtils.GetChainLengthToOriginal)).Register(() => PartUtils.GetChainLengthToOriginal(part));
+        configuration.Extension(nameof(PartUtils.GetMergedParts)).Register(() => PartUtils.GetMergedParts(part));
     }
 }

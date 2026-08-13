@@ -52,7 +52,7 @@ public static class ContextHelpUtils
     ///     Opens help for a query qualified by a member or parameter name in the default browser.
     /// </summary>
     /// <param name="query">The base search query, such as a type name.</param>
-    /// <param name="parameter">The member or parameter name to append to <paramref name="query"/>.</param>
+    /// <param name="parameter">The member or parameter name to append to <paramref name="query" />.</param>
     public static void ShowHelp(string query, string parameter)
     {
         if (query.StartsWith("System"))

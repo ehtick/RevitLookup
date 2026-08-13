@@ -6,17 +6,17 @@ using System.Windows.Markup;
 namespace RevitLookup.UI.Playground.Converters;
 
 /// <summary>
-///     Converts a <see langword="null"/> value to <see cref="Visibility.Collapsed"/>, and any other value to <see cref="Visibility.Visible"/>.
+///     Converts a <see langword="null" /> value to <see cref="Visibility.Collapsed" />, and any other value to <see cref="Visibility.Visible" />.
 /// </summary>
 internal sealed class NullToVisibilityConverter : MarkupExtension, IValueConverter
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         return value is null ? Visibility.Collapsed : Visibility.Visible;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     /// <remarks>
     ///     This converter does not support two-way binding.
     /// </remarks>
@@ -25,8 +25,8 @@ internal sealed class NullToVisibilityConverter : MarkupExtension, IValueConvert
         throw new NotSupportedException();
     }
 
-    /// <inheritdoc/>
-    public override object? ProvideValue(IServiceProvider serviceProvider)
+    /// <inheritdoc />
+    public override object ProvideValue(IServiceProvider serviceProvider)
     {
         return this;
     }

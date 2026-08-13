@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Lookup Foundation and Contributors
-// 
+//
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
 // provided that the above copyright notice appears in all copies and
 // that both that copyright notice and the limited warranty and
 // restricted rights notice below appear in all supporting
 // documentation.
-// 
+//
 // THIS PROGRAM IS PROVIDED "AS IS" AND WITH ALL FAULTS.
 // NO IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE IS PROVIDED.
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
@@ -18,18 +18,18 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using RevitLookup.Abstractions.Tools;
 using RevitLookup.Abstractions.ViewModels.Tools;
 #if NETFRAMEWORK
-using RevitLookup.UI.Framework.Extensions;
+using RevitLookup.UI.Framework.Menus;
 #endif
 
 namespace RevitLookup.UI.Playground.Mocks.ViewModels.Tools;
 
 /// <summary>
-///     Represents a Playground mock of <see cref="IModulesViewModel"/> that lists the assemblies loaded in the current Playground process.
+///     Represents a Playground mock of <see cref="IModulesViewModel" /> that lists the assemblies loaded in the current Playground process.
 /// </summary>
 public sealed partial class MockModulesViewModel : ObservableObject, IModulesViewModel
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="MockModulesViewModel"/> class.
+    ///     Initializes a new instance of the <see cref="MockModulesViewModel" /> class.
     /// </summary>
     public MockModulesViewModel()
     {
@@ -56,16 +56,16 @@ public sealed partial class MockModulesViewModel : ObservableObject, IModulesVie
             Modules.Add(module);
         }
     }
-    
-    /// <inheritdoc/>
+
+    /// <inheritdoc />
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial List<ModuleInfo> Modules { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial List<ModuleInfo> FilteredModules { get; set; } = [];
 

@@ -20,12 +20,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="DependencyObject"/> exposed to LookupEngine.
+///     Represents the <see cref="DependencyObject" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="dependencyObject">The dependency object to expose.</param>
 public class DependencyObjectDescriptor(DependencyObject dependencyObject) : Descriptor, IDescriptorConfigurator
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public virtual void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(DependencyObject.GetLocalValueEnumerator)).Resolve(Variants.Empty<LocalValueEnumerator?>);

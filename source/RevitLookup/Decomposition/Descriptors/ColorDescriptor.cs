@@ -12,23 +12,23 @@
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 
-using Color = Autodesk.Revit.DB.Color;
 using LookupEngine.Abstractions.Configuration;
 using LookupEngine.Abstractions.Decomposition;
-using RevitLookup.UI.Framework.Colors;
 using RevitLookup.Decomposition.Extensions;
+using RevitLookup.UI.Framework.Colors;
+using Color = Autodesk.Revit.DB.Color;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.Color"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.Color" /> exposed to LookupEngine.
 /// </summary>
 public sealed class ColorDescriptor : Descriptor, IDescriptorConfigurator
 {
     private readonly Color _color;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="ColorDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="ColorDescriptor" /> class.
     /// </summary>
     /// <param name="color">The color to expose.</param>
     public ColorDescriptor(Color color)
@@ -37,7 +37,7 @@ public sealed class ColorDescriptor : Descriptor, IDescriptorConfigurator
         Name = color.IsValid ? $"#{ColorRepresentationUtils.ColorToHex(color.GetDrawingColor()).ToUpperInvariant()}" : "The color represents uninitialized/invalid value";
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Color.Dispose)).Disable();

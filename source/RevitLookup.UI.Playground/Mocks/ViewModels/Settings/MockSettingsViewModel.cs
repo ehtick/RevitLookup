@@ -1,12 +1,12 @@
 // Copyright (c) Lookup Foundation and Contributors
-// 
+//
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
 // provided that the above copyright notice appears in all copies and
 // that both that copyright notice and the limited warranty and
 // restricted rights notice below appear in all supporting
 // documentation.
-// 
+//
 // THIS PROGRAM IS PROVIDED "AS IS" AND WITH ALL FAULTS.
 // NO IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE IS PROVIDED.
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
@@ -30,21 +30,21 @@ using Wpf.Ui.Controls;
 namespace RevitLookup.UI.Playground.Mocks.ViewModels.Settings;
 
 /// <summary>
-///     Represents a Playground mock of <see cref="ISettingsViewModel"/> that applies appearance and behavior changes to the running Playground host.
+///     Represents a Playground mock of <see cref="ISettingsViewModel" /> that applies appearance and behavior changes to the running Playground host.
 /// </summary>
 [UsedImplicitly]
 public sealed partial class MockSettingsViewModel : ObservableObject, ISettingsViewModel
 {
-    private readonly IServiceProvider _serviceProvider;
+    private readonly bool _initialized;
+    private readonly IWindowIntercomService _intercomService;
     private readonly INavigationService _navigationService;
     private readonly INotificationService _notificationService;
+    private readonly IServiceProvider _serviceProvider;
     private readonly ISettingsService _settingsService;
     private readonly IThemeWatcherService _themeWatcherService;
-    private readonly IWindowIntercomService _intercomService;
-    private readonly bool _initialized;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="MockSettingsViewModel"/> class.
+    ///     Initializes a new instance of the <see cref="MockSettingsViewModel" /> class.
     /// </summary>
     /// <param name="serviceProvider">The service provider used to resolve the reset settings dialog.</param>
     /// <param name="navigationService">The service used to access the navigation control's transition setting.</param>
@@ -71,7 +71,7 @@ public sealed partial class MockSettingsViewModel : ObservableObject, ISettingsV
         _initialized = true;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public List<ApplicationTheme> Themes { get; } =
     [
         ApplicationTheme.Auto,
@@ -80,7 +80,7 @@ public sealed partial class MockSettingsViewModel : ObservableObject, ISettingsV
         ApplicationTheme.HighContrast
     ];
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public List<WindowBackdropType> BackgroundEffects { get; } =
     [
         WindowBackdropType.None,
@@ -89,31 +89,30 @@ public sealed partial class MockSettingsViewModel : ObservableObject, ISettingsV
         WindowBackdropType.Mica
     ];
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial ApplicationTheme Theme { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial WindowBackdropType Background { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool UseTransition { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool UseHardwareRendering { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool UseSizeRestoring { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool UseModifyTab { get; set; }
 
-    /// <inheritdoc/>
     [RelayCommand]
     private async Task ResetSettingsAsync()
     {
@@ -121,7 +120,10 @@ public sealed partial class MockSettingsViewModel : ObservableObject, ISettingsV
         {
             var dialog = _serviceProvider.GetRequiredService<ResetSettingsDialog>();
             var result = await dialog.ShowAsync();
-            if (result != ContentDialogResult.Primary) return;
+            if (result != ContentDialogResult.Primary)
+            {
+                return;
+            }
 
             if (dialog.CanResetApplicationSettings)
             {
@@ -144,7 +146,10 @@ public sealed partial class MockSettingsViewModel : ObservableObject, ISettingsV
 
     partial void OnThemeChanged(ApplicationTheme value)
     {
-        if (!_initialized) return;
+        if (!_initialized)
+        {
+            return;
+        }
 
         _settingsService.ApplicationSettings.Theme = value;
         _themeWatcherService.ApplyTheme();
@@ -152,7 +157,10 @@ public sealed partial class MockSettingsViewModel : ObservableObject, ISettingsV
 
     partial void OnBackgroundChanged(WindowBackdropType value)
     {
-        if (!_initialized) return;
+        if (!_initialized)
+        {
+            return;
+        }
 
         _settingsService.ApplicationSettings.Background = value;
         WindowBackgroundManager.UpdateBackground(_intercomService.GetHost(), _settingsService.ApplicationSettings.Theme, value);
@@ -160,11 +168,14 @@ public sealed partial class MockSettingsViewModel : ObservableObject, ISettingsV
 
     partial void OnUseTransitionChanged(bool value)
     {
-        if (!_initialized) return;
+        if (!_initialized)
+        {
+            return;
+        }
 
         var navigationControl = _navigationService.GetNavigationControl();
         var transition = _settingsService.ApplicationSettings.Transition = value
-            ? (Transition) NavigationView.TransitionProperty.DefaultMetadata.DefaultValue
+            ? (Transition)NavigationView.TransitionProperty.DefaultMetadata.DefaultValue
             : Transition.None;
 
         _settingsService.ApplicationSettings.Transition = transition;
@@ -173,7 +184,10 @@ public sealed partial class MockSettingsViewModel : ObservableObject, ISettingsV
 
     partial void OnUseHardwareRenderingChanged(bool value)
     {
-        if (!_initialized) return;
+        if (!_initialized)
+        {
+            return;
+        }
 
         _settingsService.ApplicationSettings.UseHardwareRendering = value;
         RenderOptions.ProcessRenderMode = value ? RenderMode.Default : RenderMode.SoftwareOnly;
@@ -181,10 +195,16 @@ public sealed partial class MockSettingsViewModel : ObservableObject, ISettingsV
 
     partial void OnUseSizeRestoringChanged(bool value)
     {
-        if (!_initialized) return;
+        if (!_initialized)
+        {
+            return;
+        }
 
         _settingsService.ApplicationSettings.UseSizeRestoring = value;
-        if (_intercomService.GetHost() is not RevitLookupView lookupView) return;
+        if (_intercomService.GetHost() is not RevitLookupView lookupView)
+        {
+            return;
+        }
 
         if (value)
         {
@@ -198,7 +218,10 @@ public sealed partial class MockSettingsViewModel : ObservableObject, ISettingsV
 
     partial void OnUseModifyTabChanged(bool value)
     {
-        if (!_initialized) return;
+        if (!_initialized)
+        {
+            return;
+        }
 
         _settingsService.ApplicationSettings.UseModifyTab = value;
     }

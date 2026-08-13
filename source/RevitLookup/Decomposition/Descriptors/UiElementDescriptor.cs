@@ -19,12 +19,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="System.Windows.UIElement"/> exposed to LookupEngine.
+///     Represents the <see cref="System.Windows.UIElement" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="uiElement">The UI element to expose.</param>
 public sealed class UiElementDescriptor(UIElement uiElement) : DependencyObjectDescriptor(uiElement)
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(UIElement.GetLocalValueEnumerator)).Resolve(Variants.Empty<LocalValueEnumerator>);

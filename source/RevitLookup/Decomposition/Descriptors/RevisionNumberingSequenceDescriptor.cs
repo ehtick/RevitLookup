@@ -19,12 +19,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.RevisionNumberingSequence"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.RevisionNumberingSequence" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="sequence">The revision numbering sequence to expose.</param>
 public sealed class RevisionNumberingSequenceDescriptor(RevisionNumberingSequence sequence) : ElementDescriptor(sequence)
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(RevisionNumberingSequence.Dispose)).Disable();

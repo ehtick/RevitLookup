@@ -17,12 +17,12 @@ using LookupEngine.Abstractions.Configuration;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.PartMaker"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.PartMaker" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="partMaker">The part maker to expose.</param>
 public sealed class PartMakerDescriptor(PartMaker partMaker) : ElementDescriptor(partMaker)
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(PartMaker.Dispose)).Disable();

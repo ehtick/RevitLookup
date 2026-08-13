@@ -18,12 +18,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="DefinitionGroup"/> exposed to LookupEngine.
+///     Represents the <see cref="DefinitionGroup" /> exposed to LookupEngine.
 /// </summary>
 public sealed class DefinitionGroupDescriptor : Descriptor, IDescriptorConfigurator
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="DefinitionGroupDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="DefinitionGroupDescriptor" /> class.
     /// </summary>
     /// <param name="group">The shared parameter definition group to expose.</param>
     public DefinitionGroupDescriptor(DefinitionGroup group)
@@ -31,7 +31,7 @@ public sealed class DefinitionGroupDescriptor : Descriptor, IDescriptorConfigura
         Name = group.Name;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(DefinitionGroup.Dispose)).Disable();

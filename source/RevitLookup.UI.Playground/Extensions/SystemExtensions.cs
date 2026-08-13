@@ -2,9 +2,8 @@
 
 namespace RevitLookup.UI.Playground.Extensions;
 
-
 /// <summary>
-///     Provides extension methods for <see cref="object"/> and <see cref="string"/>.
+///     Provides extension methods for <see cref="object" /> and <see cref="string" />.
 /// </summary>
 public static class SystemExtensions
 {
@@ -12,10 +11,10 @@ public static class SystemExtensions
     extension(object obj)
     {
         /// <summary>
-        ///     Casts the object to the specified <typeparamref name="T"/> type.
+        ///     Casts the object to the specified <typeparamref name="T" /> type.
         /// </summary>
         /// <typeparam name="T">The type to cast the object to.</typeparam>
-        /// <returns>The object cast to <typeparamref name="T"/>.</returns>
+        /// <returns>The object cast to <typeparamref name="T" />.</returns>
         [Pure]
         public T Cast<T>()
         {
@@ -27,18 +26,18 @@ public static class SystemExtensions
     extension(string source)
     {
         /// <summary>
-        ///     Combines <paramref name="source"/> and <paramref name="path"/> into a single path.
+        ///     Combines <paramref name="source" /> and <paramref name="path" /> into a single path.
         /// </summary>
-        /// <param name="path">The path to append to <paramref name="source"/>.</param>
+        /// <param name="path">The path to append to <paramref name="source" />.</param>
         /// <returns>
         ///     The combined path.
-        ///     If <paramref name="source"/> or <paramref name="path"/> is a zero-length string, this method returns the other path.
-        ///     If <paramref name="path"/> contains an absolute path, this method returns <paramref name="path"/>.
+        ///     If <paramref name="source" /> or <paramref name="path" /> is a zero-length string, this method returns the other path.
+        ///     If <paramref name="path" /> contains an absolute path, this method returns <paramref name="path" />.
         /// </returns>
         /// <exception cref="ArgumentException">
-        ///     .NET Framework and .NET Core versions older than 2.1: <paramref name="source"/> or <paramref name="path"/> contains one or more of the invalid characters defined in <see cref="Path.GetInvalidPathChars"/>.
+        ///     .NET Framework and .NET Core versions older than 2.1: <paramref name="source" /> or <paramref name="path" /> contains one or more of the invalid characters defined in <see cref="Path.GetInvalidPathChars" />.
         /// </exception>
-        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="path"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="source" /> or <paramref name="path" /> is <see langword="null" />.</exception>
         [Pure]
         public string AppendPath(string path)
         {

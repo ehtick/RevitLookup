@@ -29,12 +29,12 @@ namespace RevitLookup.UI.Framework.Views.Windows;
 public sealed partial class RevitLookupView
 {
     private readonly IWindowIntercomService _intercomService;
-    private readonly ISoftwareUpdateService _updateService;
     private readonly ISettingsService _settingsService;
     private readonly IThemeWatcherService _themeWatcherService;
+    private readonly ISoftwareUpdateService _updateService;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="RevitLookupView"/> class.
+    ///     Initializes a new instance of the <see cref="RevitLookupView" /> class.
     /// </summary>
     /// <param name="navigationService">The service bound to this window's navigation control.</param>
     /// <param name="dialogService">The service bound to this window's dialog host.</param>
@@ -74,8 +74,15 @@ public sealed partial class RevitLookupView
 
     private void AddBadges()
     {
-        if (_updateService.NewVersion is null) return;
-        if (_updateService.LocalFilePath is not null) return;
+        if (_updateService.NewVersion is null)
+        {
+            return;
+        }
+
+        if (_updateService.LocalFilePath is not null)
+        {
+            return;
+        }
 
         UpdatesNotifier.Visibility = Visibility.Visible;
     }
@@ -89,10 +96,20 @@ public sealed partial class RevitLookupView
 
     private void ApplyWindowSize()
     {
-        if (!_settingsService.ApplicationSettings.UseSizeRestoring) return;
+        if (!_settingsService.ApplicationSettings.UseSizeRestoring)
+        {
+            return;
+        }
 
-        if (_settingsService.ApplicationSettings.WindowWidth >= MinWidth) Width = _settingsService.ApplicationSettings.WindowWidth;
-        if (_settingsService.ApplicationSettings.WindowHeight >= MinHeight) Height = _settingsService.ApplicationSettings.WindowHeight;
+        if (_settingsService.ApplicationSettings.WindowWidth >= MinWidth)
+        {
+            Width = _settingsService.ApplicationSettings.WindowWidth;
+        }
+
+        if (_settingsService.ApplicationSettings.WindowHeight >= MinHeight)
+        {
+            Height = _settingsService.ApplicationSettings.WindowHeight;
+        }
 
         EnableSizeTracking();
     }
@@ -115,12 +132,12 @@ public sealed partial class RevitLookupView
 
     private static void OnSizeChanged(object sender, SizeChangedEventArgs args)
     {
-        var self = (RevitLookupView) sender;
+        var self = (RevitLookupView)sender;
         self._settingsService.ApplicationSettings.WindowWidth = args.NewSize.Width;
         self._settingsService.ApplicationSettings.WindowHeight = args.NewSize.Height;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override AutomationPeer OnCreateAutomationPeer()
     {
         return new NoAutomationWindowPeer(this);

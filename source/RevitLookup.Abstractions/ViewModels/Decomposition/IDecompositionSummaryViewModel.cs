@@ -12,7 +12,7 @@ public interface IDecompositionSummaryViewModel : ISummaryViewModel
     ///     Gets the list of filtered decomposed objects, grouped for display.
     /// </summary>
     ObservableCollection<ObservableDecomposedObjectsGroup> FilteredDecomposedObjects { get; }
-    
+
     /// <summary>
     ///     Removes the specified item from the decomposed objects.
     /// </summary>

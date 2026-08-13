@@ -35,7 +35,7 @@ public sealed class UnitInfo
     public required object Value { get; init; }
 
     /// <summary>
-    ///     Gets or sets the unit class, or <see langword="null"/> when the unit has none.
+    ///     Gets or sets the unit class, or <see langword="null" /> when the unit has none.
     /// </summary>
     public string? Class { get; init; }
 }

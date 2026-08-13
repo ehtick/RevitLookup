@@ -18,12 +18,12 @@ using LookupEngine.Abstractions.Configuration;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.Plumbing.Pipe"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.Plumbing.Pipe" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="pipe">The pipe to expose.</param>
 public sealed class PipeDescriptor(Pipe pipe) : ElementDescriptor(pipe)
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Pipe.Dispose)).Disable();

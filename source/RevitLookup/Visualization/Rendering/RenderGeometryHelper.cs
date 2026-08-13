@@ -77,9 +77,9 @@ public static class RenderGeometryHelper
                 {
                     var triangle = mesh.get_Triangle(i);
                     var normal = mesh.GetNormal(i);
-                    facetNormals[(int) triangle.get_Index(0)] ??= normal;
-                    facetNormals[(int) triangle.get_Index(1)] ??= normal;
-                    facetNormals[(int) triangle.get_Index(2)] ??= normal;
+                    facetNormals[(int)triangle.get_Index(0)] ??= normal;
+                    facetNormals[(int)triangle.get_Index(1)] ??= normal;
+                    facetNormals[(int)triangle.get_Index(2)] ??= normal;
                 }
 
                 for (var i = 0; i < vertexCount; i++)
@@ -140,7 +140,10 @@ public static class RenderGeometryHelper
     /// <returns>The scaled solid.</returns>
     public static Solid ScaleSolid(Solid solid, double scale)
     {
-        if (scale is 1d) scale = EvaluateScale(solid, RevitApiContext.Application.VertexTolerance * 3);
+        if (scale is 1d)
+        {
+            scale = EvaluateScale(solid, RevitApiContext.Application.VertexTolerance * 3);
+        }
 
         var centroid = solid.GetBoundingBox().Transform.Origin;
         var moveToCentroid = Transform.CreateTranslation(-centroid);
@@ -162,11 +165,18 @@ public static class RenderGeometryHelper
         const double minDiameter = 0.1 / 12d;
         const double maxDiameter = 3 / 12d;
 
-        if (diameter <= minDiameter) return minSegments;
-        if (diameter >= maxDiameter) return maxSegments;
+        if (diameter <= minDiameter)
+        {
+            return minSegments;
+        }
+
+        if (diameter >= maxDiameter)
+        {
+            return maxSegments;
+        }
 
         var normalDiameter = (diameter - minDiameter) / (maxDiameter - minDiameter);
-        return (int) (minSegments + normalDiameter * (maxSegments - minSegments));
+        return (int)(minSegments + normalDiameter * (maxSegments - minSegments));
     }
 
     /// <summary>
@@ -181,8 +191,15 @@ public static class RenderGeometryHelper
         const double minDiameter = 0.1 / 12d;
         const double maxDiameter = 3 / 12d;
 
-        if (diameter <= minDiameter) return minOffset;
-        if (diameter >= maxDiameter) return maxOffset;
+        if (diameter <= minDiameter)
+        {
+            return minOffset;
+        }
+
+        if (diameter >= maxDiameter)
+        {
+            return maxOffset;
+        }
 
         var normalOffset = (diameter - minDiameter) / (maxDiameter - minDiameter);
         return minOffset + normalOffset * (maxOffset - minOffset);
@@ -200,8 +217,15 @@ public static class RenderGeometryHelper
         const double minArea = 0.01d;
         const double maxArea = 1d;
 
-        if (area <= minArea) return minOffset;
-        if (area >= maxArea) return maxOffset;
+        if (area <= minArea)
+        {
+            return minOffset;
+        }
+
+        if (area >= maxArea)
+        {
+            return maxOffset;
+        }
 
         var normalOffset = (area - minArea) / (maxArea - minArea);
         return minOffset + normalOffset * (maxOffset - minOffset);
@@ -219,8 +243,15 @@ public static class RenderGeometryHelper
         const double minArea = 0.01d;
         const double maxArea = 1d;
 
-        if (area <= minArea) return minLength;
-        if (area >= maxArea) return maxLength;
+        if (area <= minArea)
+        {
+            return minLength;
+        }
+
+        if (area >= maxArea)
+        {
+            return maxLength;
+        }
 
         var normalOffset = (area - minArea) / (maxArea - minArea);
         return minLength + normalOffset * (maxLength - minLength);
@@ -292,8 +323,16 @@ public static class RenderGeometryHelper
 
         var maxDimension = Math.Max(Math.Max(currentLength, currentWidth), currentHeight);
 
-        if (Math.Abs(maxDimension - currentLength) < 1e-9) return (currentLength + offset) / currentLength;
-        if (Math.Abs(maxDimension - currentWidth) < 1e-9) return (currentWidth + offset) / currentWidth;
+        if (Math.Abs(maxDimension - currentLength) < 1e-9)
+        {
+            return (currentLength + offset) / currentLength;
+        }
+
+        if (Math.Abs(maxDimension - currentWidth) < 1e-9)
+        {
+            return (currentWidth + offset) / currentWidth;
+        }
+
         return (currentHeight + offset) / currentHeight;
     }
 }

@@ -27,7 +27,7 @@ public interface INotificationService
     void ShowError(string title, string message);
 
     /// <summary>
-    ///     Shows an error notification for <paramref name="exception"/>.
+    ///     Shows an error notification for <paramref name="exception" />.
     /// </summary>
     /// <param name="title">The notification title.</param>
     /// <param name="exception">The exception whose message is displayed.</param>

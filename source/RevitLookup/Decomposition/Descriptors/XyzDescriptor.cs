@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Lookup Foundation and Contributors
-// 
+//
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
 // provided that the above copyright notice appears in all copies and
 // that both that copyright notice and the limited warranty and
 // restricted rights notice below appear in all supporting
 // documentation.
-// 
+//
 // THIS PROGRAM IS PROVIDED "AS IS" AND WITH ALL FAULTS.
 // NO IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE IS PROVIDED.
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
@@ -19,20 +19,20 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Abstractions.Decomposition;
 using RevitLookup.Abstractions.Presentation;
-using RevitLookup.UI.Framework.Extensions;
+using RevitLookup.UI.Framework.Menus;
 using RevitLookup.UI.Framework.Views.Visualization;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.XYZ"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.XYZ" /> exposed to LookupEngine.
 /// </summary>
 public sealed partial class XyzDescriptor : Descriptor, IContextMenuConnector
 {
     private readonly XYZ _point;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="XyzDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="XyzDescriptor" /> class.
     /// </summary>
     /// <param name="point">The point to expose.</param>
     public XyzDescriptor(XYZ point)
@@ -41,7 +41,7 @@ public sealed partial class XyzDescriptor : Descriptor, IContextMenuConnector
         Name = point.ToString();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void RegisterMenu(ContextMenu contextMenu, IServiceProvider serviceProvider)
     {
         contextMenu.AddMenuItem("VisualizeMenuItem")
@@ -52,7 +52,10 @@ public sealed partial class XyzDescriptor : Descriptor, IContextMenuConnector
 
         async Task VisualizeXyzAsync(XYZ point)
         {
-            if (RevitContext.ActiveUiDocument is null) return;
+            if (RevitContext.ActiveUiDocument is null)
+            {
+                return;
+            }
 
             try
             {

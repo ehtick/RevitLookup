@@ -7,7 +7,7 @@ using Color = System.Windows.Media.Color;
 namespace RevitLookup.UI.Framework.Controls.ColorPicker;
 
 /// <summary>
-///     Provides methods that convert HSV coordinates to <see cref="Color"/> and that sample HSV color gradients.
+///     Provides methods that convert HSV coordinates to <see cref="Color" /> and that sample HSV color gradients.
 /// </summary>
 public static class HsvColor
 {
@@ -46,12 +46,12 @@ public static class HsvColor
     }
 
     /// <summary>
-    ///     Converts HSV coordinates to a <see cref="Color"/>.
+    ///     Converts HSV coordinates to a <see cref="Color" />.
     /// </summary>
     /// <param name="h">The hue, in the range [0..360].</param>
     /// <param name="s">The saturation, in the range [0..1].</param>
     /// <param name="v">The value, in the range [0..1].</param>
-    /// <returns>The equivalent RGB <see cref="Color"/>, or black if any coordinate is out of range.</returns>
+    /// <returns>The equivalent RGB <see cref="Color" />, or black if any coordinate is out of range.</returns>
     public static Color RgbFromHsv(double h, double s, double v)
     {
         if (h > 360 || h < 0 || s > 1 || s < 0 || v > 1 || v < 0)
@@ -60,7 +60,7 @@ public static class HsvColor
         }
 
         var c = v * s;
-        var x = c * (1 - Math.Abs(((h / 60) % 2) - 1));
+        var x = c * (1 - Math.Abs(h / 60 % 2 - 1));
         var m = v - c;
 
         double r = 0, g = 0, b = 0;
@@ -96,6 +96,6 @@ public static class HsvColor
             b = x;
         }
 
-        return Color.FromRgb((byte) ((r + m) * 255), (byte) ((g + m) * 255), (byte) ((b + m) * 255));
+        return Color.FromRgb((byte)((r + m) * 255), (byte)((g + m) * 255), (byte)((b + m) * 255));
     }
 }

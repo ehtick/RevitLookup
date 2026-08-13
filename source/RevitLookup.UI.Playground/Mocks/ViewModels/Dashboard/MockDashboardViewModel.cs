@@ -12,18 +12,18 @@ using Wpf.Ui.Controls;
 namespace RevitLookup.UI.Playground.Mocks.ViewModels.Dashboard;
 
 /// <summary>
-///     Represents a Playground mock of <see cref="IDashboardViewModel"/> that navigates to Playground decomposition targets and tool dialogs instead of an active Revit session.
+///     Represents a Playground mock of <see cref="IDashboardViewModel" /> that navigates to Playground decomposition targets and tool dialogs instead of an active Revit session.
 /// </summary>
 [UsedImplicitly]
 public sealed partial class MockDashboardViewModel : IDashboardViewModel
 {
-    private readonly IServiceProvider _serviceProvider;
     private readonly INavigationService _navigationService;
     private readonly INotificationService _notificationService;
+    private readonly IServiceProvider _serviceProvider;
     private readonly IVisualDecompositionService _visualDecompositionService;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="MockDashboardViewModel"/> class.
+    ///     Initializes a new instance of the <see cref="MockDashboardViewModel" /> class.
     /// </summary>
     /// <param name="serviceProvider">The service provider used to resolve dialog instances opened from the dashboard.</param>
     /// <param name="navigationService">The service used to navigate to decomposition and tool pages.</param>
@@ -94,7 +94,7 @@ public sealed partial class MockDashboardViewModel : IDashboardViewModel
                         Icon = SymbolRegular.Database24,
                         Command = NavigatePageCommand,
                         CommandParameter = "database"
-                    },
+                    }
                 ]
             },
             new NavigationCardGroup
@@ -295,10 +295,9 @@ public sealed partial class MockDashboardViewModel : IDashboardViewModel
         ];
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public List<NavigationCardGroup> NavigationGroups { get; }
 
-    /// <inheritdoc/>
     [RelayCommand]
     private async Task NavigatePageAsync(string? parameter)
     {
@@ -387,7 +386,6 @@ public sealed partial class MockDashboardViewModel : IDashboardViewModel
         }
     }
 
-    /// <inheritdoc/>
     [RelayCommand]
     private async Task OpenDialogAsync(string parameter)
     {

@@ -54,10 +54,16 @@ public partial class SummaryViewBase
     /// </remarks>
     private void OnTreeItemClicked(object sender, MouseButtonEventArgs args)
     {
-        if ((Keyboard.Modifiers & ModifierKeys.Control) == 0) return;
+        if ((Keyboard.Modifiers & ModifierKeys.Control) == 0)
+        {
+            return;
+        }
 
-        var element = (FrameworkElement) args.OriginalSource;
-        if (element is not TreeViewItem && element.FindVisualParent<TreeViewItem>() is null) return;
+        var element = (FrameworkElement)args.OriginalSource;
+        if (element is not TreeViewItem && element.FindVisualParent<TreeViewItem>() is null)
+        {
+            return;
+        }
 
         args.Handled = true;
 
@@ -80,15 +86,28 @@ public partial class SummaryViewBase
     /// </remarks>
     private void OnGridRowClicked(object sender, RoutedEventArgs args)
     {
-        var row = (DataGridRow) sender;
-        if (row.DataContext is not ObservableDecomposedMember context) return;
+        var row = (DataGridRow)sender;
+        if (row.DataContext is not ObservableDecomposedMember context)
+        {
+            return;
+        }
 
-        if (!CanAccessMemberValue(context)) return;
+        if (!CanAccessMemberValue(context))
+        {
+            return;
+        }
 
         if ((Keyboard.Modifiers & ModifierKeys.Control) == 0)
         {
-            if (context.Value.Descriptor is not IDescriptorCollector) return;
-            if (context.Value.Descriptor is IDescriptorEnumerator {IsEmpty: true}) return;
+            if (context.Value.Descriptor is not IDescriptorCollector)
+            {
+                return;
+            }
+
+            if (context.Value.Descriptor is IDescriptorEnumerator { IsEmpty: true })
+            {
+                return;
+            }
         }
 
         ViewModel.Navigate(context.Value);
@@ -99,7 +118,11 @@ public partial class SummaryViewBase
     /// </summary>
     private static bool CanAccessMemberValue(ObservableDecomposedMember member)
     {
-        if (member.EvaluationPolicy != MemberEvaluationPolicy.Evaluated) return false;
+        if (member.EvaluationPolicy != MemberEvaluationPolicy.Evaluated)
+        {
+            return false;
+        }
+
         return member.Value.RawValue is not null;
     }
 
@@ -108,7 +131,7 @@ public partial class SummaryViewBase
     /// </summary>
     private static void OnPresenterCursorInteracted(object sender, MouseEventArgs args)
     {
-        var presenter = (FrameworkElement) sender;
+        var presenter = (FrameworkElement)sender;
         if ((Keyboard.Modifiers & ModifierKeys.Control) == 0)
         {
             presenter.Cursor = null;
@@ -117,8 +140,8 @@ public partial class SummaryViewBase
 
         FrameworkElement? item = sender switch
         {
-            DataGrid => ((DependencyObject) args.OriginalSource).FindVisualParent<DataGridRow>(),
-            TreeView => ((DependencyObject) args.OriginalSource).FindVisualParent<TreeViewItem>(),
+            DataGrid => ((DependencyObject)args.OriginalSource).FindVisualParent<DataGridRow>(),
+            TreeView => ((DependencyObject)args.OriginalSource).FindVisualParent<TreeViewItem>(),
             _ => throw new NotSupportedException()
         };
 
@@ -128,7 +151,7 @@ public partial class SummaryViewBase
             return;
         }
 
-        if (item is DataGridRow {DataContext: ObservableDecomposedMember member} && !CanAccessMemberValue(member))
+        if (item is DataGridRow { DataContext: ObservableDecomposedMember member } && !CanAccessMemberValue(member))
         {
             presenter.Cursor = null;
             return;
@@ -144,7 +167,7 @@ public partial class SummaryViewBase
     /// </summary>
     private static void OnPresenterCursorRestored(object sender, KeyEventArgs args)
     {
-        var presenter = (FrameworkElement) sender;
+        var presenter = (FrameworkElement)sender;
         presenter.PreviewKeyUp -= OnPresenterCursorRestored;
         presenter.Cursor = null;
     }

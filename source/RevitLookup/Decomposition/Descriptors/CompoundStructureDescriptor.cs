@@ -17,12 +17,12 @@ using LookupEngine.Abstractions.Configuration;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="CompoundStructure"/> exposed to LookupEngine.
+///     Represents the <see cref="CompoundStructure" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="compoundStructure">The compound structure to expose.</param>
 public sealed class CompoundStructureDescriptor(CompoundStructure compoundStructure) : ResolvingDescriptor, IDescriptorConfigurator
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(CompoundStructure.Dispose)).Disable();

@@ -17,7 +17,7 @@ public static class RevitLoggingRegistration
         /// <summary>
         ///     Seeds the log levels the add-in runs on, adds the Revit journal logging provider, and silences the WPF resource dictionary traces.
         /// </summary>
-        /// <returns>The <see cref="TBuilder"/> for chaining.</returns>
+        /// <returns>The <see cref="TBuilder" /> for chaining.</returns>
         public TBuilder AddRevitLogging()
         {
             builder.Configuration.AddInMemoryCollection(new Dictionary<string, string?>

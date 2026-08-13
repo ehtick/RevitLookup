@@ -7,17 +7,17 @@ using RevitLookup.Abstractions.Settings;
 namespace RevitLookup.UI.Playground.Mocks.Decomposition;
 
 /// <summary>
-///     Represents a Playground mock of <see cref="IDecompositionService"/> that runs <c>LookupComposer</c> against Playground sample data instead of a live Revit document.
+///     Represents a Playground mock of <see cref="IDecompositionService" /> that runs <c>LookupComposer</c> against Playground sample data instead of a live Revit document.
 /// </summary>
 /// <param name="settingsService">The service supplying the decomposition options applied to each request.</param>
 [SuppressMessage("ReSharper", "LoopCanBeConvertedToQuery")]
 [SuppressMessage("ReSharper", "ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator")]
 public sealed class MockDecompositionService(ISettingsService settingsService) : IDecompositionService
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public List<ObservableDecomposedObject> DecompositionStackHistory { get; } = [];
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public async Task<ObservableDecomposedObject> DecomposeAsync(object? obj)
     {
         var options = CreateDecomposeMembersOptions();
@@ -28,7 +28,7 @@ public sealed class MockDecompositionService(ISettingsService settingsService) :
         });
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public async Task<List<ObservableDecomposedObject>> DecomposeAsync(IEnumerable objects)
     {
         var options = CreateDecomposeOptions();
@@ -46,7 +46,7 @@ public sealed class MockDecompositionService(ISettingsService settingsService) :
         });
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public async Task<List<ObservableDecomposedMember>> DecomposeMembersAsync(ObservableDecomposedObject decomposedObject)
     {
         var options = CreateDecomposeMembersOptions();
@@ -64,20 +64,26 @@ public sealed class MockDecompositionService(ISettingsService settingsService) :
         });
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public async Task EvaluateMemberAsync(ObservableDecomposedMember decomposedMember)
     {
-        if (decomposedMember.Member?.Evaluator is null) return;
+        if (decomposedMember.Member?.Evaluator is null)
+        {
+            return;
+        }
 
         await Task.Run(() => decomposedMember.Member.Evaluate());
 
         DecompositionResultMapper.Update(decomposedMember.Member, decomposedMember);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public async Task EvaluateMemberWithTransactionAsync(ObservableDecomposedMember decomposedMember)
     {
-        if (decomposedMember.Member?.Evaluator is null) return;
+        if (decomposedMember.Member?.Evaluator is null)
+        {
+            return;
+        }
 
         await Task.Run(() => decomposedMember.Member.Evaluate());
 
@@ -110,11 +116,26 @@ public sealed class MockDecompositionService(ISettingsService settingsService) :
             {
                 EvaluatedFilter = (method, type) =>
                 {
-                    if (method.ReturnType == typeof(void)) return false;
-                    if (type.Namespace is null) return true;
-                    if (type.Namespace.StartsWith("System.Windows")) return false;
-                    if (type.Namespace.StartsWith("System")) return true;
-                    
+                    if (method.ReturnType == typeof(void))
+                    {
+                        return false;
+                    }
+
+                    if (type.Namespace is null)
+                    {
+                        return true;
+                    }
+
+                    if (type.Namespace.StartsWith("System.Windows"))
+                    {
+                        return false;
+                    }
+
+                    if (type.Namespace.StartsWith("System"))
+                    {
+                        return true;
+                    }
+
                     return false;
                 }
             }

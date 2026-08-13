@@ -6,15 +6,12 @@ using Wpf.Ui.Abstractions.Controls;
 namespace RevitLookup.UI.Playground.Views.Pages.Navigation;
 
 /// <summary>
-/// Represents a page that demonstrates the Menu control in the Playground.
+///     Represents a page that demonstrates the Menu control in the Playground.
 /// </summary>
 public sealed partial class MenuPage : INavigableView<MenuViewModel>
 {
-    /// <inheritdoc/>
-    public MenuViewModel ViewModel { get; }
-
     /// <summary>
-    /// Initializes a new instance of the <see cref="MenuPage"/> class.
+    ///     Initializes a new instance of the <see cref="MenuPage" /> class.
     /// </summary>
     /// <param name="viewModel">The view model that supplies data for the page.</param>
     public MenuPage(MenuViewModel viewModel)
@@ -24,6 +21,9 @@ public sealed partial class MenuPage : INavigableView<MenuViewModel>
 
         InitializeComponent();
     }
+
+    /// <inheritdoc />
+    public MenuViewModel ViewModel { get; }
 
     private void OnMenuItemClicked(object sender, RoutedEventArgs e)
     {

@@ -18,12 +18,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="City"/> exposed to LookupEngine.
+///     Represents the <see cref="City" /> exposed to LookupEngine.
 /// </summary>
 public sealed class CityDescriptor : Descriptor, IDescriptorConfigurator
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="CityDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="CityDescriptor" /> class.
     /// </summary>
     /// <param name="city">The city to expose.</param>
     public CityDescriptor(City city)
@@ -31,7 +31,7 @@ public sealed class CityDescriptor : Descriptor, IDescriptorConfigurator
         Name = city.Name;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(City.Dispose)).Disable();

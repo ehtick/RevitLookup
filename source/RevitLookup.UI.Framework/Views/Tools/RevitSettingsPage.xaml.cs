@@ -33,7 +33,7 @@ public sealed partial class RevitSettingsPage
     private readonly INotificationService _notificationService;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="RevitSettingsPage"/> class.
+    ///     Initializes a new instance of the <see cref="RevitSettingsPage" /> class.
     /// </summary>
     /// <param name="viewModel">The view model that provides the data for the Revit Settings view.</param>
     /// <param name="dialogService">The service that supplies the dialog host used by this page.</param>
@@ -62,16 +62,16 @@ public sealed partial class RevitSettingsPage
         }
     }
 
+    /// <summary>
+    ///     Gets the view model that provides the data for this page.
+    /// </summary>
+    public IRevitSettingsViewModel ViewModel { get; }
+
     private void ApplyGrouping()
     {
         EntriesList.Items.GroupDescriptions!.Clear();
         EntriesList.Items.GroupDescriptions.Add(new PropertyGroupDescription(nameof(ObservableIniEntry.Category)));
     }
-
-    /// <summary>
-    ///     Gets the view model that provides the data for this page.
-    /// </summary>
-    public IRevitSettingsViewModel ViewModel { get; }
 
     private async void ShowWarningDialog(IContentDialogService dialogService, INavigationService navigationService)
     {
@@ -105,7 +105,10 @@ public sealed partial class RevitSettingsPage
     {
         try
         {
-            if (args.OriginalSource is ButtonBase) return;
+            if (args.OriginalSource is ButtonBase)
+            {
+                return;
+            }
 
             await ViewModel.UpdateEntryAsync();
         }

@@ -34,10 +34,7 @@ public sealed class RevitConfigurator
     private const char CommentChar = ';';
     private const string SessionOptionsCategory = "[Jrn.SessionOptions]";
     private const string RevitAttributeRecord = " Rvt.Attr.";
-
-    private readonly Encoding _encoding;
     private readonly SemaphoreSlim _asyncLock = new(1, 1);
-    private readonly string _userIniPath = RevitApiContext.Application.CurrentUsersDataFolderPath.AppendPath("Revit.ini");
 
     private readonly string _defaultIniPath = Environment
         .GetFolderPath(Environment.SpecialFolder.CommonApplicationData)
@@ -46,10 +43,13 @@ public sealed class RevitConfigurator
         .AppendPath("UserDataCache")
         .AppendPath("Revit.ini");
 
+    private readonly Encoding _encoding;
+    private readonly string _userIniPath = RevitApiContext.Application.CurrentUsersDataFolderPath.AppendPath("Revit.ini");
+
     private bool _backupDone;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="RevitConfigurator"/> class.
+    ///     Initializes a new instance of the <see cref="RevitConfigurator" /> class.
     /// </summary>
     public RevitConfigurator()
     {
@@ -83,12 +83,18 @@ public sealed class RevitConfigurator
 
         foreach (var journal in journals)
         {
-            if (journal == currentJournal) continue;
+            if (journal == currentJournal)
+            {
+                continue;
+            }
 
             var lines = File.ReadLines(journal, _encoding);
             foreach (var sessionOptions in lines.Reverse())
             {
-                if (!sessionOptions.Contains(SessionOptionsCategory)) continue;
+                if (!sessionOptions.Contains(SessionOptionsCategory))
+                {
+                    continue;
+                }
 
                 var startIndex = sessionOptions.IndexOf(SessionOptionsCategory, StringComparison.Ordinal) + SessionOptionsCategory.Length;
                 var optionsPart = sessionOptions[startIndex..];
@@ -125,7 +131,10 @@ public sealed class RevitConfigurator
     private List<ObservableIniEntry> ParseIniFile(bool useDefault)
     {
         var path = useDefault ? _defaultIniPath : _userIniPath;
-        if (!File.Exists(path)) return [];
+        if (!File.Exists(path))
+        {
+            return [];
+        }
 
         var entries = new List<ObservableIniEntry>();
         var lines = File.ReadLines(path, Encoding.Unicode);
@@ -134,7 +143,10 @@ public sealed class RevitConfigurator
         foreach (var line in lines)
         {
             var trimmedLine = line.Trim();
-            if (string.IsNullOrWhiteSpace(trimmedLine)) continue;
+            if (string.IsNullOrWhiteSpace(trimmedLine))
+            {
+                continue;
+            }
 
             if (trimmedLine.StartsWith("[") && trimmedLine.EndsWith("]"))
             {
@@ -149,7 +161,10 @@ public sealed class RevitConfigurator
             }
 
             var keyValue = trimmedLine.Split(['='], 2);
-            if (keyValue.Length != 2) continue;
+            if (keyValue.Length != 2)
+            {
+                continue;
+            }
 
             var property = keyValue[0].Trim();
             var value = keyValue[1].Trim();
@@ -223,7 +238,7 @@ public sealed class RevitConfigurator
     /// <summary>
     ///     Writes the user-defined entries to the user INI file, backing up the existing file on the first write.
     /// </summary>
-    /// <param name="entries">The configuration entries to write. Only entries marked <see cref="ObservableIniEntry.UserDefined"/> are written.</param>
+    /// <param name="entries">The configuration entries to write. Only entries marked <see cref="ObservableIniEntry.UserDefined" /> are written.</param>
     /// <returns>A task that represents the asynchronous write operation.</returns>
     public async Task WriteAsync(List<ObservableIniEntry> entries)
     {
@@ -243,7 +258,11 @@ public sealed class RevitConfigurator
             {
                 var lineBuilder = new StringBuilder();
 
-                if (!entry.IsActive) lineBuilder.Append(CommentChar);
+                if (!entry.IsActive)
+                {
+                    lineBuilder.Append(CommentChar);
+                }
+
                 lineBuilder.Append(entry.Property);
                 lineBuilder.Append("=");
                 lineBuilder.Append(entry.Value);

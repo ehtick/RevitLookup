@@ -24,7 +24,7 @@ namespace RevitLookup.UI.Framework.Views.AboutProgram;
 public sealed partial class AboutPage : INavigableView<IAboutViewModel>
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="AboutPage"/> class.
+    ///     Initializes a new instance of the <see cref="AboutPage" /> class.
     /// </summary>
     /// <param name="viewModel">The view model that provides the data for the About view.</param>
     /// <param name="themeWatcherService">The service that applies and tracks the current theme for this page.</param>
@@ -37,6 +37,6 @@ public sealed partial class AboutPage : INavigableView<IAboutViewModel>
         InitializeComponent();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public IAboutViewModel ViewModel { get; }
 }

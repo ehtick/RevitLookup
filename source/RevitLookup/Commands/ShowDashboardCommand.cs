@@ -26,7 +26,7 @@ namespace RevitLookup.Commands;
 [Transaction(TransactionMode.Manual)]
 public class ShowDashboardCommand : ExternalCommand
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void Execute()
     {
         Host.GetService<IUiOrchestratorService>()

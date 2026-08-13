@@ -18,12 +18,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.PaperSize"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.PaperSize" /> exposed to LookupEngine.
 /// </summary>
 public sealed class PaperSizeDescriptor : Descriptor, IDescriptorConfigurator
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="PaperSizeDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="PaperSizeDescriptor" /> class.
     /// </summary>
     /// <param name="paperSize">The paper size to expose.</param>
     public PaperSizeDescriptor(PaperSize paperSize)
@@ -31,7 +31,7 @@ public sealed class PaperSizeDescriptor : Descriptor, IDescriptorConfigurator
         Name = paperSize.Name;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(PaperSize.Dispose)).Disable();

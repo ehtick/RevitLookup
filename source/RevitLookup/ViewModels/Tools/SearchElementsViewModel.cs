@@ -16,17 +16,23 @@ public sealed partial class SearchElementsViewModel(
     IVisualDecompositionService decompositionService)
     : ObservableObject, ISearchElementsViewModel
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public async Task<bool> SearchElementsAsync()
     {
-        if (!ValidateContext()) return false;
+        if (!ValidateContext())
+        {
+            return false;
+        }
 
         var result = SearchText != string.Empty;
-        if (!result) return false;
+        if (!result)
+        {
+            return false;
+        }
 
         var elements = RevitContext.ActiveDocument!.SearchElements(SearchText);
         if (elements.Count == 0)
@@ -41,7 +47,10 @@ public sealed partial class SearchElementsViewModel(
 
     private bool ValidateContext()
     {
-        if (RevitContext.ActiveUiDocument is not null) return true;
+        if (RevitContext.ActiveUiDocument is not null)
+        {
+            return true;
+        }
 
         notificationService.ShowWarning("Invalid context", "There are no open documents");
         return false;

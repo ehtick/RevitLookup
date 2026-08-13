@@ -18,11 +18,11 @@ using LookupEngine.Abstractions.Configuration;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.UI.UIApplication"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.UI.UIApplication" /> exposed to LookupEngine.
 /// </summary>
 public sealed class UiApplicationDescriptor : ResolvingDescriptor, IDescriptorConfigurator
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(UIApplication.Dispose)).Disable();

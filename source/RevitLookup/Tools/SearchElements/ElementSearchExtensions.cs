@@ -1,7 +1,7 @@
 ﻿namespace RevitLookup.Tools.SearchElements;
 
 /// <summary>
-///     Provides extension methods for <see cref="Document"/> to search elements by identifier, IFC GUID, or name.
+///     Provides extension methods for <see cref="Document" /> to search elements by identifier, IFC GUID, or name.
 /// </summary>
 [PublicAPI]
 public static class ElementSearchExtensions
@@ -10,10 +10,10 @@ public static class ElementSearchExtensions
     extension(Document document)
     {
         /// <summary>
-        ///     Searches the document for elements matching the ids, unique ids, IFC GUIDs, or names listed in <paramref name="searchText"/>.
+        ///     Searches the document for elements matching the ids, unique ids, IFC GUIDs, or names listed in <paramref name="searchText" />.
         /// </summary>
         /// <param name="searchText">One or more element ids, unique ids, IFC GUIDs, or names, separated by whitespace, commas, semicolons, or line breaks.</param>
-        /// <returns>The elements matching an entry in <paramref name="searchText"/>.</returns>
+        /// <returns>The elements matching an entry in <paramref name="searchText" />.</returns>
         [Pure]
         public List<Element> SearchElements(string searchText)
         {
@@ -34,12 +34,18 @@ public static class ElementSearchExtensions
             {
                 var element = document.GetElement(new ElementId(id));
 #endif
-                    if (element is not null) results.Add(element);
+                    if (element is not null)
+                    {
+                        results.Add(element);
+                    }
                 }
                 else if (rawId.Length == 45 && rawId.Count(static c => c == '-') == 5)
                 {
                     var element = document.GetElement(rawId);
-                    if (element is not null) results.Add(element);
+                    if (element is not null)
+                    {
+                        results.Add(element);
+                    }
                 }
                 else if (rawId.Length == 22 && rawId.All(static c => c != ' '))
                 {
@@ -60,14 +66,14 @@ public static class ElementSearchExtensions
     private static List<string> ParseRawRequest(string[] rows)
     {
         var items = new List<string>(rows.Length);
-        var delimiters = new[] {'\t', ';', ',', ' '};
+        var delimiters = new[] { '\t', ';', ',', ' ' };
         foreach (var row in rows)
         {
             for (var i = 0; i < delimiters.Length; i++)
             {
                 var delimiter = delimiters[i];
                 var split = row.Split([delimiter], StringSplitOptions.RemoveEmptyEntries);
-                if (split.Length > 1 || i == delimiters.Length - 1 || split.Length == 1 && split[0] != row)
+                if (split.Length > 1 || i == delimiters.Length - 1 || (split.Length == 1 && split[0] != row))
                 {
                     items.AddRange(split);
                     break;

@@ -1,14 +1,14 @@
-﻿using Color = System.Windows.Media.Color;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using RevitLookup.Abstractions.Presentation;
 using RevitLookup.Abstractions.Settings;
 using RevitLookup.Abstractions.ViewModels.Visualization;
 using RevitLookup.Visualization;
+using Color = System.Windows.Media.Color;
 
 namespace RevitLookup.ViewModels.Visualization;
 
 /// <summary>
-///     Represents the view model for solid geometry visualization, rendering a <see cref="Solid"/> through a dedicated Revit visualization server.
+///     Represents the view model for solid geometry visualization, rendering a <see cref="Solid" /> through a dedicated Revit visualization server.
 /// </summary>
 /// <param name="settingsService">The service that persists and supplies the solid visualization settings.</param>
 /// <param name="notificationService">The service used to report rendering failures.</param>
@@ -22,32 +22,32 @@ public sealed partial class SolidVisualizationViewModel(
 {
     private readonly SolidVisualizationServer _server = new();
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial double Scale { get; set; } = settingsService.VisualizationSettings.SolidSettings.Scale;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial double Transparency { get; set; } = settingsService.VisualizationSettings.SolidSettings.Transparency;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial Color FaceColor { get; set; } = settingsService.VisualizationSettings.SolidSettings.FaceColor;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial Color EdgeColor { get; set; } = settingsService.VisualizationSettings.SolidSettings.EdgeColor;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool ShowFace { get; set; } = settingsService.VisualizationSettings.SolidSettings.ShowFace;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool ShowEdge { get; set; } = settingsService.VisualizationSettings.SolidSettings.ShowEdge;
 
-    /// <inheritdoc/>
-    /// <exception cref="ArgumentException"><paramref name="solidObject"/> is not a <see cref="Solid"/>.</exception>
+    /// <inheritdoc />
+    /// <exception cref="ArgumentException"><paramref name="solidObject" /> is not a <see cref="Solid" />.</exception>
     public void RegisterServer(object solidObject)
     {
         if (solidObject is not Solid solid)
@@ -68,7 +68,7 @@ public sealed partial class SolidVisualizationViewModel(
         _server.Register(solid);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void UnregisterServer()
     {
         _server.RenderFailed -= HandleRenderFailure;

@@ -23,12 +23,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="IEnumerable"/> Revit API collection exposed to LookupEngine.
+///     Represents the <see cref="IEnumerable" /> Revit API collection exposed to LookupEngine.
 /// </summary>
 public sealed class EnumerableDescriptor : Descriptor, IDescriptorEnumerator, IDescriptorConfigurator
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="EnumerableDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="EnumerableDescriptor" /> class.
     /// </summary>
     /// <param name="value">The collection to expose.</param>
     public EnumerableDescriptor(IEnumerable value)
@@ -147,13 +147,7 @@ public sealed class EnumerableDescriptor : Descriptor, IDescriptorEnumerator, ID
         };
     }
 
-    /// <inheritdoc/>
-    public IEnumerator Enumerator { get; }
-
-    /// <inheritdoc/>
-    public bool IsEmpty { get; }
-
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(IEnumerable.GetEnumerator)).Resolve(ResolveGetEnumerator);
@@ -164,4 +158,10 @@ public sealed class EnumerableDescriptor : Descriptor, IDescriptorEnumerator, ID
             return Variants.Empty<IEnumerator>();
         }
     }
+
+    /// <inheritdoc />
+    public IEnumerator Enumerator { get; }
+
+    /// <inheritdoc />
+    public bool IsEmpty { get; }
 }

@@ -18,12 +18,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Definition"/> exposed to LookupEngine.
+///     Represents the <see cref="Definition" /> exposed to LookupEngine.
 /// </summary>
 public sealed class DefinitionDescriptor : Descriptor, IDescriptorCollector
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="DefinitionDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="DefinitionDescriptor" /> class.
     /// </summary>
     /// <param name="definition">The parameter definition to expose.</param>
     public DefinitionDescriptor(Definition definition)

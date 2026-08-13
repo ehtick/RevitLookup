@@ -30,23 +30,23 @@ public sealed partial class EventsSummaryViewModel(
 {
     private readonly SynchronizationContext _synchronizationContext = SynchronizationContext.Current!;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial ObservableDecomposedObject? SelectedDecomposedObject { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial List<ObservableDecomposedObject> DecomposedObjects { get; set; } = [];
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial ObservableCollection<ObservableDecomposedObject> FilteredDecomposedObjects { get; private set; } = [];
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Navigate(object? value)
     {
         Host.GetService<IUiOrchestratorService>()
@@ -56,7 +56,7 @@ public sealed partial class EventsSummaryViewModel(
             .Show<DecompositionSummaryPage>();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Navigate(ObservableDecomposedObject value)
     {
         Host.GetService<IUiOrchestratorService>()
@@ -65,7 +65,7 @@ public sealed partial class EventsSummaryViewModel(
             .Show<DecompositionSummaryPage>();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Navigate(List<ObservableDecomposedObject> values)
     {
         Host.GetService<IUiOrchestratorService>()
@@ -74,7 +74,46 @@ public sealed partial class EventsSummaryViewModel(
             .Show<DecompositionSummaryPage>();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
+    public async Task RefreshMembersAsync()
+    {
+        foreach (var decomposedObject in DecomposedObjects)
+        {
+            decomposedObject.Members.Clear();
+        }
+
+        try
+        {
+            if (SelectedDecomposedObject is null)
+            {
+                return;
+            }
+
+            await FetchMembersAsync(SelectedDecomposedObject);
+            SelectedDecomposedObject.FilteredMembers = searchService.SearchMembers(SearchText, SelectedDecomposedObject);
+        }
+        catch (Exception exception)
+        {
+            LogMembersDecomposingFailed(logger, exception);
+            notificationService.ShowError("Lookup engine error", exception);
+        }
+    }
+
+    /// <inheritdoc />
+    public Task OnNavigatedToAsync()
+    {
+        monitoringService.EventInvoked += OnEventInvoked;
+        return Task.CompletedTask;
+    }
+
+    /// <inheritdoc />
+    public Task OnNavigatedFromAsync()
+    {
+        monitoringService.EventInvoked -= OnEventInvoked;
+        return Task.CompletedTask;
+    }
+
+    /// <inheritdoc />
     [RelayCommand]
     private async Task ForceEvaluateMemberAsync(ObservableDecomposedMember member)
     {
@@ -89,7 +128,7 @@ public sealed partial class EventsSummaryViewModel(
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [RelayCommand]
     private async Task EvaluateMemberWithTransactionAsync(ObservableDecomposedMember member)
     {
@@ -104,42 +143,6 @@ public sealed partial class EventsSummaryViewModel(
         }
     }
 
-    /// <inheritdoc/>
-    public async Task RefreshMembersAsync()
-    {
-        foreach (var decomposedObject in DecomposedObjects)
-        {
-            decomposedObject.Members.Clear();
-        }
-
-        try
-        {
-            if (SelectedDecomposedObject is null) return;
-
-            await FetchMembersAsync(SelectedDecomposedObject);
-            SelectedDecomposedObject.FilteredMembers = searchService.SearchMembers(SearchText, SelectedDecomposedObject);
-        }
-        catch (Exception exception)
-        {
-            LogMembersDecomposingFailed(logger, exception);
-            notificationService.ShowError("Lookup engine error", exception);
-        }
-    }
-
-    /// <inheritdoc/>
-    public Task OnNavigatedToAsync()
-    {
-        monitoringService.EventInvoked += OnEventInvoked;
-        return Task.CompletedTask;
-    }
-
-    /// <inheritdoc/>
-    public Task OnNavigatedFromAsync()
-    {
-        monitoringService.EventInvoked -= OnEventInvoked;
-        return Task.CompletedTask;
-    }
-
     partial void OnDecomposedObjectsChanged(List<ObservableDecomposedObject> value)
     {
         SearchText = string.Empty;
@@ -152,7 +155,10 @@ public sealed partial class EventsSummaryViewModel(
     {
         try
         {
-            if (value is null) return;
+            if (value is null)
+            {
+                return;
+            }
 
             await FetchMembersAsync(value);
             if (FilteredDecomposedObjects.Count > 1)
@@ -208,7 +214,7 @@ public sealed partial class EventsSummaryViewModel(
             var decomposedObject = decompositionService.DecomposeAsync(value).Result;
             _synchronizationContext.Post(state =>
             {
-                var viewModel = (EventsSummaryViewModel) state!;
+                var viewModel = (EventsSummaryViewModel)state!;
                 viewModel.PushEvent(eventName, decomposedObject);
             }, this);
         }
@@ -245,8 +251,15 @@ public sealed partial class EventsSummaryViewModel(
 
     private async Task FetchMembersAsync(ObservableDecomposedObject? value)
     {
-        if (value is null) return;
-        if (value.Members.Count > 0) return;
+        if (value is null)
+        {
+            return;
+        }
+
+        if (value.Members.Count > 0)
+        {
+            return;
+        }
 
         value.Members = await decompositionService.DecomposeMembersAsync(value);
     }

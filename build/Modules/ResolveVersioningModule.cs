@@ -1,5 +1,4 @@
 using Build.Options;
-using JetBrains.Annotations;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
@@ -81,7 +80,10 @@ public sealed class ResolveVersioningModule(IOptions<PublishOptions> publishOpti
             });
 
         var previousTag = describeResult.StandardOutput.Trim();
-        if (!string.IsNullOrWhiteSpace(previousTag)) return previousTag;
+        if (!string.IsNullOrWhiteSpace(previousTag))
+        {
+            return previousTag;
+        }
 
         var revisionResult = await context.Git().Commands.RevList(
             new GitRevListOptions
@@ -109,8 +111,8 @@ public sealed record ResolveVersioningResult
     /// </summary>
     /// <remarks>Version format: <c>version-environment.n.date</c>.</remarks>
     /// <example>
-    ///     1.0.0-alpha.1 <br/>
-    ///     12.3.6-rc.2.250101 <br/>
+    ///     1.0.0-alpha.1 <br />
+    ///     12.3.6-rc.2.250101 <br />
     ///     2026.4.0
     /// </example>
     public required string Version { get; init; }
@@ -119,8 +121,8 @@ public sealed record ResolveVersioningResult
     ///     Gets the normal part of the release version number.
     /// </summary>
     /// <example>
-    ///     1.0.0 <br/>
-    ///     12.3.6 <br/>
+    ///     1.0.0 <br />
+    ///     12.3.6 <br />
     ///     2026.4.0
     /// </example>
     public required string VersionPrefix { get; init; }
@@ -129,8 +131,8 @@ public sealed record ResolveVersioningResult
     ///     Gets the pre-release label of the release version number.
     /// </summary>
     /// <example>
-    ///     alpha <br/>
-    ///     beta <br/>
+    ///     alpha <br />
+    ///     beta <br />
     ///     rc.1.250101
     /// </example>
     public required string? VersionSuffix { get; init; }

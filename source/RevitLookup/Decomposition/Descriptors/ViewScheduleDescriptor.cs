@@ -18,12 +18,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.ViewSchedule"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.ViewSchedule" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="viewSchedule">The view schedule to expose.</param>
 public sealed class ViewScheduleDescriptor(ViewSchedule viewSchedule) : ElementDescriptor(viewSchedule)
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(ViewSchedule.Dispose)).Disable();
@@ -126,7 +126,11 @@ public sealed class ViewScheduleDescriptor(ViewSchedule viewSchedule) : ElementD
             var areaId = new ElementId(BuiltInCategory.OST_Areas);
             foreach (var categoryId in categories)
             {
-                if (categoryId == areaId) continue;
+                if (categoryId == areaId)
+                {
+                    continue;
+                }
+
                 variants.Add(ViewSchedule.GetDefaultParameterNameForKeySchedule(viewSchedule.Document, categoryId));
             }
 

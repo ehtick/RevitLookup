@@ -14,7 +14,7 @@ using Wpf.Ui.Controls;
 namespace RevitLookup.UI.Playground.Mocks.ViewModels.Tools;
 
 /// <summary>
-///     Represents a Playground mock of <see cref="IRevitSettingsViewModel"/> that fabricates a large set of settings entries with <c>Bogus</c> instead of reading Revit.ini.
+///     Represents a Playground mock of <see cref="IRevitSettingsViewModel" /> that fabricates a large set of settings entries with <c>Bogus</c> instead of reading Revit.ini.
 /// </summary>
 /// <param name="serviceProvider">The service provider used to resolve the entry edit dialog.</param>
 /// <param name="notificationService">The service used to report opening the settings file.</param>
@@ -26,47 +26,47 @@ public sealed partial class MockRevitSettingsViewModel(
 {
     private TaskNotifier<List<ObservableIniEntry>>? _initializationTask;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ClearFiltersCommand))]
     public partial bool Filtered { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial string CategoryFilter { get; set; } = string.Empty;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial string PropertyFilter { get; set; } = string.Empty;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial string ValueFilter { get; set; } = string.Empty;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool ShowUserSettingsFilter { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial ObservableIniEntry? SelectedEntry { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial List<ObservableIniEntry> Entries { get; set; } = [];
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial ObservableCollection<ObservableIniEntry> FilteredEntries { get; set; } = [];
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public Task<List<ObservableIniEntry>>? InitializationTask
     {
         get => _initializationTask!;
         private set => SetPropertyAndNotifyOnCompletion(ref _initializationTask, value);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public async Task InitializeAsync()
     {
         InitializationTask = Task.Run(async () =>
@@ -84,7 +84,23 @@ public sealed partial class MockRevitSettingsViewModel(
         Entries = await InitializationTask;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
+    public async Task UpdateEntryAsync()
+    {
+        if (SelectedEntry is null)
+        {
+            return;
+        }
+
+        var editingValue = SelectedEntry.Clone();
+        var dialog = serviceProvider.GetRequiredService<EditSettingsEntryDialog>();
+        var result = await dialog.ShowUpdateDialogAsync(editingValue);
+        if (result == ContentDialogResult.Primary)
+        {
+            UpdateEntry(editingValue);
+        }
+    }
+
     [RelayCommand]
     private async Task CreateEntryAsync()
     {
@@ -92,22 +108,27 @@ public sealed partial class MockRevitSettingsViewModel(
         var result = await dialog.ShowCreateDialogAsync(SelectedEntry);
         if (result == ContentDialogResult.Primary)
         {
-            if (string.IsNullOrWhiteSpace(dialog.Entry.Category)) return;
-            if (string.IsNullOrWhiteSpace(dialog.Entry.Property)) return;
+            if (string.IsNullOrWhiteSpace(dialog.Entry.Category))
+            {
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(dialog.Entry.Property))
+            {
+                return;
+            }
 
             Entries.Add(dialog.Entry);
             FilteredEntries.Add(dialog.Entry);
         }
     }
 
-    /// <inheritdoc/>
     [RelayCommand]
     private void ActivateEntry(ObservableIniEntry entry)
     {
         //Saving
     }
 
-    /// <inheritdoc/>
     [RelayCommand]
     private void DeleteEntry(ObservableIniEntry entry)
     {
@@ -115,28 +136,24 @@ public sealed partial class MockRevitSettingsViewModel(
         FilteredEntries.Remove(entry);
     }
 
-    /// <inheritdoc/>
     [RelayCommand]
     private void RestoreDefault(ObservableIniEntry entry)
     {
         entry.Value = entry.DefaultValue ?? string.Empty;
     }
 
-    /// <inheritdoc/>
     [RelayCommand]
     private void ShowHelp()
     {
         ProcessTasks.StartShell($"https://help.autodesk.com/view/RVT/{DateTime.Today.Year}/ENU/?guid=GUID-9ECD669E-81D3-43E5-9970-9FA1C38E8507");
     }
 
-    /// <inheritdoc/>
     [RelayCommand]
     private void OpenSettings()
     {
         notificationService.ShowSuccess("Settings", "Successfully opened");
     }
 
-    /// <inheritdoc/>
     [RelayCommand(CanExecute = nameof(CanClearFiltersExecute))]
     private void ClearFilters()
     {
@@ -173,20 +190,12 @@ public sealed partial class MockRevitSettingsViewModel(
         ApplyFilters();
     }
 
-    /// <inheritdoc/>
-    public async Task UpdateEntryAsync()
-    {
-        if (SelectedEntry is null) return;
-
-        var editingValue = SelectedEntry.Clone();
-        var dialog = serviceProvider.GetRequiredService<EditSettingsEntryDialog>();
-        var result = await dialog.ShowUpdateDialogAsync(editingValue);
-        if (result == ContentDialogResult.Primary) UpdateEntry(editingValue);
-    }
-
     private void UpdateEntry(ObservableIniEntry entry)
     {
-        if (SelectedEntry is null) return;
+        if (SelectedEntry is null)
+        {
+            return;
+        }
 
         var forceRefresh = SelectedEntry.Category != entry.Category || SelectedEntry.Property != entry.Property;
 
@@ -207,17 +216,17 @@ public sealed partial class MockRevitSettingsViewModel(
 
         if (!string.IsNullOrWhiteSpace(CategoryFilter))
         {
-            expressions.Add(entry => entry.Category.Contains((string) CategoryFilter, StringComparison.OrdinalIgnoreCase));
+            expressions.Add(entry => entry.Category.Contains(CategoryFilter, StringComparison.OrdinalIgnoreCase));
         }
 
         if (!string.IsNullOrWhiteSpace(PropertyFilter))
         {
-            expressions.Add(entry => entry.Property.Contains((string) PropertyFilter, StringComparison.OrdinalIgnoreCase));
+            expressions.Add(entry => entry.Property.Contains(PropertyFilter, StringComparison.OrdinalIgnoreCase));
         }
 
         if (!string.IsNullOrWhiteSpace(ValueFilter))
         {
-            expressions.Add(entry => entry.Value.Contains((string) ValueFilter, StringComparison.OrdinalIgnoreCase));
+            expressions.Add(entry => entry.Value.Contains(ValueFilter, StringComparison.OrdinalIgnoreCase));
         }
 
         if (ShowUserSettingsFilter)

@@ -17,7 +17,6 @@ using Autodesk.Revit.DB.Macros;
 #endif
 using Autodesk.Revit.DB.Fabrication;
 using Autodesk.Revit.DB.Lighting;
-using Autodesk.Revit.DB.Structure;
 using LookupEngine.Abstractions.Configuration;
 using LookupEngine.Abstractions.Decomposition;
 #if REVIT2026_OR_GREATER
@@ -27,14 +26,14 @@ using Autodesk.Revit.DB.ExternalData;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Document"/> exposed to LookupEngine.
+///     Represents the <see cref="Document" /> exposed to LookupEngine.
 /// </summary>
 public sealed class DocumentDescriptor : Descriptor, IDescriptorConfigurator
 {
     private readonly Document _document;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="DocumentDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="DocumentDescriptor" /> class.
     /// </summary>
     /// <param name="document">The document to expose.</param>
     public DocumentDescriptor(Document document)
@@ -43,7 +42,7 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorConfigurator
         Name = document.Title;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Document.Dispose)).Disable();
@@ -112,7 +111,7 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorConfigurator
 
             return variants.Consume();
         }
-        
+
         object? RegisterCheckAllFamilies()
         {
             var corruptFamilyIds = new HashSet<ElementId>();

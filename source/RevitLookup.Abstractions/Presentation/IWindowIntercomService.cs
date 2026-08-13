@@ -29,7 +29,7 @@ public interface IWindowIntercomService
     /// </summary>
     /// <param name="host">The window to set as the private host.</param>
     /// <remarks>
-    ///     The window set through this method is not added to <see cref="OpenedWindows"/>.
+    ///     The window set through this method is not added to <see cref="OpenedWindows" />.
     /// </remarks>
     void SetHost(Window host);
 
@@ -38,7 +38,7 @@ public interface IWindowIntercomService
     /// </summary>
     /// <param name="host">The window to set as the shared host.</param>
     /// <remarks>
-    ///     The window set through this method is added to <see cref="OpenedWindows"/>.
+    ///     The window set through this method is added to <see cref="OpenedWindows" />.
     /// </remarks>
     void SetSharedHost(Window host);
 }

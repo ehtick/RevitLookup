@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Lookup Foundation and Contributors
-// 
+//
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
 // provided that the above copyright notice appears in all copies and
 // that both that copyright notice and the limited warranty and
 // restricted rights notice below appear in all supporting
 // documentation.
-// 
+//
 // THIS PROGRAM IS PROVIDED "AS IS" AND WITH ALL FAULTS.
 // NO IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE IS PROVIDED.
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
@@ -15,13 +15,13 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Visibility = System.Windows.Visibility;
 using RevitLookup.Abstractions.Presentation;
 using RevitLookup.Abstractions.Tools;
 using RevitLookup.Abstractions.ViewModels.Tools;
-using RevitLookup.UI.Framework.Extensions;
+using RevitLookup.UI.Framework.Menus;
 using RevitLookup.UI.Framework.Views.Decomposition;
 using Wpf.Ui;
+using Visibility = System.Windows.Visibility;
 
 namespace RevitLookup.UI.Framework.Views.Tools;
 
@@ -30,11 +30,11 @@ namespace RevitLookup.UI.Framework.Views.Tools;
 /// </summary>
 public sealed partial class UnitsDialog
 {
-    private readonly IUnitsViewModel _viewModel;
     private readonly INavigationService _navigationService;
+    private readonly IUnitsViewModel _viewModel;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="UnitsDialog"/> class.
+    ///     Initializes a new instance of the <see cref="UnitsDialog" /> class.
     /// </summary>
     /// <param name="dialogService">The service that supplies the dialog host this dialog is shown on.</param>
     /// <param name="viewModel">The view model that provides the data for the Units view.</param>
@@ -101,8 +101,8 @@ public sealed partial class UnitsDialog
 
     private void OnMouseEnter(object sender, RoutedEventArgs routedEventArgs)
     {
-        var element = (FrameworkElement) sender;
-        var unitInfo = (UnitInfo) element.DataContext;
+        var element = (FrameworkElement)sender;
+        var unitInfo = (UnitInfo)element.DataContext;
         CreateRowContextMenu(unitInfo, element);
     }
 

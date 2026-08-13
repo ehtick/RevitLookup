@@ -17,12 +17,12 @@ using LookupEngine.Abstractions.Configuration;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="AssemblyInstance"/> exposed to LookupEngine.
+///     Represents the <see cref="AssemblyInstance" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="assemblyInstance">The assembly instance to expose.</param>
 public sealed class AssemblyInstanceDescriptor(AssemblyInstance assemblyInstance) : ElementDescriptor(assemblyInstance)
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(AssemblyInstance.Dispose)).Disable();

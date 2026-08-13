@@ -18,12 +18,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="CurveElement"/> exposed to LookupEngine.
+///     Represents the <see cref="CurveElement" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="element">The curve element to expose.</param>
 public sealed class CurveElementDescriptor(CurveElement element) : ElementDescriptor(element)
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(CurveElement.Dispose)).Disable();
@@ -72,7 +72,10 @@ public sealed class CurveElementDescriptor(CurveElement element) : ElementDescri
 
             foreach (var id in startCurveElements)
             {
-                if (!element.HasTangentJoin(0, id)) continue;
+                if (!element.HasTangentJoin(0, id))
+                {
+                    continue;
+                }
 
                 var result = element.GetTangentLock(0, id);
                 variants.Add(result, $"Point 0, {id}: {result}");
@@ -80,7 +83,10 @@ public sealed class CurveElementDescriptor(CurveElement element) : ElementDescri
 
             foreach (var id in endCurveElements)
             {
-                if (!element.HasTangentJoin(1, id)) continue;
+                if (!element.HasTangentJoin(1, id))
+                {
+                    continue;
+                }
 
                 var result = element.GetTangentLock(1, id);
                 variants.Add(result, $"Point 1, {id}: {result}");

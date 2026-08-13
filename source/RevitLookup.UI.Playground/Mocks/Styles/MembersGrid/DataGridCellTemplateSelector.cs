@@ -10,13 +10,16 @@ namespace RevitLookup.UI.Playground.Mocks.Styles.MembersGrid;
 /// </summary>
 public sealed class DataGridCellTemplateSelector : DataTemplateSelector
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override DataTemplate? SelectTemplate(object? item, DependencyObject container)
     {
-        if (item is null) return null;
+        if (item is null)
+        {
+            return null;
+        }
 
-        var member = (ObservableDecomposedMember) item;
-        var presenter = (FrameworkElement) container;
+        var member = (ObservableDecomposedMember)item;
+        var presenter = (FrameworkElement)container;
 
         string templateName;
         if (member.Value.TypeFullName == "System.Void")
@@ -28,13 +31,13 @@ public sealed class DataGridCellTemplateSelector : DataTemplateSelector
             templateName = member.Value.RawValue switch
             {
                 null => "NullSummaryCellTemplate",
-                string {Length: 0} => "InvalidSummaryCellTemplate",
+                string { Length: 0 } => "InvalidSummaryCellTemplate",
                 Color => "SummaryMediaColorCellTemplate",
                 Exception => "ExceptionSummaryCellTemplate",
                 _ => "DefaultSummaryCellTemplate"
             };
         }
 
-        return (DataTemplate) presenter.FindResource(templateName);
+        return (DataTemplate)presenter.FindResource(templateName);
     }
 }

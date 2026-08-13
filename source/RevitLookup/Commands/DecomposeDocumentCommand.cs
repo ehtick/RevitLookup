@@ -27,7 +27,7 @@ namespace RevitLookup.Commands;
 [Transaction(TransactionMode.Manual)]
 public class DecomposeDocumentCommand : ExternalCommand
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void Execute()
     {
         Host.GetService<IUiOrchestratorService>()

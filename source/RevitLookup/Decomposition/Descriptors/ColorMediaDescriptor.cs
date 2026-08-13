@@ -12,22 +12,22 @@
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 
-using Color = System.Windows.Media.Color;
 using LookupEngine.Abstractions.Configuration;
 using LookupEngine.Abstractions.Decomposition;
 using RevitLookup.UI.Framework.Colors;
+using Color = System.Windows.Media.Color;
 
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="System.Windows.Media.Color"/> exposed to LookupEngine.
+///     Represents the <see cref="System.Windows.Media.Color" /> exposed to LookupEngine.
 /// </summary>
 public sealed class ColorMediaDescriptor : Descriptor, IDescriptorConfigurator
 {
     private readonly Color _color;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="ColorMediaDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="ColorMediaDescriptor" /> class.
     /// </summary>
     /// <param name="color">The color to expose.</param>
     public ColorMediaDescriptor(Color color)
@@ -36,7 +36,7 @@ public sealed class ColorMediaDescriptor : Descriptor, IDescriptorConfigurator
         Name = $"#{ColorRepresentationUtils.ColorToHex(color.GetDrawingColor()).ToUpperInvariant()}";
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Extension("HEX").Register(() => ColorRepresentationUtils.ColorToHex(_color.GetDrawingColor()));

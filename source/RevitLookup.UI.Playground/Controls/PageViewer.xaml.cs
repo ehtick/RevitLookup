@@ -9,7 +9,7 @@ using Wpf.Ui;
 namespace RevitLookup.UI.Playground.Controls;
 
 /// <summary>
-///     Represents a window that hosts and navigates a single resolved <see cref="Page"/>.
+///     Represents a window that hosts and navigates a single resolved <see cref="Page" />.
 /// </summary>
 [PublicAPI]
 public sealed partial class PageViewer
@@ -17,7 +17,7 @@ public sealed partial class PageViewer
     private readonly IServiceProvider _serviceProvider;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="PageViewer"/> class.
+    ///     Initializes a new instance of the <see cref="PageViewer" /> class.
     /// </summary>
     /// <param name="serviceProvider">The service provider used to resolve the hosted page.</param>
     /// <param name="snackbarService">The service configured to present snackbars over the hosted page.</param>
@@ -38,7 +38,7 @@ public sealed partial class PageViewer
     }
 
     /// <summary>
-    ///     Resolves a <typeparamref name="T"/> page and navigates to it.
+    ///     Resolves a <typeparamref name="T" /> page and navigates to it.
     /// </summary>
     /// <typeparam name="T">The type of page to resolve and display.</typeparam>
     public void ShowPage<T>() where T : Page
@@ -46,12 +46,16 @@ public sealed partial class PageViewer
         var page = _serviceProvider.GetRequiredService<T>();
         Viewer.Navigate(page);
 
-        if (WindowStartupLocation == WindowStartupLocation.CenterScreen) Viewer.SizeChanged += OnViewerFrameResized;
+        if (WindowStartupLocation == WindowStartupLocation.CenterScreen)
+        {
+            Viewer.SizeChanged += OnViewerFrameResized;
+        }
+
         Show();
     }
 
     /// <summary>
-    ///     Resolves a <typeparamref name="T"/> page, applies the given configuration, and navigates to it.
+    ///     Resolves a <typeparamref name="T" /> page, applies the given configuration, and navigates to it.
     /// </summary>
     /// <typeparam name="T">The type of page to resolve and display.</typeparam>
     /// <param name="configuration">The action invoked with the resolved page and the service provider before navigation.</param>
@@ -61,12 +65,16 @@ public sealed partial class PageViewer
         configuration.Invoke(page, _serviceProvider);
         Viewer.Navigate(page);
 
-        if (WindowStartupLocation == WindowStartupLocation.CenterScreen) Viewer.SizeChanged += OnViewerFrameResized;
+        if (WindowStartupLocation == WindowStartupLocation.CenterScreen)
+        {
+            Viewer.SizeChanged += OnViewerFrameResized;
+        }
+
         Show();
     }
 
     /// <summary>
-    ///     Resolves a <typeparamref name="T"/> page, applies the given asynchronous configuration, and navigates to it.
+    ///     Resolves a <typeparamref name="T" /> page, applies the given asynchronous configuration, and navigates to it.
     /// </summary>
     /// <typeparam name="T">The type of page to resolve and display.</typeparam>
     /// <param name="configuration">The asynchronous function invoked with the resolved page and the service provider before navigation.</param>
@@ -76,15 +84,22 @@ public sealed partial class PageViewer
         configuration.Invoke(page, _serviceProvider);
         Viewer.Navigate(page);
 
-        if (WindowStartupLocation == WindowStartupLocation.CenterScreen) Viewer.SizeChanged += OnViewerFrameResized;
+        if (WindowStartupLocation == WindowStartupLocation.CenterScreen)
+        {
+            Viewer.SizeChanged += OnViewerFrameResized;
+        }
+
         Show();
     }
 
     private void OnViewerFrameResized(object sender, SizeChangedEventArgs args)
     {
-        if (args.PreviousSize.Height == 0 || args.PreviousSize.Width == 0) return;
+        if (args.PreviousSize.Height == 0 || args.PreviousSize.Width == 0)
+        {
+            return;
+        }
 
-        var self = (Frame) sender;
+        var self = (Frame)sender;
         self.SizeChanged -= OnViewerFrameResized;
 
         //Move the owner to the screen center after navigation
@@ -99,7 +114,7 @@ public sealed partial class PageViewer
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override AutomationPeer OnCreateAutomationPeer()
     {
         return new NoAutomationWindowPeer(this);

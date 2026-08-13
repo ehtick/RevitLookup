@@ -6,13 +6,13 @@ using RevitLookup.Abstractions.ViewModels.Visualization;
 namespace RevitLookup.UI.Playground.Mocks.ViewModels.Visualization;
 
 /// <summary>
-///     Represents a Playground mock of <see cref="IBoundingBoxVisualizationViewModel"/> that fabricates its initial values with <c>Bogus</c> and no-ops the visualization server.
+///     Represents a Playground mock of <see cref="IBoundingBoxVisualizationViewModel" /> that fabricates its initial values with <c>Bogus</c> and no-ops the visualization server.
 /// </summary>
 [UsedImplicitly]
 public sealed partial class MockBoundingBoxVisualizationViewModel : ObservableObject, IBoundingBoxVisualizationViewModel
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="MockBoundingBoxVisualizationViewModel"/> class with fake appearance settings.
+    ///     Initializes a new instance of the <see cref="MockBoundingBoxVisualizationViewModel" /> class with fake appearance settings.
     /// </summary>
     public MockBoundingBoxVisualizationViewModel()
     {
@@ -27,41 +27,41 @@ public sealed partial class MockBoundingBoxVisualizationViewModel : ObservableOb
         ShowEdge = faker.Random.Bool();
         ShowAxis = faker.Random.Bool();
     }
-    
-    /// <inheritdoc/>
+
+    /// <inheritdoc />
     [ObservableProperty]
     public partial double Transparency { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial Color SurfaceColor { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial Color EdgeColor { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial Color AxisColor { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool ShowSurface { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool ShowEdge { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial bool ShowAxis { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void RegisterServer(object boundingBoxXyz)
     {
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void UnregisterServer()
     {
     }

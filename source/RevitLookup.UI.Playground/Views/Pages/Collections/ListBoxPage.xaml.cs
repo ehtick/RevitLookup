@@ -4,15 +4,12 @@ using Wpf.Ui.Abstractions.Controls;
 namespace RevitLookup.UI.Playground.Views.Pages.Collections;
 
 /// <summary>
-/// Represents a page that demonstrates the ListBox control in the Playground.
+///     Represents a page that demonstrates the ListBox control in the Playground.
 /// </summary>
 public sealed partial class ListBoxPage : INavigableView<ListBoxViewModel>
 {
-    /// <inheritdoc/>
-    public ListBoxViewModel ViewModel { get; }
-
     /// <summary>
-    /// Initializes a new instance of the <see cref="ListBoxPage"/> class.
+    ///     Initializes a new instance of the <see cref="ListBoxPage" /> class.
     /// </summary>
     /// <param name="viewModel">The view model that supplies data for the page.</param>
     public ListBoxPage(ListBoxViewModel viewModel)
@@ -22,4 +19,7 @@ public sealed partial class ListBoxPage : INavigableView<ListBoxViewModel>
 
         InitializeComponent();
     }
+
+    /// <inheritdoc />
+    public ListBoxViewModel ViewModel { get; }
 }

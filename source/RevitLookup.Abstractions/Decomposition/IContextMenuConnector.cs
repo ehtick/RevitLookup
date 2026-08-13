@@ -22,7 +22,7 @@ namespace RevitLookup.Abstractions.Decomposition;
 public interface IContextMenuConnector
 {
     /// <summary>
-    ///     Registers the context menu extension on the specified <paramref name="contextMenu"/>.
+    ///     Registers the context menu extension on the specified <paramref name="contextMenu" />.
     /// </summary>
     /// <param name="contextMenu">The context menu to extend.</param>
     /// <param name="serviceProvider">The service provider used to resolve the dependencies of the added menu items.</param>

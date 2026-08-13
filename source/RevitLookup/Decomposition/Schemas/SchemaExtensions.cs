@@ -3,7 +3,7 @@ using Autodesk.Revit.DB.ExtensibleStorage;
 namespace RevitLookup.Decomposition.Schemas;
 
 /// <summary>
-///     Provides extension methods for <see cref="Schema"/> to temporarily elevate access permissions.
+///     Provides extension methods for <see cref="Schema" /> to temporarily elevate access permissions.
 /// </summary>
 [PublicAPI]
 public static class SchemaExtensions

@@ -10,20 +10,20 @@ namespace RevitLookup.Views.Styles.MembersGrid;
 /// </summary>
 public sealed class DataGridRowStyleSelector : StyleSelector
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override Style? SelectStyle(object item, DependencyObject container)
     {
-        var member = (ObservableDecomposedMember) item;
-        var presenter = (FrameworkElement) container;
+        var member = (ObservableDecomposedMember)item;
+        var presenter = (FrameworkElement)container;
 
         var styleName = member.Value.Descriptor switch
         {
-            IDescriptorEnumerator {IsEmpty: false} => "HandledDataGridRowStyle",
+            IDescriptorEnumerator { IsEmpty: false } => "HandledDataGridRowStyle",
             IDescriptorEnumerator => "DefaultLookupDataGridRowStyle",
             IDescriptorCollector => "HandledDataGridRowStyle",
             _ => "DefaultLookupDataGridRowStyle"
         };
 
-        return (Style) presenter.FindResource(styleName);
+        return (Style)presenter.FindResource(styleName);
     }
 }

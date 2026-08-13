@@ -1,12 +1,12 @@
 // Copyright (c) Lookup Foundation and Contributors
-// 
+//
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
 // provided that the above copyright notice appears in all copies and
 // that both that copyright notice and the limited warranty and
 // restricted rights notice below appear in all supporting
 // documentation.
-// 
+//
 // THIS PROGRAM IS PROVIDED "AS IS" AND WITH ALL FAULTS.
 // NO IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE IS PROVIDED.
 // THERE IS NO GUARANTEE THAT THE OPERATION OF THE PROGRAM WILL BE
@@ -22,12 +22,12 @@ using RevitLookup.UI.Framework.Extensions;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.View"/> exposed to LookupEngine.
+///     Represents the <see cref="Autodesk.Revit.DB.View" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="view">The view to expose.</param>
 public sealed class ViewDescriptor(View view) : ElementDescriptor(view)
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(View.Dispose)).Disable();
@@ -79,7 +79,7 @@ public sealed class ViewDescriptor(View view) : ElementDescriptor(view)
             return variants.Consume();
         }
     }
-    
+
     private static IVariant ResolveFilters<TResult>(ICollection<ElementId> filters, Document document, Func<ElementId, TResult> selector)
     {
         var variants = Variants.Values<TResult>(filters.Count);
@@ -93,7 +93,7 @@ public sealed class ViewDescriptor(View view) : ElementDescriptor(view)
 
         return variants.Consume();
     }
-    
+
     private static IVariant ResolveWorksets<TResult>(IList<Workset> worksets, Func<WorksetId, TResult> selector)
     {
         var variants = Variants.Values<TResult>(worksets.Count);

@@ -13,7 +13,7 @@ public static class StringExtensions
         ///     Joins the elements of the source into a single string, separated by the specified separator.
         /// </summary>
         /// <param name="separator">The string to use as a separator between the joined elements.</param>
-        /// <returns>A single concatenated string consisting of the elements in the source, separated by <paramref name="separator"/>.</returns>
+        /// <returns>A single concatenated string consisting of the elements in the source, separated by <paramref name="separator" />.</returns>
         public string Join(string separator)
         {
             return string.Join(separator, source);
@@ -23,7 +23,7 @@ public static class StringExtensions
         ///     Joins the elements of the source into a single string, separated by the specified separator character.
         /// </summary>
         /// <param name="separator">The character to use as a separator between the joined elements.</param>
-        /// <returns>A single concatenated string consisting of the elements in the source, separated by <paramref name="separator"/>.</returns>
+        /// <returns>A single concatenated string consisting of the elements in the source, separated by <paramref name="separator" />.</returns>
         public string Join(char separator)
         {
             return string.Join(separator, source);
@@ -37,7 +37,7 @@ public static class StringExtensions
         ///     Joins the elements of the source into a single string, separated by the specified separator.
         /// </summary>
         /// <param name="separator">The string to use as a separator between the joined elements.</param>
-        /// <returns>A single concatenated string consisting of the elements in the source, separated by <paramref name="separator"/>.</returns>
+        /// <returns>A single concatenated string consisting of the elements in the source, separated by <paramref name="separator" />.</returns>
         public string Join(string separator)
         {
             return string.Join(separator, source);
@@ -47,7 +47,7 @@ public static class StringExtensions
         ///     Joins the elements of the source into a single string, separated by the specified separator character.
         /// </summary>
         /// <param name="separator">The character to use as a separator between the joined elements.</param>
-        /// <returns>A single concatenated string consisting of the elements in the source, separated by <paramref name="separator"/>.</returns>
+        /// <returns>A single concatenated string consisting of the elements in the source, separated by <paramref name="separator" />.</returns>
         public string Join(char separator)
         {
             return string.Join(separator, source);

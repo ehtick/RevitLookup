@@ -24,7 +24,7 @@ namespace RevitLookup.UI.Framework.Views.Settings;
 public sealed partial class SettingsPage : INavigableView<ISettingsViewModel>
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="SettingsPage"/> class.
+    ///     Initializes a new instance of the <see cref="SettingsPage" /> class.
     /// </summary>
     /// <param name="viewModel">The view model that provides the data for the Settings view.</param>
     /// <param name="themeWatcherService">The service that applies and tracks the current theme for this page.</param>
@@ -37,6 +37,6 @@ public sealed partial class SettingsPage : INavigableView<ISettingsViewModel>
         InitializeComponent();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public ISettingsViewModel ViewModel { get; }
 }

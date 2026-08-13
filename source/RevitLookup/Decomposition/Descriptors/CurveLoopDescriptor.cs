@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Abstractions.Decomposition;
 using RevitLookup.Abstractions.Presentation;
-using RevitLookup.UI.Framework.Extensions;
+using RevitLookup.UI.Framework.Menus;
 using RevitLookup.UI.Framework.Views.Visualization;
 using ContextMenu = System.Windows.Controls.ContextMenu;
 #if REVIT2023_OR_GREATER
@@ -17,14 +17,14 @@ using Nice3point.Revit.Toolkit.External;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="CurveLoop"/> exposed to LookupEngine.
+///     Represents the <see cref="CurveLoop" /> exposed to LookupEngine.
 /// </summary>
 public sealed partial class CurveLoopDescriptor : Descriptor, IDescriptorConfigurator, IDescriptorConfigurator<Document>, IContextMenuConnector
 {
     private readonly CurveLoop _curveLoop;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="CurveLoopDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="CurveLoopDescriptor" /> class.
     /// </summary>
     /// <param name="curveLoop">The curve loop to expose.</param>
     public CurveLoopDescriptor(CurveLoop curveLoop)
@@ -33,7 +33,25 @@ public sealed partial class CurveLoopDescriptor : Descriptor, IDescriptorConfigu
         Name = $"{curveLoop.GetExactLength().ToString(CultureInfo.InvariantCulture)} ft";
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
+    public void RegisterMenu(ContextMenu contextMenu, IServiceProvider serviceProvider)
+    {
+#if REVIT2023_OR_GREATER
+        contextMenu.AddMenuItem("SelectMenuItem")
+            .SetCommand(_curveLoop, curveLoop => SelectCurveLoopEvent.Raise(curveLoop))
+            .SetShortcut(Key.F6);
+
+        contextMenu.AddMenuItem("ShowMenuItem")
+            .SetCommand(_curveLoop, curveLoop => ShowCurveLoopEvent.Raise(curveLoop))
+            .SetShortcut(Key.F7);
+#endif
+        contextMenu.AddMenuItem("VisualizeMenuItem")
+            .SetAvailability(_curveLoop.GetExactLength() > 1e-6)
+            .SetCommand(_curveLoop, loop => VisualizeCurveAsync(loop, serviceProvider))
+            .SetShortcut(Key.F8);
+    }
+
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(CurveLoop.Dispose)).Disable();
@@ -56,27 +74,12 @@ public sealed partial class CurveLoopDescriptor : Descriptor, IDescriptorConfigu
 #endif
     }
 
-    /// <inheritdoc/>
-    public void RegisterMenu(ContextMenu contextMenu, IServiceProvider serviceProvider)
-    {
-#if REVIT2023_OR_GREATER
-        contextMenu.AddMenuItem("SelectMenuItem")
-            .SetCommand(_curveLoop, curveLoop => SelectCurveLoopEvent.Raise(curveLoop))
-            .SetShortcut(Key.F6);
-
-        contextMenu.AddMenuItem("ShowMenuItem")
-            .SetCommand(_curveLoop, curveLoop => ShowCurveLoopEvent.Raise(curveLoop))
-            .SetShortcut(Key.F7);
-#endif
-        contextMenu.AddMenuItem("VisualizeMenuItem")
-            .SetAvailability(_curveLoop.GetExactLength() > 1e-6)
-            .SetCommand(_curveLoop, loop => VisualizeCurveAsync(loop, serviceProvider))
-            .SetShortcut(Key.F8);
-    }
-
     private static async Task VisualizeCurveAsync(CurveLoop curveLoop, IServiceProvider serviceProvider)
     {
-        if (RevitContext.ActiveUiDocument is null) return;
+        if (RevitContext.ActiveUiDocument is null)
+        {
+            return;
+        }
 
         try
         {
@@ -92,15 +95,24 @@ public sealed partial class CurveLoopDescriptor : Descriptor, IDescriptorConfigu
             notificationService.ShowError("Visualization error", exception);
         }
     }
+
+    [LoggerMessage(LogLevel.Error, "Visualize curve loop error")]
+    private static partial void LogVisualizeCurveLoopError(ILogger<CurveLoopDescriptor> logger, Exception exception);
 #if REVIT2023_OR_GREATER
 
     [ExternalEvent(AllowDirectInvocation = true)]
     private static void SelectCurveLoop(UIApplication application, CurveLoop curveLoop)
     {
-        if (application.ActiveUIDocument is null) return;
+        if (application.ActiveUIDocument is null)
+        {
+            return;
+        }
 
         var references = curveLoop.Where(static curve => curve.Reference is not null).Select(static curve => curve.Reference).ToArray();
-        if (references.Length == 0) return;
+        if (references.Length == 0)
+        {
+            return;
+        }
 
         application.ActiveUIDocument.Selection.SetReferences(references);
     }
@@ -109,10 +121,16 @@ public sealed partial class CurveLoopDescriptor : Descriptor, IDescriptorConfigu
     private static void ShowCurveLoop(UIApplication application, CurveLoop curveLoop)
     {
         var uiDocument = application.ActiveUIDocument;
-        if (uiDocument is null) return;
+        if (uiDocument is null)
+        {
+            return;
+        }
 
         var curves = curveLoop.Where(static curve => curve.Reference is not null).ToArray();
-        if (curves.Length == 0) return;
+        if (curves.Length == 0)
+        {
+            return;
+        }
 
         var elements = curves.Select(curve => curve.Reference.ElementId.ToElement(uiDocument.Document))
             .Where(static element => element is not null)
@@ -131,7 +149,4 @@ public sealed partial class CurveLoopDescriptor : Descriptor, IDescriptorConfigu
         }
     }
 #endif
-
-    [LoggerMessage(LogLevel.Error, "Visualize curve loop error")]
-    private static partial void LogVisualizeCurveLoopError(ILogger<CurveLoopDescriptor> logger, Exception exception);
 }

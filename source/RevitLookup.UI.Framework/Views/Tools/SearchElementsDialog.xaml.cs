@@ -26,13 +26,13 @@ namespace RevitLookup.UI.Framework.Views.Tools;
 /// </summary>
 public sealed partial class SearchElementsDialog
 {
-    private readonly ISearchElementsViewModel _viewModel;
+    private readonly ILogger<SearchElementsDialog> _logger;
     private readonly INavigationService _navigationService;
     private readonly INotificationService _notificationService;
-    private readonly ILogger<SearchElementsDialog> _logger;
+    private readonly ISearchElementsViewModel _viewModel;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="SearchElementsDialog"/> class.
+    ///     Initializes a new instance of the <see cref="SearchElementsDialog" /> class.
     /// </summary>
     /// <param name="dialogService">The service that supplies the dialog host this dialog is shown on.</param>
     /// <param name="viewModel">The view model that provides the data for the Search Elements view.</param>
@@ -60,7 +60,7 @@ public sealed partial class SearchElementsDialog
         themeWatcherService.Watch(this);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     /// <remarks>
     ///     Keeps the dialog open when the primary button is clicked and the search finds no matching elements.
     /// </remarks>

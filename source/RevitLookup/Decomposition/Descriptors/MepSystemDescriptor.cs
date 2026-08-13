@@ -19,12 +19,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Autodesk.Revit.DB.Mechanical.MEPSystem"/> exposed to LookupEngine.
+///     Represents the <see cref="MEPSystem" /> exposed to LookupEngine.
 /// </summary>
 /// <param name="mepSystem">The MEP system to expose.</param>
 public sealed class MepSystemDescriptor(MEPSystem mepSystem) : ElementDescriptor(mepSystem)
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(MEPSystem.Dispose)).Disable();

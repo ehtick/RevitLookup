@@ -23,17 +23,17 @@ public interface IUnitsViewModel
     string SearchText { get; set; }
 
     /// <summary>
-    ///     Populates <see cref="Units"/> with the built-in parameters.
+    ///     Populates <see cref="Units" /> with the built-in parameters.
     /// </summary>
     void InitializeParameters();
 
     /// <summary>
-    ///     Populates <see cref="Units"/> with the built-in categories.
+    ///     Populates <see cref="Units" /> with the built-in categories.
     /// </summary>
     void InitializeCategories();
 
     /// <summary>
-    ///     Populates <see cref="Units"/> with the Forge schema.
+    ///     Populates <see cref="Units" /> with the Forge schema.
     /// </summary>
     void InitializeForgeSchema();
 

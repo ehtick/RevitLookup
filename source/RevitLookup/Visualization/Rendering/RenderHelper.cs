@@ -18,7 +18,7 @@ using Nice3point.Revit.Extensions.Runtime;
 namespace RevitLookup.Visualization.Rendering;
 
 /// <summary>
-///     Provides methods that map visualization geometry into <see cref="RenderingBufferStorage"/> vertex and index buffers.
+///     Provides methods that map visualization geometry into <see cref="RenderingBufferStorage" /> vertex and index buffers.
 /// </summary>
 public static class RenderHelper
 {
@@ -64,9 +64,9 @@ public static class RenderHelper
         for (var i = 0; i < triangleCount; i++)
         {
             var meshTriangle = mesh.get_Triangle(i);
-            var index0 = (int) meshTriangle.get_Index(0);
-            var index1 = (int) meshTriangle.get_Index(1);
-            var index2 = (int) meshTriangle.get_Index(2);
+            var index0 = (int)meshTriangle.get_Index(0);
+            var index1 = (int)meshTriangle.get_Index(1);
+            var index2 = (int)meshTriangle.get_Index(2);
             indexStream.AddTriangle(new IndexTriangle(index0, index1, index2));
         }
 
@@ -288,9 +288,9 @@ public static class RenderHelper
         for (var i = 0; i < triangleCount; i++)
         {
             var meshTriangle = mesh.get_Triangle(i);
-            var index0 = (int) meshTriangle.get_Index(0);
-            var index1 = (int) meshTriangle.get_Index(1);
-            var index2 = (int) meshTriangle.get_Index(2);
+            var index0 = (int)meshTriangle.get_Index(0);
+            var index1 = (int)meshTriangle.get_Index(1);
+            var index2 = (int)meshTriangle.get_Index(2);
 
             indexStream.AddLine(new IndexLine(index0, index1));
             indexStream.AddLine(new IndexLine(index1, index2));
@@ -300,9 +300,9 @@ public static class RenderHelper
         for (var i = 0; i < triangleCount; i++)
         {
             var meshTriangle = mesh.get_Triangle(i);
-            var index0 = (int) meshTriangle.get_Index(0) + vertexCount;
-            var index1 = (int) meshTriangle.get_Index(1) + vertexCount;
-            var index2 = (int) meshTriangle.get_Index(2) + vertexCount;
+            var index0 = (int)meshTriangle.get_Index(0) + vertexCount;
+            var index1 = (int)meshTriangle.get_Index(1) + vertexCount;
+            var index2 = (int)meshTriangle.get_Index(2) + vertexCount;
 
             indexStream.AddLine(new IndexLine(index0, index1));
             indexStream.AddLine(new IndexLine(index1, index2));

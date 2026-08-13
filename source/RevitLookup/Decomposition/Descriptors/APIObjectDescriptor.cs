@@ -18,11 +18,11 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="APIObject"/> exposed to LookupEngine.
+///     Represents the <see cref="APIObject" /> exposed to LookupEngine.
 /// </summary>
 public sealed class ApiObjectDescriptor : Descriptor, IDescriptorConfigurator
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(APIObject.Dispose)).Disable();

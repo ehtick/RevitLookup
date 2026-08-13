@@ -19,12 +19,12 @@ using LookupEngine.Abstractions.Decomposition;
 namespace RevitLookup.Decomposition.Descriptors;
 
 /// <summary>
-///     Represents the <see cref="Field"/> exposed to LookupEngine.
+///     Represents the <see cref="Field" /> exposed to LookupEngine.
 /// </summary>
 public sealed class FieldDescriptor : Descriptor, IDescriptorConfigurator
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="FieldDescriptor"/> class.
+    ///     Initializes a new instance of the <see cref="FieldDescriptor" /> class.
     /// </summary>
     /// <param name="field">The extensible storage field to expose.</param>
     public FieldDescriptor(Field field)
@@ -32,7 +32,7 @@ public sealed class FieldDescriptor : Descriptor, IDescriptorConfigurator
         Name = field.FieldName;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Configure(IMemberConfigurator configuration)
     {
         configuration.Member(nameof(Field.Dispose)).Disable();

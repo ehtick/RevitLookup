@@ -4,23 +4,23 @@ using RevitLookup.Abstractions.Updater;
 namespace RevitLookup.UI.Playground.Mocks.Updater;
 
 /// <summary>
-///     Represents a Playground mock of <see cref="ISoftwareUpdateService"/> that fabricates an update outcome with <c>Bogus</c> instead of calling GitHub.
+///     Represents a Playground mock of <see cref="ISoftwareUpdateService" /> that fabricates an update outcome with <c>Bogus</c> instead of calling GitHub.
 /// </summary>
 public sealed class MockSoftwareUpdateService : ISoftwareUpdateService
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public string? NewVersion { get; private set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public string? ReleaseNotesUrl { get; private set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public string? LocalFilePath { get; private set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public DateTime? LatestCheckDate { get; private set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public async Task<bool> CheckUpdatesAsync()
     {
         await Task.Delay(1000);
@@ -28,8 +28,15 @@ public sealed class MockSoftwareUpdateService : ISoftwareUpdateService
 
         var faker = new Faker();
         var factor = faker.Random.Int(0, 100);
-        if (factor < 20) throw new OperationCanceledException();
-        if (factor < 50) return false;
+        if (factor < 20)
+        {
+            throw new OperationCanceledException();
+        }
+
+        if (factor < 50)
+        {
+            return false;
+        }
 
         NewVersion = faker.System.Version().ToString(3);
         ReleaseNotesUrl = "https://github.com/";
@@ -38,13 +45,16 @@ public sealed class MockSoftwareUpdateService : ISoftwareUpdateService
         return true;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public async Task DownloadUpdateAsync()
     {
         await Task.Delay(1000);
 
         var faker = new Faker();
         var factor = faker.Random.Int(0, 100);
-        if (factor < 60) throw new OperationCanceledException();
+        if (factor < 60)
+        {
+            throw new OperationCanceledException();
+        }
     }
 }

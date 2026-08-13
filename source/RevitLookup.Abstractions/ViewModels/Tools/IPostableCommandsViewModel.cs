@@ -51,6 +51,6 @@ public interface IPostableCommandsViewModel
     ///     Determines whether the specified command can be executed.
     /// </summary>
     /// <param name="commandInfo">The command to check.</param>
-    /// <returns><see langword="true"/> if the command can be executed; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true" /> if the command can be executed; otherwise, <see langword="false" />.</returns>
     bool CanExecute(PostableCommandInfo commandInfo);
 }

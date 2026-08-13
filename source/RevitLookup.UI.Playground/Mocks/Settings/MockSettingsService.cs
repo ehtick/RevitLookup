@@ -12,7 +12,7 @@ using Wpf.Ui.Controls;
 namespace RevitLookup.UI.Playground.Mocks.Settings;
 
 /// <summary>
-///     Represents a Playground mock of <see cref="ISettingsService"/> that persists settings as JSON files under the Playground's resource locations.
+///     Represents a Playground mock of <see cref="ISettingsService" /> that persists settings as JSON files under the Playground's resource locations.
 /// </summary>
 /// <param name="foldersOptions">The options resolving the settings file paths.</param>
 /// <param name="jsonOptions">The options controlling JSON serialization of the settings.</param>
@@ -27,16 +27,16 @@ public sealed partial class MockSettingsService(
     private DecompositionSettings? _decompositionSettings;
     private VisualizationSettings? _visualizationSettings;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public ApplicationSettings ApplicationSettings => _applicationSettings ?? throw new InvalidOperationException("Application settings is not loaded.");
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public DecompositionSettings DecompositionSettings => _decompositionSettings ?? throw new InvalidOperationException("Decomposition settings is not loaded.");
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public VisualizationSettings VisualizationSettings => _visualizationSettings ?? throw new InvalidOperationException("Visualization settings is not loaded.");
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void SaveSettings()
     {
         SaveApplicationSettings();
@@ -44,7 +44,7 @@ public sealed partial class MockSettingsService(
         SaveVisualizationSettings();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void LoadSettings()
     {
         LoadApplicationSettings();
@@ -52,109 +52,7 @@ public sealed partial class MockSettingsService(
         LoadVisualizationSettings();
     }
 
-    private void SaveApplicationSettings()
-    {
-        var path = foldersOptions.Value.ApplicationSettingsPath;
-        if (!File.Exists(path)) Directory.CreateDirectory(foldersOptions.Value.SettingsDirectory);
-
-        var json = JsonSerializer.Serialize(_applicationSettings, jsonOptions.Value);
-        File.WriteAllText(path, json);
-    }
-
-    private void SaveDecompositionSettings()
-    {
-        var path = foldersOptions.Value.DecompositionSettingsPath;
-        if (!File.Exists(path)) Directory.CreateDirectory(foldersOptions.Value.SettingsDirectory);
-
-        var json = JsonSerializer.Serialize(_decompositionSettings, jsonOptions.Value);
-        File.WriteAllText(path, json);
-    }
-
-    private void SaveVisualizationSettings()
-    {
-        var path = foldersOptions.Value.VisualizationSettingsPath;
-        if (!File.Exists(path)) Directory.CreateDirectory(foldersOptions.Value.SettingsDirectory);
-
-        var json = JsonSerializer.Serialize(_visualizationSettings, jsonOptions.Value);
-        File.WriteAllText(path, json);
-    }
-
-    private void LoadApplicationSettings()
-    {
-        var path = foldersOptions.Value.ApplicationSettingsPath;
-        if (!File.Exists(path))
-        {
-            ResetApplicationSettings();
-            return;
-        }
-
-        try
-        {
-            using var config = File.OpenRead(path);
-            _applicationSettings = JsonSerializer.Deserialize<ApplicationSettings>(config, jsonOptions.Value);
-        }
-        catch (Exception exception)
-        {
-            LogApplicationSettingsLoadingError(logger, exception);
-        }
-
-        if (_applicationSettings is null)
-        {
-            ResetApplicationSettings();
-        }
-    }
-
-    private void LoadDecompositionSettings()
-    {
-        var path = foldersOptions.Value.DecompositionSettingsPath;
-        if (!File.Exists(path))
-        {
-            ResetDecompositionSettings();
-            return;
-        }
-
-        try
-        {
-            using var config = File.OpenRead(path);
-            _decompositionSettings = JsonSerializer.Deserialize<DecompositionSettings>(config, jsonOptions.Value);
-        }
-        catch (Exception exception)
-        {
-            LogDecompositionSettingsLoadingError(logger, exception);
-        }
-
-        if (_decompositionSettings is null)
-        {
-            ResetDecompositionSettings();
-        }
-    }
-
-    private void LoadVisualizationSettings()
-    {
-        var path = foldersOptions.Value.VisualizationSettingsPath;
-        if (!File.Exists(path))
-        {
-            ResetVisualizationSettings();
-            return;
-        }
-
-        try
-        {
-            using var config = File.OpenRead(path);
-            _visualizationSettings = JsonSerializer.Deserialize<VisualizationSettings>(config, jsonOptions.Value);
-        }
-        catch (Exception exception)
-        {
-            LogApplicationSettingsLoadingError(logger, exception);
-        }
-
-        if (_visualizationSettings is null)
-        {
-            ResetVisualizationSettings();
-        }
-    }
-
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void ResetApplicationSettings()
     {
         _applicationSettings = new ApplicationSettings
@@ -166,18 +64,18 @@ public sealed partial class MockSettingsService(
         };
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void ResetDecompositionSettings()
     {
         _decompositionSettings = new DecompositionSettings
         {
             IncludeStatic = true,
             IncludeEvents = true,
-            IncludeExtensions = true,
+            IncludeExtensions = true
         };
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void ResetVisualizationSettings()
     {
         _visualizationSettings = new VisualizationSettings
@@ -263,6 +161,117 @@ public sealed partial class MockSettingsService(
                 ShowZAxis = true
             }
         };
+    }
+
+    private void SaveApplicationSettings()
+    {
+        var path = foldersOptions.Value.ApplicationSettingsPath;
+        if (!File.Exists(path))
+        {
+            Directory.CreateDirectory(foldersOptions.Value.SettingsDirectory);
+        }
+
+        var json = JsonSerializer.Serialize(_applicationSettings, jsonOptions.Value);
+        File.WriteAllText(path, json);
+    }
+
+    private void SaveDecompositionSettings()
+    {
+        var path = foldersOptions.Value.DecompositionSettingsPath;
+        if (!File.Exists(path))
+        {
+            Directory.CreateDirectory(foldersOptions.Value.SettingsDirectory);
+        }
+
+        var json = JsonSerializer.Serialize(_decompositionSettings, jsonOptions.Value);
+        File.WriteAllText(path, json);
+    }
+
+    private void SaveVisualizationSettings()
+    {
+        var path = foldersOptions.Value.VisualizationSettingsPath;
+        if (!File.Exists(path))
+        {
+            Directory.CreateDirectory(foldersOptions.Value.SettingsDirectory);
+        }
+
+        var json = JsonSerializer.Serialize(_visualizationSettings, jsonOptions.Value);
+        File.WriteAllText(path, json);
+    }
+
+    private void LoadApplicationSettings()
+    {
+        var path = foldersOptions.Value.ApplicationSettingsPath;
+        if (!File.Exists(path))
+        {
+            ResetApplicationSettings();
+            return;
+        }
+
+        try
+        {
+            using var config = File.OpenRead(path);
+            _applicationSettings = JsonSerializer.Deserialize<ApplicationSettings>(config, jsonOptions.Value);
+        }
+        catch (Exception exception)
+        {
+            LogApplicationSettingsLoadingError(logger, exception);
+        }
+
+        if (_applicationSettings is null)
+        {
+            ResetApplicationSettings();
+        }
+    }
+
+    private void LoadDecompositionSettings()
+    {
+        var path = foldersOptions.Value.DecompositionSettingsPath;
+        if (!File.Exists(path))
+        {
+            ResetDecompositionSettings();
+            return;
+        }
+
+        try
+        {
+            using var config = File.OpenRead(path);
+            _decompositionSettings = JsonSerializer.Deserialize<DecompositionSettings>(config, jsonOptions.Value);
+        }
+        catch (Exception exception)
+        {
+            LogDecompositionSettingsLoadingError(logger, exception);
+        }
+
+        if (_decompositionSettings is null)
+        {
+            ResetDecompositionSettings();
+        }
+    }
+
+    private void LoadVisualizationSettings()
+    {
+        var path = foldersOptions.Value.VisualizationSettingsPath;
+        if (!File.Exists(path))
+        {
+            ResetVisualizationSettings();
+            return;
+        }
+
+        try
+        {
+            using var config = File.OpenRead(path);
+            _visualizationSettings = JsonSerializer.Deserialize<VisualizationSettings>(config, jsonOptions.Value);
+        }
+        catch (Exception exception)
+        {
+            LogApplicationSettingsLoadingError(logger, exception);
+        }
+
+        if (_visualizationSettings is null)
+        {
+            ResetVisualizationSettings();
+        }
     }
 
     [LoggerMessage(LogLevel.Error, "Application settings loading error")]

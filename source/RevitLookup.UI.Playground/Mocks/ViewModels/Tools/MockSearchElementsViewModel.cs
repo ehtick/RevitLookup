@@ -6,7 +6,7 @@ using RevitLookup.Abstractions.ViewModels.Tools;
 namespace RevitLookup.UI.Playground.Mocks.ViewModels.Tools;
 
 /// <summary>
-///     Represents a Playground mock of <see cref="ISearchElementsViewModel"/> that visualizes the search text itself instead of searching a Revit document.
+///     Represents a Playground mock of <see cref="ISearchElementsViewModel" /> that visualizes the search text itself instead of searching a Revit document.
 /// </summary>
 /// <param name="notificationService">The service used to report an empty search result.</param>
 /// <param name="decompositionService">The service that visualizes the decomposition of the search text.</param>
@@ -16,17 +16,17 @@ public sealed partial class MockSearchElementsViewModel(
     IVisualDecompositionService decompositionService)
     : ObservableObject, ISearchElementsViewModel
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public async Task<bool> SearchElementsAsync()
     {
         var result = SearchText != string.Empty;
         if (result)
         {
-            await decompositionService.VisualizeDecompositionAsync((object) SearchText);
+            await decompositionService.VisualizeDecompositionAsync((object)SearchText);
         }
         else
         {

@@ -23,7 +23,7 @@ namespace RevitLookup.UI.Framework.Views.Settings;
 public sealed partial class ResetSettingsDialog
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="ResetSettingsDialog"/> class.
+    ///     Initializes a new instance of the <see cref="ResetSettingsDialog" /> class.
     /// </summary>
     /// <param name="dialogService">The service that supplies the dialog host this dialog is shown on.</param>
     /// <param name="themeWatcherService">The service that applies and tracks the current theme for this dialog.</param>

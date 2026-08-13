@@ -26,7 +26,7 @@ public sealed partial class SolidVisualizationDialog
     private readonly ISolidVisualizationViewModel _viewModel;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="SolidVisualizationDialog"/> class.
+    ///     Initializes a new instance of the <see cref="SolidVisualizationDialog" /> class.
     /// </summary>
     /// <param name="dialogService">The service that supplies the dialog host this dialog is shown on.</param>
     /// <param name="viewModel">The view model that renders the solid in the active Revit view.</param>

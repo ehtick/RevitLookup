@@ -22,8 +22,8 @@ using RevitLookup.UI.Framework.Views.Settings;
 using RevitLookup.UI.Framework.Views.Windows;
 using Wpf.Ui;
 using Wpf.Ui.Animations;
-using ApplicationTheme = Wpf.Ui.Appearance.ApplicationTheme;
 using Wpf.Ui.Controls;
+using ApplicationTheme = Wpf.Ui.Appearance.ApplicationTheme;
 
 namespace RevitLookup.ViewModels.Settings;
 
@@ -33,41 +33,17 @@ namespace RevitLookup.ViewModels.Settings;
 [UsedImplicitly]
 public sealed partial class SettingsViewModel : ObservableObject, ISettingsViewModel
 {
-    private readonly IServiceProvider _serviceProvider;
+    private readonly bool _initialized;
+    private readonly IWindowIntercomService _intercomService;
     private readonly INavigationService _navigationService;
     private readonly INotificationService _notificationService;
-    private readonly ISettingsService _settingsService;
-    private readonly IWindowIntercomService _intercomService;
-    private readonly IThemeWatcherService _themeWatcherService;
     private readonly RevitRibbonService _ribbonService;
-    private readonly bool _initialized;
-
-    /// <inheritdoc/>
-    [ObservableProperty]
-    public partial ApplicationTheme Theme { get; set; }
-
-    /// <inheritdoc/>
-    [ObservableProperty]
-    public partial WindowBackdropType Background { get; set; }
-
-    /// <inheritdoc/>
-    [ObservableProperty]
-    public partial bool UseTransition { get; set; }
-
-    /// <inheritdoc/>
-    [ObservableProperty]
-    public partial bool UseHardwareRendering { get; set; }
-
-    /// <inheritdoc/>
-    [ObservableProperty]
-    public partial bool UseSizeRestoring { get; set; }
-
-    /// <inheritdoc/>
-    [ObservableProperty]
-    public partial bool UseModifyTab { get; set; }
+    private readonly IServiceProvider _serviceProvider;
+    private readonly ISettingsService _settingsService;
+    private readonly IThemeWatcherService _themeWatcherService;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="SettingsViewModel"/> class.
+    ///     Initializes a new instance of the <see cref="SettingsViewModel" /> class.
     /// </summary>
     /// <param name="serviceProvider">The service provider used to resolve the reset settings dialog.</param>
     /// <param name="navigationService">The service used to access the navigation control's transition setting.</param>
@@ -97,7 +73,31 @@ public sealed partial class SettingsViewModel : ObservableObject, ISettingsViewM
         _initialized = true;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
+    [ObservableProperty]
+    public partial ApplicationTheme Theme { get; set; }
+
+    /// <inheritdoc />
+    [ObservableProperty]
+    public partial WindowBackdropType Background { get; set; }
+
+    /// <inheritdoc />
+    [ObservableProperty]
+    public partial bool UseTransition { get; set; }
+
+    /// <inheritdoc />
+    [ObservableProperty]
+    public partial bool UseHardwareRendering { get; set; }
+
+    /// <inheritdoc />
+    [ObservableProperty]
+    public partial bool UseSizeRestoring { get; set; }
+
+    /// <inheritdoc />
+    [ObservableProperty]
+    public partial bool UseModifyTab { get; set; }
+
+    /// <inheritdoc />
     public List<ApplicationTheme> Themes { get; } =
     [
 #if REVIT2024_OR_GREATER
@@ -108,7 +108,7 @@ public sealed partial class SettingsViewModel : ObservableObject, ISettingsViewM
         ApplicationTheme.HighContrast
     ];
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public List<WindowBackdropType> BackgroundEffects { get; } =
     [
         WindowBackdropType.None,
@@ -117,7 +117,7 @@ public sealed partial class SettingsViewModel : ObservableObject, ISettingsViewM
         WindowBackdropType.Mica
     ];
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [RelayCommand]
     private async Task ResetSettingsAsync()
     {
@@ -125,7 +125,10 @@ public sealed partial class SettingsViewModel : ObservableObject, ISettingsViewM
         {
             var dialog = _serviceProvider.GetRequiredService<ResetSettingsDialog>();
             var result = await dialog.ShowAsync();
-            if (result != ContentDialogResult.Primary) return;
+            if (result != ContentDialogResult.Primary)
+            {
+                return;
+            }
 
             if (dialog.CanResetApplicationSettings)
             {
@@ -154,7 +157,10 @@ public sealed partial class SettingsViewModel : ObservableObject, ISettingsViewM
 
     partial void OnThemeChanged(ApplicationTheme value)
     {
-        if (!_initialized) return;
+        if (!_initialized)
+        {
+            return;
+        }
 
         _settingsService.ApplicationSettings.Theme = value;
         _themeWatcherService.ApplyTheme();
@@ -162,7 +168,10 @@ public sealed partial class SettingsViewModel : ObservableObject, ISettingsViewM
 
     partial void OnThemeChanged(ApplicationTheme oldValue, ApplicationTheme newValue)
     {
-        if (!_initialized) return;
+        if (!_initialized)
+        {
+            return;
+        }
 
         if (oldValue == ApplicationTheme.Auto)
         {
@@ -172,7 +181,10 @@ public sealed partial class SettingsViewModel : ObservableObject, ISettingsViewM
 
     partial void OnBackgroundChanged(WindowBackdropType value)
     {
-        if (!_initialized) return;
+        if (!_initialized)
+        {
+            return;
+        }
 
         _settingsService.ApplicationSettings.Background = value;
         _themeWatcherService.ApplyTheme();
@@ -180,11 +192,14 @@ public sealed partial class SettingsViewModel : ObservableObject, ISettingsViewM
 
     partial void OnUseTransitionChanged(bool value)
     {
-        if (!_initialized) return;
+        if (!_initialized)
+        {
+            return;
+        }
 
         var navigationControl = _navigationService.GetNavigationControl();
         var transition = _settingsService.ApplicationSettings.Transition = value
-            ? (Transition) NavigationView.TransitionProperty.DefaultMetadata.DefaultValue
+            ? (Transition)NavigationView.TransitionProperty.DefaultMetadata.DefaultValue
             : Transition.None;
 
         _settingsService.ApplicationSettings.Transition = transition;
@@ -193,16 +208,28 @@ public sealed partial class SettingsViewModel : ObservableObject, ISettingsViewM
 
     partial void OnUseHardwareRenderingChanged(bool value)
     {
-        if (!_initialized) return;
+        if (!_initialized)
+        {
+            return;
+        }
 
         _settingsService.ApplicationSettings.UseHardwareRendering = value;
-        if (value) Application.EnableHardwareRendering();
-        else Application.DisableHardwareRendering();
+        if (value)
+        {
+            Application.EnableHardwareRendering();
+        }
+        else
+        {
+            Application.DisableHardwareRendering();
+        }
     }
 
     partial void OnUseSizeRestoringChanged(bool value)
     {
-        if (!_initialized) return;
+        if (!_initialized)
+        {
+            return;
+        }
 
         _settingsService.ApplicationSettings.UseSizeRestoring = value;
         if (_intercomService.GetHost() is not RevitLookupView lookupView)
@@ -223,7 +250,10 @@ public sealed partial class SettingsViewModel : ObservableObject, ISettingsViewM
 
     partial void OnUseModifyTabChanged(bool value)
     {
-        if (!_initialized) return;
+        if (!_initialized)
+        {
+            return;
+        }
 
         _settingsService.ApplicationSettings.UseModifyTab = value;
         _ribbonService.CreateRibbon();

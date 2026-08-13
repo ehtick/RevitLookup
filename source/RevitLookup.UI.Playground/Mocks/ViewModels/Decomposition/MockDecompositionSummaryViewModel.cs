@@ -13,7 +13,7 @@ using RevitLookup.UI.Framework.Views.Decomposition;
 namespace RevitLookup.UI.Playground.Mocks.ViewModels.Decomposition;
 
 /// <summary>
-///     Represents a Playground mock of <see cref="IDecompositionSummaryViewModel"/> that decomposes and filters Playground sample objects for inspection.
+///     Represents a Playground mock of <see cref="IDecompositionSummaryViewModel" /> that decomposes and filters Playground sample objects for inspection.
 /// </summary>
 /// <param name="serviceProvider">The service provider used to resolve navigation targets when drilling into a decomposed object.</param>
 /// <param name="decompositionService">The service that evaluates individual members on demand.</param>
@@ -29,23 +29,23 @@ public sealed partial class MockDecompositionSummaryViewModel(
     ILogger<MockDecompositionSummaryViewModel> logger)
     : ObservableObject, IDecompositionSummaryViewModel
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial ObservableDecomposedObject? SelectedDecomposedObject { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial List<ObservableDecomposedObject> DecomposedObjects { get; set; } = [];
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     [ObservableProperty]
     public partial ObservableCollection<ObservableDecomposedObjectsGroup> FilteredDecomposedObjects { get; private set; } = [];
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Navigate(object? value)
     {
         Host.GetService<IUiOrchestratorService>()
@@ -55,7 +55,7 @@ public sealed partial class MockDecompositionSummaryViewModel(
             .Show<DecompositionSummaryPage>();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Navigate(ObservableDecomposedObject value)
     {
         Host.GetService<IUiOrchestratorService>()
@@ -64,7 +64,7 @@ public sealed partial class MockDecompositionSummaryViewModel(
             .Show<DecompositionSummaryPage>();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void Navigate(List<ObservableDecomposedObject> values)
     {
         Host.GetService<IUiOrchestratorService>()
@@ -73,7 +73,7 @@ public sealed partial class MockDecompositionSummaryViewModel(
             .Show<DecompositionSummaryPage>();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public async Task RefreshMembersAsync()
     {
         foreach (var decomposedObject in DecomposedObjects)
@@ -83,7 +83,10 @@ public sealed partial class MockDecompositionSummaryViewModel(
 
         try
         {
-            if (SelectedDecomposedObject is null) return;
+            if (SelectedDecomposedObject is null)
+            {
+                return;
+            }
 
             await FetchMembersAsync(SelectedDecomposedObject);
             SelectedDecomposedObject.FilteredMembers = searchService.SearchMembers(SearchText, SelectedDecomposedObject);
@@ -95,37 +98,7 @@ public sealed partial class MockDecompositionSummaryViewModel(
         }
     }
 
-    /// <inheritdoc/>
-    [RelayCommand]
-    private async Task ForceEvaluateMemberAsync(ObservableDecomposedMember member)
-    {
-        try
-        {
-            await decompositionService.EvaluateMemberAsync(member);
-        }
-        catch (Exception exception)
-        {
-            LogMemberEvaluationFailed(logger, exception);
-            notificationService.ShowError("Lookup engine error", exception);
-        }
-    }
-
-    /// <inheritdoc/>
-    [RelayCommand]
-    private async Task EvaluateMemberWithTransactionAsync(ObservableDecomposedMember member)
-    {
-        try
-        {
-            await decompositionService.EvaluateMemberWithTransactionAsync(member);
-        }
-        catch (Exception exception)
-        {
-            LogMemberEvaluationFailed(logger, exception);
-            notificationService.ShowError("Lookup engine error", exception);
-        }
-    }
-
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void RemoveItem(object target)
     {
         switch (target)
@@ -134,7 +107,10 @@ public sealed partial class MockDecompositionSummaryViewModel(
                 for (var i = FilteredDecomposedObjects.Count - 1; i >= 0; i--)
                 {
                     var groupToRemove = FilteredDecomposedObjects[i];
-                    if (!groupToRemove.GroupItems.Remove(decomposedObject)) continue;
+                    if (!groupToRemove.GroupItems.Remove(decomposedObject))
+                    {
+                        continue;
+                    }
 
                     //Remove the empty group
                     if (groupToRemove.GroupItems.Count == 0)
@@ -159,6 +135,34 @@ public sealed partial class MockDecompositionSummaryViewModel(
         }
     }
 
+    [RelayCommand]
+    private async Task ForceEvaluateMemberAsync(ObservableDecomposedMember member)
+    {
+        try
+        {
+            await decompositionService.EvaluateMemberAsync(member);
+        }
+        catch (Exception exception)
+        {
+            LogMemberEvaluationFailed(logger, exception);
+            notificationService.ShowError("Lookup engine error", exception);
+        }
+    }
+
+    [RelayCommand]
+    private async Task EvaluateMemberWithTransactionAsync(ObservableDecomposedMember member)
+    {
+        try
+        {
+            await decompositionService.EvaluateMemberWithTransactionAsync(member);
+        }
+        catch (Exception exception)
+        {
+            LogMemberEvaluationFailed(logger, exception);
+            notificationService.ShowError("Lookup engine error", exception);
+        }
+    }
+
     partial void OnDecomposedObjectsChanged(List<ObservableDecomposedObject> value)
     {
         SearchText = string.Empty;
@@ -171,7 +175,10 @@ public sealed partial class MockDecompositionSummaryViewModel(
     {
         try
         {
-            if (value is null) return;
+            if (value is null)
+            {
+                return;
+            }
 
             await FetchMembersAsync(value);
             if (FilteredDecomposedObjects.Count > 1)
@@ -216,7 +223,10 @@ public sealed partial class MockDecompositionSummaryViewModel(
 
     private async Task FetchMembersAsync(ObservableDecomposedObject value)
     {
-        if (value.Members.Count > 0) return;
+        if (value.Members.Count > 0)
+        {
+            return;
+        }
 
         value.Members = await decompositionService.DecomposeMembersAsync(value);
     }

@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace RevitLookup.UI.Playground.ViewModels;
 
 /// <summary>
-///     Provides extension methods for <see cref="IServiceCollection"/> to register Playground view models.
+///     Provides extension methods for <see cref="IServiceCollection" /> to register Playground view models.
 /// </summary>
 public static class ViewModelsRegistration
 {
@@ -11,7 +11,7 @@ public static class ViewModelsRegistration
     extension(IServiceCollection services)
     {
         /// <summary>
-        ///     Adds the Playground view models and their mock view model implementations to the specified <see cref="IServiceCollection"/>.
+        ///     Adds the Playground view models and their mock view model implementations to the specified <see cref="IServiceCollection" />.
         /// </summary>
         public void AddViewModels()
         {
@@ -31,13 +31,19 @@ public static class ViewModelsRegistration
     private static IEnumerable<Type> FilterViewModelInterface(Type serviceType)
     {
         var className = serviceType.Name;
-        if (serviceType.IsInterface) return [];
+        if (serviceType.IsInterface)
+        {
+            return [];
+        }
 
         var viewModelInterfaces = new List<Type>(1);
         foreach (var serviceInterface in serviceType.GetInterfaces())
         {
             var interfaceName = serviceInterface.Name;
-            if (interfaceName.Length < 2 || interfaceName[0] != 'I') continue;
+            if (interfaceName.Length < 2 || interfaceName[0] != 'I')
+            {
+                continue;
+            }
 
             var coreName = interfaceName[1..];
             var tickIndex = coreName.IndexOf('`');
@@ -46,7 +52,10 @@ public static class ViewModelsRegistration
                 coreName = coreName[..tickIndex];
             }
 
-            if (!className.EndsWith(coreName, StringComparison.Ordinal)) continue;
+            if (!className.EndsWith(coreName, StringComparison.Ordinal))
+            {
+                continue;
+            }
 
             viewModelInterfaces.Add(serviceInterface);
             return viewModelInterfaces;

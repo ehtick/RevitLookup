@@ -25,7 +25,7 @@ namespace RevitLookup.UI.Framework.Views.Decomposition;
 public sealed partial class DecompositionSummaryPage
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="DecompositionSummaryPage"/> class.
+    ///     Initializes a new instance of the <see cref="DecompositionSummaryPage" /> class.
     /// </summary>
     /// <param name="serviceProvider">The container used to resolve dependencies for descriptor context-menu commands.</param>
     /// <param name="viewModel">The view model that provides the data for the Decomposition Summary view.</param>

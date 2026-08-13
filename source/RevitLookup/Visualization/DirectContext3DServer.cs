@@ -25,10 +25,9 @@ namespace RevitLookup.Visualization;
 /// </summary>
 public abstract partial class DirectContext3DServer : IDirectContext3DServer
 {
-    private UIDocument? _uiDocument;
-
     private readonly Guid _guid = Guid.NewGuid();
     private readonly Lock _renderLock = new();
+    private UIDocument? _uiDocument;
 
     /// <summary>
     ///     Gets or sets a value indicating whether the geometry buffers must be remapped before the next render pass.
@@ -40,63 +39,66 @@ public abstract partial class DirectContext3DServer : IDirectContext3DServer
     /// </summary>
     protected bool HasEffectsUpdates { get; set; } = true;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public abstract string GetName();
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public abstract string GetDescription();
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public abstract bool UseInTransparentPass(View view);
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public abstract Outline? GetBoundingBox(View view);
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public Guid GetServerId()
     {
         return _guid;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public string GetVendorId()
     {
         return "RevitLookup";
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public ExternalServiceId GetServiceId()
     {
         return ExternalServices.BuiltInExternalServices.DirectContext3DService;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public string GetApplicationId()
     {
         return string.Empty;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public string GetSourceId()
     {
         return string.Empty;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public bool UsesHandles()
     {
         return false;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public bool CanExecute(View view)
     {
-        if (_uiDocument is null) return false;
+        if (_uiDocument is null)
+        {
+            return false;
+        }
 
         return view.Document.Equals(_uiDocument.Document);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public void RenderScene(View view, DisplayStyle displayStyle)
     {
         lock (_renderLock)
@@ -146,7 +148,7 @@ public abstract partial class DirectContext3DServer : IDirectContext3DServer
     /// <summary>
     ///     Returns a value indicating whether the current render buffers are valid and can be rendered without remapping.
     /// </summary>
-    /// <returns><see langword="true"/> if the buffers are valid; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true" /> if the buffers are valid; otherwise, <see langword="false" />.</returns>
     protected abstract bool AreBuffersValid();
 
     /// <summary>
@@ -173,7 +175,7 @@ public abstract partial class DirectContext3DServer : IDirectContext3DServer
     }
 
     /// <summary>
-    ///     Runs <paramref name="updateAction"/> under the render lock and refreshes all open views of the registered document.
+    ///     Runs <paramref name="updateAction" /> under the render lock and refreshes all open views of the registered document.
     /// </summary>
     /// <param name="updateAction">The action that mutates the server's rendering state.</param>
     protected void UpdateViews(Action updateAction)
@@ -194,7 +196,7 @@ public abstract partial class DirectContext3DServer : IDirectContext3DServer
     protected static void FlushTriangleBuffer(RenderingBufferStorage buffer, double transparency)
     {
         var isTransparentPass = DrawContext.IsTransparentPass();
-        if (isTransparentPass && transparency > 0 || !isTransparentPass && transparency == 0)
+        if ((isTransparentPass && transparency > 0) || (!isTransparentPass && transparency == 0))
         {
             DrawContext.FlushBuffer(
                 buffer.VertexBuffer,
@@ -228,11 +230,14 @@ public abstract partial class DirectContext3DServer : IDirectContext3DServer
     [ExternalEvent(AllowDirectInvocation = true)]
     private void RegisterServer(UIApplication application)
     {
-        if (application.ActiveUIDocument is null) return;
+        if (application.ActiveUIDocument is null)
+        {
+            return;
+        }
 
         _uiDocument = application.ActiveUIDocument;
 
-        var directContextService = (MultiServerService) ExternalServiceRegistry.GetService(ExternalServices.BuiltInExternalServices.DirectContext3DService);
+        var directContextService = (MultiServerService)ExternalServiceRegistry.GetService(ExternalServices.BuiltInExternalServices.DirectContext3DService);
         var serverIds = directContextService.GetActiveServerIds();
 
         directContextService.AddServer(this);
@@ -245,13 +250,13 @@ public abstract partial class DirectContext3DServer : IDirectContext3DServer
     [ExternalEvent(AllowDirectInvocation = true)]
     private void UnregisterServer(UIApplication application)
     {
-        var directContextService = (MultiServerService) ExternalServiceRegistry.GetService(ExternalServices.BuiltInExternalServices.DirectContext3DService);
+        var directContextService = (MultiServerService)ExternalServiceRegistry.GetService(ExternalServices.BuiltInExternalServices.DirectContext3DService);
         directContextService.RemoveServer(GetServerId());
         DisposeBuffers();
 
         _uiDocument?.UpdateAllOpenViews();
     }
-    
+
     /// <summary>
     ///     An event that is raised when rendering the scene throws an exception.
     /// </summary>
